@@ -1,0 +1,628 @@
+<?php
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\OrdenTrabajoRepository")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
+ * @ORM\Table(indexes={
+ *     @ORM\Index(name="uf_idx", columns={"user_id", "fecha"}),
+ *     @ORM\Index(name="ufe_idx", columns={"user_id", "fecha", "estado"}),
+ * })
+ * @Vich\Uploadable
+ * @ApiResource(
+ * collectionOperations = {
+ *         "ByUser" = {
+ *             "method" =  "GET",
+ *             "path" = "/ordentrabajo/by/user",
+ *             "controller" = "App\Action\OrdenTrabajoByUser",
+ *             "normalization_context"={"groups"={"read"}},
+ *             "denormalization_context"={"groups"={"write"}}
+ *        },
+ *          "ByUserWithOutForm" = {
+ *             "method" =  "GET",
+ *             "path" = "/ordentrabajo/by/user/without-form",
+ *             "controller" = "App\Action\OrdenTrabajoByUser",
+ *             "normalization_context"={"groups"={"readList"}},
+ *             "denormalization_context"={"groups"={"write"}}
+ *        }
+ *  },
+ * itemOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"={"read"}},
+ *              "denormalization_context"={"groups"={"write"}}
+ *          },
+ *          "put"={
+ *              "method"="PUT",
+ *              "normalization_context"={"groups"={"read"}},
+ *              "denormalization_context"={"groups"={"write"}}
+ *          }
+ *  }
+ * )
+ */
+class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
+{
+    use TimestampableEntity;
+    use SoftDeleteableEntity;
+
+    public static $estados = [
+        0 => 'Pendiente',
+        1 => 'Estoy en camino',
+        2 => 'Me recibio',
+        3 => 'No me atendio',
+        4 => 'Finalizado',
+        5 => 'Postergado',
+    ];
+
+    public static $estadosGestion = [
+        0 => 'Abierta',
+        1 => 'Pendiente',
+        2 => 'Cerrada',
+    ];
+
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     * @Groups({"read", "readList"})
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Formulario", inversedBy="ordenTrabajo")
+     * @Groups({"read","readList"})
+     */
+    private $formulario;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ordenTrabajo")
+     */
+    private $user;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\FormularioResultado", inversedBy="ordenTrabajo", cascade={"persist", "remove"})
+     * @Groups({"read","readList"})
+     */
+    private $formularioResultado;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Groups({"read","write","readList"})
+     */
+    private $estado = 0;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"read","write"})
+     */
+    private $horaInicio;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Groups({"read"})
+     */
+    private $orden;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"read","write"})
+     */
+    private $horaFin;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="latitud", type="string", length=255, nullable=true)
+     * @Groups({"read","write"})
+     */
+    private $latitud;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="longitud", type="string", length=255, nullable=true)
+     * @Groups({"read","write"})
+     */
+    private $longitud;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="ordenTrabajos")
+     * @Groups({"read", "readList"})
+     */
+    private $cliente;
+
+    /**
+     * @ORM\Column(type="time")
+     * @Groups({"read","readList"})
+     */
+    private $horaDesde;
+
+    /**
+     * @ORM\Column(type="time")
+     * @Groups({"read","readList"})
+     */
+    private $horaHasta;
+
+    /**
+     * @ORM\Column(type="date")
+     * @Groups({"read","readList"})
+     */
+    private $fecha;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read","write"})
+     */
+    private $motivo;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sucursal")
+     */
+    private $sucursal;
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="resultado_imagen", fileNameProperty="imageName", size="imageSize")
+     *
+     * @var File
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"write","read"})
+     *
+     * @var string
+     */
+    private $imageName;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"write","read"})
+     *
+     * @var int
+     */
+    private $imageSize;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Solicitud", mappedBy="ordenTrabajo", cascade={"persist"})
+     */
+    private $solicitud;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"write","read"})
+     */
+    private $responsableFirma;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"write","read","readList"})
+     */
+    private $comentario;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $estadoGestion = 0;
+
+    private $resultadosOrdenados = null;
+
+    public function __toString()
+    {
+        return 'Cliente: '.$this->cliente.'| Usuario: '.$this->user.'| Formulario'.$this->formulario;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getEstado(): ?int
+    {
+        return $this->estado;
+    }
+
+    public function setEstado(int $estado): self
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    public function getHoraInicio(): ?\DateTimeInterface
+    {
+        return $this->horaInicio;
+    }
+
+    public function setHoraInicio(?\DateTimeInterface $horaInicio): self
+    {
+        $this->horaInicio = $horaInicio;
+
+        return $this;
+    }
+
+    public function getOrden(): ?int
+    {
+        return $this->orden;
+    }
+
+    public function setOrden(int $orden): self
+    {
+        $this->orden = $orden;
+
+        return $this;
+    }
+
+    public function getHoraFin(): ?\DateTimeInterface
+    {
+        return $this->horaFin;
+    }
+
+    public function setHoraFin(?\DateTimeInterface $horaFin): self
+    {
+        $this->horaFin = $horaFin;
+
+        return $this;
+    }
+
+    public function getFormulario(): ?Formulario
+    {
+        return $this->formulario;
+    }
+
+    public function setFormulario(?Formulario $formulario): self
+    {
+        $this->formulario = $formulario;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getFormularioResultado(): ?FormularioResultado
+    {
+        return $this->formularioResultado;
+    }
+
+    public function setFormularioResultado(?FormularioResultado $formularioResultado): self
+    {
+        $this->formularioResultado = $formularioResultado;
+
+        return $this;
+    }
+
+    public function estadoToString()
+    {
+        return self::$estados[$this->estado];
+    }
+
+    public function estadoGestionToString()
+    {
+        return self::$estadosGestion[$this->estadoGestion];
+    }
+
+    public function getLatitud(): ?string
+    {
+        return $this->latitud;
+    }
+
+    public function setLatitud(?string $latitud): self
+    {
+        $this->latitud = $latitud;
+
+        return $this;
+    }
+
+    public function getLongitud(): ?string
+    {
+        return $this->longitud;
+    }
+
+    public function setLongitud(?string $longitud): self
+    {
+        $this->longitud = $longitud;
+
+        return $this;
+    }
+
+    public function getCliente(): ?Cliente
+    {
+        return $this->cliente;
+    }
+
+    public function setCliente(?Cliente $cliente): self
+    {
+        $this->cliente = $cliente;
+
+        return $this;
+    }
+
+    public function getHoraDesde(): ?\DateTimeInterface
+    {
+        return $this->horaDesde;
+    }
+
+    public function setHoraDesde(\DateTimeInterface $horaDesde): self
+    {
+        $this->horaDesde = $horaDesde;
+
+        return $this;
+    }
+
+    public function getHoraHasta(): ?\DateTimeInterface
+    {
+        return $this->horaHasta;
+    }
+
+    public function setHoraHasta(\DateTimeInterface $horaHasta): self
+    {
+        $this->horaHasta = $horaHasta;
+
+        return $this;
+    }
+
+    public function getFecha(): ?\DateTimeInterface
+    {
+        return $this->fecha;
+    }
+
+    public function setFecha(\DateTimeInterface $fecha): self
+    {
+        $this->fecha = $fecha;
+
+        return $this;
+    }
+
+    public function getMotivo(): ?string
+    {
+        return $this->motivo;
+    }
+
+    public function setMotivo(?string $motivo): self
+    {
+        $this->motivo = $motivo;
+
+        return $this;
+    }
+
+    public function fechaCompleta()
+    {
+        return $this->fecha->format('d/m/Y').' '.$this->horaDesde->format('H:i').' - '.$this->horaHasta->format('H:i');
+    }
+
+    public function obtenerIncidencias()
+    {
+        $incidencias = [];
+        $modulosRepetidos = [];
+        $cantidadIncidencias = 0;
+        
+        foreach ($this->formulario->getPropiedadModulos() as $propiedadModulo) {
+            $modulosRepetidos = $this->arrayIndiceModulo($modulosRepetidos, $propiedadModulo->getModulo()->getId());
+
+            foreach ($propiedadModulo->getModulo()->getPropiedadItems() as $propiedadItem) {
+                $analisisIncidencia = $this->buscarIncidenciaItem($propiedadItem, $modulosRepetidos[$propiedadModulo->getModulo()->getId()]);
+
+                if ($analisisIncidencia['incidencia']) {
+                    $incidencias[] = $analisisIncidencia['incidencia'];
+                }
+
+                if ($analisisIncidencia['tieneIncidencia']) {
+                    $cantidadIncidencias++;
+                }
+            }
+        }
+
+        return [
+            'incidenciasEncontradas' => $incidencias,
+            'incidenciasTotal' => $cantidadIncidencias
+        ];
+    }
+
+    private function buscarIncidenciaItem($propiedadItem, $indiceModulo)
+    {
+        $incidencia = null;
+        $tieneIncidencia = false;
+
+        if(!$propiedadItem->getItem()->getOpciones()->isEmpty()) {
+            // Obtener los resultados del item
+            $resultados = $this->buscarResultadoDelItem($propiedadItem->getModulo()->getId(), $indiceModulo, $propiedadItem->getId());
+            
+           // Me fijo si el item tiene algun resultado
+            if (!empty($resultados)) {
+                $opcionesIncidencia = [];
+                foreach ($propiedadItem->getItem()->getOpciones() as $opcion) {
+                    if ($opcion->getIncidencia()) {
+                        $tieneIncidencia = true;
+                    
+                        if ($this->buscarResultadoEnOpcionItem($opcion->getId(), $resultados)) {
+                            $opcionesIncidencia[] = $opcion;
+                        }
+                    }
+                }
+                if (!empty($opcionesIncidencia)) {
+                    $incidencia = [
+                        'item' => sprintf("%s: %s", $propiedadItem->getModulo()->getTitulo(), $propiedadItem->getItem()->getTitulo()),
+                        'opciones' => implode(", ", $opcionesIncidencia)
+                    ];
+                }
+            }
+        }
+
+
+        return [
+            'incidencia' => $incidencia,
+            'tieneIncidencia' => $tieneIncidencia
+        ];
+    }
+
+    private function buscarResultadoDelItem($propiedadModuloId, $moduloIndice, $propiedadItemId) 
+    {
+        $resultados = $this->mergeResultadoFormulario();
+
+        if (
+            isset($resultados[$propiedadModuloId]) && 
+            isset($resultados[$propiedadModuloId][$moduloIndice]) &&
+            isset($resultados[$propiedadModuloId][$moduloIndice][$propiedadItemId])
+            ) {
+                return $resultados[$propiedadModuloId][$moduloIndice][$propiedadItemId];
+        }
+
+        return null;
+    }
+
+    private function buscarResultadoEnOpcionItem($opcionNombre, $resultados) 
+    {
+        foreach ($resultados as $resultado) {
+
+            if (array_search($opcionNombre, $resultado->getValor()) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function mergeResultadoFormulario()
+    {
+        if ($this->resultadosOrdenados) {
+            return $this->resultadosOrdenados;
+        }
+
+        $this->resultadosOrdenados = [];
+        if ($this->formularioResultado) {
+            foreach ($this->formularioResultado->getResultados() as $resultado) {
+                if ($resultado->controlValorSegunTipo($resultado)) {
+                    $this->resultadosOrdenados[$resultado->getPropiedadItem()->getModulo()->getId()][$resultado->getIndiceModulo()][$resultado->getPropiedadItem()->getId()][] = $resultado;
+                }
+            }
+        }
+
+        return $this->resultadosOrdenados;
+    }
+
+    public function getSucursal(): ?Sucursal
+    {
+        return $this->sucursal;
+    }
+
+    public function setSucursal(?Sucursal $sucursal): self
+    {
+        $this->sucursal = $sucursal;
+
+        return $this;
+    }
+
+    public function arrayIndiceModulo($array, $moduloId)
+    {
+        if (isset($array[$moduloId])) {
+            ++$array[$moduloId];
+        } else {
+            $array[$moduloId] = 0;
+        }
+
+        return $array;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(?string $imageName): self
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    public function getImageSize(): ?int
+    {
+        return $this->imageSize;
+    }
+
+    public function setImageSize(?int $imageSize): self
+    {
+        $this->imageSize = $imageSize;
+
+        return $this;
+    }
+
+    public function getSolicitud(): ?Solicitud
+    {
+        return $this->solicitud;
+    }
+
+    public function setSolicitud(?Solicitud $solicitud): self
+    {
+        $this->solicitud = $solicitud;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newOrdenTrabajo = null === $solicitud ? null : $this;
+        if ($newOrdenTrabajo !== $solicitud->getOrdenTrabajo()) {
+            $solicitud->setOrdenTrabajo($newOrdenTrabajo);
+        }
+
+        return $this;
+    }
+
+    public function getResponsableFirma(): ?string
+    {
+        return $this->responsableFirma;
+    }
+
+    public function setResponsableFirma(string $responsableFirma): self
+    {
+        $this->responsableFirma = $responsableFirma;
+
+        return $this;
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function getEstadoGestion(): ?int
+    {
+        return $this->estadoGestion;
+    }
+
+    public function setEstadoGestion(int $estadoGestion): self
+    {
+        $this->estadoGestion = $estadoGestion;
+
+        return $this;
+    }
+
+    public function getComentario(): ?string
+    {
+        return $this->comentario;
+    }
+
+    public function setComentario(?string $comentario): self
+    {
+        $this->comentario = $comentario;
+
+        return $this;
+    }
+}

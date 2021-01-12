@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Entity;
+
+use FOS\OAuthServerBundle\Entity\AccessToken as BaseAccessToken;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\AttributeOverrides({
+ *      @ORM\AttributeOverride(name="token",
+ *          column=@ORM\Column(
+ *              name  = "token",
+ *              type="string",
+ *              length=255
+ *          )
+ *      ),
+ *    @ORM\AttributeOverride(name="scope",
+ *          column=@ORM\Column(
+ *              name  = "scope",
+ *              type="string",
+ *              length=255,
+ *              nullable=true
+ *          )
+ *      )
+ * })
+ */
+class AccessToken extends BaseAccessToken
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Client")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $client;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $user;
+}
