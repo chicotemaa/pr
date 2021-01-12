@@ -1,0 +1,19 @@
+easy_admin:
+    entities:
+        Pais:
+            class: App\Entity\Pais
+            list:
+                item_permission: [ROLE_PAIS]
+                filters:
+                    - property: 'nombre'
+                fields: ['id', 'nombre']
+            edit:
+                item_permission: [ROLE_PAIS]
+            new:
+                item_permission: [ROLE_PAIS]
+            show:
+                item_permission: [ROLE_PAIS]
+            delete:
+                item_permission: [ROLE_PAIS]
+            search:
+                item_permission: [ROLE_PAIS]

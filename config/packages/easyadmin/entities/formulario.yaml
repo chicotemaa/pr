@@ -1,0 +1,48 @@
+easy_admin:
+    entities:
+        Formulario:
+            class: App\Entity\Formulario
+            controller: App\Controller\FormularioController
+            templates:
+                # Twig namespace template syntax
+                new: 'Formulario/new.html.twig'
+                edit: 'Formulario/edit.html.twig'
+            list:
+                item_permission: [ROLE_FORMULARIO]
+                fields: ['id', 'nombre', 'titulo']
+            edit:
+                item_permission: [ROLE_FORMULARIO]
+            new:
+                item_permission: [ROLE_FORMULARIO]
+            show:
+                item_permission: [ROLE_FORMULARIO]
+            delete:
+                item_permission: [ROLE_FORMULARIO]
+            search:
+                item_permission: [ROLE_FORMULARIO]
+            form:
+                item_permission: [ROLE_FORMULARIO]
+                filters:
+                    - property: 'nombre'
+                    - property: 'titulo'
+                    - property: 'descripcion'
+                    - property: 'propiedadModulos'
+                fields:
+                - { type: 'group', columns: 12 }
+                - { property: 'nombre', columns: 6 }
+                - { property: 'titulo', columns: 6 }
+                - { property: 'descripcion', columns: 6}
+                - { property: 'express', columns: 6}
+                - { type: 'group', columns: 12, label: 'Modulos'  }
+                -
+                    property: 'propiedadModulos'
+                    label: false
+                    type: 'collection'
+                    type_options:
+                        entry_type: App\Form\PropiedadModuloType
+                        allow_delete: true
+                        allow_add: true
+                        by_reference: false
+                        attr: {'class': 'col-sm-12 '}
+                    class: 'col-sm-12'
+                    form_group_class: 'col-sm-12'

@@ -1,0 +1,64 @@
+easy_admin:
+    entities:
+        RecycleCliente:
+            class: App\Entity\Cliente
+            controller: App\Controller\Recycle\RecycleClienteController
+            templates:
+                # Twig namespace template syntax
+                new: 'Cliente/new.html.twig'
+                edit: 'Cliente/edit.html.twig'
+                new_ajax: 'Cliente/new_ajax.html.twig'
+            disabled_actions: ['edit', 'new']
+            list:
+                title: "Clientes Eliminados"
+                item_permission: [ROLE_CLIENTE_CRUD]
+                fields:
+                    - 'id'
+                    - 'apellido'
+                    - 'nombre'
+                    - 'razonSocial'
+                    - 'sucursal'
+                    - 'ivaConditionString'
+            edit:
+                item_permission: [ROLE_CLIENTE_CRUD]
+            new:
+                item_permission: [ROLE_CLIENTE_CRUD]
+            show:
+                item_permission: [ROLE_CLIENTE_CRUD]
+            delete:
+                item_permission: [ROLE_CLIENTE_CRUD]
+            search:
+                item_permission: [ROLE_CLIENTE_CRUD]
+            form:
+                filters:
+                    - property: 'apellido'
+                    - property: 'nombre'
+                    - property: 'razonSocial'
+                    - property: 'fechaNacimiento'
+                    - property: 'condicionIVA'
+                    - property: 'cuit'
+                    - property: 'sucursal'
+                    - property: 'correo'
+                    - property: 'telefono'
+                    - property: 'autocompleteAddress'
+                    - property: 'street'
+                    - property: 'city'
+                    - property: 'country'
+                    - property: 'province'
+                fields:
+                    - { type: 'group', columns: 12, label: 'BasicInformation' }
+                    - { property: 'apellido', columns: 6 }
+                    - { property: 'nombre', columns: 6 }
+                    - { property: 'razonSocial', columns: 6 }
+                    - { property: 'fechaNacimiento', type_options: { widget: 'single_text' }, columns: 6 }
+                    - { property: 'condicionIVA', type: 'choice', type_options: { choices: '%ivaConditionArray%' }, columns: 6 }
+                    - { property: 'cuit', columns: 6 }
+                    - { property: 'sucursal', permission: ROLE_ENCARGADO, columns: 6 }
+                    - { type: 'group', label: 'ContactInformation', icon: 'phone', columns: 12 }
+                    - { property: 'correo', type: 'email', columns: 6 }
+                    - { property: 'telefono', columns: 6 }
+                    - { property: 'autocompleteAddress', type: 'text', type_options: {'mapped': false}, columns: 6 }
+                    - { property: 'street', type_options: {'required': true}, columns: 6 }
+                    - { property: 'city', columns: 6 }
+                    - { property: 'country', columns: 6 }
+                    - { property: 'province', columns: 6 }

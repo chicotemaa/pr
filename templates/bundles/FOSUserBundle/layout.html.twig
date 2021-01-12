@@ -1,0 +1,10 @@
+{% extends '@!EasyAdmin/default/layout.html.twig' %}
+
+{% block body %}
+    <link href="{{ asset('css/login.css') }}" rel="stylesheet">
+
+    <body class="text-center">
+        {% block fos_user_content %}
+        {% endblock fos_user_content %}
+    </body>
+{% endblock body %}

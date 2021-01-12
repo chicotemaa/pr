@@ -1,0 +1,55 @@
+{% extends '@EasyAdmin/default/list.html.twig' %}
+
+{% block main %}
+    <div class="row">
+        {% for item in paginator.currentPageResults %}
+            <div class="col-3">
+                <div style="text-align: center;" >
+                    <i  
+                        style="font-size:100px;" 
+                        tabindex="0"
+                        role="button"
+                        class="fa fa-folder-open" 
+                        data-toggle="popover" 
+                        data-trigger="focus" 
+                        title="{{item.nombre}}" 
+                        data-html="true"
+                        data-content="  
+                                        <strong>Creado el: </strong>{{item.createdAt|date('d/m/Y')}}
+                                        <br>
+                                        <strong>Descripción: </strong>
+                                        {% if item.descripcion %}
+                                            {{item.descripcion|raw}} 
+                                        {% endif %}
+                                        <br><hr> 
+                                        <div class='row'>
+                                            <div class='col-6'>
+                                                <a class='btn btn-success' role='button' href='{{path('easyadmin', {'entity':'CarpetaOT' ,'action':'search' ,'idCarpeta': item.id})}}'>Ver contenido</a>
+                                            </div>
+                                            <div class='col-6'>
+                                                <a class='btn btn-warning' role='button' href='{{path('easyadmin', {'entity':'Carpeta' ,'action':'edit' ,'id': item.id})}}'>Editar</a>
+                                            </div>
+                                        </div>">
+                    </i>
+                    <br>
+                    
+                   
+                    
+                    <div><strong>{{item.nombre}}</strong></div>
+                </div>
+            </div>
+            
+        {% endfor %}
+    </div>
+
+    
+{% endblock main %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    <script>
+        $('.popover-dismiss').popover({
+            trigger: 'focus'
+        })
+    </script>
+{% endblock body_javascript %}

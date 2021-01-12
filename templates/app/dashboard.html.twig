@@ -1,0 +1,21 @@
+{% extends 'easy_admin/layoutVue.html.twig' %}
+
+{% block main %}
+    {# para las ot #}
+    <div ref="dashboard" data-dashboard="{{ dashboard|json_encode }}"></div>
+    <div ref="dashboardg" data-dashboardg="{{ dashboardg|json_encode }}"></div>
+    <div ref="cantGestionPorEstadosArray" data-cantGestionPorEstadosArray="{{ cantGestionPorEstadosArray|json_encode }}"></div>
+    <div ref="cantGestionArray" data-cantGestionArray="{{ cantGestionArray|json_encode }}"></div>
+    <div ref="cantEstadosArray" data-cantEstadosArray="{{ cantEstadosArray|json_encode}}"></div>
+
+    {# para las solicitudes #}
+    <div ref="dashboardSolEst" data-dashboardSolEst="{{ dashboardSolEst|json_encode}}"></div>
+    <div ref="dashboardSolServ" data-dashboardSolServ="{{ dashboardSolServ|json_encode}}"></div>
+    <div ref="cantSolEstArray" data-cantSolEstArray="{{ cantSolEstArray|json_encode}}"></div>
+    <div ref="cantSolServArray" data-cantSolServArray="{{ cantSolServArray|json_encode}}"></div>
+
+
+    <div id="app">
+        <app></app>
+    </div>
+{% endblock %}

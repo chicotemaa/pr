@@ -1,0 +1,90 @@
+{% block _modulo_propiedadItems_label %}
+{% endblock %}
+
+{% block form_group_class 'col-md-12' %}
+{% block form_label_class '' %}
+
+{% block _modulo_propiedadItems_entry_row %}
+    <div class="form-group field-modulo_propiedadItems">
+      {{ form_errors(form) }}
+      {{ form_widget(form) }}
+      {{ form_help(form) }}
+    </div>
+    
+
+{% endblock %}
+
+
+{% block _modulo_propiedadItems_entry_widget %}
+  {% set remove_item_javascript %}
+      $(function() {
+          if (event.preventDefault) event.preventDefault(); else event.returnValue = false;
+          var containerDiv = $('#{{ id }}').parents('.form-group:first');
+          var parentDiv = containerDiv.parents('[data-prototype]:first');
+          containerDiv.remove();
+          parentDiv.trigger('easyadmin.collection.item-deleted');
+          var hasCountAttr = parentDiv.data('count');
+
+          if (hasCountAttr === undefined) {
+              var numItems = parentDiv.children('div.form-group').length;
+              parentDiv.data('count', ++numItems)
+          }
+
+          if (0 == parentDiv.children().length && 'undefined' !== parentDiv.attr('data-empty-collection')) {
+              $(parentDiv.attr('data-empty-collection')).insertBefore(parentDiv);
+          }
+      });
+  {% endset %}
+  <div id="modulo_propiedadItems_{{name}}" >
+    <div class="row">
+      <div class="form-group-md col-md-6">
+        {{ form_row(form.item) }}
+      </div>
+      <div class="form-group-md col-md-6">
+        {{ form_row(form.opcion) }}
+      </div>
+      <div class="col-md-3">
+        {{ form_row(form.orden) }}
+      </div>
+      <div class="col-md-2">
+        {{ form_row(form.ancho) }}
+      </div>
+      <div class="col-md-2">
+        {{ form_row(form.requerido) }}
+      </div>
+      <div class="col-md-2">
+        {{ form_row(form.isCollection) }}
+      </div>
+      <div class="col-md-2">
+        {{ form_row(form.cantidadMinima) }}
+      </div>
+      {% if form.dependePropiedadItem is not defined %}
+      <div class="col-md-1">
+        <div class="field-collection-item-action">
+            <a href="#" onclick="{{ remove_item_javascript|raw }}" class="text-danger">
+                <i class="fa fa-remove"></i>
+            </a>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% if form.dependePropiedadItem is defined %}
+    <div class="row">
+      <div class="col-md-6">
+        {{ form_row(form.dependePropiedadItem) }}
+      </div>
+      <div class="col-md-4">
+        {{ form_row(form.opcionDepende) }}
+      </div>
+      <div class="col-md-1">
+        <div class="field-collection-item-action">
+            <a href="#" onclick="{{ remove_item_javascript|raw }}" class="text-danger">
+                <i class="fa fa-remove"></i>
+            </a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    </div>
+{% endblock %}

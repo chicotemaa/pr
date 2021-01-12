@@ -1,0 +1,27 @@
+{% extends '@EasyAdmin/default/list.html.twig' %}
+
+{% block content_title %}
+    {# {% apply spaceless %}
+        {% if 'search' == app.request.get('action') %}
+            {% set _default_title = 'search.page_title'|transchoice(paginator.nbResults, {}, 'EasyAdminBundle') %}
+            {{ (_entity_config.search.title is defined ? _entity_config.search.title|transchoice(paginator.nbResults) : _default_title)|raw }}
+        {% else %}
+            {% set _default_title = 'list.page_title'|trans(_trans_parameters, 'EasyAdminBundle') %}
+            {{ (_entity_config.list.title is defined ? _entity_config.list.title|trans(_trans_parameters) : _default_title)|raw }}
+        {% endif %}
+    {% endapply %} #}
+    <div class="row">
+        <div class="col-3">
+                <a class="btn btn-success" role="btn" href='{{path('easyadmin', {'entity':'CarpetaOT' ,'action':'search' ,'idCarpeta': app.session.get('carpetaSeleccionada')})}}' >
+                    <i  style="font-size:15px;"  class="fa fa-folder-open"></i>{{app.session.get('carpetaNombre')}}
+                </a>
+            </button>
+        </div> 
+        <div class="col-3">
+            <a class="btn btn-info" role="btn" href='{{path('easyadmin', {'entity':'Carpeta' ,'action':'list'})}}' >
+                <i  style="font-size:15px;"  class="fa fa-undo"></i>Volver
+            </a>
+        </div>   
+    </div>
+    
+{% endblock %}

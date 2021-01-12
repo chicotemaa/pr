@@ -1,0 +1,84 @@
+User: Usuario
+Users: Usuarios
+Group: Grupo
+Groups: Grupos
+Username: Nombre de usuario
+Email: Correo
+Email password: Contraseña del correo
+Enabled: Activo
+Lastlogin: Ultimo ingreso
+Last login: Ultimo ingreso
+Plain password: Contraseña
+Roles: Roles
+ROLE_SUPER_ADMIN: Superadministrador
+ROLE_ADMIN: Administrador
+ROLE_ENCARGADO: Encargado
+ROLE_EMPLEADO: Empleado (Aplicación)
+ROLE_CLIENTE: Cliente
+ROLE_USER: Usuario
+ROLE_USER_CRUD: Administrar usuarios
+ROLE_GROUP: Grupos
+ROLE_CARPETA: Carpetas
+ROLE_CLIENTE_CRUD: Administrar clientes
+ROLE_FORMULARIO: Formularios
+ROLE_ITEM: Campos Formulario
+ROLE_MODULO: Módulos Formulario
+ROLE_OPCION: Opciones Formulario
+ROLE_ORDEN_TRABAJO: Ordenes de Trabajo
+ROLE_PROPIEDAD_ITEM: Propiedades de Campo
+ROLE_PAIS: Países
+ROLE_SERVICIO: Servicios
+ROLE_SOLICITUD: Solicitudes
+ROLE_SUCURSAL: Sucursales
+ROLE_CLIENTE_MENU: Menu Cliente
+ROLE_DASHBOARD: Panel de Control / Dashboard
+Nombre: Nombre
+Pagina: Página
+Modulo: Módulo
+Modulos: Módulos
+modulos: módulos
+Orden: Orden
+Titulo: Título
+Descripcion: Descripción
+Item: Campo
+Items: Campos
+Opcion: Opción
+Numero: Número
+OrdenTrabajo: Orden de Trabajo
+Seleccion multiple: Selección múltiple
+Casilla de verificacion: Casilla de verificación
+Texto en Mayuscula: Texto en Mayúscula
+Nro incidencia: Número de Incidencia
+Necesitas ayuda: En qué necesitás ayuda?
+Image file: Imagen
+form.label.delete: Seleccionar para eliminar la imagen
+download: Descargar
+ivaConditionString: Condición de IVA
+Iva condition string: Condición de IVA
+BasicInformation: Información básica
+ContactInformation: Información de contacto
+autocompleteAddress: Buscar Dirección
+street: Calle
+city: Ciudad
+country: País
+province: Provincia
+telefono: Teléfono
+Pais: País
+Administrator: Administrador
+Razon social: Razón social
+Estado gestion: Estado Gestión
+Generar ot: Generar OT
+fechaCompromiso: Fecha de Compromiso
+item.form.labeIncidencia: Agregar como incidencia si no tiene ningún valor
+ningun_valor: Ningún valor
+OrdenTrabajoCliente: Ordenes de Trabajo del Cliente
+SolicitudCliente: Solicitudes del Cliente
+formulario no completado: El formulario no ha sido completado.
+ot.exportar.wordpdf.piepagina: 'Página {PAGE}/{NUMPAGES}'
+ot.exportar.wordpdf.titulo: 'Informe de Trabajo'
+ot.exportar.wordpdf.subtitulo: 'Informaciones generales'
+ot.exportar.wordpdf.cliente: Cliente
+ot.exportar.wordpdf.direccion: 'Dirección'
+ot.exportar.wordpdf.correo: Correo
+Information: Información
+Date: Fecha

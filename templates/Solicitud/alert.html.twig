@@ -1,0 +1,24 @@
+<div class="dropdown" style="float: right; padding: 8px">
+	<a href="#" onclick="return false;" role="button" data-toggle="dropdown" id="dropdownMenu1" data-target="#" style="float: left" aria-expanded="true">
+		<i class="fa fa-bell-o" style="font-size: 20px; float: left; color: black"></i>
+	</a>
+	<span class="badge badge-danger">{{unreads|length}}</span>
+	<ul class="dropdown-menu dropdown-menu-left pull-right" role="menu" aria-labelledby="dropdownMenu1">
+		<li role="presentation">
+			<a href="#" class="dropdown-menu-header">Solicitudes no leidas</a>
+		</li>
+		<ul class="timeline timeline-icons timeline-sm">
+			{% for unread in unreads %}
+				<li>
+					<p>						
+						<a href="{{ path('easyadmin', { action: 'show', entity: 'Solicitud', view: 'list', id: unread.id}) }}">{{unread.nroIncidencia}}</a>						
+					</p>
+				</li>
+			{% endfor %}
+		</ul>
+		<li role="presentation">
+			<a href="#" class="dropdown-menu-header"></a>
+		</li>
+	</ul>
+
+</div>

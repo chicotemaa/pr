@@ -1,0 +1,36 @@
+easy_admin:
+    entities:
+        Servicio:
+            class: App\Entity\Servicio
+            filters:
+                - property: 'titulo'
+                - property: 'descripcion'
+                - property: 'activo'
+            list:
+                item_permission: [ROLE_SERVICIO]
+                fields:
+                    - id
+                    - titulo
+                    - activo
+            show:
+                item_permission: [ROLE_SERVICIO]
+                fields:
+                    - id
+                    - titulo
+                    - descripcion
+                    - activo
+                    - { property: 'image', type: 'image', base_path: '/uploads/imagenes/servicio' }
+            edit:
+                item_permission: [ROLE_SERVICIO]
+            new:
+                item_permission: [ROLE_SERVICIO]
+            delete:
+                item_permission: [ROLE_SERVICIO]
+            search:
+                item_permission: [ROLE_SERVICIO]
+            form:
+                fields:
+                    - { property: 'titulo' }
+                    - { property: 'descripcion' }
+                    - { property: 'activo' }
+                    - { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }

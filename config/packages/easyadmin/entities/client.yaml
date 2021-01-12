@@ -1,0 +1,20 @@
+easy_admin:
+    entities:
+        Client:
+            class: App\Entity\Client
+            list:
+                item_permission: [ROLE_SUPER_ADMIN]
+                filters:
+                    - property: 'randomId'
+                    - property: 'secret'
+                fields: ['id', 'randomId', 'secret']
+            edit:
+                item_permission: [ROLE_SUPER_ADMIN]
+            new:
+                item_permission: [ROLE_SUPER_ADMIN]
+            show:
+                item_permission: [ROLE_SUPER_ADMIN]
+            delete:
+                item_permission: [ROLE_SUPER_ADMIN]
+            search:
+                item_permission: [ROLE_SUPER_ADMIN]

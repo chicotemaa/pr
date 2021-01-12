@@ -1,0 +1,61 @@
+{% block _modulo_dependencias_propiedadItems_label %}
+{% endblock %}
+
+{% block form_group_class 'col-md-12' %}
+{% block form_label_class '' %}
+
+{% block _modulo_dependencias_propiedadItems_entry_row %}
+    <div class="form-group field-modulo_propiedadItems">
+      {{ form_errors(form) }}
+      {{ form_widget(form) }}
+      {{ form_help(form) }}
+    </div>
+    <script>
+        (function($){
+                $("[data-prototype]").length && $("[data-prototype]").on(
+                    "easyadmin.collection.item-added", function () {
+                    /* global createAutoCompleteFields */
+                    createAutoCompleteFields();
+                });
+        /* global jQuery */
+        }(jQuery));
+    </script>
+
+{% endblock %}
+
+
+{% block _modulo_dependencias_propiedadItems_entry_widget %}
+  {% set remove_item_javascript %}
+      $(function() {
+          if (event.preventDefault) event.preventDefault(); else event.returnValue = false;
+          var containerDiv = $('#{{ id }}').parents('.form-group:first');
+          var parentDiv = containerDiv.parents('[data-prototype]:first');
+          containerDiv.remove();
+          parentDiv.trigger('easyadmin.collection.item-deleted');
+          var hasCountAttr = parentDiv.data('count');
+
+          if (hasCountAttr === undefined) {
+              var numItems = parentDiv.children('div.form-group').length;
+              parentDiv.data('count', ++numItems)
+          }
+
+          if (0 == parentDiv.children().length && 'undefined' !== parentDiv.attr('data-empty-collection')) {
+              $(parentDiv.attr('data-empty-collection')).insertBefore(parentDiv);
+          }
+      });
+  {% endset %}
+  <div id="modulo_propiedadItems_{{name}}" >
+        <div class="row">
+          <div class="form-group-md col-md-4">
+            {{ form_row(form.item) }}
+          </div>
+          <div class="col-md-4">
+            {{ form_row(form.dependePropiedadItem) }}
+          </div>
+          <div class="col-md-4">
+            {{ form_row(form.opcionDepende) }}
+          </div>
+        </div>
+    </div>
+    <hr>
+{% endblock %}

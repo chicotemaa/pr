@@ -1,0 +1,43 @@
+
+{% block _item_opciones_label %}
+{% endblock %}
+
+{% block _item_opciones_entry_widget %}
+  {% set remove_item_javascript %}
+        $(function() {
+            event.preventDefault();
+
+            var containerDiv = $('#{{ id }}').parents('.form-group:first');
+            var parentDiv = containerDiv.parents('[data-prototype]:first');
+            containerDiv.remove();
+            parentDiv.trigger('easyadmin.collection.item-deleted');
+
+            var hasCountAttr = parentDiv.data('count');
+
+            if (hasCountAttr === undefined) {
+                var numItems = parentDiv.children('div.form-group').length;
+                parentDiv.data('count', ++numItems)
+            }
+
+            if (0 == parentDiv.children().length && 'undefined' !== parentDiv.attr('data-empty-collection')) {
+                $(parentDiv.attr('data-empty-collection')).insertBefore(parentDiv);
+            }
+        });
+    {% endset %}
+    <div id="{{ id }}" class="form-group field-opcion" class="row">
+      <div class="col-md-5">
+        {{ form_row(form.nombre) }}
+      </div>
+       <div class="col-md-5">
+       <br>
+        {{ form_row(form.incidencia) }}
+      </div>
+      <div class="col-md-2">
+        <div class="field-collection-item-action">
+            <a class="field-collection-item-action" id="easyadmin-remove-collection-item-{{ form.vars.id }}" href="#" onclick="{{ remove_item_javascript|raw }}; return false;" title="{{ 'action.remove_item'|trans({}, 'EasyAdminBundle') }}">
+                &times;
+            </a>
+        </div>
+      </div>
+    </div>
+{% endblock %}

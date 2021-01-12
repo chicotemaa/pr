@@ -1,0 +1,9 @@
+{% extends '@EasyAdmin/default/list.html.twig' %}
+
+{% block item_actions %}
+    {% if (is_granted('ROLE_ENCARGADO' ) and item.ordenTrabajo is null) == false %}
+        {% set _list_item_actions = _list_item_actions|slice(1, 2) %}
+    {% endif %}
+
+    {{ parent() }}
+{% endblock item_actions %}

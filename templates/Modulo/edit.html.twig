@@ -1,0 +1,49 @@
+{% extends '@EasyAdmin/default/edit.html.twig' %}
+
+{% block entity_form %}
+    {% form_theme form.propiedadItems 'form/propiedadItemCollection.html.twig' %}
+
+    {{ form(form) }}
+{% endblock entity_form %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    <script src="{{asset('js/modulo-form.js')}}"></script>
+    <script type="text/javascript">
+        var allisCollectionElements = $( ".isCollection" );
+        
+        allisCollectionElements.each(function(key, element) {
+            if(element.checked) {
+                console.log(key);
+                mostrarCM(key);
+            } else {
+                hideCM(key);
+            }
+        })
+
+    $(document).on('click', '.isCollection', function () {
+        var allisCollectionElements = $( ".isCollection" );
+
+        allisCollectionElements.each(function(key, element) {
+            if(element.checked) {
+                mostrarCM(key);
+            } else {
+                hideCM(key);
+            }
+            })
+    });
+
+    function mostrarCM(key) {
+            var allcantidadMinimaElements = $( ".cantidadMinima" );
+            $(allcantidadMinimaElements[key]).prop('style', 'visibility: visible;');
+            var allcantidadMinimaLabelElements = $( ".labelCantidadMinima" );
+            $(allcantidadMinimaLabelElements[key]).prop('style', 'visibility: visible;');
+        }
+        function hideCM(key) {
+            var allcantidadMinimaElements = $( ".cantidadMinima" );
+            $(allcantidadMinimaElements[key]).prop('style', 'visibility: hidden;');
+            var allcantidadMinimaLabelElements = $( ".labelCantidadMinima" );
+            $(allcantidadMinimaLabelElements[key]).prop('style', 'visibility: hidden;');
+        }
+    </script>
+{% endblock body_javascript %}

@@ -1,0 +1,12 @@
+{% extends '@EasyAdmin/default/edit.html.twig' %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    
+    <script type='text/javascript' src="{{ asset('js/jquery.inputmask.min.js')}}"></script>
+    <script>
+        $(document).ready(function() {
+            $(":input").inputmask();
+        });
+    </script>
+{% endblock body_javascript %}

@@ -1,0 +1,64 @@
+vich_uploader:
+    db_driver: orm
+    mappings:
+        opcion_imagen:
+            uri_prefix:         '%imagenes_opciones%'
+            namer:              vich_uploader.namer_uniqid
+            upload_destination: '%kernel.root_dir%/../public/uploads/imagenes/opciones'
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        login_imagen:
+            uri_prefix:         '%imagenes_login%'
+            namer:              vich_uploader.namer_uniqid
+            upload_destination: '%kernel.root_dir%/../public/uploads/imagenes/login'
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        resultado_imagen:
+            uri_prefix:         '%imagenes_resultados%'
+            namer:              vich_uploader.namer_uniqid
+            upload_destination: '%kernel.root_dir%/../public/uploads/imagenes/resultado'
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        resultado_static_map:
+            uri_prefix:         '%imagenes_statiMap%'
+            namer:              vich_uploader.namer_uniqid
+            upload_destination: '%kernel.root_dir%/../public/uploads/imagenes/statiMap'
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        servicio_images:
+            uri_prefix:         '%imagenes_servicio%'
+            namer:              vich_uploader.namer_uniqid
+            upload_destination: '%kernel.root_dir%/../public/uploads/imagenes/servicio'
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        solicitud_imagen:
+            uri_prefix:         '%imagenes_solicitud%'
+            namer:              vich_uploader.namer_uniqid
+            upload_destination: '%kernel.root_dir%/../public/uploads/imagenes/solicitud'
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        sucursal_cabecera_imagen:
+            uri_prefix:         '%imagenes_sucursal%'
+            namer:              vich_uploader.namer_uniqid
+            upload_destination: '%kernel.root_dir%/../public/uploads/imagenes/sucursal'
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        sucursal_pie_imagen:
+            uri_prefix:         '%imagenes_sucursal%'
+            namer:              vich_uploader.namer_uniqid
+            upload_destination: '%kernel.root_dir%/../public/uploads/imagenes/sucursal'
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+        media_object:
+            uri_prefix: /media
+            upload_destination: '%kernel.project_dir%/public/uploads/imagenes/resultado'
+            # Will rename uploaded files using a uniqueid as a prefix.
+            namer: Vich\UploaderBundle\Naming\OrignameNamer

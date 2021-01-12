@@ -1,0 +1,16 @@
+fos_ck_editor:
+    input_sync: true
+    default_config: base_config
+    configs:
+        base_config:
+            toolbar:
+                - { name: "styles", items: ['Bold', 'Italic', 'BulletedList', 'Link', 'Font'] }
+        my_config:
+            toolbar: "my_toolbar_1"
+    toolbars:
+        configs:
+            my_toolbar_1: ["@basic_styles", "@styles", "/", "@paragraph" ]
+        items:
+            basic_styles: ['Bold', 'Italic', 'Strike', '-', 'RemoveFormat']
+            styles: [ 'Styles', 'Format', 'Font', 'FontSize']
+            paragraph: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ]

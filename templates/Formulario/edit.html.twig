@@ -1,0 +1,9 @@
+{% extends '@EasyAdmin/default/edit.html.twig' %}
+
+{% block entity_form %}
+
+{% form_theme form.propiedadModulos 'form/propiedadModuloCollection.html.twig' %}
+
+{{ form(form) }}
+
+{% endblock entity_form %}

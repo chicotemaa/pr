@@ -1,0 +1,176 @@
+{% extends '@EasyAdmin/default/show.html.twig' %}
+
+{% block content_title %}
+    {{parent()}}
+    <a class="btn btn-success exportOt" style="float:right;" href="javascript:;" data-toggle="modal" data-target=".bs-example-modal-sm" target="_self" data-id="{{entity.id}}"><i class="fa fa-download"></i>&nbsp;Exportar</a>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+    <!-- Exportar modal -->
+    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color:#f05536;">
+            <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar - Seleccionar formato</h4>
+            <button type="button" class="close" style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+              <form id="formExportar" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar' }) }}" method="POST">
+                <input type="hidden" name= "orden_trabajo" id="orden_trabajo" value="" >
+                <input type="hidden" name= "actionReturn" id="orden_trabajo" value="show" >
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="formato" id="formato" value="WORD" checked>
+                    WORD
+                  </label><br>
+                  <label>
+                    <input type="radio" name="formato" id="formato" value="PDF" >
+                    PDF
+                  </label><br>
+                  <label>
+                    <input type="radio" name="formato" id="formato" value="EXCEL" >
+                    EXCEL
+                  </label>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
+            </div>
+        </div>
+      </div>
+    </div>
+    {% import _self as render %}
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+        #map {
+            height: 250px;
+        }
+    </style>
+    {% if entity.latitud is not empty %}
+        <div id="map"></div>
+    {% endif %}
+    <hr>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Formulario</h5>
+            <div>
+                    {# Recorro modulos #}
+                    {% set resultados = entity.mergeResultadoFormulario() %}
+                    {% set modulosRepetido = [] %}
+                    {% set paginaNombre = null %}
+                    {% set paginaNumero = null %}
+                    {% set mostrarPaginaNombre = false %}
+
+                    {% for key, pm in entity.formulario.propiedadModulos %}
+                        {% if pm.pagina != paginaNumero %}
+                            {% set paginaNumero = pm.pagina %}
+                            {% set paginaNombre = pm.paginaNombre %}
+                            {% set mostrarPaginaNombre = true %}
+
+                        {% endif %}
+
+                        {% set modulosRepetido = entity.arrayIndiceModulo(modulosRepetido, pm.modulo.id)%}
+
+                        {% if resultados[pm.modulo.id][modulosRepetido[pm.modulo.id]] is defined and
+                            resultados[pm.modulo.id][modulosRepetido[pm.modulo.id]]|length > 0 %}
+                            {% if mostrarPaginaNombre == true %}
+                                <h6 class="card-subtitle">{{ paginaNombre }}</h6>
+                                {% set mostrarPaginaNombre = false %}
+                            {% endif %}
+                            <h6>{{ pm.modulo.titulo }}</h6>
+
+                            {{ render.renderModulo(pm, resultados[pm.modulo.id][modulosRepetido[pm.modulo.id]]) }}
+                        {% endif %}
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% macro renderModulo(propiedadModulo, propiedadItems) %}
+        {% import _self as render %}
+        <table class="table table-bordered">
+            <tbody>
+                {# Recorro los item del modulo #}
+                {% for pi in propiedadModulo.modulo.propiedadItems %}
+                    {% if propiedadItems[pi.id] is defined %}
+                        {{render.renderItem(pi.item, propiedadItems[pi.id])}}
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+    {% endmacro %}
+
+    {% macro renderItem(item, propiedadItemsResultado) %}
+            {% if item.tipo == 'foto' %}
+                {% for k, r in propiedadItemsResultado %}
+                    {% if r.imageName is not empty %}
+                        {% if k == 0%}
+                            <tr>
+                                <td colspan="2">
+                                    {{  item.titulo }}<br>
+                        {% endif %}
+                                <a target="_blank" class="example-image-link" href="{{vich_uploader_asset(r, 'imageFile')}}" data-lightbox="example-set">
+                                    <img class="example-image" src="{{vich_uploader_asset(r, 'imageFile')}}" alt=""  width="150" height="200"/>
+                                </a>
+                        {% if k == propiedadItemsResultado|length - 1%}
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% elseif item.tipo == 'titulo' %}
+                <td colspan="2">{{ item.titulo }}</td>
+            {% else %}
+                {% set resArray = [] %}
+                {% for r in propiedadItemsResultado %}
+                    {% set resArray = resArray|merge([r.obtenerValorToString()]) %}
+                {% endfor %}
+                {% set texto = resArray|join('|') %}
+                
+                {% if texto is not empty %}
+                    <tr>
+                        <td>{{ item.titulo ~ ':' }}</td>
+                        <td align="center">{{ texto|trim  }}</td>
+                    </tr>
+                {% endif %}
+            {% endif %}
+    {% endmacro %}
+{% endblock %}
+
+{% block body_javascript %}
+    {{ parent() }}
+
+    <script>
+        
+        $(".exportOt").click(function(){
+            $("#orden_trabajo").val($(this).data('id'));
+        });
+
+        function exportar(){
+            $("#formExportar").submit();
+        };
+        var map;
+        var myLatLng = {lat: {{entity.latitud|default(0)}}, lng: {{entity.longitud|default(0)}}};
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 17,
+                center: myLatLng
+            });
+
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Orden de trabajo'
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{googleKeyApi}}&callback=initMap"
+    async defer></script>
+
+{% endblock %}

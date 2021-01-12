@@ -1,0 +1,29 @@
+{# extends "@FOSUser/layout.html.twig" #}
+{% extends '@!EasyAdmin/default/layout.html.twig' %}
+
+{% block main %}
+{% block entity_form %}
+<div class="box box-default">
+    <div class="box-header with-border">
+      <h3 class="box-title">
+        Formulario
+        </h3>
+    </div>
+    <div class="box-body ">
+        {% include "@FOSUser/Profile/edit_content.html.twig" %}
+    </div>
+</div>
+{% endblock entity_form %}
+
+{% endblock main %}
+
+{% block sidebar %}
+
+{% endblock sidebar %}
+
+
+{% block body_javascript %}
+    {{ parent() }}
+
+    {{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}
+{% endblock %}

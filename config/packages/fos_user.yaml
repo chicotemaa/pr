@@ -1,0 +1,19 @@
+fos_user:
+    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    firewall_name: main
+    user_class: App\Entity\User
+    group:
+        group_class: App\Entity\Group
+    service:
+        mailer: fos_user.mailer.twig_swift
+    from_email:
+        address: "%env(resolve:MAILER_USER)%"
+        sender_name: "%env(resolve:MAILER_USER)%"
+    registration:
+        confirmation:
+            enabled: false
+        form:
+            type: App\Form\RegistrationType
+    profile:
+        form:
+            type: App\Form\ProfileFormType

@@ -1,0 +1,17 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% form_theme form '@EasyAdmin/form/bootstrap_4.html.twig' %}
+<link href="{{ asset('css/register.css') }}" rel="stylesheet">
+
+{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+    <img class="mb-4" src="/images/hogarLogo.png" alt="" width="100%" height="100%">
+    <h1 class="h3 mb-3 font-weight-normal">Registrarse</h1>
+    {{ form_widget(form) }}
+    <br>
+    <input class="btn btn-primary btn-block" type="submit" value="{{ 'registration.submit'|trans }}" />
+    <a class="btn btn-default btn-block" href="/" >Volver</a>
+{{ form_end(form) }}
+
+{{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}
+
+

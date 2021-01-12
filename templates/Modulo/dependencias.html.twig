@@ -1,0 +1,20 @@
+{% extends '@EasyAdmin/default/edit.html.twig' %}
+
+{% block entity_form %}
+    {% form_theme form.propiedadItems 'form/propiedadItemDependenciaCollection.html.twig' %}
+    
+    {{ form_start(form) }}
+    <fieldset>
+        {{ form_rest(form) }}
+    </fieldset>
+    {{ form_end(form) }}
+{% endblock entity_form %}
+
+{% block delete_form %}
+{% endblock delete_form %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    <script src="{{asset('js/modulo-dependencias-form.js')}}"></script>
+
+{% endblock body_javascript %}

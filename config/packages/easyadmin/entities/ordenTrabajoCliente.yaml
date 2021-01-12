@@ -1,0 +1,58 @@
+# easy_admin:
+#     entities:
+#         OrdenTrabajoCliente:
+#             class: App\Entity\OrdenTrabajo
+#             controller: App\Controller\OrdenTrabajoController
+#             disabled_actions: ['new','edit','delete']
+#             templates:
+#                 show: 'OrdenTrabajo/show.html.twig'
+#                 list: 'OrdenTrabajoCliente/list.html.twig'
+#             list:
+#                 item_permission: [ROLE_CLIENTE_MENU]
+#                 filters: 
+#                     - property: 'user'
+#                     - property: 'formulario'
+#                     - property: 'sucursal'
+#                     - property: 'cliente'
+#                     - property: 'fecha'
+#                     - property: 'motivo'
+#                     - property: 'estadosGestion'
+#                       type: 'App\Form\Filter\EstadosGestionFilterType'
+#                       mapped: false 
+#                     - property: 'estado' 
+#                       type: 'App\Form\Filter\EstadoFilterType'
+#                       mapped: false 
+#                 fields:
+#                     - 'id'
+#                     - { property: 'estadoGestion', template: 'OrdenTrabajoCliente/estadoGestion.html.twig' }
+#                     - { property: 'formulario', type: 'text'}
+#                     - { property: 'user', type: 'text'}
+#                     - { property: 'sucursal', type: 'text'}
+#                     - { property: 'estadoToString', label: 'Estado' }
+#                     - { property: 'fecha', format: 'd/m/Y'}
+#                     - { property: 'cliente', type: 'string' }
+#                     - { property: 'motivo', label: 'Postergado por' }
+#                 actions:
+#                     - { name: 'show',  icon: 'search', label: '' }
+#                     - { name: 'edit', icon: 'pencil', label: '' }
+#                     - { name: 'delete', icon: 'remove', label: '' }
+#             show:
+#                 item_permission: [ROLE_CLIENTE_MENU]
+#                 fields:
+#                     - { property: 'id', columns: 6 }
+#                     - { property: 'user', type: 'text',  columns: 6 }
+#                     - { property: 'formulario', type: 'text',  columns: 6 }
+#                     - { property: 'orden', columns: 6 }
+#                     - { property: 'sucursal', type: 'text',  columns: 6 }
+#                     - { property: 'cliente', type: 'text', columns: 6 }
+#                     - { property: 'estadoToString', label: 'Estado', columns: 6 }
+#                     - { property: 'horaInicio', columns: 6, format: 'H:i' }
+#                     - { property: 'horaFin', columns: 6, format: 'H:i' }
+#                     - { property: 'fechaCompleta', columns: 6 }
+#                     - { property: 'motivo', columns: 6, label: 'Postergado por' }
+#                     - { property: 'formularioResultado.minutosTrabajado',label: 'Minutos Trabajado', columns: 6 }
+#                     - { property: 'createdAt', label: 'Creado', columns: 6, format: 'd/m/Y H:i' }
+#                     - { property: 'solicitud.servicio', label: 'Solicitud asociada', columns: 6 }
+#                     - { property: 'imageName', type: 'image', label: 'Firma', base_path: 'uploads/imagenes/resultado/', columns: 6 }
+#                     - { property: 'responsableFirma', label: 'Firma del responsable', columns: 6 }
+#                     - { property: 'comentario', columns: 12 }

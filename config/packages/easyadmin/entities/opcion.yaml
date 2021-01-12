@@ -1,0 +1,17 @@
+easy_admin:
+    entities:
+        Opcion:
+            class: App\Entity\Opcion
+            controller: App\Controller\OpcionController
+            list:
+                item_permission: [ROLE_ITEM]
+            edit:
+                item_permission: [ROLE_ITEM] 
+            new:
+                item_permission: [ROLE_ITEM] 
+            show:
+                item_permission: [ROLE_ITEM] 
+            delete:
+                item_permission: [ROLE_ITEM] 
+            search:
+                item_permission: [ROLE_ITEM] 

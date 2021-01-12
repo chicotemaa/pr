@@ -1,0 +1,153 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: 'es'
+    googleKeyApi: '%env(GOOGLE_KEY_API)%'
+    ivaConditionArray:
+        'Consumidor Final': 3
+        'Exento': 5
+        'Exterior': 6
+        'IVA No Alcanzado': 7
+        'Monotributista': 4
+        'Responsable Inscripto': 1
+    otEstadoArray:
+        'Pendiente': 0
+        'Estoy en camino': 1
+        'Me recibió': 2
+        'No me atendió': 3
+        'Finalizado': 4
+        'Postergado': 5
+    solicitudEstadoArray:
+        'Pendiente': 0
+        'Generada OT': 1
+        'Derivada': 2
+    # PARA ACCIONES PARTICULARES PARA CADA ITEM DEL MENU
+    LISTA_ROLES:
+        ROLE_USER: 'ROLE_USER' #Por defecto todos los usuarios son ROLE_USER
+        ROLE_USER_CRUD: 'ROLE_USER_CRUD' #Es para administrar los usuarios
+        ROLE_GROUP: 'ROLE_GROUP'
+        ROLE_CARPETA: 'ROLE_CARPETA'
+        ROLE_CLIENTE: 'ROLE_CLIENTE' #Es para que acceda desde la app movil
+        ROLE_CLIENTE_CRUD: 'ROLE_CLIENTE_CRUD' #Es para administrar los clientes
+        ROLE_EMPLEADO: 'ROLE_EMPLEADO'
+        ROLE_ENCARGADO: 'ROLE_ENCARGADO'
+        ROLE_FORMULARIO: 'ROLE_FORMULARIO'
+        ROLE_ITEM: 'ROLE_ITEM'
+        ROLE_MODULO: 'ROLE_MODULO'
+        ROLE_OPCION: 'ROLE_OPCION'
+        ROLE_ORDEN_TRABAJO: 'ROLE_ORDEN_TRABAJO'
+        ROLE_PROPIEDAD_ITEM: 'ROLE_PROPIEDAD_ITEM'
+        ROLE_PAIS: 'ROLE_PAIS'
+        ROLE_SERVICIO: 'ROLE_SERVICIO'
+        ROLE_SOLICITUD: 'ROLE_SOLICITUD'
+        ROLE_SUCURSAL: 'ROLE_SUCURSAL'
+        ROLE_CLIENTE_MENU: 'ROLE_CLIENTE_MENU'
+        ROLE_DASHBOARD: 'ROLE_DASHBOARD'
+
+    TIPO_ITEMS:
+        'Texto': texto
+        'Numero': numero
+        'Seleccion multiple': seleccion_multiple
+        'Casilla de verificacion': casilla_de_verificacion
+        'Desplegable': desplegable
+        'Fecha': date
+        'Fecha y Hora': date_time
+        'Hora': time
+        'Foto': foto
+        'Titulo': titulo
+        'Texto en Mayuscula': texto_mayuscula
+
+    #base path de las imagenes del vich upload
+    imagenes_opciones: '/uploads/imagenes/opciones'
+    imagenes_login: '/uploads/imagenes/login'
+    imagenes_resultados: '/uploads/imagenes/resultado'
+    imagenes_statiMap: '/uploads/imagenes/statiMap'
+    imagenes_servicio: '/uploads/imagenes/servicio'
+    imagenes_solicitud: '/uploads/imagenes/solicitud'
+    imagenes_sucursal: '/uploads/imagenes/sucursal'
+
+    solicitudes.mail.hostname: '%env(SOLICITUDES_MAIL_HOSTNAME)%'
+    solicitudes.mail.user: '%env(SOLICITUDES_MAIL_USER)%'
+    solicitudes.mail.password: '%env(SOLICITUDES_MAIL_PASSWORD)%'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false       # Allows optimizing the container by removing unused services; this also means
+                            # fetching services directly from the container via $container->get() won't work.
+                            # The best practice is to be explicit about your dependencies anyway.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    App\Action\:
+        resource: '../src/Action'
+        tags: ['controller.service_arguments']
+
+    App\Search\AutocompleteItem:
+        arguments:
+            - '@easyadmin.config.manager'
+            - '@easyadmin.finder'
+            - '@property_accessor'
+
+    tecspro.persist_listener:
+        class: App\EventListener\PersistListener
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+    App\EventListener\PersistListener: '@tecspro.persist_listener'
+
+    tecspro.login:
+        class: App\EventListener\LoginListener
+        tags:
+            - { name: kernel.event_subscriber, event: 'security.interactive_login' }
+
+    App\EventListener\RequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+
+    app.form.registration:
+        class: App\Form\RegistrationType
+        tags:
+            - { name: form.type, alias: app_user_registration }
+
+    app.form.profile:
+        class: App\Form\ProfileFormType
+        tags:
+            - { name: form.type, alias: app_user_profile }
+
+    app.fosuser.profile.success:
+        class: App\EventListener\UserListener
+        arguments: ['@router']
+        tags:
+            - { name: kernel.event_subscriber }
+
+    app.read.mail:
+        public: true
+        class: App\Service\MailReader
+        arguments:
+            $hostname: '%solicitudes.mail.hostname%'
+            $user: '%solicitudes.mail.user%'
+            $password: '%solicitudes.mail.password%'            
+
+    App\Service\MailReader: '@app.read.mail'
+
+    gedmo.listener.softdeleteable:
+        class: Gedmo\SoftDeleteable\SoftDeleteableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ '@annotation_reader' ] ]

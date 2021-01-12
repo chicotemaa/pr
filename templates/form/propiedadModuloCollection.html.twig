@@ -1,0 +1,68 @@
+{% block _formulario_propiedadModulos_label %}
+    <div class="col-md-1" style="padding: 0;">
+      <label>{{ 'Pagina'|trans }}</label>
+    </div>
+    <div class="col-md-4">
+      <label>{{ 'Nombre'|trans }}</label>
+    </div>
+    <div class="col-md-1" style="padding: 0;">
+      <label>{{ 'Orden'|trans }}</label>
+    </div>
+    <div class="col-md-4">
+      <label>{{ 'Modulo'|trans }}</label>
+    </div>
+{% endblock %}
+
+{% block form_group_class 'col-md-12' %}
+{% block form_label_class '' %}
+
+{% block _formulario_propiedadModulos_entry_row %}
+    <div class="form-group field-formulario_propiedadModulos">
+      {{ form_errors(form) }}
+      {{ form_widget(form) }}
+      {{ form_help(form) }}
+    </div>
+{% endblock %}
+
+{% block _formulario_propiedadModulos_entry_widget %}
+  {% set remove_item_javascript %}
+      $(function() {
+          if (event.preventDefault) event.preventDefault(); else event.returnValue = false;
+          var containerDiv = $('#{{ id }}').parents('.form-group:first');
+          var parentDiv = containerDiv.parents('[data-prototype]:first');
+          containerDiv.remove();
+          parentDiv.trigger('easyadmin.collection.item-deleted');
+          var hasCountAttr = parentDiv.data('count');
+
+          if (hasCountAttr === undefined) {
+              var numItems = parentDiv.children('div.form-group').length;
+              parentDiv.data('count', ++numItems)
+          }
+
+          if (0 == parentDiv.children().length && 'undefined' !== parentDiv.attr('data-empty-collection')) {
+              $(parentDiv.attr('data-empty-collection')).insertBefore(parentDiv);
+          }
+      });
+  {% endset %}
+  <div id="formulario_propiedadModulos_{{name}}" class="row">
+      <div class="col-md-1" style="padding: 0;">
+        {{ form_row(form.pagina) }}
+      </div>
+      <div class="col-md-4">
+        {{ form_row(form.paginaNombre) }}
+      </div>
+      <div class="col-md-1" style="padding: 0;">
+        {{ form_row(form.orden) }}
+      </div>
+      <div class="form-group-sm col-md-4">
+        {{ form_row(form.modulo) }}
+      </div>
+      <div class="col-md-1" style="padding: 0;">
+        <div class="field-collection-item-action">
+            <a href="#" onclick="{{ remove_item_javascript|raw }}" class="text-danger">
+                <i class="fa fa-remove"></i>
+            </a>
+        </div>
+      </div>
+    </div>
+{% endblock %}

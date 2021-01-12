@@ -1,0 +1,44 @@
+easy_admin:
+    entities:
+        Group:
+            class: App\Entity\Group
+            list:
+                item_permission: [ROLE_GROUP]
+                filters: [
+                    { property: 'name', label: 'Nombre' },
+                    { property: 'descripcion' }
+                    ]
+                fields:
+                    - { property: 'name', label: 'Nombre' }
+                    - { property: 'descripcion' }
+                    - { property: 'roles', template: 'group/role_list_field.html.twig' }
+            new:
+                item_permission: [ROLE_GROUP]
+            edit:
+                item_permission: [ROLE_GROUP]
+            form:  # <-- 'form' is applied to both 'new' and 'edit' views
+                item_permission: [ROLE_GROUP]
+                fields: 
+                    - { type: 'group', columns: 12, label: 'Detalles' }
+                    - { property: 'name', label: 'Nombre', columns: 4 }
+                    - { property: 'descripcion', columns: 8 }
+                    - { type: 'group', columns: 12, label: 'Secciones' }
+                    -
+                        property: 'roles'
+                        label: 'Roles'
+                        columns: 6
+                        type: 'choice'
+                        type_options:
+                            multiple: true
+                            expanded: true
+                            choices: '%LISTA_ROLES%'
+            show:
+                item_permission: [ROLE_GROUP]
+                fields:
+                    - { property: 'name', label: 'Nombre', columns: 6 }
+                    - { property: 'descripcion', columns: 6 }
+                    - { property: 'roles', label: 'Roles', columns: 6, template: 'group/role_list_field.html.twig' }
+            delete:
+                item_permission: [ROLE_GROUP]
+            search:
+                item_permission: [ROLE_GROUP]

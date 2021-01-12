@@ -1,0 +1,49 @@
+easy_admin:
+    entities:
+        RecycleModulo:
+            class: App\Entity\Modulo
+            controller: App\Controller\Recycle\RecycleModuloController
+            templates:
+                # Twig namespace template syntax
+                new: 'Modulo/new.html.twig'
+                edit: 'Modulo/edit.html.twig'
+            disabled_actions: ['edit', 'new']
+            list:
+                title: "Modulos Eliminados"
+                item_permission: [ROLE_MODULO]
+                filters:
+                    - property: 'nombre'
+                    - property: 'titulo'
+                    - property: 'propiedadItems'
+                fields: ['id', 'nombre', 'titulo']
+                actions:
+                    - { name: 'agregarDependencias', label: 'ver dependencias' }
+            edit:
+                item_permission: [ROLE_MODULO]
+            new:
+                item_permission: [ROLE_MODULO]
+            show:
+                item_permission: [ROLE_MODULO]
+            delete:
+                item_permission: [ROLE_MODULO]
+            search:
+                item_permission: [ROLE_MODULO]
+            form:
+                item_permission: [ROLE_MODULO]
+                fields:
+                    - { type: 'group', columns: 12 }
+                    - { property: 'nombre', columns: 6 }
+                    - { property: 'titulo', columns: 6}
+                    - { type: 'group', columns: 12, label: 'Items'  }
+                    -
+                        property: 'propiedadItems'
+                        label: false
+                        type: 'collection'
+                        type_options:
+                            entry_type: App\Form\PropiedadItemType
+                            allow_delete: true
+                            allow_add: true
+                            by_reference: false
+                            attr: {'class': 'col-md-12 '}
+                        class: 'col-md-12'
+                        form_group_class: 'col-md-12'

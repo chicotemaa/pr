@@ -1,0 +1,9 @@
+:root {
+    --color-primary: hsl(14, 86%, 53%);
+    --form-bg: hsl(13, 58%, 95%);
+}
+.my_image_form img {
+    max-width: 200px !important;
+    max-height: 200px !important;
+    margin-right: 10px !important;
+}

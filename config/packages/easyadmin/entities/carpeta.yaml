@@ -1,0 +1,45 @@
+easy_admin:
+    entities:
+        Carpeta:
+            class: App\Entity\Carpeta
+            templates:
+                list:  'Carpeta/list.html.twig'
+                show:  'Carpeta/show.html.twig'
+            list:
+                item_permission: [ROLE_CARPETA]
+                filters:
+                    - property: 'clientes'
+                    - property: 'activo'
+                    - property: 'descripcion'
+                    - property: 'createdAt'
+                fields:
+                    - property: 'clientes'
+                    - property: 'activo'
+                    - property: 'nombre'
+                    - { property: 'descripcion', type: 'fos_ckeditor', type_options: { config_name: 'my_config' } }
+            edit:
+                item_permission: [ROLE_CARPETA]
+                fields:
+                    - { property: 'clientes' , type_options: { 'by_reference': false }}
+                    - property: 'activo'
+                    - property: 'nombre'
+                    - { property: 'descripcion', type: 'fos_ckeditor', type_options: { config_name: 'my_config' } }
+            new:
+                item_permission: [ROLE_CARPETA]
+                fields:
+                    - { property: 'clientes' , type_options: { 'by_reference': false }}
+                    - property: 'activo'
+                    - property: 'nombre'
+                    - { property: 'descripcion', type: 'fos_ckeditor', type_options: { config_name: 'my_config' } }
+            show:
+                item_permission: [ROLE_CARPETA]
+                fields:
+                    - property: 'clientes'
+                    - property: 'activo'
+                    - property: 'nombre'
+                    - { property: 'descripcion', type: 'fos_ckeditor', type_options: { config_name: 'my_config' } }
+            delete:
+                item_permission: [ROLE_CARPETA]
+            search:
+                item_permission: [ROLE_CARPETA]
+                

@@ -1,0 +1,33 @@
+easy_admin:
+    entities:
+        Sucursal:
+            class: App\Entity\Sucursal
+            list:
+                item_permission: [ROLE_SUCURSAL]
+                filters:
+                    - property: 'nombre'
+                    - property: 'pais'
+                fields:
+                    - id
+                    - { property: 'nombre' }
+                    - { property: 'pais' }
+                    - { property: 'imageCabecera', label: 'Imagen cabecera', type: 'image', base_path: '%imagenes_sucursal%'}
+                    - { property: 'imagePie', label: 'Imagen Pie',type: 'image', base_path: '%imagenes_sucursal%'} 
+            edit:
+                item_permission: [ROLE_SUCURSAL]
+            new:
+                item_permission: [ROLE_SUCURSAL]
+            show:
+                item_permission: [ROLE_SUCURSAL]
+            delete:
+                item_permission: [ROLE_SUCURSAL]
+            search:
+                item_permission: [ROLE_SUCURSAL]
+            form:
+                fields:
+                    - { property: 'nombre' }
+                    - { property: 'pais' }
+                    - { type: 'section', label: 'Configuración para reportes', icon: 'cog', css_class: 'danger' }
+                    - { property: 'textoCabecera', label: 'Texto cabecera', type: 'fos_ckeditor', type_options: { config_name: 'my_config' } }
+                    - { property: 'imageCabeceraFile', label: 'Imagen cabecera', type: 'vich_image', css_class: 'my_image_form' }
+                    - { property: 'imagePieFile', label: 'Imagen Pie', type: 'vich_image', css_class: 'my_image_form' }

@@ -1,0 +1,49 @@
+easy_admin:
+    entities:
+        RecycleItem:
+            class: App\Entity\Item
+            controller: App\Controller\Recycle\RecycleItemController
+            templates:
+                # Twig namespace template syntax
+                new: 'Item/new.html.twig'
+                edit: 'Item/edit.html.twig'
+            disabled_actions: ['edit', 'new']
+            list:
+                title: "Items Eliminados"
+                item_permission: [ROLE_ITEM] 
+                filters:
+                    - property: 'nombre'
+                    - property: 'titulo'
+                    - property: 'descripcion'
+                    - property: 'tipo'
+                    - property: 'opciones'
+                fields: ['id', 'nombre', 'titulo', 'descripcion', 'tipo']
+            edit:
+                item_permission: [ROLE_ITEM] 
+            new:
+                item_permission: [ROLE_ITEM] 
+            show:
+                item_permission: [ROLE_ITEM] 
+            delete:
+                item_permission: [ROLE_ITEM] 
+            search:
+                item_permission: [ROLE_ITEM] 
+            form:
+                item_permission: [ROLE_ITEM]
+                fields:
+                    - { type: 'group', columns: 6 }
+                    - { property: 'nombre' }
+                    - { property: 'tipo', type: 'choice', type_options: { choices: '%TIPO_ITEMS%' }}
+                    - { type: 'group', columns: 6 }
+                    - { property: 'titulo'}
+                    - { property: 'descripcion'}
+                    - { type: 'group', columns: 12, label: 'Opciones'  }
+                    -
+                        property: 'opciones'
+                        label: false
+                        type: 'collection'
+                        type_options:
+                            entry_type: App\Form\OpcionType
+                            allow_delete: true
+                            allow_add: true
+                            by_reference: false

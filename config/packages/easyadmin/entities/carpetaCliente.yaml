@@ -1,0 +1,16 @@
+easy_admin:
+    entities:
+        CarpetaCliente:
+            class: App\Entity\Cliente
+            templates:
+                # Twig namespace template syntax
+                list: 'Carpeta/carpetaClientes.html.twig'
+            list:
+                item_permission: [ROLE_CARPETA]
+                fields:
+                    - 'id'
+                    - 'apellido'
+                    - 'nombre'
+                    - 'razonSocial'
+                    - 'sucursal'
+                    - 'ivaConditionString'

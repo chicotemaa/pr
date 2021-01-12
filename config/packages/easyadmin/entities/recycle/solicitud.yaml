@@ -1,0 +1,72 @@
+easy_admin:
+    entities:
+        RecycleSolicitud:
+            class: App\Entity\Solicitud
+            controller: App\Controller\Recycle\RecycleSolicitudController
+            templates:
+                list: 'Solicitud/list.html.twig'
+                new: 'Solicitud/new.html.twig'
+                edit: 'Solicitud/edit.html.twig'
+            disabled_actions: ['edit', 'new']
+            list:
+                title: "Solicitudes Eliminadas"
+                item_permission: ROLE_SOLICITUD
+                filters:
+                    - property: 'cliente'
+                    - property: 'estado'
+                    - property: 'servicio'
+                    - property: 'consulta'
+                    - property: 'ordenTrabajo'
+                    - property: 'nroIncidencia'
+                    - { property: 'numeroSucursal', label: 'Nro. de Sucursal'}
+                    - { property: 'direccionSucursal', label: 'Dirección de Sucursal'}
+                    - { property: 'pisoSector', label: 'Piso de Sector'}
+                    - { property: 'detalle', label: 'Nro. de Detalle'}
+                    - { property: 'fechaCompromiso' }
+                fields:
+                    - id
+                    - { property: 'fechaCompromiso', format: 'd/m/Y H:i' }
+                    - { property: 'cliente', type: 'text' }
+                    - { property: 'servicio', type: 'text' }
+                    - nroIncidencia
+                    - numeroSucursal
+                    - { property: 'estado', label: 'Estado' ,template: 'Solicitud/estado.html.twig' }
+                    - consulta
+            edit:
+                item_permission: [ROLE_SOLICITUD]
+            new:
+                item_permission: [ROLE_SOLICITUD]
+            show:
+                item_permission: [ROLE_SOLICITUD]
+            delete:
+                item_permission: [ROLE_SOLICITUD]
+            search:
+                item_permission: [ROLE_SOLICITUD]
+            form:
+                fields:
+                    - { type: 'group', columns: 6 }
+                    - { property: 'sucursal', permission: ROLE_ENCARGADO }
+                    - { property: 'cliente', permission: ROLE_ENCARGADO }
+                    - { property: 'estado', permission: ROLE_ENCARGADO, type: 'choice', type_options: { choices: '%solicitudEstadoArray%' } }
+                    - { 
+                        property: 'servicio',
+                        type: 'entity',
+                        type_options: { class: 'App\Entity\Servicio', query_builder: 'App\Repository\SolicitudRepository::finByActivo' }
+                     }
+                    - { property: 'necesitasAyuda' }
+                    - { property: 'consulta', label: 'Cual es el problema?' }
+                    - { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }
+                    - { type: 'group', columns: 6 }
+                    - { property: 'nroIncidencia' }
+                    - { property: 'numeroSucursal', label: 'Número Sucursal' }
+                    - { property: 'direccionSucursal', label: 'Dirección Sucursal' }
+                    - { property: 'pisoSector', label: 'Piso/Sector afectado' }
+                    - { property: 'detalle', label: 'Detalle' }
+                    - 
+                        property: 'fechaCompromiso'
+                        label: 'Fecha de compromiso de solución'
+                        type_options:
+                            attr:
+                                data-inputmask: "'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy HH:MM'"
+                            widget: 'single_text'
+                            format: 'dd/MM/yyyy HH:mm'

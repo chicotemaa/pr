@@ -1,0 +1,11 @@
+formulario_resultado_errores: >-
+    {errors, plural,
+        =1    {El campo {campos} es requerido}
+        other {Los campos {campos} son requeridos}
+    }
+
+formulario_resultado_incidencias_encontradas: >-
+    {encontradas, plural,
+        =1    {Incidencia encontrada: }
+        other {Incidencias encontradas: }
+    }

@@ -1,0 +1,34 @@
+easy_admin:
+    entities:
+        CarpetaOT:
+            class: App\Entity\OrdenTrabajo
+            controller: App\Controller\ElementoCarpetaController
+            disabled_actions: ['delete' , 'new']
+            templates:
+                list:  'Carpeta/carpetaOT.html.twig'
+            list:
+                max_results: 50
+                item_permission: [ROLE_CARPETA]
+                filters: 
+                    - property: 'user'
+                    - property: 'formulario'
+                    - property: 'sucursal'
+                    - property: 'cliente'
+                    - property: 'fecha'
+                    - property: 'motivo'
+                    - property: 'estadosGestion'
+                      type: 'App\Form\Filter\EstadosGestionFilterType'
+                      mapped: false 
+                    - property: 'estado' 
+                      type: 'App\Form\Filter\EstadoFilterType'
+                      mapped: false 
+                fields:
+                    - 'id'
+                    - { property: 'estadoGestion', template: 'OrdenTrabajo/estadoGestion.html.twig' }
+                    - { property: 'formulario', type: 'text'}
+                    - { property: 'user', type: 'text'}
+                    - { property: 'sucursal', type: 'text'}
+                    - { property: 'estadoToString', label: 'Estado' }
+                    - { property: 'fecha', format: 'd/m/Y'}
+                    - { property: 'cliente', type: 'string' }
+                    - { property: 'motivo', label: 'Postergado por' }

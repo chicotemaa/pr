@@ -1,0 +1,9 @@
+{% extends '@EasyAdmin/default/new.html.twig' %}
+
+{% block entity_form %}
+
+{% form_theme form.opciones 'form/opcionCollection.html.twig' %}
+
+{{ form(form) }}
+
+{% endblock entity_form %}

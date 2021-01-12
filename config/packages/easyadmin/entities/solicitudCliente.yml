@@ -1,0 +1,34 @@
+# easy_admin:
+#     entities:
+#         SolicitudCliente:
+#             class: App\Entity\Solicitud
+#             controller: App\Controller\SolicitudController
+#             disabled_actions: ['new','edit','delete']
+#             templates:
+#                 list: 'Solicitud/list.html.twig'
+#             list:
+#                 item_permission: ROLE_CLIENTE_MENU
+#                 actions:
+#                     - { name: generarOt }
+#                 filters:
+#                     - property: 'cliente'
+#                     - property: 'estado'
+#                     - property: 'servicio'
+#                     - property: 'consulta'
+#                     - property: 'ordenTrabajo'
+#                     - property: 'nroIncidencia'
+#                     - { property: 'numeroSucursal', label: 'Nro. de Sucursal'}
+#                     - { property: 'direccionSucursal', label: 'Dirección de Sucursal'}
+#                     - { property: 'pisoSector', label: 'Piso de Sector'}
+#                     - { property: 'detalle', label: 'Nro. de Detalle'}
+#                     - { property: 'fechaCompromiso', label: 'Fecha de Compromiso'}
+#                 fields:
+#                     - id
+#                     - { property: 'cliente', type: 'text' }
+#                     - { property: 'servicio', type: 'text' }
+#                     - nroIncidencia
+#                     - numeroSucursal
+#                     - { property: 'estadoToString', label: 'Estado' }
+#                     - consulta
+#             show:
+#                 item_permission: [ROLE_CLIENTE_MENU]

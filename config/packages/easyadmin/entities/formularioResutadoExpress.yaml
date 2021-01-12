@@ -1,0 +1,47 @@
+easy_admin:
+    entities:
+        FormularioResultadoExpress:
+            class: App\Entity\FormularioResultadoExpress
+            disabled_actions: ['new', 'edit']
+            title: "Formularios Express"
+            templates:
+                show: 'FormularioResultadoExpress/show.html.twig'
+            list:
+                title: "Formularios Express"
+                item_permission: [ROLE_ORDEN_TRABAJO]
+                fields:
+                - 'id'
+                - { property: 'formulario', type: 'text'}
+                - { property: 'user', type: 'text'}
+                - { property: 'estado', label: 'Estado', template: 'OrdenTrabajo/estado.html.twig'  }
+                - { property: 'fecha', format: 'd/m/Y' }
+                - { property: 'cliente', type: 'string' }
+                actions:
+                    - { name: 'show',  icon: 'search', label: '' }
+                    - { name: 'delete', icon: 'remove', label: '' }
+                filters: 
+                    - property: 'user'
+                    - property: 'formulario'
+                    - property: 'cliente'
+                    - property: 'fecha'
+                    - property: 'estado' 
+                      type: 'App\Form\Filter\EstadoFilterType'
+                      mapped: false
+                show:
+                    item_permission: [ROLE_ORDEN_TRABAJO]
+                    fields:
+                        - { property: 'id', columns: 6 }
+                        - { property: 'user', type: 'text', columns: 6 }
+                        - { property: 'formulario', type: 'text', columns: 6 }
+                        - { property: 'cliente', type: 'text', columns: 6 }
+                        - { property: 'estadoToString', label: 'Estado', columns: 6 }
+                        - { property: 'horaInicio', columns: 6, format: 'H:i' }
+                        - { property: 'horaFin', columns: 6, format: 'H:i' }
+                        - { property: 'fechaCompleta', columns: 6 }
+                        - { property: 'motivo', columns: 6, label: 'Postergado por' }
+                        - { property: 'minutosTrabajado',label: 'Minutos Trabajado', columns: 6 }
+                        - { property: 'createdAt', label: 'Creado', columns: 6, format: 'd/m/Y H:i' }
+                        - { property: 'imageName', type: 'image', label: 'Firma', base_path: 'uploads/imagenes/resultado/', columns: 6 }
+                        - { property: 'responsableFirma', label: 'Firma del responsable', columns: 6 }
+                        - { property: 'comentario' }
+                    actions: ['-edit', '-delete', 'list']
