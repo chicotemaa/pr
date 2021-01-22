@@ -136,8 +136,16 @@ class OrdenTrabajoController extends EasyAdminController
 
     public function exportarAction()
     {
+
         $this->setTableStyle();
         $this->formato = $this->request->get('formato');
+//        dump($this->formato = $this->request->get('formato'));
+//        die();
+
+
+        dump($this->request->get('ordenes_trabajo'));
+        die();
+
         $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($this->request->get('orden_trabajo'));
 
         $this->formularioResultado = $ordenTrabajo->getFormularioResultado();
@@ -966,5 +974,26 @@ class OrdenTrabajoController extends EasyAdminController
         }
         
         return parent::listAction(); 
+    }
+
+
+    public function blasBatchAction(array $ids)
+    {
+        $class = $this->entity['class'];
+
+        $em = $this->getDoctrine()->getManagerForClass($class);
+
+        foreach ($ids as $id) {
+            $user[] = $id;
+//            $user = $em->find($id);
+//            $user->approve();
+        }
+       dump($user);
+        die();
+//        die(var_dump($user));
+        $this->em->flush();
+
+        // don't return anything or redirect to any URL because it will be ignored
+        // when a batch action finishes, user is redirected to the original page
     }
 }

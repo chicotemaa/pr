@@ -37,6 +37,42 @@
         </div>
       </div>
     </div>
+
+  <div class="modal fade bs-example2-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color:#f05536;">
+          <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar - Seleccionar formato</h4>
+          <button type="button" class="close"  style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+        </div>
+
+        <div class="modal-body">
+          <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar' }) }}" method="POST">
+            <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
+            <div class="radio">
+              <label>
+                <input type="radio" name="formato" id="formato" value="WORD" checked>
+                WORD
+              </label><br>
+              <label>
+                <input type="radio" name="formato" id="formato" value="PDF" >
+                PDF
+              </label><br>
+              <label>
+                <input type="radio" name="formato" id="formato" value="EXCEL" >
+                EXCEL
+              </label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 {% block new_action %}
@@ -50,12 +86,42 @@
     {% endif %}
 {% endblock new_action %}
 
-{% block item_actions %}
-  <a class="exportOt" href="javascript:;" data-toggle="modal" data-target=".bs-example-modal-sm" target="_self" data-id="{{_item_id}}"><i class="fa fa-download"></i> </a>
+{% set _has_batch_actions = batch_form is defined and batch_form.vars.batch_actions|length > 0 %}
 
-  {{ parent() }}
-{% endblock %}
+{#{% block item_actions %}#}
 
+  {#<a class="exportOt" href="javascript:;" data-toggle="modal" data-target=".bs-example-modal-sm" target="_self" data-id="{{_item_id}}"><i class="fa fa-download"></i> </a>#}
+
+  {#{{ parent() }}#}
+{#{% endblock %}#}
+
+{% block batch_actions %}
+    {% if _has_batch_actions %}
+      <div class="batch-actions" style="display: none">
+          {% form_theme batch_form with easyadmin_config('design.form_theme') only %}
+
+          {{ form(batch_form) }}
+
+          <a class="exportBatch" href="javascript:;" data-toggle="modal" data-target=".bs-example2-modal-sm" target="_self"   ><i class="fa fa-download"></i> </a>
+          {{ parent() }}
+      </div>
+    {% endif %}
+{% endblock batch_actions %}
+
+{#{% block content_header %}#}
+    {#{{ parent() }}#}
+    {#{{ block('batch_actions') }}#}
+    {#{% if _has_filters %}#}
+        {#{{ include('@EasyAdmin/default/includes/_filters_modal.html.twig') }}#}
+    {#{% endif %}#}
+{#{% endblock content_header %}#}
+
+{#{% block item_actions %}#}
+
+  {#<a class="exportOt" href="javascript:;" data-toggle="modal" data-target=".bs-example-modal-sm" target="_self" data-id="{{_item_id}}"><i class="fa fa-download"></i> </a>#}
+
+    {#{{ parent() }}#}
+{#{% endblock %}#}
 
 {% block body_javascript %}
   {{ parent() }}
@@ -103,14 +169,27 @@
       });
     });
 
+
     // paso el valor del id de la fila que seleccione para exportar
     $(".exportOt").click(function(){
         $("#orden_trabajo").val($(this).data('id'));
     });
-
-    // para enviar el formulario donde 
+    // para enviar el formulario donde
     function exportar(){
-      $("#formExportar").submit();
+      $("#formExportar1").submit();
     };
+
+
+    $(".exportBatch").click(function(){
+        var x = document.getElementById("batch_form_ids").value;
+        document.getElementById("ordenes_trabajo").value = x;
+        // $("#ordenes_trabajo").val($(this).data("2"));
+       // console.log(x) ;
+    });
+
+    function exportarBatch(){
+        $("#formExportar").submit();
+    };
+
   </script>
 {% endblock %}

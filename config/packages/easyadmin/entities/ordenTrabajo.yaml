@@ -11,7 +11,9 @@ easy_admin:
                 list: 'OrdenTrabajo/list.html.twig'
             list:
                 item_permission: [ROLE_ORDEN_TRABAJO]
-                filters: 
+                batch_actions: ['blas']
+
+                filters:
                     - property: 'user'
                     - property: 'formulario'
                     - property: 'sucursal'
@@ -39,6 +41,7 @@ easy_admin:
                     - { name: 'show',  icon: 'search', label: '' }
                     - { name: 'edit', icon: 'pencil', label: '' }
                     - { name: 'delete', icon: 'remove', label: '' }
+#                    - { name: 'export',  icon: 'search', label: '' }
             show:
                 item_permission: [ROLE_ORDEN_TRABAJO]
                 fields:
