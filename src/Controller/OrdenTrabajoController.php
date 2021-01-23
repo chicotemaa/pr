@@ -144,12 +144,19 @@ class OrdenTrabajoController extends EasyAdminController
 
 
 
+
 //        dump($this->request->get('ordenes_trabajo'));
 //        die();
 
         //obtengo arrays ids ordenes
         $ordenesTrabajo = $this->request->get('ordenes_trabajo');
         $array = explode(",", $ordenesTrabajo);
+
+//        $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($array[0]);
+//        $this->formularioResultado = $ordenTrabajo->getFormularioResultado();
+//        dump($this->formularioResultado);
+//        die();
+
 
         //pregunto tipo de formato
         if('PDF' == $this->formato or 'WORD' == $this->formato){
@@ -173,10 +180,10 @@ class OrdenTrabajoController extends EasyAdminController
             $tablaTitulo = $this->section->addTable($this->table_style_titulo);
             $tablaTitulo->addRow();
 
-            $tablaTitulo->addCell(1000)->addImage(
-                $this->getParameter('kernel.root_dir').'/../public/images/hogar.png',
-                ['width' => 220, 'align' => 'left']
-            );
+//            $tablaTitulo->addCell(1000)->addImage(
+//                $this->getParameter('kernel.root_dir').'/../public/images/hogar.png',
+//                ['width' => 220, 'align' => 'left']
+//            );
 
 
             //recorro las ordenes de trabajo
@@ -184,6 +191,9 @@ class OrdenTrabajoController extends EasyAdminController
 
                 $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
                 $this->formularioResultado = $ordenTrabajo->getFormularioResultado();
+
+//                dump($this->formularioResultado->getCreatedAt());
+//                die();
 
                 if ($ordenTrabajo->getSucursal()) {
                     $textoCabecera = '';
@@ -202,373 +212,301 @@ class OrdenTrabajoController extends EasyAdminController
                     }
                 }
 
+                //nose bien q hace jaja
 
-
-
-            }
-
-
-        }
-
-
-
-
-
-
-
-
-//        $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($this->request->get('orden_trabajo'));
-
-        $this->formularioResultado = $ordenTrabajo->getFormularioResultado();
-
-        if (!$this->formularioResultado) {
-            $this->addFlash('warning', 'formulario no completado');
-
-            if ('show' == $this->request->request->get('actionReturn')) {
-                return $this->redirectToRoute('easyadmin', [
-                    'action' => 'show',
-                    'id' => $this->request->get('orden_trabajo'),
-                    'entity' => $this->request->query->get('entity'),
-                ]);
-            } else {
-                return $this->redirectToRoute('easyadmin', [
-                    'action' => 'list',
-                    'entity' => $this->request->query->get('entity'),
-                ]);
-            }
-
-
-        }
-        //aca comienza armar el pdf
-        if ('PDF' == $this->formato or 'WORD' == $this->formato) {
-            $phpWord = new \PhpOffice\PhpWord\PhpWord();
-            $this->section = $phpWord->addSection([
-            'marginLeft' => 600,
-            'marginRight' => 600,
-            'marginTop' => 600,
-            'marginBottom' => 600,
-            ]);
-
-            $phpWord->setDefaultParagraphStyle(
-                array(
-                    'spaceLine' => \PhpOffice\PhpWord\Shared\Converter::INCH_TO_POINT,
-                    'spacing' => 38,
-                )
-            );
-
-            $tablaTitulo = $this->section->addTable($this->table_style_titulo);
-            $tablaTitulo->addRow();
-
-            $tablaTitulo->addCell(1000)->addImage(
-                $this->getParameter('kernel.root_dir').'/../public/images/hogar.png',
-                ['width' => 220, 'align' => 'left']
-            );
-
-            if ($ordenTrabajo->getSucursal()) {
-                $textoCabecera = '';
-                if (!empty($ordenTrabajo->getSucursal()->getTextoCabecera())) {
-                    $textoCabecera = $ordenTrabajo->getSucursal()->getTextoCabecera();
-                    if ('PDF' == $this->formato) {
-                        $textoCabecera = str_replace('<br />', ' &#10;', $textoCabecera);
-                    }
-                }
-                \PhpOffice\PhpWord\Shared\Html::addHtml($tablaTitulo->addCell(500), $textoCabecera);
-                if (!empty($ordenTrabajo->getSucursal()->getImageCabecera())) {
-                    $tablaTitulo->addCell(500)->addImage(
-                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($ordenTrabajo->getSucursal(), 'imageCabeceraFile'),
-                        ['wrappingStyle' => 'behind', 'width' => 150, 'height' => 100, 'align' => 'rigth']
-                    );
-                }
-            }
-
-            $footer = $this->section->createFooter();
-            $footer->addPreserveText(
-                $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.piepagina'),
-                ['color' => '000000', 'size' => '8'],
-                ['align' => 'center']
-            );
-            $footer->addTextBreak(1);
-
-            if ($ordenTrabajo->getSucursal() && !empty($ordenTrabajo->getSucursal()->getImagePie())) {
-                $footer->addImage(
-                    $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($ordenTrabajo->getSucursal(), 'imagePieFile'),
-                    ['width' => 550, 'align' => 'center']
+                $footer = $this->section->createFooter();
+                $footer->addPreserveText(
+                    $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.piepagina'),
+                    ['color' => '000000', 'size' => '8'],
+                    ['align' => 'center']
                 );
-            } else {
-                $footer->addImage(
-                    $this->getParameter('kernel.root_dir').'/../public/images/hogar_pie.png',
-                    ['width' => 550, 'align' => 'center']
+                $footer->addTextBreak(1);
+
+//                if ($ordenTrabajo->getSucursal() && !empty($ordenTrabajo->getSucursal()->getImagePie())) {
+//                    $footer->addImage(
+//                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($ordenTrabajo->getSucursal(), 'imagePieFile'),
+//                        ['width' => 550, 'align' => 'center']
+//                    );
+//                } else {
+//                    $footer->addImage(
+//                        $this->getParameter('kernel.root_dir').'/../public/images/hogar_pie.png',
+//                        ['width' => 550, 'align' => 'center']
+//                    );
+//                }
+
+                $textrun = $this->section->addTextRun();
+
+                $textrun->addText(
+                    htmlspecialchars(
+                        $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.titulo')
+                    ),
+                    ['bold' => true, 'size' => '12']
                 );
-            }
 
-            $textrun = $this->section->addTextRun();
+                $textrun = $this->section->addTextRun();
 
-            $textrun->addText(
-                htmlspecialchars(
-                $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.titulo')
-            ),
-                ['bold' => true, 'size' => '12']
-            );
+                $textrun->addText(
+                    htmlspecialchars(
+                        $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.subtitulo')
+                    )
+                );
 
-            $textrun = $this->section->addTextRun();
+                $this->section->addText('', [], ['borderBottomSize' => 6]);
+                $textrun = $this->section->addTextRun();
 
-            $textrun->addText(
-                htmlspecialchars(
-                $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.subtitulo')
-            )
-            );
+                $textrun->addText(
+                    htmlspecialchars(
+                        $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.cliente')
+                    )
+                );
 
-            $this->section->addText('', [], ['borderBottomSize' => 6]);
-            $textrun = $this->section->addTextRun();
+                $tablaCliente = $this->section->addTable($this->table_style_titulo);
+                $tablaCliente->addRow();
 
-            $textrun->addText(
-                htmlspecialchars(
-                $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.cliente')
-            )
-            );
+                $textrun = $tablaCliente->addCell(1000)->addTextRun();
+                $textrun->addText(
+                    htmlspecialchars(
+                        $ordenTrabajo->getCliente()->__toString()
+                    )
+                );
 
-            $tablaCliente = $this->section->addTable($this->table_style_titulo);
-            $tablaCliente->addRow();
+                $textrun = $tablaCliente->addCell(1000)->addTextRun();
+                $textrun->addText(
+                    htmlspecialchars(
+                        sprintf("%s:", $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.direccion'))
+                    ),
+                    ['underline' => 'single']
+                );
 
-            $textrun = $tablaCliente->addCell(1000)->addTextRun();
-            $textrun->addText(
-                htmlspecialchars(
-                $ordenTrabajo->getCliente()->__toString()
-            )
-            );
+                $textrun->addText(
+                    htmlspecialchars(
+                        ' '.$ordenTrabajo->getCliente()->getStreet().' \n '
+                    )
+                );
+                $tablaCliente->addRow();
 
-            $textrun = $tablaCliente->addCell(1000)->addTextRun();
-            $textrun->addText(
-                htmlspecialchars(
-                sprintf("%s:", $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.direccion'))
-            ),
-                ['underline' => 'single']
-            );
+                $textrun = $tablaCliente->addCell(1000)->addTextRun();
 
-            $textrun->addText(
-                htmlspecialchars(
-                ' '.$ordenTrabajo->getCliente()->getStreet().' \n '
-            )
-            );
-            $tablaCliente->addRow();
+                $textrun = $tablaCliente->addCell(1000)->addTextRun();
 
-            $textrun = $tablaCliente->addCell(1000)->addTextRun();
+                $textrun->addText(
+                    htmlspecialchars(
+                        sprintf("%s:", $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.correo'))
+                    ),
+                    ['underline' => 'single']
+                );
 
-            $textrun = $tablaCliente->addCell(1000)->addTextRun();
+                $textrun->addText(
+                    htmlspecialchars(
+                        $ordenTrabajo->getCliente()->getCorreo()
+                    )
+                );
 
-            $textrun->addText(
-                htmlspecialchars(
-                sprintf("%s:", $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.correo'))
-            ),
-                ['underline' => 'single']
-            );
-
-            $textrun->addText(
-                htmlspecialchars(
-                $ordenTrabajo->getCliente()->getCorreo()
-            )
-            );
-
-            $textrun = $this->section->addTextRun();
-            $textrun->addText(
-                htmlspecialchars(
-                          'Fecha de envío del formulario:'
-                      ),
-                ['underline' => 'single']
-            );
-            $textrun->addText(
-                htmlspecialchars(
-                          ' '.$this->formularioResultado->getCreatedAt()->format('d/m/Y H:i')
-                      )
-            );
-
-            $textrun = $this->section->addTextRun();
-            $textrun->addText(
-                htmlspecialchars(
-                          'Estado:'
-                      ),
-                ['underline' => 'single']
-            );
-            $textrun->addText(
-                htmlspecialchars(
-                          ' '.$this->formularioResultado->getOrdenTrabajo()->estadoToString()
-                      )
-            );
-            if (5 == $this->formularioResultado->getOrdenTrabajo()->getEstado()) {
                 $textrun = $this->section->addTextRun();
                 $textrun->addText(
                     htmlspecialchars(
-                'Motivo:'
-            ),
+                        'Fecha de envío del formulario:'
+                    ),
                     ['underline' => 'single']
                 );
                 $textrun->addText(
                     htmlspecialchars(
-                ' '.$this->formularioResultado->getOrdenTrabajo()->getMotivo()
-            )
+                        ' '.$this->formularioResultado->getCreatedAt()->format('d/m/Y H:i')
+                    )
                 );
-            }
-            $textrun = $this->section->addTextRun();
-            $textrun->addText(
-                htmlspecialchars(
-                          'Hora Inicio - Fin:'
-                      ),
-                ['underline' => 'single']
-            );
 
-            $horaInicio = ($this->formularioResultado->getOrdenTrabajo()->getHoraInicio())
-                      ? $this->formularioResultado->getOrdenTrabajo()->getHoraInicio()->format('H:i') : '';
-
-            $horaFin = ($this->formularioResultado->getOrdenTrabajo()->getHoraFin())
-                      ? $this->formularioResultado->getOrdenTrabajo()->getHoraFin()->format('H:i') : '';
-            $textrun->addText(
-                htmlspecialchars(
-                          ' '.$horaInicio.' - '.$horaFin
-                      )
-            );
-            $textrun = $this->section->addTextRun();
-            $textrun->addText(
-                htmlspecialchars(
-                          'Minutos Trabajados:'
-                      ),
-                ['underline' => 'single']
-            );
-            $textrun->addText(
-                htmlspecialchars(
-                          ' '.$this->formularioResultado->getMinutosTrabajado()
-                      )
-            );
-            $textrun = $this->section->addTextRun();
-            $textrun->addText(
-                htmlspecialchars(
-                          'Usuario:'
-                      ),
-                ['underline' => 'single']
-            );
-            $textrun->addText(
-                htmlspecialchars(
-                          ' '.$this->formularioResultado->getOrdenTrabajo()->getUser()->getUserName()
-                      )
-            );
-
-            $this->section->addText('', [], ['borderBottomSize' => 6]);
-
-            $textrun = $this->section->addTextRun();
-            $textrun->addText(
-                htmlspecialchars(
-                          'Descripción del trabajo'
-                      )
-            );
-
-            // Buscar si hay incidencias
-            $analisisInciencia = $ordenTrabajo->obtenerIncidencias();
-            if (count($analisisInciencia['incidenciasEncontradas']) > 0) {
-                $this->section->addText('');
-                $tablaIncidencia = $this->section->addTable($this->table_style);
-                $tablaIncidencia->addRow();
-                $row = $tablaIncidencia->addCell(2000, $this->table_style_item);
-
-                $incidenciaTitulo = sprintf(
-                    "%s %u/%u",
-                    $this->get(TranslatorInterface::class)->trans('formulario_resultado_incidencias_encontradas', [
-                    'encontradas' => count($analisisInciencia['incidenciasEncontradas'])
-                ]),
-                    count($analisisInciencia['incidenciasEncontradas']),
-                    $analisisInciencia['incidenciasTotal']
+                $textrun = $this->section->addTextRun();
+                $textrun->addText(
+                    htmlspecialchars(
+                        'Estado:'
+                    ),
+                    ['underline' => 'single']
                 );
-                $row->addText(
-                    htmlspecialchars($incidenciaTitulo),
-                    ['size' => '12']
+                $textrun->addText(
+                    htmlspecialchars(
+                        ' '.$this->formularioResultado->getOrdenTrabajo()->estadoToString()
+                    )
                 );
-                foreach ($analisisInciencia['incidenciasEncontradas']  as $incidencia) {
+
+
+                if (5 == $this->formularioResultado->getOrdenTrabajo()->getEstado()) {
+                    $textrun = $this->section->addTextRun();
+                    $textrun->addText(
+                        htmlspecialchars(
+                            'Motivo:'
+                        ),
+                        ['underline' => 'single']
+                    );
+                    $textrun->addText(
+                        htmlspecialchars(
+                            ' '.$this->formularioResultado->getOrdenTrabajo()->getMotivo()
+                        )
+                    );
+                }
+                $textrun = $this->section->addTextRun();
+                $textrun->addText(
+                    htmlspecialchars(
+                        'Hora Inicio - Fin:'
+                    ),
+                    ['underline' => 'single']
+                );
+
+                $horaInicio = ($this->formularioResultado->getOrdenTrabajo()->getHoraInicio())
+                    ? $this->formularioResultado->getOrdenTrabajo()->getHoraInicio()->format('H:i') : '';
+
+                $horaFin = ($this->formularioResultado->getOrdenTrabajo()->getHoraFin())
+                    ? $this->formularioResultado->getOrdenTrabajo()->getHoraFin()->format('H:i') : '';
+                $textrun->addText(
+                    htmlspecialchars(
+                        ' '.$horaInicio.' - '.$horaFin
+                    )
+                );
+                $textrun = $this->section->addTextRun();
+                $textrun->addText(
+                    htmlspecialchars(
+                        'Minutos Trabajados:'
+                    ),
+                    ['underline' => 'single']
+                );
+                $textrun->addText(
+                    htmlspecialchars(
+                        ' '.$this->formularioResultado->getMinutosTrabajado()
+                    )
+                );
+                $textrun = $this->section->addTextRun();
+                $textrun->addText(
+                    htmlspecialchars(
+                        'Usuario:'
+                    ),
+                    ['underline' => 'single']
+                );
+                $textrun->addText(
+                    htmlspecialchars(
+                        ' '.$this->formularioResultado->getOrdenTrabajo()->getUser()->getUserName()
+                    )
+                );
+
+                $this->section->addText('', [], ['borderBottomSize' => 6]);
+
+                $textrun = $this->section->addTextRun();
+                $textrun->addText(
+                    htmlspecialchars(
+                        'Descripción del trabajo'
+                    )
+                );
+
+                // Buscar si hay incidencias
+                $analisisInciencia = $ordenTrabajo->obtenerIncidencias();
+                if (count($analisisInciencia['incidenciasEncontradas']) > 0) {
+                    $this->section->addText('');
+                    $tablaIncidencia = $this->section->addTable($this->table_style);
                     $tablaIncidencia->addRow();
-
                     $row = $tablaIncidencia->addCell(2000, $this->table_style_item);
-                    $row->addText(htmlspecialchars($incidencia['item']), ['size' => '8']);
 
-                    $opciones = (isset($incidencia['opciones']))
+                    $incidenciaTitulo = sprintf(
+                        "%s %u/%u",
+                        $this->get(TranslatorInterface::class)->trans('formulario_resultado_incidencias_encontradas', [
+                            'encontradas' => count($analisisInciencia['incidenciasEncontradas'])
+                        ]),
+                        count($analisisInciencia['incidenciasEncontradas']),
+                        $analisisInciencia['incidenciasTotal']
+                    );
+                    $row->addText(
+                        htmlspecialchars($incidenciaTitulo),
+                        ['size' => '12']
+                    );
+                    foreach ($analisisInciencia['incidenciasEncontradas']  as $incidencia) {
+                        $tablaIncidencia->addRow();
+
+                        $row = $tablaIncidencia->addCell(2000, $this->table_style_item);
+                        $row->addText(htmlspecialchars($incidencia['item']), ['size' => '8']);
+
+                        $opciones = (isset($incidencia['opciones']))
                             ? $incidencia['opciones']
                             : $this->get(TranslatorInterface::class)->trans('ningun_valor');
-                    $row = $tablaIncidencia->addCell(2000, $this->table_style_item);
-                    $row->addText(htmlspecialchars($opciones), ['size' => '8']);
+                        $row = $tablaIncidencia->addCell(2000, $this->table_style_item);
+                        $row->addText(htmlspecialchars($opciones), ['size' => '8']);
+                    }
+                    $this->section->addText('');
                 }
-                $this->section->addText('');
-            }
 
 
-            //creo array de Resultados, agregado como indice idModulo, este tiene un array con indiceModulo y
-            //cada array indice modulo tiene los resultado
-            $resultados = [];
-            foreach ($this->formularioResultado->getResultados() as $resultado) {
-                $resultados[$resultado->getPropiedadItem()->getModulo()->getId()][$resultado->getIndiceModulo()][$resultado->getIndiceModulo()][$resultado->getPropiedadItem()->getId()][] = $resultado;
-            }
-            $this->resultados = $resultados;
+                //creo array de Resultados, agregado como indice idModulo, este tiene un array con indiceModulo y
+                //cada array indice modulo tiene los resultado
+                $resultados = [];
+                foreach ($this->formularioResultado->getResultados() as $resultado) {
+                    $resultados[$resultado->getPropiedadItem()->getModulo()->getId()][$resultado->getIndiceModulo()][$resultado->getIndiceModulo()][$resultado->getPropiedadItem()->getId()][] = $resultado;
+                }
+                $this->resultados = $resultados;
 
-            //recorro propiedad modulos del formulario
-            $contador = 1;
-            $this->modulosRepetido = [];
-            $paginaNombre = null;
-            $paginaNumero = null;
-            $mostrarPaginaNombre = false;
+                //recorro propiedad modulos del formulario
+                $contador = 1;
+                $this->modulosRepetido = [];
+                $paginaNombre = null;
+                $paginaNumero = null;
+                $mostrarPaginaNombre = false;
 
-            foreach ($this->formularioResultado->getOrdenTrabajo()->getFormulario()->getPropiedadModulos() as $propiedadModulo) {
-                if (isset($this->resultados[$propiedadModulo->getModulo()->getId()])) {
-                    if ($propiedadModulo->getPagina() != $paginaNumero) {
-                        $paginaNumero = $propiedadModulo->getPagina();
-                        $paginaNombre = $propiedadModulo->getPaginaNombre();
-                        $mostrarPaginaNombre = true;
-                    }
+                foreach ($this->formularioResultado->getOrdenTrabajo()->getFormulario()->getPropiedadModulos() as $propiedadModulo) {
+                    if (isset($this->resultados[$propiedadModulo->getModulo()->getId()])) {
+                        if ($propiedadModulo->getPagina() != $paginaNumero) {
+                            $paginaNumero = $propiedadModulo->getPagina();
+                            $paginaNombre = $propiedadModulo->getPaginaNombre();
+                            $mostrarPaginaNombre = true;
+                        }
 
-                    if (isset($this->modulosRepetido[$propiedadModulo->getModulo()->getId()])) {
-                        ++$this->modulosRepetido[$propiedadModulo->getModulo()->getId()];
-                    } else {
-                        $this->modulosRepetido[$propiedadModulo->getModulo()->getId()] = 0;
-                    }
+                        if (isset($this->modulosRepetido[$propiedadModulo->getModulo()->getId()])) {
+                            ++$this->modulosRepetido[$propiedadModulo->getModulo()->getId()];
+                        } else {
+                            $this->modulosRepetido[$propiedadModulo->getModulo()->getId()] = 0;
+                        }
 
-                    //recorrer la cantidad de veces que tengo repetido modulo en resultado
-                    $indice = $this->modulosRepetido[$propiedadModulo->getModulo()->getId()];
+                        //recorrer la cantidad de veces que tengo repetido modulo en resultado
+                        $indice = $this->modulosRepetido[$propiedadModulo->getModulo()->getId()];
 
-                    if (isset($this->resultados[$propiedadModulo->getModulo()->getId()][$indice])) {
-                        if (count($this->resultados[$propiedadModulo->getModulo()->getId()][$indice]) > 0) {
-                            if ($mostrarPaginaNombre) {
-                                $this->section->addTextBreak(1);
+                        if (isset($this->resultados[$propiedadModulo->getModulo()->getId()][$indice])) {
+                            if (count($this->resultados[$propiedadModulo->getModulo()->getId()][$indice]) > 0) {
+                                if ($mostrarPaginaNombre) {
+                                    $this->section->addTextBreak(1);
 
+                                    $this->section->addText(
+                                        htmlspecialchars(
+                                            $paginaNombre
+                                        ),
+                                        ['bold' => true]
+                                    );
+                                    $mostrarPaginaNombre = false;
+                                    $this->section->addTextBreak(1);
+                                }
                                 $this->section->addText(
                                     htmlspecialchars(
-                              $paginaNombre
-                          ),
-                                    ['bold' => true]
+                                        $propiedadModulo->getModulo()->getTitulo()
+                                    )
                                 );
-                                $mostrarPaginaNombre = false;
-                                $this->section->addTextBreak(1);
-                            }
-                            $this->section->addText(
-                                htmlspecialchars(
-                          $propiedadModulo->getModulo()->getTitulo()
-                      )
-                            );
-                            foreach ($this->resultados[$propiedadModulo->getModulo()->getId()][$indice] as $propiedadItems) {
-                                $this->renderModulo($propiedadModulo, $propiedadItems);
+                                foreach ($this->resultados[$propiedadModulo->getModulo()->getId()][$indice] as $propiedadItems) {
+                                    $this->renderModulo($propiedadModulo, $propiedadItems);
+                                }
                             }
                         }
+                        ++$contador;
                     }
-                    ++$contador;
                 }
-            }
 
-            if (!empty($ordenTrabajo->getImageName())) {
-                $this->renderFirmar($ordenTrabajo);
-            }
+//                if (!empty($ordenTrabajo->getImageName())) {
+//                    $this->renderFirmar($ordenTrabajo);
+//                }
 
-            // Saving the document as OOXML file...
-            $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+                // Saving the document as OOXML file...
+                $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
 
-            $cliente = ($this->formularioResultado->getOrdenTrabajo()->getCliente())
-            ? $this->formularioResultado->getOrdenTrabajo()->getCliente()->getId() : '';
-            $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
-            $fileName = $this->formularioResultado->getOrdenTrabajo()->getId().'-'.$titulo.'-'.$cliente;
+                $cliente = ($this->formularioResultado->getOrdenTrabajo()->getCliente())
+                    ? $this->formularioResultado->getOrdenTrabajo()->getCliente()->getId() : '';
+                $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
+                $fileName = $this->formularioResultado->getOrdenTrabajo()->getId().'-'.$titulo.'-'.$cliente;
 
-            $tmp = $this->createDirectory();
+                $tmp = $this->createDirectory();
+
+
+            }//fin foreeach
 
             if ('WORD' == $this->formato) {
                 $fileName .= '.doc';
@@ -606,11 +544,16 @@ class OrdenTrabajoController extends EasyAdminController
 
                 $fileName .= '.pdf';
             }
-        } elseif ('EXCEL' == $this->formato) {
+
+
+
+        }elseif ('EXCEL' == $this->formato){
             $tmp = $this->createDirectory();
             $contentType = 'application/vnd.ms-excel';
             $fileName = $this->exportarExcel($tmp);
-        }
+        }//fin if control pdf
+
+
         //$contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
         $response = new BinaryFileResponse($tmp.'/'.$fileName);
 
@@ -621,7 +564,78 @@ class OrdenTrabajoController extends EasyAdminController
         $response->headers->set('Content-Type', $contentType);
 
         return $response;
-    }
+
+
+
+
+
+////        $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($this->request->get('orden_trabajo'));
+//
+//        $this->formularioResultado = $ordenTrabajo->getFormularioResultado();
+//
+//        if (!$this->formularioResultado) {
+//            $this->addFlash('warning', 'formulario no completado');
+//
+//            if ('show' == $this->request->request->get('actionReturn')) {
+//                return $this->redirectToRoute('easyadmin', [
+//                    'action' => 'show',
+//                    'id' => $this->request->get('orden_trabajo'),
+//                    'entity' => $this->request->query->get('entity'),
+//                ]);
+//            } else {
+//                return $this->redirectToRoute('easyadmin', [
+//                    'action' => 'list',
+//                    'entity' => $this->request->query->get('entity'),
+//                ]);
+//            }
+//
+//
+//        }
+        //aca comienza armar el pdf
+//        if ('PDF' == $this->formato or 'WORD' == $this->formato) {
+//            $phpWord = new \PhpOffice\PhpWord\PhpWord();
+//            $this->section = $phpWord->addSection([
+//            'marginLeft' => 600,
+//            'marginRight' => 600,
+//            'marginTop' => 600,
+//            'marginBottom' => 600,
+//            ]);
+//
+//            $phpWord->setDefaultParagraphStyle(
+//                array(
+//                    'spaceLine' => \PhpOffice\PhpWord\Shared\Converter::INCH_TO_POINT,
+//                    'spacing' => 38,
+//                )
+//            );
+//
+//            $tablaTitulo = $this->section->addTable($this->table_style_titulo);
+//            $tablaTitulo->addRow();
+//
+//            $tablaTitulo->addCell(1000)->addImage(
+//                $this->getParameter('kernel.root_dir').'/../public/images/hogar.png',
+//                ['width' => 220, 'align' => 'left']
+//            );
+//
+//            if ($ordenTrabajo->getSucursal()) {
+//                $textoCabecera = '';
+//                if (!empty($ordenTrabajo->getSucursal()->getTextoCabecera())) {
+//                    $textoCabecera = $ordenTrabajo->getSucursal()->getTextoCabecera();
+//                    if ('PDF' == $this->formato) {
+//                        $textoCabecera = str_replace('<br />', ' &#10;', $textoCabecera);
+//                    }
+//                }
+//                \PhpOffice\PhpWord\Shared\Html::addHtml($tablaTitulo->addCell(500), $textoCabecera);
+//                if (!empty($ordenTrabajo->getSucursal()->getImageCabecera())) {
+//                    $tablaTitulo->addCell(500)->addImage(
+//                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($ordenTrabajo->getSucursal(), 'imageCabeceraFile'),
+//                        ['wrappingStyle' => 'behind', 'width' => 150, 'height' => 100, 'align' => 'rigth']
+//                    );
+//                }
+//            }
+
+
+    }//fin funcion exportar
+
 
     public function exportarExcel($tmp)
     {
@@ -767,50 +781,50 @@ class OrdenTrabajoController extends EasyAdminController
         return $i;
     }
 
-    private function renderItemExcel($item, $resultados, $i, $sheet)
-    {
-        //si es de tipo foto
-        if ('foto' == $item->getTipo()) {
-            //obtengo todos los resultados de propiedad item
-
-            $mostrarTitulo = true;
-            foreach ($resultados as $keyResultado => $resultado) {
-                if (!empty($resultado->getImageName())) {
-                    if ($mostrarTitulo) {
-                        $sheet->setCellValue('C'.$i, $item->getTitulo());
-                        $mostrarTitulo = false;
-                    }
-                    $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-                    $drawing->setPath($this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($resultado, 'imageFile'));
-                    $drawing->setCoordinates('D'.$i);
-                    $drawing->setResizeProportional(true);
-                    $drawing->setHeight(140);
-                    $drawing->setWorksheet($sheet);
-                    $sheet->getStyle('D'.$i)->getAlignment()->setWrapText(true);
-                    $sheet->getRowDimension($i)->setRowHeight(140);
-                    $i++;
-                }
-            }
-        } else {
-            if ('titulo' == $item->getTipo()) {
-                $sheet->setCellValue('C'.$i, $item->getTitulo());
-                $i++;
-            } else {
-                $registro = '';
-                $cantidadResultados = count($resultados) - 1;
-                foreach ($resultados as $keyResultado => $resultado) {
-                    $registro .= $resultado->obtenerValorToString();
-                    $registro .= ($cantidadResultados == $keyResultado) ? '' : ' | ';
-                }
-                if (!empty($registro)) {
-                    $sheet->setCellValue('C'.$i, $item->getTitulo());
-                    $sheet->setCellValue('D'.$i, $registro);
-                    $i++;
-                }
-            }
-        }
-        return $i;
-    }
+//    private function renderItemExcel($item, $resultados, $i, $sheet)
+//    {
+//        //si es de tipo foto
+//        if ('foto' == $item->getTipo()) {
+//            //obtengo todos los resultados de propiedad item
+//
+//            $mostrarTitulo = true;
+//            foreach ($resultados as $keyResultado => $resultado) {
+//                if (!empty($resultado->getImageName())) {
+//                    if ($mostrarTitulo) {
+//                        $sheet->setCellValue('C'.$i, $item->getTitulo());
+//                        $mostrarTitulo = false;
+//                    }
+//                    $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+//                    $drawing->setPath($this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($resultado, 'imageFile'));
+//                    $drawing->setCoordinates('D'.$i);
+//                    $drawing->setResizeProportional(true);
+//                    $drawing->setHeight(140);
+//                    $drawing->setWorksheet($sheet);
+//                    $sheet->getStyle('D'.$i)->getAlignment()->setWrapText(true);
+//                    $sheet->getRowDimension($i)->setRowHeight(140);
+//                    $i++;
+//                }
+//            }
+//        } else {
+//            if ('titulo' == $item->getTipo()) {
+//                $sheet->setCellValue('C'.$i, $item->getTitulo());
+//                $i++;
+//            } else {
+//                $registro = '';
+//                $cantidadResultados = count($resultados) - 1;
+//                foreach ($resultados as $keyResultado => $resultado) {
+//                    $registro .= $resultado->obtenerValorToString();
+//                    $registro .= ($cantidadResultados == $keyResultado) ? '' : ' | ';
+//                }
+//                if (!empty($registro)) {
+//                    $sheet->setCellValue('C'.$i, $item->getTitulo());
+//                    $sheet->setCellValue('D'.$i, $registro);
+//                    $i++;
+//                }
+//            }
+//        }
+//        return $i;
+//    }
 
     private function renderItem($item, $resultados, $tablaModulo)
     {
@@ -831,10 +845,10 @@ class OrdenTrabajoController extends EasyAdminController
                         $mostrarTitulo = false;
                     }
                     //imagen foto
-                    $textrun->addImage(
-                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($resultado, 'imageFile'),
-                        ['wrappingStyle' => 'behind', 'width' => 70, 'height' => 100, 'align' => 'left']
-                    );
+//                    $textrun->addImage(
+//                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($resultado, 'imageFile'),
+//                        ['wrappingStyle' => 'behind', 'width' => 70, 'height' => 100, 'align' => 'left']
+//                    );
 
                     $textrun->addText(htmlspecialchars('  '), ['size' => '8']);
                 }
