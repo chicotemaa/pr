@@ -138,15 +138,86 @@ class OrdenTrabajoController extends EasyAdminController
     {
 
         $this->setTableStyle();
+
+        //recupero el formato a exportar
         $this->formato = $this->request->get('formato');
-//        dump($this->formato = $this->request->get('formato'));
+
+
+
+//        dump($this->request->get('ordenes_trabajo'));
 //        die();
 
+        //obtengo arrays ids ordenes
+        $ordenesTrabajo = $this->request->get('ordenes_trabajo');
+        $array = explode(",", $ordenesTrabajo);
 
-        dump($this->request->get('ordenes_trabajo'));
-        die();
+        //pregunto tipo de formato
+        if('PDF' == $this->formato or 'WORD' == $this->formato){
 
-        $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($this->request->get('orden_trabajo'));
+            //armo cabecera
+            $phpWord = new \PhpOffice\PhpWord\PhpWord();
+            $this->section = $phpWord->addSection([
+                'marginLeft' => 600,
+                'marginRight' => 600,
+                'marginTop' => 600,
+                'marginBottom' => 600,
+            ]);
+
+            $phpWord->setDefaultParagraphStyle(
+                array(
+                    'spaceLine' => \PhpOffice\PhpWord\Shared\Converter::INCH_TO_POINT,
+                    'spacing' => 38,
+                )
+            );
+
+            $tablaTitulo = $this->section->addTable($this->table_style_titulo);
+            $tablaTitulo->addRow();
+
+            $tablaTitulo->addCell(1000)->addImage(
+                $this->getParameter('kernel.root_dir').'/../public/images/hogar.png',
+                ['width' => 220, 'align' => 'left']
+            );
+
+
+            //recorro las ordenes de trabajo
+            foreach ($array as $valor){
+
+                $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
+                $this->formularioResultado = $ordenTrabajo->getFormularioResultado();
+
+                if ($ordenTrabajo->getSucursal()) {
+                    $textoCabecera = '';
+                    if (!empty($ordenTrabajo->getSucursal()->getTextoCabecera())) {
+                        $textoCabecera = $ordenTrabajo->getSucursal()->getTextoCabecera();
+                        if ('PDF' == $this->formato) {
+                            $textoCabecera = str_replace('<br />', ' &#10;', $textoCabecera);
+                        }
+                    }
+                    \PhpOffice\PhpWord\Shared\Html::addHtml($tablaTitulo->addCell(500), $textoCabecera);
+                    if (!empty($ordenTrabajo->getSucursal()->getImageCabecera())) {
+                        $tablaTitulo->addCell(500)->addImage(
+                            $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($ordenTrabajo->getSucursal(), 'imageCabeceraFile'),
+                            ['wrappingStyle' => 'behind', 'width' => 150, 'height' => 100, 'align' => 'rigth']
+                        );
+                    }
+                }
+
+
+
+
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+//        $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($this->request->get('orden_trabajo'));
 
         $this->formularioResultado = $ordenTrabajo->getFormularioResultado();
 
@@ -165,8 +236,10 @@ class OrdenTrabajoController extends EasyAdminController
                     'entity' => $this->request->query->get('entity'),
                 ]);
             }
+
+
         }
-        
+        //aca comienza armar el pdf
         if ('PDF' == $this->formato or 'WORD' == $this->formato) {
             $phpWord = new \PhpOffice\PhpWord\PhpWord();
             $this->section = $phpWord->addSection([
@@ -386,7 +459,7 @@ class OrdenTrabajoController extends EasyAdminController
                           'Descripción del trabajo'
                       )
             );
-        
+
             // Buscar si hay incidencias
             $analisisInciencia = $ordenTrabajo->obtenerIncidencias();
             if (count($analisisInciencia['incidenciasEncontradas']) > 0) {
