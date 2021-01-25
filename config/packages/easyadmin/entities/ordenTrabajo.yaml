@@ -11,7 +11,7 @@ easy_admin:
                 list: 'OrdenTrabajo/list.html.twig'
             list:
                 item_permission: [ROLE_ORDEN_TRABAJO]
-                batch_actions: ['blas']
+                batch_actions: ['exportar']
 
                 filters:
                     - property: 'user'

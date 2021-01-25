@@ -145,20 +145,35 @@ class OrdenTrabajoController extends EasyAdminController
 
 
 
-//        dump($this->request->get('ordenes_trabajo'));
-//        die();
 
         //obtengo arrays ids ordenes
         $ordenesTrabajo = $this->request->get('ordenes_trabajo');
         $array = explode(",", $ordenesTrabajo);
 
-//        $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($array[0]);
-//        $this->formularioResultado = $ordenTrabajo->getFormularioResultado();
-//        dump($this->formularioResultado);
-//        die();
 
 
-        //pregunto tipo de formato
+
+//        if (!$this->formularioResultado) {
+//            $this->addFlash('warning', 'formulario no completado');
+//
+//            if ('show' == $this->request->request->get('actionReturn')) {
+//                return $this->redirectToRoute('easyadmin', [
+//                    'action' => 'show',
+//                    'id' => $this->request->get('orden_trabajo'),
+//                    'entity' => $this->request->query->get('entity'),
+//                ]);
+//            } else {
+//                return $this->redirectToRoute('easyadmin', [
+//                    'action' => 'list',
+//                    'entity' => $this->request->query->get('entity'),
+//                ]);
+//            }
+//
+//
+//        }
+
+
+            //pregunto tipo de formato
         if('PDF' == $this->formato or 'WORD' == $this->formato){
 
             //armo cabecera
@@ -446,6 +461,8 @@ class OrdenTrabajoController extends EasyAdminController
                 $paginaNumero = null;
                 $mostrarPaginaNombre = false;
 
+
+
                 foreach ($this->formularioResultado->getOrdenTrabajo()->getFormulario()->getPropiedadModulos() as $propiedadModulo) {
                     if (isset($this->resultados[$propiedadModulo->getModulo()->getId()])) {
                         if ($propiedadModulo->getPagina() != $paginaNumero) {
@@ -566,81 +583,17 @@ class OrdenTrabajoController extends EasyAdminController
         return $response;
 
 
-
-
-
-////        $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($this->request->get('orden_trabajo'));
-//
-//        $this->formularioResultado = $ordenTrabajo->getFormularioResultado();
-//
-//        if (!$this->formularioResultado) {
-//            $this->addFlash('warning', 'formulario no completado');
-//
-//            if ('show' == $this->request->request->get('actionReturn')) {
-//                return $this->redirectToRoute('easyadmin', [
-//                    'action' => 'show',
-//                    'id' => $this->request->get('orden_trabajo'),
-//                    'entity' => $this->request->query->get('entity'),
-//                ]);
-//            } else {
-//                return $this->redirectToRoute('easyadmin', [
-//                    'action' => 'list',
-//                    'entity' => $this->request->query->get('entity'),
-//                ]);
-//            }
-//
-//
-//        }
-        //aca comienza armar el pdf
-//        if ('PDF' == $this->formato or 'WORD' == $this->formato) {
-//            $phpWord = new \PhpOffice\PhpWord\PhpWord();
-//            $this->section = $phpWord->addSection([
-//            'marginLeft' => 600,
-//            'marginRight' => 600,
-//            'marginTop' => 600,
-//            'marginBottom' => 600,
-//            ]);
-//
-//            $phpWord->setDefaultParagraphStyle(
-//                array(
-//                    'spaceLine' => \PhpOffice\PhpWord\Shared\Converter::INCH_TO_POINT,
-//                    'spacing' => 38,
-//                )
-//            );
-//
-//            $tablaTitulo = $this->section->addTable($this->table_style_titulo);
-//            $tablaTitulo->addRow();
-//
-//            $tablaTitulo->addCell(1000)->addImage(
-//                $this->getParameter('kernel.root_dir').'/../public/images/hogar.png',
-//                ['width' => 220, 'align' => 'left']
-//            );
-//
-//            if ($ordenTrabajo->getSucursal()) {
-//                $textoCabecera = '';
-//                if (!empty($ordenTrabajo->getSucursal()->getTextoCabecera())) {
-//                    $textoCabecera = $ordenTrabajo->getSucursal()->getTextoCabecera();
-//                    if ('PDF' == $this->formato) {
-//                        $textoCabecera = str_replace('<br />', ' &#10;', $textoCabecera);
-//                    }
-//                }
-//                \PhpOffice\PhpWord\Shared\Html::addHtml($tablaTitulo->addCell(500), $textoCabecera);
-//                if (!empty($ordenTrabajo->getSucursal()->getImageCabecera())) {
-//                    $tablaTitulo->addCell(500)->addImage(
-//                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($ordenTrabajo->getSucursal(), 'imageCabeceraFile'),
-//                        ['wrappingStyle' => 'behind', 'width' => 150, 'height' => 100, 'align' => 'rigth']
-//                    );
-//                }
-//            }
-
-
     }//fin funcion exportar
 
-
+    //hay q recorrer las ordenes
     public function exportarExcel($tmp)
     {
         
         $ordenTrabajo = $this->formularioResultado->getOrdenTrabajo();
+
+//        dump($ordenTrabajo);
+//        die();
+
         $cliente = ($this->formularioResultado->getOrdenTrabajo()->getCliente())
         ? $this->formularioResultado->getOrdenTrabajo()->getCliente()->getId() : '';
         $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
@@ -1064,23 +1017,5 @@ class OrdenTrabajoController extends EasyAdminController
     }
 
 
-    public function blasBatchAction(array $ids)
-    {
-        $class = $this->entity['class'];
 
-        $em = $this->getDoctrine()->getManagerForClass($class);
-
-        foreach ($ids as $id) {
-            $user[] = $id;
-//            $user = $em->find($id);
-//            $user->approve();
-        }
-       dump($user);
-        die();
-//        die(var_dump($user));
-        $this->em->flush();
-
-        // don't return anything or redirect to any URL because it will be ignored
-        // when a batch action finishes, user is redirected to the original page
-    }
 }
