@@ -95,18 +95,37 @@
   {#{{ parent() }}#}
 {#{% endblock %}#}
 
-{% block batch_actions %}
-    {% if _has_batch_actions %}
-      <div class="batch-actions" style="display: none">
-          {% form_theme batch_form with easyadmin_config('design.form_theme') only %}
+{#{% block batch_actions %}#}
+    {#{% if _has_batch_actions %}#}
+      {#<div class="batch-actions" style="display: none">#}
+          {#{% form_theme batch_form with easyadmin_config('design.form_theme') only %}#}
 
           {#{{ form(batch_form) }}#}
 
-          <a class="exportBatch" href="javascript:;" data-toggle="modal" data-target=".bs-example2-modal-sm" target="_self"   ><i class="fa fa-download"></i> </a>
-          {{ parent() }}
+          {#<a class="exportBatch" href="javascript:;" data-toggle="modal" data-target=".bs-example2-modal-sm" target="_self"   ><i class="fa fa-download"></i> </a>#}
+          {#{{ parent() }}#}
+      {#</div>#}
+    {#{% endif %}#}
+{#{% endblock batch_actions %}#}
+
+
+{% block batch_actions %}
+    {% if _has_batch_actions %}
+      <div class="batch-actions" style="display: none">
+          {#{% form_theme batch_form with easyadmin_config('design.form_theme') only %}#}
+          {{ form(batch_form) }}
+        <a class="exportBatch" href="javascript:;" data-toggle="modal" data-target=".bs-example2-modal-sm" target="_self"   ><i class="fa fa-download"></i> </a>
+          {{ include('@EasyAdmin/default/includes/_batch_action_modal.html.twig', {
+              _translation_domain: _entity_config.translation_domain,
+              _trans_parameters: _trans_parameters,
+              _entity_config: _entity_config,
+          }, with_context = false) }}
       </div>
     {% endif %}
 {% endblock batch_actions %}
+
+
+
 
 {#{% block content_header %}#}
     {#{{ parent() }}#}
