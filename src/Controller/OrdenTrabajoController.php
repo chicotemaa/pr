@@ -152,25 +152,25 @@ class OrdenTrabajoController extends EasyAdminController
 
 
 
-
-        if (!$this->formularioResultado) {
-            $this->addFlash('warning', 'alguno de los formularios no a completado');
-
-            if ('show' == $this->request->request->get('actionReturn')) {
-                return $this->redirectToRoute('easyadmin', [
-                    'action' => 'show',
-                    'id' => $this->request->get('orden_trabajo'),
-                    'entity' => $this->request->query->get('entity'),
-                ]);
-            } else {
-                return $this->redirectToRoute('easyadmin', [
-                    'action' => 'list',
-                    'entity' => $this->request->query->get('entity'),
-                ]);
-            }
-
-
-        }
+//
+//        if (!$this->formularioResultado) {
+//            $this->addFlash('warning', 'alguno de los formularios no se a completado');
+//
+//            if ('show' == $this->request->request->get('actionReturn')) {
+//                return $this->redirectToRoute('easyadmin', [
+//                    'action' => 'show',
+//                    'id' => $this->request->get('orden_trabajo'),
+//                    'entity' => $this->request->query->get('entity'),
+//                ]);
+//            } else {
+//                return $this->redirectToRoute('easyadmin', [
+//                    'action' => 'list',
+//                    'entity' => $this->request->query->get('entity'),
+//                ]);
+//            }
+//
+//
+//        }
 
 
             //pregunto tipo de formato
