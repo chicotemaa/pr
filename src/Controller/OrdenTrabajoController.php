@@ -221,44 +221,20 @@ class OrdenTrabajoController extends EasyAdminController
                 }
             }
 
-
+            //arma el pie de pagina
+            $footer = $this->section->createFooter();
+            $footer->addPreserveText(
+                $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.piepagina'),
+                ['color' => '000000', 'size' => '8'],
+                ['align' => 'center']
+            );
+            $footer->addTextBreak(1);
 
             //recorro las ordenes de trabajo
             foreach ($array as $valor){
 
                 $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
                 $this->formularioResultado = $ordenTrabajo->getFormularioResultado();
-
-//                dump($ordenTrabajo->getSucursal()->getTextoCabecera());
-//                die();
-
-//                //arma la cabecera
-//                if ($ordenTrabajo->getSucursal()) {
-//                    $textoCabecera = '';
-//                    if (!empty($ordenTrabajo->getSucursal()->getTextoCabecera())) {
-//                        $textoCabecera = $ordenTrabajo->getSucursal()->getTextoCabecera();
-//                        if ('PDF' == $this->formato) {
-//                            $textoCabecera = str_replace('<br />', ' &#10;', $textoCabecera);
-//                        }
-//                    }
-//                    \PhpOffice\PhpWord\Shared\Html::addHtml($tablaTitulo->addCell(500), $textoCabecera);
-//                    if (!empty($ordenTrabajo->getSucursal()->getImageCabecera())) {
-//                        $tablaTitulo->addCell(500)->addImage(
-//                            $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($ordenTrabajo->getSucursal(), 'imageCabeceraFile'),
-//                            ['wrappingStyle' => 'behind', 'width' => 150, 'height' => 100, 'align' => 'rigth']
-//                        );
-//                    }
-//                }
-
-
-                //arma el pie de pagina
-                $footer = $this->section->createFooter();
-                $footer->addPreserveText(
-                    $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.piepagina'),
-                    ['color' => '000000', 'size' => '8'],
-                    ['align' => 'center']
-                );
-                $footer->addTextBreak(1);
 
 
 //                if ($ordenTrabajo->getSucursal() && !empty($ordenTrabajo->getSucursal()->getImagePie())) {
