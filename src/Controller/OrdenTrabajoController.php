@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Solicitud;
 use App\Entity\OrdenTrabajo;
+use App\Entity\Sucursal;
 use Symfony\Component\Process\Process;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -199,6 +200,27 @@ class OrdenTrabajoController extends EasyAdminController
 //                $this->getParameter('kernel.root_dir').'/../public/images/hogar.png',
 //                ['width' => 220, 'align' => 'left']
 //            );
+            $sucursal = $this->em->getRepository(Sucursal::class)->find(1);
+
+            if($sucursal){
+                $textoCabecera = '';
+                if(!empty($sucursal->getTextoCabecera())){
+                    $textoCabecera = $sucursal->getTextoCabecera();
+                    if ('PDF' == $this->formato) {
+                        $textoCabecera = str_replace('<br />', ' &#10;', $textoCabecera);
+                    }
+                }
+
+                \PhpOffice\PhpWord\Shared\Html::addHtml($tablaTitulo->addCell(500), $textoCabecera);
+
+                if(!empty($sucursal->getImageCabecera())){
+                    $tablaTitulo->addCell(500)->addImage(
+                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($sucursal, 'imageCabeceraFile'),
+                        ['wrappingStyle' => 'behind', 'width' => 150, 'height' => 100, 'align' => 'rigth']
+                    );
+                }
+            }
+
 
 
             //recorro las ordenes de trabajo
@@ -207,28 +229,29 @@ class OrdenTrabajoController extends EasyAdminController
                 $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
                 $this->formularioResultado = $ordenTrabajo->getFormularioResultado();
 
-//                dump($this->formularioResultado->getCreatedAt());
+//                dump($ordenTrabajo->getSucursal()->getTextoCabecera());
 //                die();
 
-                if ($ordenTrabajo->getSucursal()) {
-                    $textoCabecera = '';
-                    if (!empty($ordenTrabajo->getSucursal()->getTextoCabecera())) {
-                        $textoCabecera = $ordenTrabajo->getSucursal()->getTextoCabecera();
-                        if ('PDF' == $this->formato) {
-                            $textoCabecera = str_replace('<br />', ' &#10;', $textoCabecera);
-                        }
-                    }
-                    \PhpOffice\PhpWord\Shared\Html::addHtml($tablaTitulo->addCell(500), $textoCabecera);
-                    if (!empty($ordenTrabajo->getSucursal()->getImageCabecera())) {
-                        $tablaTitulo->addCell(500)->addImage(
-                            $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($ordenTrabajo->getSucursal(), 'imageCabeceraFile'),
-                            ['wrappingStyle' => 'behind', 'width' => 150, 'height' => 100, 'align' => 'rigth']
-                        );
-                    }
-                }
+//                //arma la cabecera
+//                if ($ordenTrabajo->getSucursal()) {
+//                    $textoCabecera = '';
+//                    if (!empty($ordenTrabajo->getSucursal()->getTextoCabecera())) {
+//                        $textoCabecera = $ordenTrabajo->getSucursal()->getTextoCabecera();
+//                        if ('PDF' == $this->formato) {
+//                            $textoCabecera = str_replace('<br />', ' &#10;', $textoCabecera);
+//                        }
+//                    }
+//                    \PhpOffice\PhpWord\Shared\Html::addHtml($tablaTitulo->addCell(500), $textoCabecera);
+//                    if (!empty($ordenTrabajo->getSucursal()->getImageCabecera())) {
+//                        $tablaTitulo->addCell(500)->addImage(
+//                            $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($ordenTrabajo->getSucursal(), 'imageCabeceraFile'),
+//                            ['wrappingStyle' => 'behind', 'width' => 150, 'height' => 100, 'align' => 'rigth']
+//                        );
+//                    }
+//                }
 
-                //nose bien q hace jaja
 
+                //arma el pie de pagina
                 $footer = $this->section->createFooter();
                 $footer->addPreserveText(
                     $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.piepagina'),
@@ -236,6 +259,7 @@ class OrdenTrabajoController extends EasyAdminController
                     ['align' => 'center']
                 );
                 $footer->addTextBreak(1);
+
 
 //                if ($ordenTrabajo->getSucursal() && !empty($ordenTrabajo->getSucursal()->getImagePie())) {
 //                    $footer->addImage(
@@ -275,6 +299,7 @@ class OrdenTrabajoController extends EasyAdminController
                     )
                 );
 
+                //arma tabla cliente
                 $tablaCliente = $this->section->addTable($this->table_style_titulo);
                 $tablaCliente->addRow();
 
@@ -404,6 +429,7 @@ class OrdenTrabajoController extends EasyAdminController
                 $this->section->addText('', [], ['borderBottomSize' => 6]);
 
                 $textrun = $this->section->addTextRun();
+              //comienza las descripcion del trabajo
                 $textrun->addText(
                     htmlspecialchars(
                         'Descripción del trabajo'
