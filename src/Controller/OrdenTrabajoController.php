@@ -153,25 +153,7 @@ class OrdenTrabajoController extends EasyAdminController
 
 
 
-//
-//        if (!$this->formularioResultado) {
-//            $this->addFlash('warning', 'alguno de los formularios no se a completado');
-//
-//            if ('show' == $this->request->request->get('actionReturn')) {
-//                return $this->redirectToRoute('easyadmin', [
-//                    'action' => 'show',
-//                    'id' => $this->request->get('orden_trabajo'),
-//                    'entity' => $this->request->query->get('entity'),
-//                ]);
-//            } else {
-//                return $this->redirectToRoute('easyadmin', [
-//                    'action' => 'list',
-//                    'entity' => $this->request->query->get('entity'),
-//                ]);
-//            }
-//
-//
-//        }
+
 
 
             //pregunto tipo de formato
@@ -236,6 +218,25 @@ class OrdenTrabajoController extends EasyAdminController
                 $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
                 $this->formularioResultado = $ordenTrabajo->getFormularioResultado();
 
+                //verifica si algun form orden esta vacio
+                if (!$this->formularioResultado) {
+                    $this->addFlash('warning', 'alguno de los formularios no se a completado');
+
+                    if ('show' == $this->request->request->get('actionReturn')) {
+                        return $this->redirectToRoute('easyadmin', [
+                            'action' => 'show',
+                            'id' => $this->request->get('orden_trabajo'),
+                            'entity' => $this->request->query->get('entity'),
+                        ]);
+                    } else {
+                        return $this->redirectToRoute('easyadmin', [
+                            'action' => 'list',
+                            'entity' => $this->request->query->get('entity'),
+                        ]);
+                    }
+
+
+                }
 
 //                if ($ordenTrabajo->getSucursal() && !empty($ordenTrabajo->getSucursal()->getImagePie())) {
 //                    $footer->addImage(
