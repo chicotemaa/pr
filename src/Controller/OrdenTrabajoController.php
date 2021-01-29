@@ -37,7 +37,7 @@ class OrdenTrabajoController extends EasyAdminController
     private $formato = null;
     private $resultados = null;
     private $modulosRepetido;
-    private $ordenExcel = null;
+    private $ordenExcel ;
 
     protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
     {
@@ -151,6 +151,8 @@ class OrdenTrabajoController extends EasyAdminController
         //obtengo arrays ids ordenes
         $ordenesTrabajo = $this->request->get('ordenes_trabajo');
         $array = explode(",", $ordenesTrabajo);
+
+        //uso para procesar el excel
         $this->ordenExcel = $array;
 
 
@@ -179,10 +181,10 @@ class OrdenTrabajoController extends EasyAdminController
             $tablaTitulo = $this->section->addTable($this->table_style_titulo);
             $tablaTitulo->addRow();
 
-//            $tablaTitulo->addCell(1000)->addImage(
-//                $this->getParameter('kernel.root_dir').'/../public/images/hogar.png',
-//                ['width' => 220, 'align' => 'left']
-//            );
+            $tablaTitulo->addCell(1000)->addImage(
+                $this->getParameter('kernel.root_dir').'/../public/images/hogar.png',
+                ['width' => 220, 'align' => 'left']
+            );
             $sucursal = $this->em->getRepository(Sucursal::class)->find(1);
 
             if($sucursal){
@@ -213,6 +215,20 @@ class OrdenTrabajoController extends EasyAdminController
             );
             $footer->addTextBreak(1);
 
+
+            if ($sucursal && !empty($sucursal->getImagePie())) {
+                   $footer->addImage(
+                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($ordenTrabajo->getSucursal(), 'imagePieFile'),
+                        ['width' => 550, 'align' => 'center']
+                    );
+                } else {
+                    $footer->addImage(
+                        $this->getParameter('kernel.root_dir').'/../public/images/hogar_pie.png',
+                        ['width' => 550, 'align' => 'center']
+                    );
+            }
+
+
             //recorro las ordenes de trabajo
             foreach ($array as $valor){
 
@@ -240,17 +256,7 @@ class OrdenTrabajoController extends EasyAdminController
 
                 }
 
-//                if ($ordenTrabajo->getSucursal() && !empty($ordenTrabajo->getSucursal()->getImagePie())) {
-//                    $footer->addImage(
-//                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($ordenTrabajo->getSucursal(), 'imagePieFile'),
-//                        ['width' => 550, 'align' => 'center']
-//                    );
-//                } else {
-//                    $footer->addImage(
-//                        $this->getParameter('kernel.root_dir').'/../public/images/hogar_pie.png',
-//                        ['width' => 550, 'align' => 'center']
-//                    );
-//                }
+
 
                 $textrun = $this->section->addTextRun();
 
@@ -513,9 +519,9 @@ class OrdenTrabajoController extends EasyAdminController
                     }
                 }
 
-//                if (!empty($ordenTrabajo->getImageName())) {
-//                    $this->renderFirmar($ordenTrabajo);
-//                }
+                if (!empty($ordenTrabajo->getImageName())) {
+                    $this->renderFirmar($ordenTrabajo);
+                }
 
                 // Saving the document as OOXML file...
                 $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
@@ -590,11 +596,10 @@ class OrdenTrabajoController extends EasyAdminController
 
     }//fin funcion exportar
 
-    //hay q recorrer las ordenes
     public function exportarExcel($tmp)
     {
 
-//
+
         foreach ($this->ordenExcel as $valor){
 
             $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
@@ -606,8 +611,7 @@ class OrdenTrabajoController extends EasyAdminController
                 ? $this->formularioResultado->getOrdenTrabajo()->getCliente()->getId() : '';
             $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
             $fileName = $this->formularioResultado->getOrdenTrabajo()->getId().'-'.$titulo.'-'.$cliente.'.xls';
-//            dump($fileName);
-//            die();
+
             //$spreadsheet = new Spreadsheet();
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($this->getParameter('kernel.root_dir').'/../public/uploads/templates/'.'template.xls');
             $sheet = $spreadsheet->getActiveSheet();
@@ -767,7 +771,7 @@ class OrdenTrabajoController extends EasyAdminController
                         $mostrarTitulo = false;
                     }
                     $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-//                    $drawing->setPath($this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($resultado, 'imageFile'));
+                    $drawing->setPath($this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($resultado, 'imageFile'));
                     $drawing->setCoordinates('D'.$i);
                     $drawing->setResizeProportional(true);
                     $drawing->setHeight(140);
@@ -817,10 +821,10 @@ class OrdenTrabajoController extends EasyAdminController
                         $mostrarTitulo = false;
                     }
                     //imagen foto
-//                    $textrun->addImage(
-//                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($resultado, 'imageFile'),
-//                        ['wrappingStyle' => 'behind', 'width' => 70, 'height' => 100, 'align' => 'left']
-//                    );
+                    $textrun->addImage(
+                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($resultado, 'imageFile'),
+                        ['wrappingStyle' => 'behind', 'width' => 70, 'height' => 100, 'align' => 'left']
+                    );
 
                     $textrun->addText(htmlspecialchars('  '), ['size' => '8']);
                 }
