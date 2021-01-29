@@ -37,6 +37,7 @@ class OrdenTrabajoController extends EasyAdminController
     private $formato = null;
     private $resultados = null;
     private $modulosRepetido;
+    private $ordenExcel = null;
 
     protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
     {
@@ -150,7 +151,7 @@ class OrdenTrabajoController extends EasyAdminController
         //obtengo arrays ids ordenes
         $ordenesTrabajo = $this->request->get('ordenes_trabajo');
         $array = explode(",", $ordenesTrabajo);
-
+        $this->ordenExcel = $array;
 
 
 
@@ -217,6 +218,7 @@ class OrdenTrabajoController extends EasyAdminController
 
                 $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
                 $this->formularioResultado = $ordenTrabajo->getFormularioResultado();
+
 
                 //verifica si algun form orden esta vacio
                 if (!$this->formularioResultado) {
@@ -591,122 +593,136 @@ class OrdenTrabajoController extends EasyAdminController
     //hay q recorrer las ordenes
     public function exportarExcel($tmp)
     {
-        
-        $ordenTrabajo = $this->formularioResultado->getOrdenTrabajo();
 
-//        dump($ordenTrabajo);
-//        die();
+//
+        foreach ($this->ordenExcel as $valor){
 
-        $cliente = ($this->formularioResultado->getOrdenTrabajo()->getCliente())
-        ? $this->formularioResultado->getOrdenTrabajo()->getCliente()->getId() : '';
-        $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
-        $fileName = $this->formularioResultado->getOrdenTrabajo()->getId().'-'.$titulo.'-'.$cliente.'.xls';
-        //$spreadsheet = new Spreadsheet();
-        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($this->getParameter('kernel.root_dir').'/../public/uploads/templates/'.'template.xls');
-        $sheet = $spreadsheet->getActiveSheet();
-        foreach(range('B','G') as $columnID) {
-            $sheet->getColumnDimension($columnID)
-                ->setAutoSize(true);
-        }
-        $sheet->setCellValue('B2', $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.cliente'));
-        $sheet->setCellValue('C2', $ordenTrabajo->getCliente());
-        $sheet->setCellValue('B3', $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.direccion'));
-        $sheet->setCellValue('C3', $ordenTrabajo->getCliente()->getStreet());
-        $sheet->setCellValue('B4', $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.correo'));
-        $sheet->setCellValue('C4', $ordenTrabajo->getCliente()->getCorreo());
-        $sheet->setCellValue('B5', $this->get(TranslatorInterface::class)->trans('Fecha de envío del formulario'));
-        $sheet->setCellValue('C5', $this->formularioResultado->getCreatedAt()->format('d/m/Y H:i'));
-        $sheet->setCellValue('B6', $this->get(TranslatorInterface::class)->trans('Estado'));
-        $sheet->setCellValue('C6', $ordenTrabajo->estadoToString());
-        $i = 7;
-        if (5 == $this->formularioResultado->getOrdenTrabajo()->getEstado()) {
-            $sheet->setCellValue('B'.$i, 'Motivo');
-            $sheet->setCellValue('C'.$i, $ordenTrabajo->getMotivo());
-            $i++;
-        }
-        $horaInicio = ($ordenTrabajo->getHoraInicio())
-                      ? $ordenTrabajo->getHoraInicio()->format('H:i') : '';
+            $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
+            $this->formularioResultado = $ordenTrabajo->getFormularioResultado();
 
-        $horaFin = ($ordenTrabajo->getHoraFin())
-                      ? $ordenTrabajo->getHoraFin()->format('H:i') : '';
-        $sheet->setCellValue('B'.$i, 'Hora Inicio - Fin');
-        $sheet->setCellValue('C'.$i, ' '.$horaInicio.' - '.$horaFin); $i++;
-        $sheet->setCellValue('B'.$i, 'Minutos Trabajados');
-        $sheet->setCellValue('C'.$i, $this->formularioResultado->getMinutosTrabajado()); $i++;
-        $sheet->setCellValue('B'.$i, 'Usuario');
-        $sheet->setCellValue('C'.$i, $ordenTrabajo->getUser()->getUserName()); $i++;
-        $sheet->setCellValue('B'.$i, 'Descripción del trabajo');
-        // Buscar si hay incidencias
-        $analisisInciencia = $ordenTrabajo->obtenerIncidencias();
-        if (count($analisisInciencia['incidenciasEncontradas']) > 0) {
 
-            $incidenciaTitulo = sprintf(
-                "%s %u/%u",
-                $this->get(TranslatorInterface::class)->trans('formulario_resultado_incidencias_encontradas', [
-                    'encontradas' => count($analisisInciencia['incidenciasEncontradas'])
-                ]),
-                count($analisisInciencia['incidenciasEncontradas']),
-                $analisisInciencia['incidenciasTotal']
-            );
-            $i++;
-            $sheet->setCellValue('C'.$i, $incidenciaTitulo);
-            foreach ($analisisInciencia['incidenciasEncontradas']  as $incidencia) {
-                $i++;
-                $sheet->setCellValue('D'.$i, $incidencia['item']);
 
-                $opciones = (isset($incidencia['opciones'])) 
-                            ? $incidencia['opciones']
-                            : $this->get(TranslatorInterface::class)->trans('ningun_valor');
-                $i++;
-                $sheet->setCellValue('E'.$i, $opciones);
+            $cliente = ($this->formularioResultado->getOrdenTrabajo()->getCliente())
+                ? $this->formularioResultado->getOrdenTrabajo()->getCliente()->getId() : '';
+            $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
+            $fileName = $this->formularioResultado->getOrdenTrabajo()->getId().'-'.$titulo.'-'.$cliente.'.xls';
+//            dump($fileName);
+//            die();
+            //$spreadsheet = new Spreadsheet();
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($this->getParameter('kernel.root_dir').'/../public/uploads/templates/'.'template.xls');
+            $sheet = $spreadsheet->getActiveSheet();
+
+            foreach(range('B','G') as $columnID) {
+                $sheet->getColumnDimension($columnID)
+                    ->setAutoSize(true);
+            }
+            $sheet->setCellValue('B2', $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.cliente'));
+            $sheet->setCellValue('C2', $ordenTrabajo->getCliente());
+            $sheet->setCellValue('B3', $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.direccion'));
+            $sheet->setCellValue('C3', $ordenTrabajo->getCliente()->getStreet());
+            $sheet->setCellValue('B4', $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.correo'));
+            $sheet->setCellValue('C4', $ordenTrabajo->getCliente()->getCorreo());
+            $sheet->setCellValue('B5', $this->get(TranslatorInterface::class)->trans('Fecha de envío del formulario'));
+            $sheet->setCellValue('C5', $this->formularioResultado->getCreatedAt()->format('d/m/Y H:i'));
+            $sheet->setCellValue('B6', $this->get(TranslatorInterface::class)->trans('Estado'));
+            $sheet->setCellValue('C6', $ordenTrabajo->estadoToString());
+            $i = 7;
+            if (5 == $this->formularioResultado->getOrdenTrabajo()->getEstado()) {
+                $sheet->setCellValue('B'.$i, 'Motivo');
+                $sheet->setCellValue('C'.$i, $ordenTrabajo->getMotivo());
                 $i++;
             }
-        }
 
-        //creo array de Resultados, agregado como indice idModulo, este tiene un array con indiceModulo y
-        //cada array indice modulo tiene los resultado
-        $resultados = [];
-        foreach ($this->formularioResultado->getResultados() as $resultado) {
-            $resultados[$resultado->getPropiedadItem()->getModulo()->getId()][$resultado->getIndiceModulo()][$resultado->getIndiceModulo()][$resultado->getPropiedadItem()->getId()][] = $resultado;
-        }
-        $this->resultados = $resultados;
 
-        //recorro propiedad modulos del formulario
-        $contador = 1;
-        $this->modulosRepetido = [];
-        $paginaNombre = null;
-        $paginaNumero = null;
-        $mostrarPaginaNombre = false;
+            $horaInicio = ($ordenTrabajo->getHoraInicio())
+                ? $ordenTrabajo->getHoraInicio()->format('H:i') : '';
 
-        foreach ($this->formularioResultado->getOrdenTrabajo()->getFormulario()->getPropiedadModulos() as $propiedadModulo) {
-            if (isset($this->resultados[$propiedadModulo->getModulo()->getId()])) {
-                if ($propiedadModulo->getPagina() != $paginaNumero) {
-                    $paginaNumero = $propiedadModulo->getPagina();
-                    $paginaNombre = $propiedadModulo->getPaginaNombre();
-                    $mostrarPaginaNombre = true;
+            $horaFin = ($ordenTrabajo->getHoraFin())
+                ? $ordenTrabajo->getHoraFin()->format('H:i') : '';
+            $sheet->setCellValue('B'.$i, 'Hora Inicio - Fin');
+            $sheet->setCellValue('C'.$i, ' '.$horaInicio.' - '.$horaFin); $i++;
+            $sheet->setCellValue('B'.$i, 'Minutos Trabajados');
+            $sheet->setCellValue('C'.$i, $this->formularioResultado->getMinutosTrabajado()); $i++;
+            $sheet->setCellValue('B'.$i, 'Usuario');
+            $sheet->setCellValue('C'.$i, $ordenTrabajo->getUser()->getUserName()); $i++;
+            $sheet->setCellValue('B'.$i, 'Descripción del trabajo');
+            // Buscar si hay incidencias
+            $analisisInciencia = $ordenTrabajo->obtenerIncidencias();
+            if (count($analisisInciencia['incidenciasEncontradas']) > 0) {
+
+                $incidenciaTitulo = sprintf(
+                    "%s %u/%u",
+                    $this->get(TranslatorInterface::class)->trans('formulario_resultado_incidencias_encontradas', [
+                        'encontradas' => count($analisisInciencia['incidenciasEncontradas'])
+                    ]),
+                    count($analisisInciencia['incidenciasEncontradas']),
+                    $analisisInciencia['incidenciasTotal']
+                );
+                $i++;
+                $sheet->setCellValue('C'.$i, $incidenciaTitulo);
+                foreach ($analisisInciencia['incidenciasEncontradas']  as $incidencia) {
+                    $i++;
+                    $sheet->setCellValue('D'.$i, $incidencia['item']);
+
+                    $opciones = (isset($incidencia['opciones']))
+                        ? $incidencia['opciones']
+                        : $this->get(TranslatorInterface::class)->trans('ningun_valor');
+                    $i++;
+                    $sheet->setCellValue('E'.$i, $opciones);
+                    $i++;
                 }
+            }
 
-                if (isset($this->modulosRepetido[$propiedadModulo->getModulo()->getId()])) {
-                    ++$this->modulosRepetido[$propiedadModulo->getModulo()->getId()];
-                } else {
-                    $this->modulosRepetido[$propiedadModulo->getModulo()->getId()] = 0;
-                }
+            //creo array de Resultados, agregado como indice idModulo, este tiene un array con indiceModulo y
+            //cada array indice modulo tiene los resultado
+            $resultados = [];
+            foreach ($this->formularioResultado->getResultados() as $resultado) {
+                $resultados[$resultado->getPropiedadItem()->getModulo()->getId()][$resultado->getIndiceModulo()][$resultado->getIndiceModulo()][$resultado->getPropiedadItem()->getId()][] = $resultado;
+            }
+            $this->resultados = $resultados;
 
-                //recorrer la cantidad de veces que tengo repetido modulo en resultado
-                $indice = $this->modulosRepetido[$propiedadModulo->getModulo()->getId()];
+            //recorro propiedad modulos del formulario
+            $contador = 1;
+            $this->modulosRepetido = [];
+            $paginaNombre = null;
+            $paginaNumero = null;
+            $mostrarPaginaNombre = false;
 
-                if (isset($this->resultados[$propiedadModulo->getModulo()->getId()][$indice])) {
-                    if (count($this->resultados[$propiedadModulo->getModulo()->getId()][$indice]) > 0) {
-                    $sheet->setCellValue('B'.$i, $propiedadModulo->getModulo()->getTitulo());
-                        foreach ($this->resultados[$propiedadModulo->getModulo()->getId()][$indice] as $propiedadItems) {
-                            $i = $this->renderModuloExcel($propiedadModulo, $propiedadItems, $i, $sheet);
+            foreach ($this->formularioResultado->getOrdenTrabajo()->getFormulario()->getPropiedadModulos() as $propiedadModulo) {
+                if (isset($this->resultados[$propiedadModulo->getModulo()->getId()])) {
+                    if ($propiedadModulo->getPagina() != $paginaNumero) {
+                        $paginaNumero = $propiedadModulo->getPagina();
+                        $paginaNombre = $propiedadModulo->getPaginaNombre();
+                        $mostrarPaginaNombre = true;
+                    }
+
+                    if (isset($this->modulosRepetido[$propiedadModulo->getModulo()->getId()])) {
+                        ++$this->modulosRepetido[$propiedadModulo->getModulo()->getId()];
+                    } else {
+                        $this->modulosRepetido[$propiedadModulo->getModulo()->getId()] = 0;
+                    }
+
+                    //recorrer la cantidad de veces que tengo repetido modulo en resultado
+                    $indice = $this->modulosRepetido[$propiedadModulo->getModulo()->getId()];
+
+                    if (isset($this->resultados[$propiedadModulo->getModulo()->getId()][$indice])) {
+                        if (count($this->resultados[$propiedadModulo->getModulo()->getId()][$indice]) > 0) {
+                            $sheet->setCellValue('B'.$i, $propiedadModulo->getModulo()->getTitulo());
+                            foreach ($this->resultados[$propiedadModulo->getModulo()->getId()][$indice] as $propiedadItems) {
+                                $i = $this->renderModuloExcel($propiedadModulo, $propiedadItems, $i, $sheet);
+                            }
                         }
                     }
+                    ++$contador;
                 }
-                ++$contador;
             }
+
+
         }
+
+
         $writer = new Xlsx($spreadsheet);
+
         $writer->save($tmp.'/'.$fileName);
 
         return $fileName;
@@ -737,50 +753,50 @@ class OrdenTrabajoController extends EasyAdminController
         return $i;
     }
 
-//    private function renderItemExcel($item, $resultados, $i, $sheet)
-//    {
-//        //si es de tipo foto
-//        if ('foto' == $item->getTipo()) {
-//            //obtengo todos los resultados de propiedad item
-//
-//            $mostrarTitulo = true;
-//            foreach ($resultados as $keyResultado => $resultado) {
-//                if (!empty($resultado->getImageName())) {
-//                    if ($mostrarTitulo) {
-//                        $sheet->setCellValue('C'.$i, $item->getTitulo());
-//                        $mostrarTitulo = false;
-//                    }
-//                    $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+    private function renderItemExcel($item, $resultados, $i, $sheet)
+    {
+        //si es de tipo foto
+        if ('foto' == $item->getTipo()) {
+            //obtengo todos los resultados de propiedad item
+
+            $mostrarTitulo = true;
+            foreach ($resultados as $keyResultado => $resultado) {
+                if (!empty($resultado->getImageName())) {
+                    if ($mostrarTitulo) {
+                        $sheet->setCellValue('C'.$i, $item->getTitulo());
+                        $mostrarTitulo = false;
+                    }
+                    $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
 //                    $drawing->setPath($this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($resultado, 'imageFile'));
-//                    $drawing->setCoordinates('D'.$i);
-//                    $drawing->setResizeProportional(true);
-//                    $drawing->setHeight(140);
-//                    $drawing->setWorksheet($sheet);
-//                    $sheet->getStyle('D'.$i)->getAlignment()->setWrapText(true);
-//                    $sheet->getRowDimension($i)->setRowHeight(140);
-//                    $i++;
-//                }
-//            }
-//        } else {
-//            if ('titulo' == $item->getTipo()) {
-//                $sheet->setCellValue('C'.$i, $item->getTitulo());
-//                $i++;
-//            } else {
-//                $registro = '';
-//                $cantidadResultados = count($resultados) - 1;
-//                foreach ($resultados as $keyResultado => $resultado) {
-//                    $registro .= $resultado->obtenerValorToString();
-//                    $registro .= ($cantidadResultados == $keyResultado) ? '' : ' | ';
-//                }
-//                if (!empty($registro)) {
-//                    $sheet->setCellValue('C'.$i, $item->getTitulo());
-//                    $sheet->setCellValue('D'.$i, $registro);
-//                    $i++;
-//                }
-//            }
-//        }
-//        return $i;
-//    }
+                    $drawing->setCoordinates('D'.$i);
+                    $drawing->setResizeProportional(true);
+                    $drawing->setHeight(140);
+                    $drawing->setWorksheet($sheet);
+                    $sheet->getStyle('D'.$i)->getAlignment()->setWrapText(true);
+                    $sheet->getRowDimension($i)->setRowHeight(140);
+                    $i++;
+                }
+            }
+        } else {
+            if ('titulo' == $item->getTipo()) {
+                $sheet->setCellValue('C'.$i, $item->getTitulo());
+                $i++;
+            } else {
+                $registro = '';
+                $cantidadResultados = count($resultados) - 1;
+                foreach ($resultados as $keyResultado => $resultado) {
+                    $registro .= $resultado->obtenerValorToString();
+                    $registro .= ($cantidadResultados == $keyResultado) ? '' : ' | ';
+                }
+                if (!empty($registro)) {
+                    $sheet->setCellValue('C'.$i, $item->getTitulo());
+                    $sheet->setCellValue('D'.$i, $registro);
+                    $i++;
+                }
+            }
+        }
+        return $i;
+    }
 
     private function renderItem($item, $resultados, $tablaModulo)
     {
