@@ -181,11 +181,13 @@ class OrdenTrabajoController extends EasyAdminController
             $tablaTitulo = $this->section->addTable($this->table_style_titulo);
             $tablaTitulo->addRow();
 
-            $tablaTitulo->addCell(1000)->addImage(
-                $this->getParameter('kernel.root_dir').'/../public/images/hogar.png',
-                ['width' => 220, 'align' => 'left']
-            );
-            $sucursal = $this->em->getRepository(Sucursal::class)->find(1);
+//            $tablaTitulo->addCell(1000)->addImage(
+//                $this->getParameter('kernel.root_dir').'/../public/images/hogar.png',
+//                ['width' => 220, 'align' => 'left']
+//            );
+
+            //obtengo la sucursal del primer registro finalizado
+            $sucursal =  $this->em->getRepository(OrdenTrabajo::class)->find($array[0])->getSucursal();
 
             if($sucursal){
                 $textoCabecera = '';
@@ -198,12 +200,12 @@ class OrdenTrabajoController extends EasyAdminController
 
                 \PhpOffice\PhpWord\Shared\Html::addHtml($tablaTitulo->addCell(500), $textoCabecera);
 
-                if(!empty($sucursal->getImageCabecera())){
-                    $tablaTitulo->addCell(500)->addImage(
-                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($sucursal, 'imageCabeceraFile'),
-                        ['wrappingStyle' => 'behind', 'width' => 150, 'height' => 100, 'align' => 'rigth']
-                    );
-                }
+//                if(!empty($sucursal->getImageCabecera())){
+//                    $tablaTitulo->addCell(500)->addImage(
+//                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($sucursal, 'imageCabeceraFile'),
+//                        ['wrappingStyle' => 'behind', 'width' => 150, 'height' => 100, 'align' => 'rigth']
+//                    );
+//                }
             }
 
             //arma el pie de pagina
@@ -216,17 +218,17 @@ class OrdenTrabajoController extends EasyAdminController
             $footer->addTextBreak(1);
 
 
-            if ($sucursal && !empty($sucursal->getImagePie())) {
-                   $footer->addImage(
-                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($ordenTrabajo->getSucursal(), 'imagePieFile'),
-                        ['width' => 550, 'align' => 'center']
-                    );
-                } else {
-                    $footer->addImage(
-                        $this->getParameter('kernel.root_dir').'/../public/images/hogar_pie.png',
-                        ['width' => 550, 'align' => 'center']
-                    );
-            }
+//            if ($sucursal && !empty($sucursal->getImagePie())) {
+//                   $footer->addImage(
+//                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($ordenTrabajo->getSucursal(), 'imagePieFile'),
+//                        ['width' => 550, 'align' => 'center']
+//                    );
+//                } else {
+//                    $footer->addImage(
+//                        $this->getParameter('kernel.root_dir').'/../public/images/hogar_pie.png',
+//                        ['width' => 550, 'align' => 'center']
+//                    );
+//            }
 
 
             //recorro las ordenes de trabajo
@@ -238,7 +240,7 @@ class OrdenTrabajoController extends EasyAdminController
 
                 //verifica si algun form orden esta vacio
                 if (!$this->formularioResultado) {
-                    $this->addFlash('warning', 'alguno de los formularios no se a completado');
+                    $this->addFlash('warning', 'El formulario no ha sido completado');
 
                     if ('show' == $this->request->request->get('actionReturn')) {
                         return $this->redirectToRoute('easyadmin', [
@@ -519,9 +521,9 @@ class OrdenTrabajoController extends EasyAdminController
                     }
                 }
 
-                if (!empty($ordenTrabajo->getImageName())) {
-                    $this->renderFirmar($ordenTrabajo);
-                }
+//                if (!empty($ordenTrabajo->getImageName())) {
+//                    $this->renderFirmar($ordenTrabajo);
+//                }
 
                 // Saving the document as OOXML file...
                 $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
@@ -757,50 +759,50 @@ class OrdenTrabajoController extends EasyAdminController
         return $i;
     }
 
-    private function renderItemExcel($item, $resultados, $i, $sheet)
-    {
-        //si es de tipo foto
-        if ('foto' == $item->getTipo()) {
-            //obtengo todos los resultados de propiedad item
-
-            $mostrarTitulo = true;
-            foreach ($resultados as $keyResultado => $resultado) {
-                if (!empty($resultado->getImageName())) {
-                    if ($mostrarTitulo) {
-                        $sheet->setCellValue('C'.$i, $item->getTitulo());
-                        $mostrarTitulo = false;
-                    }
-                    $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-                    $drawing->setPath($this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($resultado, 'imageFile'));
-                    $drawing->setCoordinates('D'.$i);
-                    $drawing->setResizeProportional(true);
-                    $drawing->setHeight(140);
-                    $drawing->setWorksheet($sheet);
-                    $sheet->getStyle('D'.$i)->getAlignment()->setWrapText(true);
-                    $sheet->getRowDimension($i)->setRowHeight(140);
-                    $i++;
-                }
-            }
-        } else {
-            if ('titulo' == $item->getTipo()) {
-                $sheet->setCellValue('C'.$i, $item->getTitulo());
-                $i++;
-            } else {
-                $registro = '';
-                $cantidadResultados = count($resultados) - 1;
-                foreach ($resultados as $keyResultado => $resultado) {
-                    $registro .= $resultado->obtenerValorToString();
-                    $registro .= ($cantidadResultados == $keyResultado) ? '' : ' | ';
-                }
-                if (!empty($registro)) {
-                    $sheet->setCellValue('C'.$i, $item->getTitulo());
-                    $sheet->setCellValue('D'.$i, $registro);
-                    $i++;
-                }
-            }
-        }
-        return $i;
-    }
+//    private function renderItemExcel($item, $resultados, $i, $sheet)
+//    {
+//        //si es de tipo foto
+//        if ('foto' == $item->getTipo()) {
+//            //obtengo todos los resultados de propiedad item
+//
+//            $mostrarTitulo = true;
+//            foreach ($resultados as $keyResultado => $resultado) {
+//                if (!empty($resultado->getImageName())) {
+//                    if ($mostrarTitulo) {
+//                        $sheet->setCellValue('C'.$i, $item->getTitulo());
+//                        $mostrarTitulo = false;
+//                    }
+//                    $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+//                    $drawing->setPath($this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($resultado, 'imageFile'));
+//                    $drawing->setCoordinates('D'.$i);
+//                    $drawing->setResizeProportional(true);
+//                    $drawing->setHeight(140);
+//                    $drawing->setWorksheet($sheet);
+//                    $sheet->getStyle('D'.$i)->getAlignment()->setWrapText(true);
+//                    $sheet->getRowDimension($i)->setRowHeight(140);
+//                    $i++;
+//                }
+//            }
+//        } else {
+//            if ('titulo' == $item->getTipo()) {
+//                $sheet->setCellValue('C'.$i, $item->getTitulo());
+//                $i++;
+//            } else {
+//                $registro = '';
+//                $cantidadResultados = count($resultados) - 1;
+//                foreach ($resultados as $keyResultado => $resultado) {
+//                    $registro .= $resultado->obtenerValorToString();
+//                    $registro .= ($cantidadResultados == $keyResultado) ? '' : ' | ';
+//                }
+//                if (!empty($registro)) {
+//                    $sheet->setCellValue('C'.$i, $item->getTitulo());
+//                    $sheet->setCellValue('D'.$i, $registro);
+//                    $i++;
+//                }
+//            }
+//        }
+//        return $i;
+//    }
 
     private function renderItem($item, $resultados, $tablaModulo)
     {
@@ -809,26 +811,26 @@ class OrdenTrabajoController extends EasyAdminController
             //obtengo todos los resultados de propiedad item
 
             $mostrarTitulo = true;
-            foreach ($resultados as $keyResultado => $resultado) {
-                if (!empty($resultado->getImageName())) {
-                    if ($mostrarTitulo) {
-                        $tablaModulo->addRow();
-                        $row = $tablaModulo->addCell(1000, $this->table_style_item);
-                        $row->addText(htmlspecialchars($item->getTitulo()), ['size' => '8']);
-                        $tablaModulo->addRow();
-                        $row = $tablaModulo->addCell(1000, $this->table_style_item);
-                        $textrun = $row->createTextRun();
-                        $mostrarTitulo = false;
-                    }
-                    //imagen foto
-                    $textrun->addImage(
-                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($resultado, 'imageFile'),
-                        ['wrappingStyle' => 'behind', 'width' => 70, 'height' => 100, 'align' => 'left']
-                    );
-
-                    $textrun->addText(htmlspecialchars('  '), ['size' => '8']);
-                }
-            }
+//            foreach ($resultados as $keyResultado => $resultado) {
+//                if (!empty($resultado->getImageName())) {
+//                    if ($mostrarTitulo) {
+//                        $tablaModulo->addRow();
+//                        $row = $tablaModulo->addCell(1000, $this->table_style_item);
+//                        $row->addText(htmlspecialchars($item->getTitulo()), ['size' => '8']);
+//                        $tablaModulo->addRow();
+//                        $row = $tablaModulo->addCell(1000, $this->table_style_item);
+//                        $textrun = $row->createTextRun();
+//                        $mostrarTitulo = false;
+//                    }
+//                    //imagen foto
+//                    $textrun->addImage(
+//                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($resultado, 'imageFile'),
+//                        ['wrappingStyle' => 'behind', 'width' => 70, 'height' => 100, 'align' => 'left']
+//                    );
+//
+//                    $textrun->addText(htmlspecialchars('  '), ['size' => '8']);
+//                }
+//            }
         } else {
             if ('titulo' == $item->getTipo()) {
                 $tablaModulo->addRow();
