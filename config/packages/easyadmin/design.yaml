@@ -14,6 +14,7 @@ easy_admin:
             - { entity: 'OrdenTrabajo', label: 'Ordenes Trabajo', icon: 'briefcase', default: true, permission: [ROLE_ORDEN_TRABAJO] }
             - { entity: 'Solicitud', label: 'Solicitudes', icon: 'list', permission: [ROLE_SOLICITUD] }
             - { entity: 'Carpeta', label: 'Carpetas', icon: 'folder', permission: [ROLE_CARPETA] }
+            - { entity: 'Equipo', label: 'Equipos', icon: 'server', permission: [ROLE_ORDEN_TRABAJO, ROLE_CLIENTE_CRUD] }
             #- { entity: 'FormularioResultadoExpress', label: 'Formularios Express', icon: 'business-time' }
             - label: 'Papelera'
               icon: 'trash-alt' 

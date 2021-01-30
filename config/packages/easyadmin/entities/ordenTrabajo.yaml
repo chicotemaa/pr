@@ -22,26 +22,28 @@ easy_admin:
                     - property: 'motivo'
                     - property: 'estadosGestion'
                       type: 'App\Form\Filter\EstadosGestionFilterType'
-                      mapped: false 
-                    - property: 'estado' 
+                      mapped: false
+                    - property: 'estado'
                       type: 'App\Form\Filter\EstadoFilterType'
-                      mapped: false 
+                      mapped: false
                 fields:
                     - 'id'
-                    - { property: 'solicitud.nroIncidencia', label: 'Incidencia' }
+                    #- { property: 'solicitud.nroIncidencia', label: 'Incidencia' }
                     - { property: 'estadoGestion', template: 'OrdenTrabajo/estadoGestion.html.twig' }
                     - { property: 'formulario', type: 'text'}
                     - { property: 'user', type: 'text'}
-                    - { property: 'sucursal', type: 'text'}
+                    #- { property: 'sucursal', type: 'text'}
                     - { property: 'estado', label: 'Estado', template: 'OrdenTrabajo/estado.html.twig'  }
                     - { property: 'fecha', format: 'd/m/Y' }
+                    - { property: 'horaInicio', format: 'H:i' }
+                    - { property: 'horaFin', format: 'H:i' }
+                    - { property: 'formularioResultado.minutosTrabajado', format: 'H:i', label: 'Minutos trabajados' }
                     - { property: 'cliente', type: 'string' }
                     # - { property: 'motivo', label: 'Postergado por' }
                 actions:
                     - { name: 'show',  icon: 'search', label: '' }
                     - { name: 'edit', icon: 'pencil', label: '' }
                     - { name: 'delete', icon: 'remove', label: '' }
-#                    - { name: 'export',  icon: 'search', label: '' }
             show:
                 item_permission: [ROLE_ORDEN_TRABAJO]
                 fields:

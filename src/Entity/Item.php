@@ -46,6 +46,7 @@ class Item
         'Foto' => 'foto',
         'Titulo' => 'titulo',
         'Texto en Mayuscula' => 'texto_mayuscula',
+        'Equipo' => 'equipo',
     );
 
     /**

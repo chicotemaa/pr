@@ -68,6 +68,12 @@ class PropiedadModulo
      */
     private $paginaNombre;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Equipo", inversedBy="propiedadModulos")
+     * @Groups({"read","readFormularioResultadoExpress"})
+     */
+    private $equipo;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -146,6 +152,18 @@ class PropiedadModulo
     public function setPaginaNombre(?string $paginaNombre): self
     {
         $this->paginaNombre = $paginaNombre;
+
+        return $this;
+    }
+
+    public function getEquipo(): ?Equipo
+    {
+        return $this->equipo;
+    }
+
+    public function setEquipo(?Equipo $equipo): self
+    {
+        $this->equipo = $equipo;
 
         return $this;
     }

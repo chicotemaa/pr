@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Equipo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -41,6 +42,15 @@ class PropiedadModuloType extends AbstractType
                   'data-widget' => 'select2',
                 ],
             ])
+            ->add('equipo', EntityType::class, [
+              'class' => Equipo::class,
+              'label' => false,
+              'required' => false,
+              'attr' => [
+                'class' => 'input-sm',
+                'data-widget' => 'select2',
+              ],
+          ])
         ;
     }
 

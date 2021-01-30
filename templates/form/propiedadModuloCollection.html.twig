@@ -2,14 +2,17 @@
     <div class="col-md-1" style="padding: 0;">
       <label>{{ 'Pagina'|trans }}</label>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <label>{{ 'Nombre'|trans }}</label>
     </div>
     <div class="col-md-1" style="padding: 0;">
       <label>{{ 'Orden'|trans }}</label>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <label>{{ 'Modulo'|trans }}</label>
+    </div>
+    <div class="col-md-3">
+      <label>{{ 'Equipo'|trans }}</label>
     </div>
 {% endblock %}
 
@@ -48,14 +51,17 @@
       <div class="col-md-1" style="padding: 0;">
         {{ form_row(form.pagina) }}
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         {{ form_row(form.paginaNombre) }}
       </div>
       <div class="col-md-1" style="padding: 0;">
         {{ form_row(form.orden) }}
       </div>
-      <div class="form-group-sm col-md-4">
+      <div class="form-group-sm col-md-3">
         {{ form_row(form.modulo) }}
+      </div>
+      <div class="form-group-sm col-md-3">
+        {{ form_row(form.equipo) }}
       </div>
       <div class="col-md-1" style="padding: 0;">
         <div class="field-collection-item-action">
