@@ -35,6 +35,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *             "normalization_context"={"groups"={"readFormularioResultadoExpress"}},
  *             "denormalization_context"={"groups"={"writeFormularioResultadoExpress"}}
  *        },
+ *          "ByCM" = {
+ *             "method" =  "GET",
+ *             "path" = "/formularioResultadoExpress/by/user/cm",
+ *             "controller" = "App\Action\FormularioByCM",
+ *             "normalization_context"={"groups"={"readFormularioResultadoExpress"}},
+ *             "denormalization_context"={"groups"={"writeFormularioResultadoExpress"}}
+ *        },
  *       "post"
  *  },
  *  itemOperations={
@@ -229,6 +236,12 @@ class FormularioResultadoExpress
     private $user;
 
     private $resultadosOrdenados = null;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"writeFormularioResultadoExpress","readFormularioResultadoExpress"})
+     */
+    private $compraMateriales;
 
     public function __construct()
     {
@@ -577,5 +590,17 @@ class FormularioResultadoExpress
         }
 
         return $array;
+    }
+
+    public function getCompraMateriales(): ?bool
+    {
+        return $this->compraMateriales;
+    }
+
+    public function setCompraMateriales(?bool $compraMateriales): self
+    {
+        $this->compraMateriales = $compraMateriales;
+
+        return $this;
     }
 }
