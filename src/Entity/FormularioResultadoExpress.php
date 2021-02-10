@@ -236,6 +236,11 @@ class FormularioResultadoExpress
         $this->resultados = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->resultados;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
