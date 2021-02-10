@@ -211,10 +211,10 @@ class Resultado
     public function __toString()
     {
 
-        if(is_null($this->getFormularioResultado())) {
+        if(is_null($this->getFormularioResultadoExpress())) {
             return 'NULL';
         }
-        return (string) $this->getFormularioResultado();    }
+        return (string) $this->getFormularioResultadoExpress();    }
 
     public function controlValorSegunTipo()
     {
