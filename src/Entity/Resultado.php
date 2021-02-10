@@ -208,6 +208,13 @@ class Resultado
         $this->updatedAt = new \DateTime();
     }
 
+    public function __toString()
+    {
+
+        if(is_null($this->getFormularioResultado())) {
+            return 'NULL';
+        }
+        return (string) $this->getFormularioResultado();    }
 
     public function controlValorSegunTipo()
     {
