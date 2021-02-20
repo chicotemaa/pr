@@ -48,4 +48,17 @@ class FormularioRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function findByCM()
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder('a');
+
+        $qb->select('a')
+            ->from(Formulario::class, 'a')
+            ->where('a.compraMateriales = :compraMateriales')
+            ->setParameter('compraMateriales', true)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
 }

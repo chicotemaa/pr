@@ -154,6 +154,25 @@ class FormularioResultadoExpressRepository extends ServiceEntityRepository
             ->andWhere('o.user = :userId')
             ->andWhere('o.estado in (:estados)')
             ->andWhere('o.fecha <= CURRENT_DATE()')
+            ->andWhere('o.compraMateriales is null')
+            ->setParameter('userId', $userId)
+            ->setParameter('estados', $estados)
+            ->orderBy('o.fecha', 'DESC')
+            ->addOrderBy('o.id', 'DESC')
+            ->addOrderBy('o.estado', 'DESC')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByUserEstadoCM($userId, $estados)
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.user = :userId')
+            ->andWhere('o.estado in (:estados)')
+            ->andWhere('o.fecha <= CURRENT_DATE()')
+            ->andWhere('o.compraMateriales is not null')
             ->setParameter('userId', $userId)
             ->setParameter('estados', $estados)
             ->orderBy('o.fecha', 'DESC')

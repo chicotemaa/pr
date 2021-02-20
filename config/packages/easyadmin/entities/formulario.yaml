@@ -32,7 +32,8 @@ easy_admin:
                 - { property: 'nombre', columns: 6 }
                 - { property: 'titulo', columns: 6 }
                 - { property: 'descripcion', columns: 6}
-                - { property: 'express', columns: 6}
+                - { property: 'express', columns: 3}
+                - { property: 'compraMateriales', columns: 3, label: 'Compra de materiales'}
                 - { type: 'group', columns: 12, label: 'Modulos'  }
                 -
                     property: 'propiedadModulos'

@@ -36,6 +36,13 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *             "controller" = "App\Action\FormularioByExpress",
  *             "normalization_context"={"groups"={"readList","readFormularioResultadoExpress"}},
  *             "denormalization_context"={"groups"={"write"}}
+ *        },
+ *     "cm" = {
+ *             "method" =  "GET",
+ *             "path" = "/formularios/by/cm",
+ *             "controller" = "App\Action\FormularioByCM",
+ *             "normalization_context"={"groups"={"readList","readFormularioResultadoExpress"}},
+ *             "denormalization_context"={"groups"={"write"}}
  *        }
  *  },
  *  itemOperations={
@@ -118,6 +125,12 @@ class Formulario
      * @Groups({"read","readFormularioResultadoExpress"})
      */
     private $express;
+
+     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"read","readFormularioResultadoExpress"})
+     */
+    private $compraMateriales;
 
     public function __construct()
     {
@@ -301,6 +314,18 @@ class Formulario
     public function setExpress(?bool $express): self
     {
         $this->express = $express;
+
+        return $this;
+    }
+
+    public function getCompraMateriales(): ?bool
+    {
+        return $this->compraMateriales;
+    }
+
+    public function setCompraMateriales(?bool $compraMateriales): self
+    {
+        $this->compraMateriales = $compraMateriales;
 
         return $this;
     }
