@@ -1,22 +1,22 @@
 easy_admin:
     entities:
-        FormularioResultadoExpress:
+        formularioCompraMateriales:
             class: App\Entity\FormularioResultadoExpress
             disabled_actions: ['new', 'edit']
-            title: "Formularios Express"
+            title: "Formularios - Compra de Materiales"
             templates:
                 show: 'FormularioResultadoExpress/show.html.twig'
             list:
-                title: "Formularios Express"
+                title: "Formularios - Compra de Materiales"
                 item_permission: [ROLE_ORDEN_TRABAJO]
                 fields:
                 - 'id'
                 - { property: 'formulario', type: 'text'}
                 - { property: 'user', type: 'text'}
-                - { property: 'estado', label: 'Estado', template: 'OrdenTrabajo/estado.html.twig'  }
+                - { property: 'estado', label: 'Estado', template: 'FormularioResultadoExpress/estadoCompraMateriales.html.twig'  }
                 - { property: 'fecha', format: 'd/m/Y' }
                 - { property: 'cliente', type: 'string' }
-                dql_filter: 'entity.compraMateriales is NULL'
+                dql_filter: 'entity.compraMateriales is not NULL'
                 actions:
                     - { name: 'show',  icon: 'search', label: '' }
                     - { name: 'delete', icon: 'remove', label: '' }

@@ -1,0 +1,9 @@
+<button class="btn btn-sucess" 
+    {% if value == 4 %} style="color: #fff; background-color: #5cbe4a; font-weight: bold;"
+        {% else %} style="color: #fff; background-color: #f39c12; font-weight: bold;"
+    {% endif %}
+>   
+    {% if value == 4 %} Finalizado
+    {% else %} Pendiente
+    {% endif %}
+</button>

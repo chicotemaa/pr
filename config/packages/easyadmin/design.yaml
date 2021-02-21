@@ -16,6 +16,7 @@ easy_admin:
             - { entity: 'Carpeta', label: 'Carpetas', icon: 'folder', permission: [ROLE_CARPETA] }
             - { entity: 'Equipo', label: 'Equipos', icon: 'server', permission: [ROLE_ORDEN_TRABAJO, ROLE_CLIENTE_CRUD] }
             - { entity: 'FormularioResultadoExpress', label: 'Formularios Express', icon: 'business-time' }
+            - { entity: 'formularioCompraMateriales', label: 'Compra de materiales', icon: 'shopping-cart' }
             - label: 'Papelera'
               icon: 'trash-alt' 
               children:
