@@ -218,19 +218,6 @@ class OrdenTrabajoController extends EasyAdminController
             $footer->addTextBreak(1);
 
 
-            if ($sucursal && !empty($sucursal->getImagePie())) {
-                   $footer->addImage(
-                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($ordenTrabajo->getSucursal(), 'imagePieFile'),
-                        ['width' => 550, 'align' => 'center']
-                    );
-                } else {
-                    $footer->addImage(
-                        $this->getParameter('kernel.root_dir').'/../public/images/hogar_pie.png',
-                        ['width' => 550, 'align' => 'center']
-                    );
-            }
-
-
             //recorro las ordenes de trabajo
             foreach ($array as $valor){
 
@@ -538,6 +525,17 @@ class OrdenTrabajoController extends EasyAdminController
 
             }//fin foreeach
 
+            if ($sucursal && !empty($sucursal->getImagePie())) {
+                $footer->addImage(
+                     $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($ordenTrabajo->getSucursal(), 'imagePieFile'),
+                     ['width' => 550, 'align' => 'center']
+                 );
+             } else {
+                 $footer->addImage(
+                     $this->getParameter('kernel.root_dir').'/../public/images/hogar_pie.png',
+                     ['width' => 550, 'align' => 'center']
+                 );
+            }
             if ('WORD' == $this->formato) {
                 $fileName .= '.doc';
                 $contentType = 'application/msword';
