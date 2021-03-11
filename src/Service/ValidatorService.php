@@ -12,11 +12,12 @@ class ValidatorService
         $modulos = $entity->getFormulario()->getPropiedadModulos();
         $return = true;
         foreach($modulos as $modulo) {
-            if ($modulo->getEquipo()->getCliente() <> $entity->getCliente()) {
-                $return = false;
+            if ($modulo->getEquipo()) {
+                if ($modulo->getEquipo()->getCliente() <> $entity->getCliente()) {
+                    $return = false;
+                }
             }
         }
-
         return $return;
     }
 }
