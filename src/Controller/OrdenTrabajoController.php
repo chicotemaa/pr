@@ -502,6 +502,11 @@ class OrdenTrabajoController extends EasyAdminController
                                         $propiedadModulo->getModulo()->getTitulo()
                                     )
                                 );
+                                $this->section->addText(
+                                    htmlspecialchars(
+                                        $propiedadModulo->getEquipo()
+                                    )
+                                );
                                 foreach ($this->resultados[$propiedadModulo->getModulo()->getId()][$indice] as $propiedadItems) {
                                     $this->renderModulo($propiedadModulo, $propiedadItems);
                                 }
