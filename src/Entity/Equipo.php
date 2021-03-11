@@ -41,6 +41,11 @@ class Equipo
      */
     private $propiedadModulos;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="equipos")
+     */
+    private $cliente;
+
     public function __toString()
     {
         return $this->codigo;
@@ -106,6 +111,18 @@ class Equipo
                 $propiedadModulo->setEquipo(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCliente(): ?Cliente
+    {
+        return $this->cliente;
+    }
+
+    public function setCliente(?Cliente $cliente): self
+    {
+        $this->cliente = $cliente;
 
         return $this;
     }

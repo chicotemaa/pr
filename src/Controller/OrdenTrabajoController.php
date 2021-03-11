@@ -10,18 +10,21 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
+use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\Common\Drawing;
-
+use App\Service\ValidatorService;
+use Symfony\Component\Form\FormError;
 
 class OrdenTrabajoController extends EasyAdminController
 {
     public static function getSubscribedServices(): array
     {
         return array_merge(parent::getSubscribedServices(), [
+            'validator' => ValidatorService::class,
             'vich_uploader.templating.helper.uploader_helper' => UploaderHelper::class,
             TranslatorInterface::class
         ]);
@@ -989,7 +992,46 @@ class OrdenTrabajoController extends EasyAdminController
             $this->request->getSession()->remove('solicitud_ot');
         }
 
-        return parent::newAction();
+        $this->dispatch(EasyAdminEvents::PRE_NEW);
+
+        $entity = $this->executeDynamicMethod('createNew<EntityName>Entity');
+
+        $easyadmin = $this->request->attributes->get('easyadmin');
+        $easyadmin['item'] = $entity;
+        $this->request->attributes->set('easyadmin', $easyadmin);
+
+        $fields = $this->entity['new']['fields'];
+
+        $newForm = $this->executeDynamicMethod('create<EntityName>NewForm', [$entity, $fields]);
+
+        $newForm->handleRequest($this->request);
+        if ($newForm->isSubmitted() && $newForm->isValid()) {
+            if ($this->get('validator')->isFormEquipoClienteValid($entity)) {
+                $this->processUploadedFiles($newForm);
+
+                $this->dispatch(EasyAdminEvents::PRE_PERSIST, ['entity' => $entity]);
+                $this->executeDynamicMethod('persist<EntityName>Entity', [$entity, $newForm]);
+                $this->dispatch(EasyAdminEvents::POST_PERSIST, ['entity' => $entity]);
+
+                return $this->redirectToReferrer();
+            } else {
+                $newForm->get('formulario')->addError(new FormError('El formualario contiene equipos que no pertenecen al cliente seleccionado'));
+            }
+        }
+
+        $this->dispatch(EasyAdminEvents::POST_NEW, [
+            'entity_fields' => $fields,
+            'form' => $newForm,
+            'entity' => $entity,
+        ]);
+
+        $parameters = [
+            'form' => $newForm->createView(),
+            'entity_fields' => $fields,
+            'entity' => $entity,
+        ];
+
+        return $this->executeDynamicMethod('render<EntityName>Template', ['new', $this->entity['templates']['new'], $parameters]);
     }
 
     protected function createNewEntity()

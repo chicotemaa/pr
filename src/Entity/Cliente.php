@@ -129,10 +129,16 @@ class Cliente implements iSucursalFilter
      */
     private $carpeta;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Equipo", mappedBy="cliente")
+     */
+    private $equipos;
+
     public function __construct()
     {
         $this->ordenTrabajos = new ArrayCollection();
         $this->solicituds = new ArrayCollection();
+        $this->equipos = new ArrayCollection();
     }
 
     public function __toString()
@@ -385,6 +391,37 @@ class Cliente implements iSucursalFilter
     public function setCarpeta(?Carpeta $carpeta): self
     {
         $this->carpeta = $carpeta;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Equipo[]
+     */
+    public function getEquipos(): Collection
+    {
+        return $this->equipos;
+    }
+
+    public function addEquipo(Equipo $equipo): self
+    {
+        if (!$this->equipos->contains($equipo)) {
+            $this->equipos[] = $equipo;
+            $equipo->setCliente($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEquipo(Equipo $equipo): self
+    {
+        if ($this->equipos->contains($equipo)) {
+            $this->equipos->removeElement($equipo);
+            // set the owning side to null (unless already changed)
+            if ($equipo->getCliente() === $this) {
+                $equipo->setCliente(null);
+            }
+        }
 
         return $this;
     }

@@ -2,20 +2,33 @@ easy_admin:
     entities:
         Equipo:
             class: App\Entity\Equipo
+            templates:
+                # Twig namespace template syntax
+                show: 'Equipo/show.html.twig'
             list:
                 item_permission: [ROLE_CLIENTE_CRUD, ROLE_ORDEN_TRABAJO]
                 filters:
                     - property: 'codigo'
                     - property: 'descripcion'
+                    - property: 'cliente'
                 fields:
                     - { property: 'codigo' }
                     - { property: 'descripcion' }
+                    - { property: 'cliente' }
+                actions:
+                    - { name: 'show',  icon: 'search', label: '' }
+                    - { name: 'edit', icon: 'pencil', label: '' }
+                    - { name: 'delete', icon: 'remove', label: '' }
             edit:
                 item_permission: [ROLE_CLIENTE_CRUD, ROLE_ORDEN_TRABAJO]
             new:
                 item_permission: [ROLE_CLIENTE_CRUD, ROLE_ORDEN_TRABAJO]
             show:
                 item_permission: [ROLE_CLIENTE_CRUD, ROLE_ORDEN_TRABAJO]
+                fields:
+                    - { property: 'codigo' }
+                    - { property: 'descripcion' }
+                    - { property: 'cliente' }
             delete:
                 item_permission: [ROLE_CLIENTE_CRUD, ROLE_ORDEN_TRABAJO]
             search:
@@ -24,3 +37,4 @@ easy_admin:
                 fields:
                     - { property: 'codigo' }
                     - { property: 'descripcion' }
+                    - { property: 'cliente' }
