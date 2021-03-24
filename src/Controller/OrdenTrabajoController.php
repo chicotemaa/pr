@@ -587,6 +587,10 @@ class OrdenTrabajoController extends EasyAdminController
             $tmp = $this->createDirectory();
             $contentType = 'application/vnd.ms-excel';
             $fileName = $this->exportarExcel($tmp);
+        }elseif ('ORDENESEXCEL' == $this->formato){
+            $tmp = $this->createDirectory();
+            $contentType = 'application/vnd.ms-excel';
+            $fileName = $this->exportarOrdenesExcel($tmp);
         }//fin if control pdf
 
 
@@ -1086,6 +1090,56 @@ class OrdenTrabajoController extends EasyAdminController
         return parent::listAction(); 
     }
 
+    public function exportarOrdenesExcel($tmp)
+    {
+        $i = 3;
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($this->getParameter('kernel.root_dir').'/../public/uploads/templates/'.'templateListaOrdenes.xls');
+        $sheet = $spreadsheet->getActiveSheet();
+        foreach ($this->ordenExcel as $valor){
 
+            $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
+            $cliente = ($ordenTrabajo->getCliente())
+                ? $ordenTrabajo->getCliente()->getId() : '';
+            $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
+            $fileName = 'lista.xls';
+
+            //$spreadsheet = new Spreadsheet();
+
+            foreach(range('B','L') as $columnID) {
+                $sheet->getColumnDimension($columnID)
+                    ->setAutoSize(true);
+            }
+            $sheet->setCellValue('A'.$i, $ordenTrabajo->getId());
+            $sheet->setCellValue('B'.$i, $ordenTrabajo->estadoToString());
+            $sheet->setCellValue('C'.$i, $titulo);
+            $sheet->setCellValue('D'.$i, $ordenTrabajo->getUser()->getUserName());
+            $sheet->setCellValue('E'.$i, $ordenTrabajo->getEstado());
+            $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha());
+
+            $horaInicio = ($ordenTrabajo->getHoraInicio())
+                ? $ordenTrabajo->getHoraInicio()->format('H:i') : '';
+
+            $horaFin = ($ordenTrabajo->getHoraFin())
+                ? $ordenTrabajo->getHoraFin()->format('H:i') : '';
+
+            $sheet->setCellValue('G'.$i, $horaInicio);
+            $sheet->setCellValue('H'.$i, $horaFin);
+            if ($ordenTrabajo->getFormularioResultado()) {
+                $sheet->setCellValue('I'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
+            }
+            $sheet->setCellValue('J'.$i, $cliente);
+            $sheet->setCellValue('K'.$i, $ordenTrabajo->getLongitud());
+            $sheet->setCellValue('L'.$i, $ordenTrabajo->getLatitud());
+
+            $i++;
+        }
+
+
+        $writer = new Xlsx($spreadsheet);
+
+        $writer->save($tmp.'/'.$fileName);
+
+        return $fileName;
+    }
 
 }
