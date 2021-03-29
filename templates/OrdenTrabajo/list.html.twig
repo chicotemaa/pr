@@ -12,7 +12,7 @@
 
           </div>
           <div class="modal-body">
-              <form id="formExportar" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar' }) }}" method="POST">
+              <form id="formExportar" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: 'dsfdsf' }) }}" method="POST">
                 <input type="hidden" name="orden_trabajo" id="orden_trabajo" value="2" >
                 <div class="radio">
                   <label>
@@ -48,7 +48,7 @@
         </div>
 
         <div class="modal-body">
-          <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar' }) }}" method="POST">
+          <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
             <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
             <div class="radio">
               <label>
@@ -66,6 +66,10 @@
               <label>
                 <input type="radio" name="formato" id="formato" value="ORDENESEXCEL">
                 LISTADO DE ÓRDENES EXCEL
+              </label>
+              <label>
+                <input type="radio" name="formato" id="formato" value="ALLORDENESEXCEL">
+                LISTADO DE ÓRDENES EXCEL (toda la lista filtrada)
               </label>
             </div>
           </form>

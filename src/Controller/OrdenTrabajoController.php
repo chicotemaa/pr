@@ -18,6 +18,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\Common\Drawing;
 use App\Service\ValidatorService;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class OrdenTrabajoController extends EasyAdminController
 {
@@ -41,6 +42,7 @@ class OrdenTrabajoController extends EasyAdminController
     private $resultados = null;
     private $modulosRepetido;
     private $ordenExcel ;
+    private $entitiesToExport;
 
     protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
     {
@@ -591,6 +593,10 @@ class OrdenTrabajoController extends EasyAdminController
             $tmp = $this->createDirectory();
             $contentType = 'application/vnd.ms-excel';
             $fileName = $this->exportarOrdenesExcel($tmp);
+        }elseif ('ALLORDENESEXCEL' == $this->formato){
+            $tmp = $this->createDirectory();
+            $contentType = 'application/vnd.ms-excel';
+            $fileName = $this->exportarAllOrdenesExcel($tmp);
         }//fin if control pdf
 
 
@@ -1086,8 +1092,25 @@ class OrdenTrabajoController extends EasyAdminController
                 'action'    => 'list',
             ));
         }
-        
-        return parent::listAction(); 
+        $this->dispatch(EasyAdminEvents::PRE_LIST);
+
+        $fields = $this->entity['list']['fields'];
+        $paginator = $this->findAll($this->entity['class'], $this->request->query->get('page', 1), $this->entity['list']['max_results'], $this->request->query->get('sortField'), $this->request->query->get('sortDirection'), $this->entity['list']['dql_filter']);
+
+        $paginatorAll = $this->findAll($this->entity['class'], $this->request->query->get('page', 1), 999999, $this->request->query->get('sortField'), $this->request->query->get('sortDirection'), $this->entity['list']['dql_filter']);
+        $this->dispatch(EasyAdminEvents::POST_LIST, ['paginator' => $paginator]);
+
+        $session = new Session();
+        $session->set('entities_to_export', $paginatorAll->getCurrentPageResults());
+        $this->entitiesToExport = $paginator;
+        $parameters = [
+            'paginator' => $paginator,
+            'fields' => $fields,
+            'batch_form' => $this->createBatchForm($this->entity['name'])->createView(),
+            'delete_form_template' => $this->createDeleteForm($this->entity['name'], '__id__')->createView(),
+        ];
+
+        return $this->executeDynamicMethod('render<EntityName>Template', ['list', $this->entity['templates']['list'], $parameters]);
     }
 
     public function exportarOrdenesExcel($tmp)
@@ -1113,6 +1136,61 @@ class OrdenTrabajoController extends EasyAdminController
             $sheet->setCellValue('B'.$i, $ordenTrabajo->estadoToString());
             $sheet->setCellValue('C'.$i, $titulo);
             $sheet->setCellValue('D'.$i, $ordenTrabajo->getUser()->getUserName());
+            $sheet->setCellValue('E'.$i, $ordenTrabajo->getEstado());
+            $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha());
+
+            $horaInicio = ($ordenTrabajo->getHoraInicio())
+                ? $ordenTrabajo->getHoraInicio()->format('H:i') : '';
+
+            $horaFin = ($ordenTrabajo->getHoraFin())
+                ? $ordenTrabajo->getHoraFin()->format('H:i') : '';
+
+            $sheet->setCellValue('G'.$i, $horaInicio);
+            $sheet->setCellValue('H'.$i, $horaFin);
+            if ($ordenTrabajo->getFormularioResultado()) {
+                $sheet->setCellValue('I'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
+            }
+            $sheet->setCellValue('J'.$i, $cliente);
+            $sheet->setCellValue('K'.$i, $ordenTrabajo->getLongitud());
+            $sheet->setCellValue('L'.$i, $ordenTrabajo->getLatitud());
+
+            $i++;
+        }
+
+
+        $writer = new Xlsx($spreadsheet);
+
+        $writer->save($tmp.'/'.$fileName);
+
+        return $fileName;
+    }
+
+    public function exportarAllOrdenesExcel($tmp)
+    {
+        $session = new Session();
+        $ordenes = $session->get('entities_to_export');
+        $i = 3;
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($this->getParameter('kernel.root_dir').'/../public/uploads/templates/'.'templateListaOrdenes.xls');
+        $sheet = $spreadsheet->getActiveSheet();
+        foreach ($ordenes as $valor){
+            $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
+            $cliente = ($ordenTrabajo->getCliente())
+                ? $ordenTrabajo->getCliente()->getId() : '';
+            $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
+            $fileName = 'lista.xls';
+
+            //$spreadsheet = new Spreadsheet();
+
+            foreach(range('B','L') as $columnID) {
+                $sheet->getColumnDimension($columnID)
+                    ->setAutoSize(true);
+            }
+            $sheet->setCellValue('A'.$i, $ordenTrabajo->getId());
+            $sheet->setCellValue('B'.$i, $ordenTrabajo->estadoToString());
+            $sheet->setCellValue('C'.$i, $titulo);
+            if ($ordenTrabajo->getUser()->getUserName()) {
+                $sheet->setCellValue('D'.$i, $ordenTrabajo->getUser()->getUserName());
+            }
             $sheet->setCellValue('E'.$i, $ordenTrabajo->getEstado());
             $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha());
 
