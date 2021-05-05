@@ -71,7 +71,7 @@ class Cliente implements iSucursalFilter
     private $razonSocial;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\OrdenTrabajo", mappedBy="cliente")
+     * @ORM\OneToMany(targetEntity="App\Entity\OrdenTrabajo", mappedBy="cliente", orphanRemoval=true)
      */
     private $ordenTrabajos;
 

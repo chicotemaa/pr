@@ -50,7 +50,7 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\OrdenTrabajo", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\OrdenTrabajo", mappedBy="user", orphanRemoval=true)
      */
     private $ordenTrabajo;
 

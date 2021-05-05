@@ -84,6 +84,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ordenTrabajo")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $user;
 
@@ -135,6 +136,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="ordenTrabajos")
+     * @ORM\JoinColumn(name="cliente_id", referencedColumnName="id", onDelete="SET NULL")
      * @Groups({"read", "readList"})
      */
     private $cliente;

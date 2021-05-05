@@ -19,6 +19,7 @@
               <form id="formExportar" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar' }) }}" method="POST">
                 <input type="hidden" name= "orden_trabajo" id="orden_trabajo" value="" >
                 <input type="hidden" name= "actionReturn" id="orden_trabajo" value="show" >
+                <input type="hidden" name= "ordenes_trabajo" id="ordenes_trabajo" value="" >
                 <div class="radio">
                   <label>
                     <input type="radio" name="formato" id="formato" value="WORD" checked>
@@ -180,6 +181,7 @@
         
         $(".exportOt").click(function(){
             $("#orden_trabajo").val($(this).data('id'));
+            $("#ordenes_trabajo").val($(this).data('id'));
         });
 
         function exportar(){
