@@ -3,5 +3,11 @@
 {% block body_javascript %}
     {{ parent() }}
 
-    <script src="{{ asset('js/usuario-form.js') }}"></script>
+    <script src="{{ asset('js/cliente.js') }}"></script>
+    <script src="{{ asset('js/google-address.js') }}"></script>
+    <script src="{{ asset('js/selectAllRoles.js') }}"></script>
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key={{googleKeyApi}}&libraries=places&callback=initAutocomplete"
+        async defer></script>
 {% endblock %}
