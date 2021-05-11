@@ -5,8 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'es'
-    # googleKeyApi: '%env(GOOGLE_KEY_API)%'
-    googleKeyApi: 'AIzaSyDTEPKLezFgKspz23yhXk_r-VbYrDt8M7g'
+    googleKeyApi: '%env(GOOGLE_KEY_API)%'    
     ivaConditionArray:
         'Consumidor Final': 3
         'Exento': 5
