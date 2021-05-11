@@ -32,6 +32,9 @@ ROLE_SOLICITUD: Solicitudes
 ROLE_SUCURSAL: Sucursales
 ROLE_CLIENTE_MENU: Menu Cliente
 ROLE_DASHBOARD: Panel de Control / Dashboard
+ROLE_STAFF: Rol de encargado de sucursal
+ROLE_FACILITY: Rol de facility
+ROLE_MANAGER: Cliente empresa
 Nombre: Nombre
 Pagina: Página
 Modulo: Módulo

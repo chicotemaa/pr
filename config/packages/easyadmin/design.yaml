@@ -47,5 +47,4 @@ easy_admin:
             - { label: 'Otros', permission: [ROLE_SUPER_ADMIN]   }
             - { entity: 'Client', icon: 'walking', permission: [ROLE_SUPER_ADMIN] }
 
-            # - { entity: 'OrdenTrabajoCliente', icon: 'walking', permission: [ROLE_CLIENTE_MENU] }
             # - { entity: 'SolicitudCliente', icon: 'boxes', permission: [ROLE_CLIENTE_MENU] }

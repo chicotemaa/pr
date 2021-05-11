@@ -47,6 +47,9 @@ parameters:
         ROLE_CLIENTE_MENU: 'ROLE_CLIENTE_MENU'
         ROLE_DASHBOARD: 'ROLE_DASHBOARD'
         ROLE_ADMIN: 'ROLE_ADMIN'
+        ROLE_STAFF: 'ROLE_STAFF'
+        ROLE_FACILITY: 'ROLE_FACILITY'
+        ROLE_MANAGER: 'ROLE_MANAGER'
 
     TIPO_ITEMS:
         'Texto': texto
