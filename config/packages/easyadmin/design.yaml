@@ -12,13 +12,15 @@ easy_admin:
             - { label: 'Gestión de Trabajo' , permission: [ROLE_ADMIN, ROLE_ORDEN_TRABAJO, ROLE_SOLICITUD, ROLE_CARPETA, ROLE_DASHBOARD] }
             - { label: 'Dashboard', route: 'dashboard', icon: 'dashboard', permission: [ROLE_ADMIN, ROLE_DASHBOARD] }
             - { entity: 'OrdenTrabajo', label: 'Ordenes Trabajo', icon: 'briefcase', default: true, permission: [ROLE_ORDEN_TRABAJO] }
-            - { entity: 'Solicitud', label: 'Solicitudes', icon: 'list', permission: [ROLE_SOLICITUD] }
-            - { entity: 'Carpeta', label: 'Carpetas', icon: 'folder', permission: [ROLE_CARPETA] }
+            - { entity: 'Carpeta', label: 'Carpetas', icon: 'folder', permission: [ROLE_CARPETA]}
             - { entity: 'Equipo', label: 'Equipos', icon: 'server', permission: [ROLE_ORDEN_TRABAJO, ROLE_CLIENTE_CRUD] }
-            - { entity: 'FormularioResultadoExpress', label: 'Formularios Express', icon: 'business-time' }
-            - { entity: 'formularioCompraMateriales', label: 'Compra de materiales', icon: 'shopping-cart' }
+            - { entity: 'FormularioResultadoExpress', permission: [ROLE_ADMIN] , label: 'Formularios Express', icon: 'business-time'}
+            - { entity: 'formularioCompraMateriales', label: 'Compra de materiales', icon: 'shopping-cart', permission: [ROLE_ADMIN] }
+            - { label: 'Gestión de Trabajo Cliente' , permission: [ROLE_STAFF] }
+            - { entity: 'Solicitud', label: 'Solicitudes', icon: 'list', permission: [ROLE_SOLICITUD, ROLE_STAFF] }
             - label: 'Papelera'
               icon: 'trash-alt' 
+              permission: [ROLE_ADMIN]
               children:
                 - { entity: 'RecycleOrdenTrabajo', label: 'Ordenes Trabajo', icon: 'briefcase', default: true, permission: [ROLE_ORDEN_TRABAJO] }
                 - { entity: 'RecycleSolicitud', label: 'Solicitudes', icon: 'list', permission: [ROLE_SOLICITUD] }
