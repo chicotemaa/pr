@@ -46,13 +46,17 @@
     {% import _self as render %}
     <style>
       /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-        #map {
+       * element that contains the map. */        
+        .map{
             height: 250px;
         }
     </style>
+    {# Aca se muestran los mapas de recibido y cierre #}
     {% if entity.latitud is not empty %}
-        <div id="map"></div>
+        <p><strong> Ubicación Recibido </strong></p>
+        <div id="mapRecibido" class="map"></div>
+        <p><strong> Ubicación Cierre </strong></p>
+        <div id="mapCierre" class="map"></div>
     {% endif %}
     {% if entity.formularioResultado is not null %}
     <hr>
@@ -187,11 +191,15 @@
         function exportar(){
             $("#formExportar").submit();
         };
+        //Mapa Recibido
         var map;
         var myLatLng = {lat: {{entity.latitud|default(0)}}, lng: {{entity.longitud|default(0)}}};
+        //Mapa Cierre
+        var mapCierre; // creo que no cumple funcion, esta de adorno
+        var myLatLngCierre = {lat: {{entity.latitudCierre|default(0)}}, lng: {{entity.longitudCierre|default(0)}}};
 
         function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
+            map = new google.maps.Map(document.getElementById('mapRecibido'), {
                 zoom: 17,
                 center: myLatLng
             });
@@ -201,9 +209,25 @@
                 map: map,
                 title: 'Orden de trabajo'
             });
+
+            map2 = new google.maps.Map(document.getElementById('mapCierre'), {
+                zoom: 17,
+                center: myLatLngCierre
+            });
+
+            var marker = new google.maps.Marker({
+                position: myLatLngCierre,
+                map: map2,
+                title: 'Orden de trabajo'
+            });
         }
+
+        
+        
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{googleKeyApi}}&callback=initMap"
     async defer></script>
+    
+        
 
 {% endblock %}

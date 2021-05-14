@@ -224,6 +224,18 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
 
     private $resultadosOrdenados = null;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read","write"})
+     */
+    private $latitudCierre;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read","write"})
+     */
+    private $longitudCierre;
+
     public function __toString()
     {
         return 'Cliente: '.$this->cliente.'| Usuario: '.$this->user.'| Formulario'.$this->formulario;
@@ -642,6 +654,30 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
     public function setComentario(?string $comentario): self
     {
         $this->comentario = $comentario;
+
+        return $this;
+    }
+
+    public function getLatitudCierre(): ?string
+    {
+        return $this->latitudCierre;
+    }
+
+    public function setLatitudCierre(?string $latitudCierre): self
+    {
+        $this->latitudCierre = $latitudCierre;
+
+        return $this;
+    }
+
+    public function getLongitudCierre(): ?string
+    {
+        return $this->longitudCierre;
+    }
+
+    public function setLongitudCierre(?string $longitudCierre): self
+    {
+        $this->longitudCierre = $longitudCierre;
 
         return $this;
     }
