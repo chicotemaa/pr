@@ -970,7 +970,9 @@ class OrdenTrabajoController extends EasyAdminController
             }
             $entity->setCliente($solicitud->getCliente());
             $entity->setComentario($solicitud->getDetalle());
+            $entity->setSucursal($solicitud->getSucursal());
             $entity->setSolicitud($solicitud);
+            
 
             $this->request->getSession()->remove('solicitud_ot');
         }
@@ -1058,8 +1060,9 @@ class OrdenTrabajoController extends EasyAdminController
                 ->find($this->request->getSession()->get('solicitud_ot')['id']);
             $solicitud->setEstado(1);
             $entity->setCliente($solicitud->getCliente());
+            $entity->setServicio($solicitud->getServicio());
             $entity->setComentario($solicitud->getDetalle());
-
+            $entity->setSucursal($entity->getCliente()->getSucursal());
         }
 
         return $entity;

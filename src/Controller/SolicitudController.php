@@ -10,12 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 
 class SolicitudController extends EasyAdminController
 {
-    public static function getSubscribedServices(): array
-    {
-        return array_merge(parent::getSubscribedServices(), [
-            'app.read.mail' => MailReader::class,
-        ]);
-    }
+
 
     protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
     {
@@ -76,8 +71,9 @@ class SolicitudController extends EasyAdminController
 
     protected function persistEntity($entity)
     {
-        if ($this->isGranted('ROLE_CLIENTE') && !$this->isGranted('ROLE_ENCARGADO')) {
+        if ($this->isGranted('ROLE_STAFF') && !$this->isGranted('ROLE_ENCARGADO')) {
             $entity->setCliente($this->getUser()->getCliente());
+            //$entity->setServicio($this->getUser()->getServicio());
         }
 
         parent::persistEntity($entity);
@@ -100,15 +96,16 @@ class SolicitudController extends EasyAdminController
                 'id' => $solicitud->getId(),
                 'fecha' => $solicitud->getCreatedAt()->format('d/m/Y'),
                 'cliente' => $solicitud->getCliente(),
-                'servicio' => $solicitud->getServicio(),
+                'consulta' => $solicitud->getConsulta(),
                 'detalle' => $solicitud->getDetalle(),
+                'sucursal' => $solicitud->getSucursal(),
             ]);
 
             return $this->redirectToRoute('easyadmin', array(
                 'action' => 'new',
                 'entity' => 'OrdenTrabajo',
             ));
-        }
+                }
     }
 
     protected function removeEntity($entity)
