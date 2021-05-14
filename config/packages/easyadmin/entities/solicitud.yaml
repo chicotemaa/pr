@@ -8,7 +8,7 @@ easy_admin:
                 new: 'Solicitud/new.html.twig'
                 edit: 'Solicitud/edit.html.twig'
             list:
-                item_permission: ROLE_SOLICITUD
+                item_permission: [ROLE_SOLICITUD,ROLE_STAFF]
                 actions:
                     - { name: generarOt }
                 filters:
@@ -33,15 +33,15 @@ easy_admin:
                     - { property: 'estado', label: 'Estado' ,template: 'Solicitud/estado.html.twig' }
                     - consulta
             edit:
-                item_permission: [ROLE_SOLICITUD]
+                item_permission: [ROLE_SOLICITUD,ROLE_STAFF]
             new:
-                item_permission: [ROLE_SOLICITUD]
+                item_permission: [ROLE_SOLICITUD,ROLE_STAFF]
             show:
-                item_permission: [ROLE_SOLICITUD]
+                item_permission: [ROLE_SOLICITUD, ROLE_STAFF]
             delete:
                 item_permission: [ROLE_SOLICITUD]
             search:
-                item_permission: [ROLE_SOLICITUD]
+                item_permission: [ROLE_SOLICITUD,ROLE_STAFF]
             form:
                 fields:
                     - { type: 'group', columns: 6 }

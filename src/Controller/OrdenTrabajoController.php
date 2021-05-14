@@ -1059,6 +1059,7 @@ class OrdenTrabajoController extends EasyAdminController
             $solicitud->setEstado(1);
             $entity->setCliente($solicitud->getCliente());
             $entity->setComentario($solicitud->getDetalle());
+
         }
 
         return $entity;
@@ -1081,7 +1082,7 @@ class OrdenTrabajoController extends EasyAdminController
      */
     protected function listAction()
     {
-        if ($this->isGranted('ROLE_CLIENTE') && !$this->isGranted('ROLE_ADMIN') && !$this->request->query->has('entity')) {
+        /*if ($this->isGranted('ROLE_CLIENTE') && !$this->isGranted('ROLE_ADMIN') && !$this->request->query->has('entity')) {
             return $this->redirectToRoute('easyadmin', array(
                 'entity'    => 'OrdenTrabajoCliente',
                 'action'    => 'list',
@@ -1091,7 +1092,7 @@ class OrdenTrabajoController extends EasyAdminController
                 'entity'    => 'OrdenTrabajoCliente',
                 'action'    => 'list',
             ));
-        }
+        }*/
         $this->dispatch(EasyAdminEvents::PRE_LIST);
 
         $fields = $this->entity['list']['fields'];

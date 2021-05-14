@@ -75,6 +75,11 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
      * @Groups({"read", "readList"})
      */
     private $id;
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Servicio")
+     * @Groups({"read", "write"})
+     */
+    private $servicio;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Formulario", inversedBy="ordenTrabajo")
@@ -240,6 +245,19 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
 
         return $this;
     }
+
+    public function getServicio(): ?Servicio
+    {
+        return $this->servicio;
+    }
+
+    public function setServicio(?Servicio $servicio): self
+    {
+        $this->servicio = $servicio;
+
+        return $this;
+    }
+
 
     public function getHoraInicio(): ?\DateTimeInterface
     {
