@@ -134,6 +134,21 @@ class Cliente implements iSucursalFilter
      */
     private $equipos;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $latitud;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $longitud;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\facility", inversedBy="facility")
+     */
+    private $facility;
+
     public function __construct()
     {
         $this->ordenTrabajos = new ArrayCollection();
@@ -422,6 +437,42 @@ class Cliente implements iSucursalFilter
                 $equipo->setCliente(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLatitud(): ?int
+    {
+        return $this->latitud;
+    }
+
+    public function setLatitud(?int $latitud): self
+    {
+        $this->latitud = $latitud;
+
+        return $this;
+    }
+
+    public function getLongitud(): ?int
+    {
+        return $this->longitud;
+    }
+
+    public function setLongitud(?int $longitud): self
+    {
+        $this->longitud = $longitud;
+
+        return $this;
+    }
+
+    public function getFacility(): ?facility
+    {
+        return $this->facility;
+    }
+
+    public function setFacility(?facility $facility): self
+    {
+        $this->facility = $facility;
 
         return $this;
     }
