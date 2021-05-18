@@ -144,10 +144,7 @@ class Cliente implements iSucursalFilter
      */
     private $longitud;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\facility", inversedBy="facility")
-     */
-    private $facility;
+
 
     public function __construct()
     {
@@ -465,15 +462,5 @@ class Cliente implements iSucursalFilter
         return $this;
     }
 
-    public function getFacility(): ?facility
-    {
-        return $this->facility;
-    }
 
-    public function setFacility(?facility $facility): self
-    {
-        $this->facility = $facility;
-
-        return $this;
-    }
 }
