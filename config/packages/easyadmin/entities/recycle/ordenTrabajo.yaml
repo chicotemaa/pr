@@ -12,7 +12,7 @@ easy_admin:
             disabled_actions: ['edit', 'new']
             list:
                 title: "Ordenes Eliminadas"
-                item_permission: [ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ORDEN_TRABAJO, ROLE_CLIENTE]
                 filters: 
                     - property: 'user'
                     - property: 'formulario'
@@ -42,7 +42,7 @@ easy_admin:
                     - { name: 'edit', icon: 'pencil', label: '' }
                     - { name: 'delete', icon: 'remove', label: '' }
             show:
-                item_permission: [ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ORDEN_TRABAJO, ROLE_CLIENTE]
                 fields:
                     - { property: 'id', columns: 6 }
                     - { property: 'user', type: 'text', columns: 6 }
@@ -70,7 +70,7 @@ easy_admin:
             edit:
                 item_permission: [ROLE_ORDEN_TRABAJO]
             delete:
-                item_permission: [ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ORDEN_TRABAJO, ROLE_CLIENTE]
             form:
                 item_permission: [ROLE_ORDEN_TRABAJO]
                 fields:

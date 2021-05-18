@@ -10,7 +10,7 @@ easy_admin:
             disabled_actions: ['edit', 'new']
             list:
                 title: "Solicitudes Eliminadas"
-                item_permission: ROLE_SOLICITUD
+                item_permission: [ROLE_SOLICITUD,ROLE_CLIENTE]
                 filters:
                     - property: 'cliente'
                     - property: 'estado'

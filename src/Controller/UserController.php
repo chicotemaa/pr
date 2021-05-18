@@ -61,4 +61,29 @@ class UserController extends EasyAdminController
             'results' => $results,
         ]);
     }
+
+    protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
+    {
+        $queryBuilder = parent::createListQueryBuilder($entityClass, $sortDirection,
+            $sortField, $dqlFilter);
+        //$queryBuilder = $this->armarQuery($queryBuilder);
+        return $queryBuilder;
+    }
+
+    //lista alumnos inscriptos a una oferta local seleccionada
+    public function armarQuery($queryBuilder)
+    {
+        // aca tengo que obtener el usuario logueado
+        dump($this->getUser()); die;
+        if ($this->getUser()) {
+            $queryBuilder
+                ->join('entity.cliente', 'c')
+                ->andwhere('c = :val')
+                ->setParameter('val', $oferta)
+                ;
+        }
+        return $queryBuilder;
+
+    }
+
 }

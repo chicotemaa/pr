@@ -66,7 +66,7 @@ class User extends BaseUser
     private $sucursal;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Cliente", inversedBy="user", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="user", cascade={"persist", "remove"})
      * @Groups({"readRegistration", "writeRegistration", "userInfo"})
      */
     private $cliente;

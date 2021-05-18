@@ -71,7 +71,7 @@ class SolicitudController extends EasyAdminController
 
     protected function persistEntity($entity)
     {
-        if ($this->isGranted('ROLE_STAFF') && !$this->isGranted('ROLE_ENCARGADO')) {
+        if ($this->isGranted('ROLE_CLIENTE') && !$this->isGranted('ROLE_ENCARGADO')) {
             $entity->setCliente($this->getUser()->getCliente());
             //$entity->setServicio($this->getUser()->getServicio());
         }

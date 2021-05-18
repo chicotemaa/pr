@@ -9,21 +9,21 @@ easy_admin:
         templates:
             layout: 'easy_admin/layout.html.twig'
         menu:
-            - { label: 'Gestión de Trabajo' , permission: [ROLE_ADMIN, ROLE_ORDEN_TRABAJO, ROLE_SOLICITUD, ROLE_CARPETA, ROLE_DASHBOARD] }
+            - { label: 'Gestión de Trabajo' , permission: [ROLE_ADMIN, ROLE_ORDEN_TRABAJO, ROLE_SOLICITUD, ROLE_CARPETA, ROLE_DASHBOARD, ROLE_STAFF] }
             - { label: 'Dashboard', route: 'dashboard', icon: 'dashboard', permission: [ROLE_ADMIN, ROLE_DASHBOARD] }
-            - { entity: 'OrdenTrabajo', label: 'Ordenes Trabajo', icon: 'briefcase', default: true, permission: [ROLE_ORDEN_TRABAJO] }
+            - { entity: 'OrdenTrabajo', label: 'Ordenes Trabajo', icon: 'briefcase', permission: [ROLE_ORDEN_TRABAJO] }
+            - { entity: 'OrdenTrabajoCliente', label: 'Ordenes Trabajo', icon: 'briefcase', permission: [ROLE_STAFF] }
+            - { entity: 'Solicitud', label: 'Solicitudes',default: true, icon: 'list', permission: [ROLE_SOLICITUD, ROLE_STAFF] }
             - { entity: 'Carpeta', label: 'Carpetas', icon: 'folder', permission: [ROLE_CARPETA]}
             - { entity: 'Equipo', label: 'Equipos', icon: 'server', permission: [ROLE_ORDEN_TRABAJO, ROLE_CLIENTE_CRUD] }
             - { entity: 'FormularioResultadoExpress', permission: [ROLE_ADMIN] , label: 'Formularios Express', icon: 'business-time'}
             - { entity: 'formularioCompraMateriales', label: 'Compra de materiales', icon: 'shopping-cart', permission: [ROLE_ADMIN] }
-            - { label: 'Gestión de Trabajo Cliente' , permission: [ROLE_STAFF] }
-            - { entity: 'Solicitud', label: 'Solicitudes', icon: 'list', permission: [ROLE_SOLICITUD, ROLE_STAFF] }
             - label: 'Papelera'
               icon: 'trash-alt' 
-              permission: [ROLE_ADMIN]
+              permission: [ROLE_ADMIN, ROLE_STAFF]
               children:
-                - { entity: 'RecycleOrdenTrabajo', label: 'Ordenes Trabajo', icon: 'briefcase', default: true, permission: [ROLE_ORDEN_TRABAJO] }
-                - { entity: 'RecycleSolicitud', label: 'Solicitudes', icon: 'list', permission: [ROLE_SOLICITUD] }
+                - { entity: 'RecycleOrdenTrabajo', label: 'Ordenes Trabajo', icon: 'briefcase', default: true, permission: [ROLE_ORDEN_TRABAJO, ROLE_STAFF] }
+                - { entity: 'RecycleSolicitud', label: 'Solicitudes', icon: 'list', permission: [ROLE_SOLICITUD, ROLE_STAFF] }
                 - { entity: 'RecycleUser', label: 'Users', icon: 'user', permission: [ROLE_USER_CRUD] }
                 - { entity: 'RecycleCliente', label: 'Clientes', icon: 'user', permission: [ROLE_CLIENTE_CRUD] }
                 - { entity: 'RecycleGroup', label: 'Groups', icon: 'users', permission: [ROLE_GROUP] }
@@ -34,7 +34,7 @@ easy_admin:
                 - { entity: 'RecycleModulo', label: 'Modulos', icon: 'boxes', permission: [ROLE_MODULO] }
                 - { entity: 'RecycleItem', label: 'Items', icon: 'pager', permission: [ROLE_ITEM] }
             - { label: 'Administrador', permission: [ROLE_USER_CRUD, ROLE_CLIENTE_CRUD, ROLE_GROUP, ROLE_SERVICIO, ROLE_SUCURSAL,ROLE_PAIS ]  }
-            - { entity: 'User', label: 'Users', icon: 'user', permission: [ROLE_USER_CRUD] }
+            - { entity: 'User', label: 'Users', icon: 'user', permission: [ROLE_USER_CRUD, ROLE_CLIENTE] }
             - { entity: 'Cliente', label: 'Clientes', icon: 'user', permission: [ROLE_CLIENTE_CRUD] }
             - { entity: 'Group', label: 'Groups', icon: 'users', permission: [ROLE_GROUP] }
             - { entity: 'Servicio', label: 'Servicios', icon: 'paper-plane', permission: [ROLE_SERVICIO] }

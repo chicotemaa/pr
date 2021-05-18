@@ -110,7 +110,7 @@ class Cliente implements iSucursalFilter
     private $sucursal;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="cliente", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="cliente", cascade={"persist", "remove"})
      */
     private $user;
 

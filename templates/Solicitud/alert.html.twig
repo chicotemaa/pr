@@ -11,7 +11,7 @@
 			{% for unread in unreads %}
 				<li>
 					<p>						
-						<a href="{{ path('easyadmin', { action: 'show', entity: 'Solicitud', view: 'list', id: unread.id}) }}">{{unread.nroIncidencia}}</a>						
+						<a href="{{ path('easyadmin', { action: 'show', entity: 'Solicitud', view: 'list', id: unread.id}) }}">{{unread.cliente.RazonSocial}}</a>						
 					</p>
 				</li>
 			{% endfor %}
