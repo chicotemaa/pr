@@ -73,7 +73,7 @@ class UserController extends EasyAdminController
     //lista alumnos inscriptos a una oferta local seleccionada
     public function armarQuery($queryBuilder)
     {
-        // aca tengo que obtener el usuario logueado
+        /* aca tengo que obtener el usuario logueado
         dump($this->getUser()); die;
         if ($this->getUser()) {
             $queryBuilder
@@ -81,6 +81,14 @@ class UserController extends EasyAdminController
                 ->andwhere('c = :val')
                 ->setParameter('val', $oferta)
                 ;
+        }*/
+        $idCliente = $this->getUser()->getId();
+        //dump($idCliente); die;
+        if ($idCliente !='null' && !empty($idCliente)) {
+            $queryBuilder
+            ->join('entity.cliente', 'c')
+            ->andWhere('c.id = :idCliente')
+            ->setParameter('idCliente', $idCliente);
         }
         return $queryBuilder;
 

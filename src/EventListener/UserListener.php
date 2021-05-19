@@ -73,7 +73,7 @@ class UserListener implements EventSubscriberInterface
 
         $event->setResponse(new RedirectResponse($url));
     }
-
+    
     private function getUser()
     {
         if ($this->tokenStorage->getToken()) {

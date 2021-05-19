@@ -74,7 +74,7 @@ class OrdenTrabajoController extends EasyAdminController
 
 
         $idCliente = $this->request->query->get('idCliente');
-
+        
         if ($idCliente!='null' && !empty($idCliente)) {
             $queryBuilder
             ->join('entity.cliente', 'c')

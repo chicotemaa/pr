@@ -1,7 +1,8 @@
 easy_admin:
     entities:
-        User:
-            class: App\Entity\User
+        UserCliente:
+            class: App\Entity\UserCliente
+            implements: App\Entity\iClienteFilter
             controller: App\Controller\UserController
             templates:
                 # Twig namespace template syntax
@@ -13,10 +14,7 @@ easy_admin:
                     - property: 'username'
                     - property: 'email'
                     - property: 'enabled'
-                    - property: 'sucursal'
-                    - property: 'cliente'
-                    - property: 'roles'
-                fields: ['id', 'username', 'email', 'enabled', 'sucursal', 'lastLogin', 'roles']
+                fields: ['id', 'username', 'email', 'enabled', 'lastLogin']
             edit:
                 item_permission: [ROLE_USER_CRUD, ROLE_STAFF]
                 fields:

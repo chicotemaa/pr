@@ -37,13 +37,13 @@ class RequestListener
             && !$this->authorizationChecker->isGranted('ROLE_ADMIN', $user)
         ) {
             // Si es ROLE_EMPLEADO filtrar por usuario
-            // Si es ROLE_CLIENTE filtrar  por cliente id
+            // Si es ROLE_STAFF filtrar  por cliente id
             // Si es ROLE_ENCARGADO filtrar por sucursal
 
             if ($this->authorizationChecker->isGranted('ROLE_EMPLEADO', $user)) {
                 $filter = $this->em->getFilters()->enable('user_filter');
                 $filter->setParameter('user_id', $user->getId());
-            } elseif ($this->authorizationChecker->isGranted('ROLE_CLIENTE', $user)) {
+            } elseif ($this->authorizationChecker->isGranted('ROLE_STAFF', $user)) {
                 $filter = $this->em->getFilters()->enable('cliente_filter');
                 $filter->setParameter('cliente_id', $user->getCliente()->getId());
             } elseif ($this->authorizationChecker->isGranted('ROLE_ENCARGADO', $user)) {

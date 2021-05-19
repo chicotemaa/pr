@@ -12,34 +12,24 @@ easy_admin:
             disabled_actions: ['edit', 'new', 'delete']
             list:
             
-                item_permission: [ROLE_STAFF]
+                item_permission: [ROLE_STAFF, ROLE_EMPLEADO]
                 batch_actions: ['exportar']
 
                 filters:
                     - property: 'user'
-                    - property: 'formulario'
-                    - property: 'sucursal'
-                    - property: 'cliente'
                     - property: 'fecha'
                     - property: 'motivo'
-                    - property: 'estadosGestion'
-                      type: 'App\Form\Filter\EstadosGestionFilterType'
-                      mapped: false
                     - property: 'estado'
                       type: 'App\Form\Filter\EstadoFilterType'
                       mapped: false
                 fields:
-                    - 'id'
                     #- { property: 'solicitud.nroIncidencia', label: 'Incidencia' }
-                    - { property: 'estadoGestion', template: 'OrdenTrabajo/estadoGestion.html.twig' }
-                    - { property: 'formulario', type: 'text'}
-                    - { property: 'user', type: 'text'}
+                    - { property: 'user', type: 'text', label: 'Tecnico'}
                     #- { property: 'sucursal', type: 'text'}
                     - { property: 'estado', label: 'Estado', template: 'OrdenTrabajo/estado.html.twig'  }
                     - { property: 'fecha', format: 'd/m/Y' }
                     - { property: 'horaInicio', format: 'H:i' }
                     - { property: 'horaFin', format: 'H:i' }
-                    - { property: 'formularioResultado.minutosTrabajado', format: 'H:i', label: 'Minutos trabajados' }
                     - { property: 'cliente', type: 'string' }
                     # - { property: 'motivo', label: 'Postergado por' }
                 actions:
@@ -47,22 +37,18 @@ easy_admin:
                     - { name: 'edit', icon: 'pencil', label: '' }
                     - { name: 'delete', icon: 'remove', label: '' }
             show:
-                item_permission: [ROLE_STAFF]
+                item_permission: [ROLE_STAFF, ROLE_EMPLEADO]
                 fields:
                     - { property: 'id', columns: 6 }
-                    - { property: 'user', type: 'text', columns: 6 }
-                    - { property: 'formulario', type: 'text', columns: 6 }
+                    - { property: 'user',label: 'Tecnico', type: 'text', columns: 6 }
                     - { property: 'orden', columns: 6 }
-                    - { property: 'sucursal', type: 'text', columns: 6 }
                     - { property: 'cliente', type: 'text', columns: 6 }
                     - { property: 'estadoToString', label: 'Estado', columns: 6 }
                     - { property: 'horaInicio', columns: 6, format: 'H:i' }
                     - { property: 'horaFin', columns: 6, format: 'H:i' }
                     - { property: 'fechaCompleta', columns: 6 }
                     - { property: 'motivo', columns: 6, label: 'Postergado por' }
-                    - { property: 'formularioResultado.minutosTrabajado',label: 'Minutos Trabajado', columns: 6 }
                     - { property: 'createdAt', label: 'Creado', columns: 6, format: 'd/m/Y H:i' }
-                    - { property: 'solicitud.servicio', label: 'Solicitud asociada', columns: 6 }
                     - { property: 'imageName', type: 'image', label: 'Firma', base_path: 'uploads/imagenes/resultado/', columns: 6 }
                     - { property: 'responsableFirma', label: 'Firma del responsable', columns: 6 }
                     - { property: 'comentario' }
@@ -72,8 +58,7 @@ easy_admin:
                 fields:
                     - '-estado'
                     - { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
-            edit:
-                item_permission: [ROLE_STAFF]
+
             delete:
                 item_permission: [ROLE_STAFF]
             form:

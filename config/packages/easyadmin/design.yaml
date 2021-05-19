@@ -9,10 +9,10 @@ easy_admin:
         templates:
             layout: 'easy_admin/layout.html.twig'
         menu:
-            - { label: 'Gestión de Trabajo' , permission: [ROLE_ADMIN, ROLE_ORDEN_TRABAJO, ROLE_SOLICITUD, ROLE_CARPETA, ROLE_DASHBOARD, ROLE_STAFF] }
+            - { label: 'Gestión de Trabajo' , permission: [ROLE_ADMIN, ROLE_ORDEN_TRABAJO, ROLE_SOLICITUD, ROLE_CARPETA, ROLE_DASHBOARD, ROLE_STAFF, ROLE_EMPLEADO] }
             - { label: 'Dashboard', route: 'dashboard', icon: 'dashboard', permission: [ROLE_ADMIN, ROLE_DASHBOARD] }
             - { entity: 'OrdenTrabajo', label: 'Ordenes Trabajo', icon: 'briefcase', permission: [ROLE_ORDEN_TRABAJO] }
-            - { entity: 'OrdenTrabajoCliente', label: 'Ordenes Trabajo', icon: 'briefcase', permission: [ROLE_STAFF] }
+            - { entity: 'OrdenTrabajoCliente', label: 'Ordenes Trabajo', icon: 'briefcase', permission: [ROLE_STAFF, ROLE_EMPLEADO] }
             - { entity: 'Solicitud', label: 'Solicitudes',default: true, icon: 'list', permission: [ROLE_SOLICITUD, ROLE_STAFF] }
             - { entity: 'Carpeta', label: 'Carpetas', icon: 'folder', permission: [ROLE_CARPETA]}
             - { entity: 'Equipo', label: 'Equipos', icon: 'server', permission: [ROLE_ORDEN_TRABAJO, ROLE_CLIENTE_CRUD] }
@@ -35,7 +35,7 @@ easy_admin:
                 - { entity: 'RecycleItem', label: 'Items', icon: 'pager', permission: [ROLE_ITEM] }
             - { label: 'Administrador', permission: [ROLE_USER_CRUD, ROLE_CLIENTE_CRUD, ROLE_GROUP, ROLE_SERVICIO, ROLE_SUCURSAL,ROLE_PAIS ]  }
             - { entity: 'User', label: 'Users', icon: 'user', permission: [ROLE_USER_CRUD] }
-            - { entity: 'User', label: 'Datos de Usuario', icon: 'user', permission: [ROLE_STAFF] }
+            - { entity: 'UserCliente', label: 'Datos de Usuario', icon: 'user', permission: [ROLE_STAFF] }
             - { entity: 'Cliente', label: 'Clientes', icon: 'user', permission: [ROLE_CLIENTE_CRUD] }
             - { entity: 'Group', label: 'Groups', icon: 'users', permission: [ROLE_GROUP] }
             - { entity: 'Servicio', label: 'Servicios', icon: 'paper-plane', permission: [ROLE_SERVICIO] }

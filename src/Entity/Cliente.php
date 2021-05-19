@@ -146,6 +146,7 @@ class Cliente implements iSucursalFilter
 
 
 
+
     public function __construct()
     {
         $this->ordenTrabajos = new ArrayCollection();
@@ -156,7 +157,7 @@ class Cliente implements iSucursalFilter
     public function __toString()
     {
         try {
-            return (string) $this->razonSocial.' '.$this->apellido.' '.$this->nombre;; // If it is possible, return a string value from object.
+            return (string) $this->razonSocial.' '.$this->nombre.' '.$this->street; // If it is possible, return a string value from object.
          } catch (Exception $e) {
             return get_class($this).'@'.spl_object_hash($this); // If it is not possible, return a preset string to identify instance of object, e.g.
          }
@@ -211,7 +212,17 @@ class Cliente implements iSucursalFilter
 
         return $this;
     }
+    public function getStreet(): ?string
+    {
+        return $this->street;
+    }
 
+    public function setStreet(string $street): self
+    {
+        $this->apellido = $street;
+
+        return $this;
+    }
     public function getNombre(): ?string
     {
         return $this->nombre;

@@ -57,7 +57,7 @@ class PersistListener
     {
         if (
             $this->getUser() && method_exists($entity, 'getSucursal')
-            && !$this->authorization_checker->isGranted('ROLE_STAFF')
+            && !$this->authorization_checker->isGranted('ROLE_CLIENTE')
         ) {
             if (is_null($entity->getSucursal())) {
                 $sucursal = $this->em->getPartialReference(

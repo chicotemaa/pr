@@ -15,7 +15,6 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
- * @ORM\Table(name="fos_user")
  * @AppAssert\UserConstraint
  * @ApiResource(
  *    attributes={
@@ -38,7 +37,8 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *           "get"={"method"="GET"}
  *     })
  */
-class User extends BaseUser   
+class UserCliente  extends BaseUser
+    implements  iClienteFilter
 {
     use SoftDeleteableEntity;
     
@@ -90,14 +90,14 @@ class User extends BaseUser
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Group")
-     * @ORM\JoinTable(name="fos_user_group",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
     protected $groups;
 
-        public function __construct()
+
+    public function __construct()
     {
         parent::__construct();
         $this->ordenTrabajo = new ArrayCollection();
@@ -191,4 +191,6 @@ class User extends BaseUser
 
         return $this;
     }
+
+
 }
