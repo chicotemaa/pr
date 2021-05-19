@@ -22,7 +22,8 @@ easy_admin:
               icon: 'trash-alt' 
               permission: [ROLE_ADMIN, ROLE_STAFF]
               children:
-                - { entity: 'RecycleOrdenTrabajo', label: 'Ordenes Trabajo', icon: 'briefcase', default: true, permission: [ROLE_ORDEN_TRABAJO, ROLE_STAFF] }
+                - { entity: 'RecycleOrdenTrabajo', label: 'Ordenes Trabajo', icon: 'briefcase', default: true, permission: [ROLE_ORDEN_TRABAJO] }
+                - { entity: 'RecycleOrdenTrabajoCliente', label: 'Ordenes Trabajo', icon: 'briefcase', default: true, permission: [ROLE_STAFF] }
                 - { entity: 'RecycleSolicitud', label: 'Solicitudes', icon: 'list', permission: [ROLE_SOLICITUD, ROLE_STAFF] }
                 - { entity: 'RecycleUser', label: 'Users', icon: 'user', permission: [ROLE_USER_CRUD] }
                 - { entity: 'RecycleCliente', label: 'Clientes', icon: 'user', permission: [ROLE_CLIENTE_CRUD] }

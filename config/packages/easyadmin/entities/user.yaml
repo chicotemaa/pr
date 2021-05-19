@@ -8,7 +8,7 @@ easy_admin:
                 new:  'User/new.html.twig'
                 edit: 'User/edit.html.twig'
             list:
-                item_permission: [ROLE_USER_CRUD, ROLE_STAFF]
+                item_permission: [ROLE_USER_CRUD]
                 filters:
                     - property: 'username'
                     - property: 'email'
@@ -18,7 +18,7 @@ easy_admin:
                     - property: 'roles'
                 fields: ['id', 'username', 'email', 'enabled', 'sucursal', 'lastLogin', 'roles']
             edit:
-                item_permission: [ROLE_USER_CRUD, ROLE_STAFF]
+                item_permission: [ROLE_USER_CRUD]
                 fields:
                     - { property: 'username', columns: 6 }
                     - { property: 'email', columns: 6 }
@@ -45,7 +45,7 @@ easy_admin:
                     - { property: 'sucursal', columns: 6 }
                     - { property: 'cliente', columns: 6 }
                     - { property: 'groups', columns: 6 }
-                    # - { property: 'lastLogin', columns: 6 }
+                    - { property: 'facility', columns: 6 }
                     - { property: 'plainPassword', type: 'text', type_options: { required: true }, columns: 6 }
                     - { property: 'enabled', columns: 6 }
                     -
