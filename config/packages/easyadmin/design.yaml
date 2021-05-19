@@ -12,7 +12,7 @@ easy_admin:
             - { label: 'Gestión de Trabajo' , permission: [ROLE_ADMIN, ROLE_ORDEN_TRABAJO, ROLE_SOLICITUD, ROLE_CARPETA, ROLE_DASHBOARD, ROLE_STAFF, ROLE_EMPLEADO] }
             - { label: 'Dashboard', route: 'dashboard', icon: 'dashboard', permission: [ROLE_ADMIN, ROLE_DASHBOARD] }
             - { entity: 'OrdenTrabajo', label: 'Ordenes Trabajo', icon: 'briefcase', permission: [ROLE_ORDEN_TRABAJO] }
-            - { entity: 'OrdenTrabajoCliente', label: 'Ordenes Trabajo', icon: 'briefcase', permission: [ROLE_STAFF, ROLE_EMPLEADO] }
+            - { entity: 'OrdenTrabajoCliente', label: 'Ordenes Trabajo', icon: 'briefcase', permission: [ROLE_STAFF, ROLE_STAFF] }
             - { entity: 'Solicitud', label: 'Solicitudes',default: true, icon: 'list', permission: [ROLE_SOLICITUD, ROLE_STAFF] }
             - { entity: 'Carpeta', label: 'Carpetas', icon: 'folder', permission: [ROLE_CARPETA]}
             - { entity: 'Equipo', label: 'Equipos', icon: 'server', permission: [ROLE_ORDEN_TRABAJO, ROLE_CLIENTE_CRUD] }
