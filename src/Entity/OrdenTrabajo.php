@@ -48,7 +48,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *  }
  * )
  */
-class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
+class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter, iFacilityFilter , iStaffFilter
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
@@ -240,6 +240,11 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
      * @ORM\Column(type="string", length=60, nullable=true)
      */
     private $facility;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $street;
 
     public function __toString()
     {
@@ -695,6 +700,18 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
     public function setFacility(?string $facility): self
     {
         $this->facility = $facility;
+
+        return $this;
+    }
+
+    public function getStreet(): ?string
+    {
+        return $this->street;
+    }
+
+    public function setStreet(?string $street): self
+    {
+        $this->street = $street;
 
         return $this;
     }

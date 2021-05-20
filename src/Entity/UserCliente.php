@@ -39,7 +39,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *     })
  */
 class UserCliente  extends BaseUser
-    implements  iClienteFilter
+    implements  iClienteFilter, iFacilityFilter , iStaffFilter
 {
     use SoftDeleteableEntity;
     
@@ -97,6 +97,17 @@ class UserCliente  extends BaseUser
      * )
      */
     protected $groups;
+
+    /**
+     * @ORM\Column(type="string", length=60, nullable=true)
+     */
+    private $facility;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $street;
+
 
     public function __construct()
     {
@@ -189,6 +200,28 @@ class UserCliente  extends BaseUser
     public function setCliente(?Cliente $cliente): self
     {
         $this->cliente = $cliente;
+
+        return $this;
+    }
+    public function getFacility(): ?string
+    {
+        return $this->facility;
+    }
+
+    public function setFacility(?string $facility): self
+    {
+        $this->facility = $facility;
+
+        return $this;
+    }
+    public function getStreet(): ?string
+    {
+        return $this->street;
+    }
+
+    public function setStreet(?string $street): self
+    {
+        $this->street = $street;
 
         return $this;
     }

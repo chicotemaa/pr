@@ -37,6 +37,12 @@ doctrine:
             user_filter:
                 class:   App\Filter\UserFilter
                 enabled: false
+            facility_filter:
+                class:   App\Filter\FacilityFilter
+                enabled: false
+            staff_filter:
+                class:   App\Filter\StaffFilter
+                enabled: false
             cliente_filter:
                 class:   App\Filter\ClienteFilter
                 enabled: false

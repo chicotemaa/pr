@@ -102,6 +102,11 @@ class User extends BaseUser
      */
     private $facility;
 
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $street;
+
         public function __construct()
     {
         parent::__construct();
@@ -205,6 +210,18 @@ class User extends BaseUser
     public function setFacility(?string $facility): self
     {
         $this->facility = $facility;
+
+        return $this;
+    }
+
+    public function getStreet(): ?string
+    {
+        return $this->street;
+    }
+
+    public function setStreet(?string $street): self
+    {
+        $this->street = $street;
 
         return $this;
     }
