@@ -43,7 +43,7 @@ class RequestListener
             if ($this->authorizationChecker->isGranted('ROLE_EMPLEADO', $user)) {
                 $filter = $this->em->getFilters()->enable('user_filter');
                 $filter->setParameter('user_id', $user->getId());
-            } elseif ($this->authorizationChecker->isGranted('ROLE_STAFF', $user)) {
+            } elseif ($this->authorizationChecker->isGranted('ROLE_FACILITY', $user)) {
                 $filter = $this->em->getFilters()->enable('cliente_filter');
                 $filter->setParameter('cliente_id', $user->getCliente()->getId());
             } elseif ($this->authorizationChecker->isGranted('ROLE_ENCARGADO', $user)) {

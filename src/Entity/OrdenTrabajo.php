@@ -236,6 +236,11 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
      */
     private $longitudCierre;
 
+    /**
+     * @ORM\Column(type="string", length=60, nullable=true)
+     */
+    private $facility;
+
     public function __toString()
     {
         return 'Cliente: '.$this->cliente.'| Usuario: '.$this->user.'| Formulario'.$this->formulario;
@@ -678,6 +683,18 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
     public function setLongitudCierre(?string $longitudCierre): self
     {
         $this->longitudCierre = $longitudCierre;
+
+        return $this;
+    }
+
+    public function getFacility(): ?string
+    {
+        return $this->facility;
+    }
+
+    public function setFacility(?string $facility): self
+    {
+        $this->facility = $facility;
 
         return $this;
     }
