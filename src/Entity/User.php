@@ -107,6 +107,11 @@ class User extends BaseUser
      */
     private $street;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\ClienteSucursal", mappedBy="users")
+     */
+    private $clienteSucursals;
+
         public function __construct()
     {
         parent::__construct();
@@ -114,6 +119,7 @@ class User extends BaseUser
         $this->formularioResultadoExpress = new ArrayCollection();
         // your own logic
         $this->roles = ['ROLE_USER'];
+        $this->clienteSucursals = new ArrayCollection();
     }
 
     public function getSucursal(): ?Sucursal
@@ -222,6 +228,34 @@ class User extends BaseUser
     public function setStreet(?string $street): self
     {
         $this->street = $street;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ClienteSucursal[]
+     */
+    public function getClienteSucursals(): Collection
+    {
+        return $this->clienteSucursals;
+    }
+
+    public function addClienteSucursal(ClienteSucursal $clienteSucursal): self
+    {
+        if (!$this->clienteSucursals->contains($clienteSucursal)) {
+            $this->clienteSucursals[] = $clienteSucursal;
+            $clienteSucursal->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClienteSucursal(ClienteSucursal $clienteSucursal): self
+    {
+        if ($this->clienteSucursals->contains($clienteSucursal)) {
+            $this->clienteSucursals->removeElement($clienteSucursal);
+            $clienteSucursal->removeUser($this);
+        }
 
         return $this;
     }

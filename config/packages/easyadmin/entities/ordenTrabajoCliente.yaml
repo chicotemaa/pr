@@ -16,9 +16,9 @@ easy_admin:
                 batch_actions: ['exportar']
 
                 filters:
-                    - property: 'user'
                     - property: 'fecha'
                     - property: 'motivo'
+                    - property: 'clienteSucursal'
                     - property: 'estado'
                       type: 'App\Form\Filter\EstadoFilterType'
                       mapped: false
