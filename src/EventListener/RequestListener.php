@@ -47,13 +47,11 @@ class RequestListener
                 $filter = $this->em->getFilters()->enable('cliente_filter');
                 $filter->setParameter('cliente_id', $user->getCliente()->getId());
             } elseif ($this->authorizationChecker->isGranted('ROLE_FACILITY', $user)) {
-                //dump($user->getClienteSucursals());die;
                 $filter = $this->em->getFilters()->enable('facility_filter');
                 foreach ($user->getClienteSucursals() as $suc) {
-                    $filter->setParameter('cliente_sucursal_id', $suc->getId());
+                     $filter->setParameter('cliente_sucursal_id', $suc->getId());  
                 }
-                
-                //$filter->setParameter('cliente_sucursal_id', $user->getClienteSucursals());
+                $filter->setParameter('cliente_sucursal_id', 1); 
             } elseif ($this->authorizationChecker->isGranted('ROLE_STAFF', $user)) {
                 $filter = $this->em->getFilters()->enable('staff_filter');
                 $filter->setParameter('street',  $user->getStreet());
