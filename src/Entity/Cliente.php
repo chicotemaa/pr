@@ -149,6 +149,11 @@ class Cliente implements iSucursalFilter
      */
     private $clienteSucursals;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ClienteSucursal", mappedBy="user")
+     */
+    private $Users;
+
 
 
 
@@ -158,6 +163,7 @@ class Cliente implements iSucursalFilter
         $this->solicituds = new ArrayCollection();
         $this->equipos = new ArrayCollection();
         $this->clienteSucursals = new ArrayCollection();
+        $this->Users = new ArrayCollection();
     }
 
     public function __toString()
@@ -504,6 +510,37 @@ class Cliente implements iSucursalFilter
             // set the owning side to null (unless already changed)
             if ($clienteSucursal->getCliente() === $this) {
                 $clienteSucursal->setCliente(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ClienteSucursal[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->Users;
+    }
+
+    public function addUser(ClienteSucursal $user): self
+    {
+        if (!$this->Users->contains($user)) {
+            $this->Users[] = $user;
+            $user->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(ClienteSucursal $user): self
+    {
+        if ($this->Users->contains($user)) {
+            $this->Users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getUser() === $this) {
+                $user->setUser(null);
             }
         }
 

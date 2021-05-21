@@ -48,9 +48,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *  }
  * )
  */
-class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter, iFacilityFilter
+class OrdenTrabajo implements iSucursalFilter, iClienteFilter
 {
-    use TimestampableEntity;
     use SoftDeleteableEntity;
 
     public static $estados = [

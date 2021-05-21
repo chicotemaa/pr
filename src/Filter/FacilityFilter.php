@@ -14,7 +14,7 @@ class FacilityFilter extends SQLFilter
         if (!$targetEntity->reflClass->implementsInterface(iFacilityFilter::class)) {
             return '';
         }
-        
-        return $targetTableAlias.'.cliente_sucursal_id = '.$this->getParameter('cliente_sucursal_id');
+        //dump($targetTableAlias);die;
+        return $targetTableAlias.'.cliente_sucursal_id = '.$this->getParameter('cliente_id');
     }
 }
