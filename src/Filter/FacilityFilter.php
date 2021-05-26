@@ -15,6 +15,6 @@ class FacilityFilter extends SQLFilter
             return '';
         }
         //dump($targetTableAlias);die;
-        //return $targetTableAlias.'.cliente_sucursal_id = '.$this->getParameter('cliente_id');
+        return $targetTableAlias.'.cliente_sucursal_id = 2 or '. $targetTableAlias.'.cliente_sucursal_id = 1';
     }
 }

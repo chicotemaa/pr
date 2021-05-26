@@ -51,7 +51,6 @@ class ClienteSucursal
      */
     private $ordenTrabajos;
 
-
     public function __toString()
     {
         return $this->cliente . '|' . $this->codigo . '|' . $this->direccion;
@@ -192,6 +191,4 @@ class ClienteSucursal
 
         return $this;
     }
-
-
 }

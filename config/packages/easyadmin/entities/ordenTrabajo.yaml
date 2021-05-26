@@ -37,9 +37,8 @@ easy_admin:
                     - { property: 'fecha', format: 'd/m/Y' }
                     - { property: 'horaInicio', format: 'H:i' }
                     - { property: 'horaFin', format: 'H:i' }
-                    #- { property: 'formularioResultado.minutosTrabajado', format: 'H:i', label: 'Minutos trabajados' }
+                    - { property: 'formularioResultado.minutosTrabajado', format: 'H:i', label: 'Minutos trabajados' }
                     - { property: 'cliente', type: 'string' }
-                    - { property: 'clienteSucursal', type: 'string' }
                     # - { property: 'motivo', label: 'Postergado por' }
                 actions:
                     - { name: 'show',  icon: 'search', label: '' }
@@ -86,6 +85,7 @@ easy_admin:
                     - { property: 'clienteSucursal', type_options: { required: true }, permission: ROLE_ENCARGADO }
                     - { property: 'user', label: 'user', type_options: { required: true } }
                     - { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } } }
+                    - { property: 'street', css_class: 'col-md-6' }
                     - { property: 'comentario' }
                     - { property: 'estado', type: 'choice', type_options: { choices: '%otEstadoArray%' } }
                     - { type: 'group', label: 'Date', css_class: 'col-md-4' }
