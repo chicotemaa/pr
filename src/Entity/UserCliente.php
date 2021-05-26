@@ -38,7 +38,8 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *           "get"={"method"="GET"}
  *     })
  */
-class User extends BaseUser   
+class UserCliente  extends BaseUser
+    implements  iClienteFilter, iFacilityFilter , iStaffFilter
 {
     use SoftDeleteableEntity;
     
@@ -107,7 +108,8 @@ class User extends BaseUser
      */
     private $street;
 
-        public function __construct()
+
+    public function __construct()
     {
         parent::__construct();
         $this->ordenTrabajo = new ArrayCollection();
@@ -201,7 +203,6 @@ class User extends BaseUser
 
         return $this;
     }
-
     public function getFacility(): ?string
     {
         return $this->facility;
@@ -213,7 +214,6 @@ class User extends BaseUser
 
         return $this;
     }
-
     public function getStreet(): ?string
     {
         return $this->street;
