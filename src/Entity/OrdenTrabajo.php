@@ -236,15 +236,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter, iFac
      */
     private $longitudCierre;
 
-    /**
-     * @ORM\Column(type="string", length=60, nullable=true)
-     */
-    private $facility;
 
-    /**
-     * @ORM\Column(type="string", length=100, nullable=true)
-     */
-    private $street;
 
     public function __toString()
     {
@@ -692,27 +684,4 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter, iFac
         return $this;
     }
 
-    public function getFacility(): ?string
-    {
-        return $this->facility;
-    }
-
-    public function setFacility(?string $facility): self
-    {
-        $this->facility = $facility;
-
-        return $this;
-    }
-
-    public function getStreet(): ?string
-    {
-        return $this->street;
-    }
-
-    public function setStreet(?string $street): self
-    {
-        $this->street = $street;
-
-        return $this;
-    }
 }

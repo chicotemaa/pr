@@ -66,7 +66,7 @@ class User extends BaseUser
     private $sucursal;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="user", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="user", cascade={"persist"})
      * @Groups({"readRegistration", "writeRegistration", "userInfo"})
      */
     private $cliente;
@@ -98,14 +98,14 @@ class User extends BaseUser
     protected $groups;
 
     /**
-     * @ORM\Column(type="string", length=60, nullable=true)
+     * @ORM\OneToOne(targetEntity="App\Entity\ClienteSucursal", cascade={"persist", "remove"})
      */
-    private $facility;
+    private $ClienteSucursal;
 
     /**
-     * @ORM\Column(type="string", length=150, nullable=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Solicitud", mappedBy="User")
      */
-    private $street;
+    private $solicituds;
 
         public function __construct()
     {
@@ -114,6 +114,7 @@ class User extends BaseUser
         $this->formularioResultadoExpress = new ArrayCollection();
         // your own logic
         $this->roles = ['ROLE_USER'];
+        $this->solicituds = new ArrayCollection();
     }
 
     public function getSucursal(): ?Sucursal
@@ -202,26 +203,50 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getFacility(): ?string
+    /**
+     * @return Collection|ClienteSucursal[]
+     */
+
+
+    public function getClienteSucursal(): ?ClienteSucursal
     {
-        return $this->facility;
+        return $this->ClienteSucursal;
     }
 
-    public function setFacility(?string $facility): self
+    public function setClienteSucursal(?ClienteSucursal $ClienteSucursal): self
     {
-        $this->facility = $facility;
+        $this->ClienteSucursal = $ClienteSucursal;
 
         return $this;
     }
 
-    public function getStreet(): ?string
+    /**
+     * @return Collection|Solicitud[]
+     */
+    public function getSolicituds(): Collection
     {
-        return $this->street;
+        return $this->solicituds;
     }
 
-    public function setStreet(?string $street): self
+    public function addSolicitud(Solicitud $solicitud): self
     {
-        $this->street = $street;
+        if (!$this->solicituds->contains($solicitud)) {
+            $this->solicituds[] = $solicitud;
+            $solicitud->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolicitud(Solicitud $solicitud): self
+    {
+        if ($this->solicituds->contains($solicitud)) {
+            $this->solicituds->removeElement($solicitud);
+            // set the owning side to null (unless already changed)
+            if ($solicitud->getUser() === $this) {
+                $solicitud->setUser(null);
+            }
+        }
 
         return $this;
     }
