@@ -175,6 +175,11 @@ class Solicitud implements iClienteFilter, iSucursalFilter
      */
     private $leido;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ClienteSucursal", inversedBy="solicituds")
+     */
+    private $clienteSucursal;
+
     public function __toString()
     {
         return $this->nroIncidencia;
@@ -422,6 +427,18 @@ class Solicitud implements iClienteFilter, iSucursalFilter
     public function setLeido(?bool $leido): self
     {
         $this->leido = $leido;
+
+        return $this;
+    }
+
+    public function getClienteSucursal(): ?ClienteSucursal
+    {
+        return $this->clienteSucursal;
+    }
+
+    public function setClienteSucursal(?ClienteSucursal $clienteSucursal): self
+    {
+        $this->clienteSucursal = $clienteSucursal;
 
         return $this;
     }

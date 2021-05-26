@@ -47,7 +47,7 @@ easy_admin:
                     - { type: 'group', columns: 6 }
                     - { property: 'sucursal', permission: ROLE_ENCARGADO }
                     - { property: 'cliente', permission: ROLE_ENCARGADO }
-                    - { property: 'ClienteSucursal', permission: ROLE_ENCARGADO }
+                    - { property: 'clienteSucursal', permission: ROLE_ENCARGADO }
                     - { property: 'estado', permission: ROLE_ENCARGADO, type: 'choice', type_options: { choices: '%solicitudEstadoArray%' } }
                     - { 
                         property: 'servicio',

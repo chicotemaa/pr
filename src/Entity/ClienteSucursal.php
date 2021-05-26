@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\ClienteSucursalRepository")
  */
 class ClienteSucursal
@@ -19,44 +21,46 @@ class ClienteSucursal
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $codigo;
 
     /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $encargado;
-
-    /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $direccion;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="clienteSucursals")
      */
-    private $User;
+    private $users;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="clienteSucursals")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $cliente;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Solicitud", mappedBy="clienteSucursal")
      */
-    private $solicitud;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Solicitud", mappedBy="ClienteSucursal")
-     */
     private $solicituds;
 
-    public function __construct()
-    {
-        $this->solicitud = new ArrayCollection();
-        $this->solicituds = new ArrayCollection();
-    }
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\OrdenTrabajo", mappedBy="clienteSucursal")
+     */
+    private $ordenTrabajos;
 
     public function __toString()
     {
-        return 'Cliente: '.$this->encargado.' Direccion: '.$this->direccion;
+        return $this->cliente . '|' . $this->codigo . '|' . $this->direccion;
+    }
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+        $this->solicituds = new ArrayCollection();
+        $this->ordenTrabajos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -69,21 +73,9 @@ class ClienteSucursal
         return $this->codigo;
     }
 
-    public function setCodigo(int $codigo): self
+    public function setCodigo(?int $codigo): self
     {
         $this->codigo = $codigo;
-
-        return $this;
-    }
-
-    public function getEncargado(): ?string
-    {
-        return $this->encargado;
-    }
-
-    public function setEncargado(string $encargado): self
-    {
-        $this->encargado = $encargado;
 
         return $this;
     }
@@ -93,52 +85,47 @@ class ClienteSucursal
         return $this->direccion;
     }
 
-    public function setDireccion(string $direccion): self
+    public function setDireccion(?string $direccion): self
     {
         $this->direccion = $direccion;
 
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->User;
-    }
-
-    public function setUser(?User $User): self
-    {
-        $this->User = $User;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|Solicitud[]
+     * @return Collection|User[]
      */
-    public function getSolicitud(): Collection
+    public function getUsers(): Collection
     {
-        return $this->solicitud;
+        return $this->users;
     }
 
-    public function addSolicitud(Solicitud $solicitud): self
+    public function addUser(User $user): self
     {
-        if (!$this->solicitud->contains($solicitud)) {
-            $this->solicitud[] = $solicitud;
-            $solicitud->setClienteSucursal($this);
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
         }
 
         return $this;
     }
 
-    public function removeSolicitud(Solicitud $solicitud): self
+    public function removeUser(User $user): self
     {
-        if ($this->solicitud->contains($solicitud)) {
-            $this->solicitud->removeElement($solicitud);
-            // set the owning side to null (unless already changed)
-            if ($solicitud->getClienteSucursal() === $this) {
-                $solicitud->setClienteSucursal(null);
-            }
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
         }
+
+        return $this;
+    }
+
+    public function getCliente(): ?Cliente
+    {
+        return $this->cliente;
+    }
+
+    public function setCliente(?Cliente $cliente): self
+    {
+        $this->cliente = $cliente;
 
         return $this;
     }
@@ -149,5 +136,59 @@ class ClienteSucursal
     public function getSolicituds(): Collection
     {
         return $this->solicituds;
+    }
+
+    public function addSolicitud(Solicitud $solicitud): self
+    {
+        if (!$this->solicituds->contains($solicitud)) {
+            $this->solicituds[] = $solicitud;
+            $solicitud->setClienteSucursal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolicitud(Solicitud $solicitud): self
+    {
+        if ($this->solicituds->contains($solicitud)) {
+            $this->solicituds->removeElement($solicitud);
+            // set the owning side to null (unless already changed)
+            if ($solicitud->getClienteSucursal() === $this) {
+                $solicitud->setClienteSucursal(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrdenTrabajo[]
+     */
+    public function getOrdenTrabajos(): Collection
+    {
+        return $this->ordenTrabajos;
+    }
+
+    public function addOrdenTrabajo(OrdenTrabajo $ordenTrabajo): self
+    {
+        if (!$this->ordenTrabajos->contains($ordenTrabajo)) {
+            $this->ordenTrabajos[] = $ordenTrabajo;
+            $ordenTrabajo->setClienteSucursal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrdenTrabajo(OrdenTrabajo $ordenTrabajo): self
+    {
+        if ($this->ordenTrabajos->contains($ordenTrabajo)) {
+            $this->ordenTrabajos->removeElement($ordenTrabajo);
+            // set the owning side to null (unless already changed)
+            if ($ordenTrabajo->getClienteSucursal() === $this) {
+                $ordenTrabajo->setClienteSucursal(null);
+            }
+        }
+
+        return $this;
     }
 }
