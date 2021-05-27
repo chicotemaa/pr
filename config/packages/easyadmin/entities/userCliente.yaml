@@ -14,7 +14,7 @@ easy_admin:
                     - property: 'username'
                     - property: 'email'
                     - property: 'enabled'
-                fields: ['id', 'username', 'email', 'enabled', 'lastLogin']
+                fields: ['id', 'username', 'email','SucursalDeCliente', 'enabled', 'lastLogin']
             edit:
                 item_permission: [ROLE_USER_CRUD, ROLE_STAFF]
                 fields:
