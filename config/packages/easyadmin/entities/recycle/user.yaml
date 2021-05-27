@@ -60,7 +60,12 @@ easy_admin:
                             choices: '%LISTA_ROLES%'
                 form_options: { validation_groups: ['Default', 'Registration'] }
             show:
-                item_permission: [ROLE_USER_CRUD]
+                item_permission: [ROLE_USER_CRUD,ROLE_CLIENTE]
+                fields:
+                    - { property: 'username', columns: 6 }
+                    - { property: 'email', columns: 6 }
+                    - { property: 'SucursalDeCliente', columns: 6 }
+                    - { property: 'cliente', type: 'text', columns: 6 }
             delete:
                 item_permission: [ROLE_USER_CRUD]
             search:

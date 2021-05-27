@@ -73,6 +73,8 @@ class SolicitudController extends EasyAdminController
     {
         if ($this->isGranted('ROLE_CLIENTE') && !$this->isGranted('ROLE_ENCARGADO')) {
             $entity->setCliente($this->getUser()->getCliente());
+            $entity->setSucursalDeCliente($this->getUser()->getSucursalDeCliente());
+            $entity->setFacility($this->getUser()->getFacility());
             //$entity->setServicio($this->getUser()->getServicio());
         }
 
@@ -95,12 +97,14 @@ class SolicitudController extends EasyAdminController
             $this->request->getSession()->set('solicitud_ot', [
                 'id' => $solicitud->getId(),
                 'fecha' => $solicitud->getCreatedAt()->format('d/m/Y'),
-                'cliente' => $solicitud->getCliente(),
+                'cliente' => $solicitud->getCliente()->getNombre(),
                 'consulta' => $solicitud->getConsulta(),
                 'detalle' => $solicitud->getDetalle(),
                 'sucursal' => $solicitud->getSucursal(),
+                'direccion' => $solicitud->getSucursalDeCliente()->getDireccion(),
+                'facility' => $solicitud->getFacility()->getApellido(),
+                
             ]);
-
             return $this->redirectToRoute('easyadmin', array(
                 'action' => 'new',
                 'entity' => 'OrdenTrabajo',

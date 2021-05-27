@@ -41,7 +41,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  * @Vich\Uploadable
  * @AppAssert\SolicitudConstraint
  */
-class Solicitud implements iClienteFilter, iSucursalFilter
+class Solicitud implements  iClienteFilter , iFacilityFilter , iSucursalClienteFilter
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
@@ -174,6 +174,16 @@ class Solicitud implements iClienteFilter, iSucursalFilter
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $leido;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="solicituds")
+     */
+    private $Facility;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="solicituds")
+     */
+    private $SucursalDeCliente;
 
     public function __toString()
     {
@@ -422,6 +432,30 @@ class Solicitud implements iClienteFilter, iSucursalFilter
     public function setLeido(?bool $leido): self
     {
         $this->leido = $leido;
+
+        return $this;
+    }
+
+    public function getFacility(): ?Facility
+    {
+        return $this->Facility;
+    }
+
+    public function setFacility(?Facility $Facility): self
+    {
+        $this->Facility = $Facility;
+
+        return $this;
+    }
+
+    public function getSucursalDeCliente(): ?SucursalDeCliente
+    {
+        return $this->SucursalDeCliente;
+    }
+
+    public function setSucursalDeCliente(?SucursalDeCliente $SucursalDeCliente): self
+    {
+        $this->SucursalDeCliente = $SucursalDeCliente;
 
         return $this;
     }

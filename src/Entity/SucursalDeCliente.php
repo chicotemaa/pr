@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\SucursalDeClienteRepository")
  */
 class SucursalDeCliente
+
 {
     /**
      * @ORM\Id()
@@ -39,10 +40,22 @@ class SucursalDeCliente
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\OrdenTrabajo", mappedBy="SucursalDeCliente")
+     */
+    private $ordenTrabajos;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Solicitud", mappedBy="SucursalDeCliente")
+     */
+    private $solicituds;
+
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->ordenTrabajos = new ArrayCollection();
+        $this->solicituds = new ArrayCollection();
     }
     public function __toString()
     {
@@ -117,6 +130,68 @@ class SucursalDeCliente
             // set the owning side to null (unless already changed)
             if ($user->getSucursalDeCliente() === $this) {
                 $user->setSucursalDeCliente(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrdenTrabajo[]
+     */
+    public function getOrdenTrabajos(): Collection
+    {
+        return $this->ordenTrabajos;
+    }
+
+    public function addOrdenTrabajo(OrdenTrabajo $ordenTrabajo): self
+    {
+        if (!$this->ordenTrabajos->contains($ordenTrabajo)) {
+            $this->ordenTrabajos[] = $ordenTrabajo;
+            $ordenTrabajo->setSucursalDeCliente($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrdenTrabajo(OrdenTrabajo $ordenTrabajo): self
+    {
+        if ($this->ordenTrabajos->contains($ordenTrabajo)) {
+            $this->ordenTrabajos->removeElement($ordenTrabajo);
+            // set the owning side to null (unless already changed)
+            if ($ordenTrabajo->getSucursalDeCliente() === $this) {
+                $ordenTrabajo->setSucursalDeCliente(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Solicitud[]
+     */
+    public function getSolicituds(): Collection
+    {
+        return $this->solicituds;
+    }
+
+    public function addSolicitud(Solicitud $solicitud): self
+    {
+        if (!$this->solicituds->contains($solicitud)) {
+            $this->solicituds[] = $solicitud;
+            $solicitud->setSucursalDeCliente($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolicitud(Solicitud $solicitud): self
+    {
+        if ($this->solicituds->contains($solicitud)) {
+            $this->solicituds->removeElement($solicitud);
+            // set the owning side to null (unless already changed)
+            if ($solicitud->getSucursalDeCliente() === $this) {
+                $solicitud->setSucursalDeCliente(null);
             }
         }
 

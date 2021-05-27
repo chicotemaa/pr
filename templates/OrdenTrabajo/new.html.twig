@@ -5,9 +5,12 @@
         <div class="card ml-4" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">Datos de la solicitud asociada</h5>
-                <p class="card-text">Creado: {{ app.session.get('solicitud_ot').fecha}}</p>
                 <p class="card-text">Problema: {{ app.session.get('solicitud_ot').consulta}}</p>
                 <p class="card-text">Detalle: {{ app.session.get('solicitud_ot').detalle}}</p>
+                <p class="card-text">Detalle: {{ app.session.get('solicitud_ot').cliente}}</p>
+                <p class="card-text">Facility: {{ app.session.get('solicitud_ot').facility}}</p>
+                <p class="card-text">Direccion: {{ app.session.get('solicitud_ot').direccion}}</p>
+                <p class="card-text">Creado: {{ app.session.get('solicitud_ot').fecha}}</p>
                 <a id="btnQuitarSolicitud"class="btn btn-danger" href="javascript:;">Cancelar</a>
             </div>
         </div>

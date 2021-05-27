@@ -43,6 +43,9 @@ doctrine:
             facility_filter:
                 class:   App\Filter\FacilityFilter
                 enabled: false
+            sucursal_cliente_filter:
+                class:   App\Filter\SucursalClienteFilter
+                enabled: false
             softdeleteable: 
                 class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
                 enabled: true

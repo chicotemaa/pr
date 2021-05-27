@@ -48,7 +48,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *  }
  * )
  */
-class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFacilityFilter
+class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFacilityFilter, iSucursalClienteFilter
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
@@ -245,6 +245,11 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
      * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="no")
      */
     private $facility;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="ordenTrabajos")
+     */
+    private $SucursalDeCliente;
 
     public function __toString()
     {
@@ -700,6 +705,18 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
     public function setFacility(?Facility $facility): self
     {
         $this->facility = $facility;
+
+        return $this;
+    }
+
+    public function getSucursalDeCliente(): ?SucursalDeCliente
+    {
+        return $this->SucursalDeCliente;
+    }
+
+    public function setSucursalDeCliente(?SucursalDeCliente $SucursalDeCliente): self
+    {
+        $this->SucursalDeCliente = $SucursalDeCliente;
 
         return $this;
     }

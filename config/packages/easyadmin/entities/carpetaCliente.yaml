@@ -6,7 +6,7 @@ easy_admin:
                 # Twig namespace template syntax
                 list: 'Carpeta/carpetaClientes.html.twig'
             list:
-                item_permission: [ROLE_CARPETA]
+                item_permission: [ROLE_CARPETA,ROLE_CLIENTE]
                 fields:
                     - 'id'
                     - 'apellido'

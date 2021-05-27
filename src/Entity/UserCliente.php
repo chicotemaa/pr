@@ -39,7 +39,8 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *     })
  */
 class UserCliente extends BaseUser   
- implements  iClienteFilter , iFacilityFilter
+ implements  iClienteFilter , iFacilityFilter , iSucursalClienteFilter
+ 
 {
     use SoftDeleteableEntity;
     

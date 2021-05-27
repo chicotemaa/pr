@@ -41,8 +41,8 @@ easy_admin:
                 fields:
                     - { property: 'id', columns: 6 }
                     - { property: 'user',label: 'Tecnico', type: 'text', columns: 6 }
-                    - { property: 'orden', columns: 6 }
                     - { property: 'cliente', type: 'text', columns: 6 }
+                    - { property: 'SucursalDeCliente', type: 'text', columns: 6 }
                     - { property: 'estadoToString', label: 'Estado', columns: 6 }
                     - { property: 'horaInicio', columns: 6, format: 'H:i' }
                     - { property: 'horaFin', columns: 6, format: 'H:i' }

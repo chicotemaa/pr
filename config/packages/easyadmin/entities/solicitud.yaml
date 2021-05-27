@@ -26,8 +26,9 @@ easy_admin:
                 fields:
                     - id
                     - { property: 'fechaCompromiso', format: 'd/m/Y H:i' }
-                    - { property: 'cliente', type: 'text' }
                     - { property: 'servicio', type: 'text' }
+                    - { property: 'SucursalDeCliente' }
+                    - { property: 'cliente', type: 'text' }
                     - nroIncidencia
                     - numeroSucursal
                     - { property: 'estado', label: 'Estado' ,template: 'Solicitud/estado.html.twig' }

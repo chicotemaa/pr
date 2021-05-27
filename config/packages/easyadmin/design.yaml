@@ -34,11 +34,13 @@ easy_admin:
                 - { entity: 'RecycleFormulario', label: 'Formularios', icon: 'align-justify', permission: [ ROLE_FORMULARIO ] }
                 - { entity: 'RecycleModulo', label: 'Modulos', icon: 'boxes', permission: [ROLE_MODULO] }
                 - { entity: 'RecycleItem', label: 'Items', icon: 'pager', permission: [ROLE_ITEM] }
-            - { label: 'Administrador', permission: [ROLE_USER_CRUD, ROLE_CLIENTE_CRUD, ROLE_GROUP, ROLE_SERVICIO, ROLE_SUCURSAL,ROLE_PAIS ]  }
+            - { label: 'Administrador', permission: [ROLE_USER_CRUD, ROLE_CLIENTE_CRUD, ROLE_GROUP, ROLE_SERVICIO, ROLE_SUCURSAL,ROLE_PAIS, ROLE_CLIENTE ]  }
             - { entity: 'User', label: 'Users', icon: 'user', permission: [ROLE_USER_CRUD] }
-            - { entity: 'Facility', label: 'Crear Facility', icon: 'user', permission: [ROLE_USER_CRUD] }
+            - { entity: 'Facility', label: 'Crear Facility', icon: 'user', permission: [ROLE_ADMIN] }
+            - { entity: 'facilityCliente', label: ' Facility', icon: 'user', permission: [ROLE_MANAGER] }
             - { entity: 'UserCliente', label: 'Datos de Usuario', icon: 'user', permission: [ROLE_STAFF] }
             - { entity: 'SucursalDeCliente', label: 'Datos de Sucursal', icon: 'building', permission: [ROLE_ADMIN] }
+            - { entity: 'sucursaldecliente', label: 'Datos de Sucursal', icon: 'building', permission: [ROLE_MANAGER] }
             - { entity: 'Cliente', label: 'Clientes', icon: 'user', permission: [ROLE_CLIENTE_CRUD] }
             - { entity: 'Group', label: 'Groups', icon: 'users', permission: [ROLE_GROUP] }
             - { entity: 'Servicio', label: 'Servicios', icon: 'paper-plane', permission: [ROLE_SERVICIO] }

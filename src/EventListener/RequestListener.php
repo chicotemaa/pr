@@ -49,6 +49,9 @@ class RequestListener
             } elseif ($this->authorizationChecker->isGranted('ROLE_FACILITY', $user)) {
                 $filter = $this->em->getFilters()->enable('facility_filter');
                 $filter->setParameter('facility_id', $user->getFacility()->getId());
+            } elseif ($this->authorizationChecker->isGranted('ROLE_STAFF', $user)) {
+                $filter = $this->em->getFilters()->enable('sucursal_cliente_filter');
+                $filter->setParameter('sucursal_de_cliente_id', $user->getSucursalDeCliente()->getId());
             } elseif ($this->authorizationChecker->isGranted('ROLE_ENCARGADO', $user)) {
                 if ($this->session->has('user_sucursal')) {
                     $filter = $this->em->getFilters()->enable('sucursal_filter');

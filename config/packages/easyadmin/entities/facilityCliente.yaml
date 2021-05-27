@@ -1,7 +1,8 @@
 easy_admin:
     entities:
-        Facility:
+        facilityCliente:
             class: App\Entity\Facility
+            disabled_actions: ['new', 'delete']
             list:
                 item_permission: [ROLE_ITEM, ROLE_MANAGER]
                 fields:
@@ -11,15 +12,13 @@ easy_admin:
                     - { property: 'Correo' }
                     - { property: 'Telefono' }
                     - { property: 'Codigo' }
+                    - { property: 'codigo' }
             edit:
                 item_permission: [ROLE_ITEM] 
             new:
                 item_permission: [ROLE_ITEM] 
             show:
                 item_permission: [ROLE_CLIENTE, ROLE_MANAGER]
-                actions:
-                    - { name: '-edit', permission: ROLE_CLIENTE }
-                    - { name: '-delete', permission: ROLE_CLIENTE }
                 fields:
                     - id
                     - Apellido
@@ -27,8 +26,8 @@ easy_admin:
                     - Correo 
                     - Telefono
                     - Codigo
-                    - { property: 'Cliente', type: 'text' }
-                    - { property: 'users',  permission: ROLE_ADMIN }
+                    - Cliente
+                    - users 
             delete:
                 item_permission: [ROLE_ITEM] 
             search:

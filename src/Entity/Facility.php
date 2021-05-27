@@ -66,12 +66,18 @@ class Facility
      */
     private $no;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Solicitud", mappedBy="Facility")
+     */
+    private $solicituds;
+
     public function __construct()
     {
         $this->facility = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->ordenTrabajos = new ArrayCollection();
         $this->no = new ArrayCollection();
+        $this->solicituds = new ArrayCollection();
     }
     public function __toString()
     {
@@ -276,6 +282,37 @@ class Facility
             // set the owning side to null (unless already changed)
             if ($no->getFacility() === $this) {
                 $no->setFacility(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Solicitud[]
+     */
+    public function getSolicituds(): Collection
+    {
+        return $this->solicituds;
+    }
+
+    public function addSolicitud(Solicitud $solicitud): self
+    {
+        if (!$this->solicituds->contains($solicitud)) {
+            $this->solicituds[] = $solicitud;
+            $solicitud->setFacility($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolicitud(Solicitud $solicitud): self
+    {
+        if ($this->solicituds->contains($solicitud)) {
+            $this->solicituds->removeElement($solicitud);
+            // set the owning side to null (unless already changed)
+            if ($solicitud->getFacility() === $this) {
+                $solicitud->setFacility(null);
             }
         }
 

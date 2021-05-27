@@ -1,7 +1,8 @@
 easy_admin:
     entities:
-        SucursalDeCliente:
+        sucursaldecliente:
             class: App\Entity\SucursalDeCliente
+            disabled_actions: ['new', 'delete']
             list:
                 item_permission: [ROLE_PROPIEDAD_ITEM, ROLE_CLIENTE]
                 fields:
@@ -18,7 +19,7 @@ easy_admin:
                 fields:
                     - id
                     - codigo
-                    - { property: 'Cliente', type: 'text' }
+                    - Cliente
                     - users
             delete:
                 item_permission: [ROLE_PROPIEDAD_ITEM]
