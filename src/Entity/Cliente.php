@@ -144,6 +144,16 @@ class Cliente implements iSucursalFilter
      */
     private $longitud;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SucursalDeCliente", mappedBy="Cliente")
+     */
+    private $sucursalDeClientes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SucursalDeCliente", mappedBy="cliente")
+     */
+    private $SucursalDeCliente;
+
 
 
 
@@ -152,6 +162,8 @@ class Cliente implements iSucursalFilter
         $this->ordenTrabajos = new ArrayCollection();
         $this->solicituds = new ArrayCollection();
         $this->equipos = new ArrayCollection();
+        $this->sucursalDeClientes = new ArrayCollection();
+        $this->SucursalDeCliente = new ArrayCollection();
     }
 
     public function __toString()
@@ -471,6 +483,45 @@ class Cliente implements iSucursalFilter
         $this->longitud = $longitud;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|SucursalDeCliente[]
+     */
+    public function getSucursalDeClientes(): Collection
+    {
+        return $this->sucursalDeClientes;
+    }
+
+    public function addSucursalDeCliente(SucursalDeCliente $sucursalDeCliente): self
+    {
+        if (!$this->sucursalDeClientes->contains($sucursalDeCliente)) {
+            $this->sucursalDeClientes[] = $sucursalDeCliente;
+            $sucursalDeCliente->setCliente($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSucursalDeCliente(SucursalDeCliente $sucursalDeCliente): self
+    {
+        if ($this->sucursalDeClientes->contains($sucursalDeCliente)) {
+            $this->sucursalDeClientes->removeElement($sucursalDeCliente);
+            // set the owning side to null (unless already changed)
+            if ($sucursalDeCliente->getCliente() === $this) {
+                $sucursalDeCliente->setCliente(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SucursalDeCliente[]
+     */
+    public function getSucursalDeCliente(): Collection
+    {
+        return $this->SucursalDeCliente;
     }
 
 
