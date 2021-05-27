@@ -102,6 +102,11 @@ class User extends BaseUser
      */
     private $SucursalDeCliente;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="users")
+     */
+    private $Facility;
+
 
         public function __construct()
     {
@@ -210,6 +215,16 @@ class User extends BaseUser
         return $this;
     }
 
+    public function getFacility(): ?Facility
+    {
+        return $this->Facility;
+    }
 
+    public function setFacility(?Facility $Facility): self
+    {
+        $this->Facility = $Facility;
+
+        return $this;
+    }
 
 }

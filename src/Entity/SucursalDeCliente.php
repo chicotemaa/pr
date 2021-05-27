@@ -42,7 +42,6 @@ class SucursalDeCliente
 
     public function __construct()
     {
-        parent::__construct();
         $this->users = new ArrayCollection();
     }
     public function __toString()

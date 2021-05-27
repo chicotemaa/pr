@@ -149,6 +149,11 @@ class Cliente implements iSucursalFilter
      */
     private $sucursalDeClientes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Facility", mappedBy="Cliente")
+     */
+    private $facilities;
+
 
 
 
@@ -161,6 +166,7 @@ class Cliente implements iSucursalFilter
         $this->equipos = new ArrayCollection();
         $this->sucursalDeClientes = new ArrayCollection();
         $this->SucursalDeCliente = new ArrayCollection();
+        $this->facilities = new ArrayCollection();
     }
 
     public function __toString()
@@ -519,6 +525,37 @@ class Cliente implements iSucursalFilter
     public function getSucursalDeCliente(): Collection
     {
         return $this->SucursalDeCliente;
+    }
+
+    /**
+     * @return Collection|Facility[]
+     */
+    public function getFacilities(): Collection
+    {
+        return $this->facilities;
+    }
+
+    public function addFacility(Facility $facility): self
+    {
+        if (!$this->facilities->contains($facility)) {
+            $this->facilities[] = $facility;
+            $facility->setCliente($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFacility(Facility $facility): self
+    {
+        if ($this->facilities->contains($facility)) {
+            $this->facilities->removeElement($facility);
+            // set the owning side to null (unless already changed)
+            if ($facility->getCliente() === $this) {
+                $facility->setCliente(null);
+            }
+        }
+
+        return $this;
     }
 
 

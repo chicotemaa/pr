@@ -43,9 +43,12 @@ class RequestListener
             if ($this->authorizationChecker->isGranted('ROLE_EMPLEADO', $user)) {
                 $filter = $this->em->getFilters()->enable('user_filter');
                 $filter->setParameter('user_id', $user->getId());
-            } elseif ($this->authorizationChecker->isGranted('ROLE_FACILITY', $user)) {
+            } elseif ($this->authorizationChecker->isGranted('ROLE_MANAGER', $user)) {
                 $filter = $this->em->getFilters()->enable('cliente_filter');
                 $filter->setParameter('cliente_id', $user->getCliente()->getId());
+            } elseif ($this->authorizationChecker->isGranted('ROLE_FACILITY', $user)) {
+                $filter = $this->em->getFilters()->enable('facility_filter');
+                $filter->setParameter('facility_id', $user->getFacility()->getId());
             } elseif ($this->authorizationChecker->isGranted('ROLE_ENCARGADO', $user)) {
                 if ($this->session->has('user_sucursal')) {
                     $filter = $this->em->getFilters()->enable('sucursal_filter');
