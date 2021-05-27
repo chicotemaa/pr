@@ -55,6 +55,7 @@ easy_admin:
                         type_options: { class: 'App\Entity\Servicio', query_builder: 'App\Repository\SolicitudRepository::finByActivo' }
                      }
                     - { property: 'necesitasAyuda' }
+                    - { property: 'SucursalDeCliente' ,  permission: ROLE_ENCARGADO}
                     - { property: 'consulta', label: 'Cual es el problema?' }
                     - { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }
                     - { type: 'group', columns: 6 }
