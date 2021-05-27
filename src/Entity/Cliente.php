@@ -144,11 +144,6 @@ class Cliente implements iSucursalFilter
      */
     private $longitud;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ClienteSucursal", mappedBy="cliente", orphanRemoval=true)
-     */
-    private $clienteSucursals;
-
 
 
 
@@ -157,7 +152,6 @@ class Cliente implements iSucursalFilter
         $this->ordenTrabajos = new ArrayCollection();
         $this->solicituds = new ArrayCollection();
         $this->equipos = new ArrayCollection();
-        $this->clienteSucursals = new ArrayCollection();
     }
 
     public function __toString()
@@ -475,37 +469,6 @@ class Cliente implements iSucursalFilter
     public function setLongitud(?int $longitud): self
     {
         $this->longitud = $longitud;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|ClienteSucursal[]
-     */
-    public function getClienteSucursals(): Collection
-    {
-        return $this->clienteSucursals;
-    }
-
-    public function addClienteSucursal(ClienteSucursal $clienteSucursal): self
-    {
-        if (!$this->clienteSucursals->contains($clienteSucursal)) {
-            $this->clienteSucursals[] = $clienteSucursal;
-            $clienteSucursal->setCliente($this);
-        }
-
-        return $this;
-    }
-
-    public function removeClienteSucursal(ClienteSucursal $clienteSucursal): self
-    {
-        if ($this->clienteSucursals->contains($clienteSucursal)) {
-            $this->clienteSucursals->removeElement($clienteSucursal);
-            // set the owning side to null (unless already changed)
-            if ($clienteSucursal->getCliente() === $this) {
-                $clienteSucursal->setCliente(null);
-            }
-        }
 
         return $this;
     }

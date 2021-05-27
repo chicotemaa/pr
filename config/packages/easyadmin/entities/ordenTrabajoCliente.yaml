@@ -16,9 +16,9 @@ easy_admin:
                 batch_actions: ['exportar']
 
                 filters:
+                    - property: 'user'
                     - property: 'fecha'
                     - property: 'motivo'
-                    - property: 'clienteSucursal'
                     - property: 'estado'
                       type: 'App\Form\Filter\EstadoFilterType'
                       mapped: false
@@ -30,7 +30,7 @@ easy_admin:
                     - { property: 'fecha', format: 'd/m/Y' }
                     - { property: 'horaInicio', format: 'H:i' }
                     - { property: 'horaFin', format: 'H:i' }
-                    - { property: 'street', type: 'string', label: 'Sucursal'}
+                    - { property: 'cliente', type: 'string', label: 'Sucursal'}
                     # - { property: 'motivo', label: 'Postergado por' }
                 actions:
                     - { name: 'show',  icon: 'search', label: '' }

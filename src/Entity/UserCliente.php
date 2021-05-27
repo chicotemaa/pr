@@ -38,7 +38,8 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *           "get"={"method"="GET"}
  *     })
  */
-class User extends BaseUser   
+class UserCliente  extends BaseUser
+    implements  iClienteFilter
 {
     use SoftDeleteableEntity;
     
@@ -97,12 +98,7 @@ class User extends BaseUser
      */
     protected $groups;
 
-    /**
-     * @ORM\Column(type="string", length=60, nullable=true)
-     */
-    private $facility;
-
-        public function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->ordenTrabajo = new ArrayCollection();
@@ -193,18 +189,6 @@ class User extends BaseUser
     public function setCliente(?Cliente $cliente): self
     {
         $this->cliente = $cliente;
-
-        return $this;
-    }
-
-    public function getFacility(): ?string
-    {
-        return $this->facility;
-    }
-
-    public function setFacility(?string $facility): self
-    {
-        $this->facility = $facility;
 
         return $this;
     }

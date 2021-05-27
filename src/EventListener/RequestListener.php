@@ -43,20 +43,9 @@ class RequestListener
             if ($this->authorizationChecker->isGranted('ROLE_EMPLEADO', $user)) {
                 $filter = $this->em->getFilters()->enable('user_filter');
                 $filter->setParameter('user_id', $user->getId());
-            } elseif ($this->authorizationChecker->isGranted('ROLE_MANAGER', $user)) {
+            } elseif ($this->authorizationChecker->isGranted('ROLE_FACILITY', $user)) {
                 $filter = $this->em->getFilters()->enable('cliente_filter');
                 $filter->setParameter('cliente_id', $user->getCliente()->getId());
-            } elseif ($this->authorizationChecker->isGranted('ROLE_FACILITY', $user)) {
-                //dump($user->getClienteSucursals());die;
-                $filter = $this->em->getFilters()->enable('facility_filter');
-                foreach ($user->getClienteSucursals() as $suc) {
-                    $filter->setParameter('cliente_sucursal_id', $suc->getId());
-                }
-                
-                //$filter->setParameter('cliente_sucursal_id', $user->getClienteSucursals());
-            } elseif ($this->authorizationChecker->isGranted('ROLE_STAFF', $user)) {
-                $filter = $this->em->getFilters()->enable('staff_filter');
-                $filter->setParameter('street',  $user->getStreet());
             } elseif ($this->authorizationChecker->isGranted('ROLE_ENCARGADO', $user)) {
                 if ($this->session->has('user_sucursal')) {
                     $filter = $this->em->getFilters()->enable('sucursal_filter');
