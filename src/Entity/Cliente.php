@@ -149,10 +149,7 @@ class Cliente implements iSucursalFilter
      */
     private $sucursalDeClientes;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\SucursalDeCliente", mappedBy="cliente")
-     */
-    private $SucursalDeCliente;
+
 
 
 

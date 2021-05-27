@@ -1,0 +1,16 @@
+easy_admin:
+    entities:
+        SucursalDeCliente:
+            class: App\Entity\SucursalDeCliente
+            list:
+                item_permission: [ROLE_PROPIEDAD_ITEM]
+            edit:
+                item_permission: [ROLE_PROPIEDAD_ITEM]
+            new:
+                item_permission: [ROLE_PROPIEDAD_ITEM]
+            show:
+                item_permission: [ROLE_PROPIEDAD_ITEM]
+            delete:
+                item_permission: [ROLE_PROPIEDAD_ITEM]
+            search:
+                item_permission: [ROLE_PROPIEDAD_ITEM]

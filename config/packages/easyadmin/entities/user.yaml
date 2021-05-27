@@ -23,6 +23,7 @@ easy_admin:
                     - { property: 'username', columns: 6 }
                     - { property: 'email', columns: 6 }
                     - { property: 'sucursal', columns: 6 }
+                    - { property: 'SucursalDeCliente', columns: 6 }
                     - { property: 'cliente', columns: 6 }
                     - { property: 'groups', columns: 6 }
                     # - { property: 'lastLogin', columns: 6 }

@@ -98,14 +98,10 @@ class User extends BaseUser
     protected $groups;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="User")
-     */
-    private $sucursalDeCliente;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\SucursalDeCliente", mappedBy="user")
+     * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="users")
      */
     private $SucursalDeCliente;
+
 
         public function __construct()
     {
@@ -114,7 +110,6 @@ class User extends BaseUser
         $this->formularioResultadoExpress = new ArrayCollection();
         // your own logic
         $this->roles = ['ROLE_USER'];
-        $this->SucursalDeCliente = new ArrayCollection();
     }
 
     public function getSucursal(): ?Sucursal
@@ -203,39 +198,18 @@ class User extends BaseUser
         return $this;
     }
 
-
     public function getSucursalDeCliente(): ?SucursalDeCliente
     {
-        return $this->sucursalDeCliente;
+        return $this->SucursalDeCliente;
     }
 
-    public function setSucursalDeCliente(?SucursalDeCliente $sucursalDeCliente): self
+    public function setSucursalDeCliente(?SucursalDeCliente $SucursalDeCliente): self
     {
-        $this->sucursalDeCliente = $sucursalDeCliente;
+        $this->SucursalDeCliente = $SucursalDeCliente;
 
         return $this;
     }
 
-    public function addSucursalDeCliente(SucursalDeCliente $sucursalDeCliente): self
-    {
-        if (!$this->SucursalDeCliente->contains($sucursalDeCliente)) {
-            $this->SucursalDeCliente[] = $sucursalDeCliente;
-            $sucursalDeCliente->setUser($this);
-        }
 
-        return $this;
-    }
 
-    public function removeSucursalDeCliente(SucursalDeCliente $sucursalDeCliente): self
-    {
-        if ($this->SucursalDeCliente->contains($sucursalDeCliente)) {
-            $this->SucursalDeCliente->removeElement($sucursalDeCliente);
-            // set the owning side to null (unless already changed)
-            if ($sucursalDeCliente->getUser() === $this) {
-                $sucursalDeCliente->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 }

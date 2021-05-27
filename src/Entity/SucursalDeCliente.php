@@ -23,10 +23,6 @@ class SucursalDeCliente
      */
     private $codigo;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="sucursalDeCliente")
-     */
-    private $User;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="sucursalDeClientes")
@@ -39,20 +35,21 @@ class SucursalDeCliente
     private $direccion;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="SucursalDeCliente")
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="SucursalDeCliente")
      */
-    private $cliente;
+    private $users;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="SucursalDeCliente")
-     */
-    private $user;
 
     public function __construct()
     {
-        $this->User = new ArrayCollection();
+        parent::__construct();
+        $this->users = new ArrayCollection();
     }
-
+    public function __toString()
+    {
+        return 'Cliente: '.$this->Cliente.'| Direccion: '.$this->direccion;
+          
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -70,36 +67,7 @@ class SucursalDeCliente
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUser(): Collection
-    {
-        return $this->User;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->User->contains($user)) {
-            $this->User[] = $user;
-            $user->setSucursalDeCliente($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->User->contains($user)) {
-            $this->User->removeElement($user);
-            // set the owning side to null (unless already changed)
-            if ($user->getSucursalDeCliente() === $this) {
-                $user->setSucursalDeCliente(null);
-            }
-        }
-
-        return $this;
-    }
+    
 
     public function getCliente(): ?Cliente
     {
@@ -125,10 +93,35 @@ class SucursalDeCliente
         return $this;
     }
 
-    public function setUser(?User $user): self
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
     {
-        $this->user = $user;
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setSucursalDeCliente($this);
+        }
 
         return $this;
     }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getSucursalDeCliente() === $this) {
+                $user->setSucursalDeCliente(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
