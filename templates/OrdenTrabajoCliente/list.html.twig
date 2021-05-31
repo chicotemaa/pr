@@ -1,7 +1,7 @@
 {% extends '@EasyAdmin/default/list.html.twig' %}
 
 {% block body %}
-    {{parent()}}
+    {{ parent() }}
     <!-- Exportar modal -->
     <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
       <div class="modal-dialog modal-sm" role="document">
@@ -12,7 +12,7 @@
 
           </div>
           <div class="modal-body">
-              <form id="formExportar" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar' }) }}" method="POST">
+              <form id="formExportar" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: 'dsfdsf' }) }}" method="POST">
                 <input type="hidden" name="orden_trabajo" id="orden_trabajo" value="2" >
                 <div class="radio">
                   <label>
@@ -37,6 +37,35 @@
         </div>
       </div>
     </div>
+
+  <div class="modal fade bs-example2-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color:#f05536;">
+          <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar - Seleccionar formato</h4>
+          <button type="button" class="close"  style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+        </div>
+        {% if is_granted('ROLE_STAFF') %}
+        <div class="modal-body">
+          <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
+            <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
+            <div class="radio">
+              <label>
+                <input type="radio" name="formato" id="formato" value="PDF" >
+                PDF
+            </div>
+          </form>     
+        </div>
+        {% endif %}
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 {% block new_action %}
@@ -50,25 +79,112 @@
     {% endif %}
 {% endblock new_action %}
 
-{% block item_actions %}
-  <a  class="exportOt" href="javascript:;" data-toggle="modal" data-target=".bs-example-modal-sm" target="_self" data-id="{{_item_id}}"><i class="fa fa-download"></i> </a>
- {# {% set _list_item_actions = _list_item_actions|prune_item_actions(_entity_config, [], item) %} #}
-  {{ parent() }}
-{% endblock %}
+{% set _has_batch_actions = batch_form is defined and batch_form.vars.batch_actions|length > 0 %}
 
+{#{% block item_actions %}#}
+
+  {#<a class="exportOt" href="javascript:;" data-toggle="modal" data-target=".bs-example-modal-sm" target="_self" data-id="{{_item_id}}"><i class="fa fa-download"></i> </a>#}
+
+  {#{{ parent() }}#}
+{#{% endblock %}#}
+
+
+
+
+{% block batch_actions %}
+    {% if _has_batch_actions %}
+      <div class="batch-actions" style="display: none">
+          {#{% form_theme batch_form with easyadmin_config('design.form_theme') only %}#}
+          {{ form(batch_form) }}
+        <a class="exportBatch btn btn-info" href="javascript:;" data-toggle="modal" data-target=".bs-example2-modal-sm" target="_self"   ><i class="fa fa-download"></i> Exportar </a>
+          {{ include('@EasyAdmin/default/includes/_batch_action_modal.html.twig', {
+              _translation_domain: _entity_config.translation_domain,
+              _trans_parameters: _trans_parameters,
+              _entity_config: _entity_config,
+          }, with_context = false) }}
+      </div>
+    {% endif %}
+{% endblock batch_actions %}
+
+
+
+
+
+
+{#{% block item_actions %}#}
+
+  {#<a class="exportOt" href="javascript:;" data-toggle="modal" data-target=".bs-example-modal-sm" target="_self" data-id="{{_item_id}}"><i class="fa fa-download"></i> </a>#}
+
+    {#{{ parent() }}#}
+{#{% endblock %}#}
 
 {% block body_javascript %}
   {{ parent() }}
   {{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}
-    <script>
-        // paso el valor del id de la fila que seleccione para exportar
-        $(".exportOt").click(function(){
-            $("#orden_trabajo").val($(this).data('id'));
-        });
+  <script>
+    $(".estadoGestionSelect").change(function () {
+      var mofificarClase = function modificarClass(selector, valor) {
+        var estado = ''
+        var textColor = ''
+        switch (valor) {
+          case '0':
+            estado = "has-error";
+            textColor = "#dd4b39";
+            break;
+          case '1':
+            estado = "has-warning";
+            textColor = "#f39c12";
+            break;
+          case '2':
+            estado = "has-success";
+            textColor = "#00a65a";
+            break;
+        }
+        selector.parent().removeClass().addClass('form-group '+estado);
+        selector.css("color", "#fff");
+        selector.css("background-color", textColor);
+        selector.css("font-weight", "bold");
+      };
+      var estadoGestionSelect = $(this);
+      var estadoGestionSelectValOld = $(this).data('pre')
+      var estadoGestionSelectUrl = "{{ path('easyadmin', { action: 'cambiarEstadoGestion', entity: _entity_config.name, view: 'list' })|raw }}"
+                              + "&id=" + $(this).data('id')
+                              + "&newValue=" + $(this).val();
+      var estadoGestionSelectRequest = $.ajax({ type: "GET", url: estadoGestionSelectUrl, data: {} });
+      estadoGestionSelectRequest.done(function(result) {
+        mofificarClase(estadoGestionSelect, estadoGestionSelect.val());
+      });
 
-        // para enviar el formulario donde 
-        function exportar(){
+      estadoGestionSelectRequest.fail(function() {
+        mofificarClase(estadoGestionSelect, estadoGestionSelectValOld);
+        estadoGestionSelect.val(estadoGestionSelectValOld);
+        alert("Error, intente nuevamente")
+      });
+    });
+
+
+    // paso el valor del id de la fila que seleccione para exportar
+    $(".exportOt").click(function(){
+        $("#orden_trabajo").val($(this).data('id'));
+    });
+    // para enviar el formulario donde
+    function exportar(){
+      $("#formExportar1").submit();
+    };
+
+
+    $(".exportBatch").click(function(){
+        var x = document.getElementById("batch_form_ids").value;
+        document.getElementById("ordenes_trabajo").value = x;
+        // $("#ordenes_trabajo").val($(this).data("2"));
+        //console.log(document.getElementById("ordenes_trabajo")) ;
+        var botonEstado = document.getElementById("estadoGestion"+x).value;
+        console.log(botonEstado);
+    });
+
+    function exportarBatch(){
         $("#formExportar").submit();
-        };
+    };
+
   </script>
 {% endblock %}

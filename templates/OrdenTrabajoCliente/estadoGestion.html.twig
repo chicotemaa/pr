@@ -1,11 +1,20 @@
-<button class="btn btn-sucess" 
+<button class="form-control form-control-sm estadoGestionSelect" id="estadoGestion{{ item.id }}"
     {% if value == 0 %} style="color: #fff; background-color: #dd4b39; font-weight: bold;" 
         {% elseif value == 1 %} style="color: #fff; background-color: #f39c12; font-weight: bold;"
         {% elseif value == 2 %} style="color: #fff; background-color: #00a65a; font-weight: bold;" 
     {% endif %}
 >   
-    {% if value == 0 %} Abierta
-    {% elseif value == 1 %} Pendiente
+    {% if value == 0 %} Procesando Orden
+    {% elseif value == 1 %} Pendiente a Revision
     {% elseif value == 2 %} Cerrada
     {% endif %}
 </button>
+<script>
+ $(function(){
+     $("#estadoGestion{{ item.id }}").val('{{value}}');
+     $("#estadoGestion{{ item.id }}").on('focus', function () {
+        // Store the current value on focus and on change
+        $(this).data("pre",$(this).val())
+    })
+ })
+</script>

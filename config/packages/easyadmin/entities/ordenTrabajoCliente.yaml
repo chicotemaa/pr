@@ -8,10 +8,9 @@ easy_admin:
                 new:  'OrdenTrabajo/new.html.twig'
                 edit: 'OrdenTrabajo/edit.html.twig'
                 show: 'OrdenTrabajo/show.html.twig'
-                list: 'OrdenTrabajo/list.html.twig'
+                list: 'OrdenTrabajoCliente/list.html.twig'
             disabled_actions: ['edit', 'new', 'delete','show']
             list:
-            
                 item_permission: [ROLE_STAFF, ROLE_EMPLEADO]
                 batch_actions: ['exportar']
 
@@ -23,6 +22,8 @@ easy_admin:
                       type: 'App\Form\Filter\EstadoFilterType'
                       mapped: false
                 fields:
+                    - id
+                    - { property: 'estadoGestion', template: 'OrdenTrabajoCliente/estadoGestion.html.twig' }
                     #- { property: 'solicitud.nroIncidencia', label: 'Incidencia' }
                     - { property: 'user', type: 'text', label: 'Tecnico'}
                     #- { property: 'sucursal', type: 'text'}
