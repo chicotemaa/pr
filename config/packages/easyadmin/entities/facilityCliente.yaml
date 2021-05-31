@@ -14,7 +14,14 @@ easy_admin:
                     - { property: 'Codigo' }
                     - { property: 'codigo' }
             edit:
-                item_permission: [ROLE_ITEM] 
+                item_permission: [ROLE_ITEM, ROLE_MANAGER] 
+                fields:
+                    - { property: 'Apellido' }
+                    - Nombre
+                    - Correo 
+                    - Telefono
+                    - Codigo
+                    - Cliente
             new:
                 item_permission: [ROLE_ITEM] 
             show:

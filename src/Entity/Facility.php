@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\FacilityRepository")
  */
 class Facility
+implements  iClienteFilter
 {
     /**
      * @ORM\Id()
@@ -35,7 +36,7 @@ class Facility
     private $correo;
 
     /**
-     * @ORM\Column(type="integer")
+    * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $telefono;
 
@@ -71,6 +72,11 @@ class Facility
      */
     private $solicituds;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SucursalDeCliente", mappedBy="facility")
+     */
+    private $sucursalDeClientes;
+
     public function __construct()
     {
         $this->facility = new ArrayCollection();
@@ -78,6 +84,7 @@ class Facility
         $this->ordenTrabajos = new ArrayCollection();
         $this->no = new ArrayCollection();
         $this->solicituds = new ArrayCollection();
+        $this->sucursalDeClientes = new ArrayCollection();
     }
     public function __toString()
     {
@@ -313,6 +320,37 @@ class Facility
             // set the owning side to null (unless already changed)
             if ($solicitud->getFacility() === $this) {
                 $solicitud->setFacility(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SucursalDeCliente[]
+     */
+    public function getSucursalDeClientes(): Collection
+    {
+        return $this->sucursalDeClientes;
+    }
+
+    public function addSucursalDeCliente(SucursalDeCliente $sucursalDeCliente): self
+    {
+        if (!$this->sucursalDeClientes->contains($sucursalDeCliente)) {
+            $this->sucursalDeClientes[] = $sucursalDeCliente;
+            $sucursalDeCliente->setFacility($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSucursalDeCliente(SucursalDeCliente $sucursalDeCliente): self
+    {
+        if ($this->sucursalDeClientes->contains($sucursalDeCliente)) {
+            $this->sucursalDeClientes->removeElement($sucursalDeCliente);
+            // set the owning side to null (unless already changed)
+            if ($sucursalDeCliente->getFacility() === $this) {
+                $sucursalDeCliente->setFacility(null);
             }
         }
 

@@ -9,7 +9,7 @@ easy_admin:
                 edit: 'OrdenTrabajo/edit.html.twig'
                 show: 'OrdenTrabajo/show.html.twig'
                 list: 'OrdenTrabajo/list.html.twig'
-            disabled_actions: ['edit', 'new', 'delete']
+            disabled_actions: ['edit', 'new', 'delete','show']
             list:
             
                 item_permission: [ROLE_STAFF, ROLE_EMPLEADO]
@@ -28,10 +28,11 @@ easy_admin:
                     #- { property: 'sucursal', type: 'text'}
                     - { property: 'estado', label: 'Estado', template: 'OrdenTrabajo/estado.html.twig'  }
                     - { property: 'fecha', format: 'd/m/Y' }
-                    - { property: 'horaInicio', format: 'H:i' }
-                    - { property: 'horaFin', format: 'H:i' }
-                    - { property: 'cliente', type: 'string', label: 'Sucursal'}
-                    # - { property: 'motivo', label: 'Postergado por' }
+                    #- { property: 'horaInicio', format: 'H:i' }
+                    #- { property: 'horaFin', format: 'H:i' }
+                    #- { property: 'cliente', type: 'string', label: 'Sucursal'}
+                    - { property: 'SucursalDeCliente',  label: 'Sucursal'}
+                    #- { property: 'motivo', label: 'Postergado por' }
                 actions:
                     - { name: 'show',  icon: 'search', label: '' }
                     - { name: 'edit', icon: 'pencil', label: '' }
@@ -44,8 +45,8 @@ easy_admin:
                     - { property: 'cliente', type: 'text', columns: 6 }
                     - { property: 'SucursalDeCliente', type: 'text', columns: 6 }
                     - { property: 'estadoToString', label: 'Estado', columns: 6 }
-                    - { property: 'horaInicio', columns: 6, format: 'H:i' }
-                    - { property: 'horaFin', columns: 6, format: 'H:i' }
+                    #- { property: 'horaInicio', columns: 6, format: 'H:i' }
+                    #- { property: 'horaFin', columns: 6, format: 'H:i' }
                     - { property: 'fechaCompleta', columns: 6 }
                     - { property: 'motivo', columns: 6, label: 'Postergado por' }
                     - { property: 'createdAt', label: 'Creado', columns: 6, format: 'd/m/Y H:i' }

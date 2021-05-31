@@ -37,7 +37,7 @@ easy_admin:
                     - { property: 'fecha', format: 'd/m/Y' }
                     - { property: 'horaInicio', format: 'H:i' }
                     - { property: 'horaFin', format: 'H:i' }
-                    - { property: 'formularioResultado.minutosTrabajado', format: 'H:i', label: 'Minutos trabajados' }
+                    #- { property: 'formularioResultado.minutosTrabajado', format: 'H:i', label: 'Minutos trabajados' }
                     - { property: 'cliente', type: 'string' }
                     # - { property: 'motivo', label: 'Postergado por' }
                 actions:

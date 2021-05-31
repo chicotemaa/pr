@@ -39,6 +39,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *     })
  */
 class User extends BaseUser   
+
 {
     use SoftDeleteableEntity;
     

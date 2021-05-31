@@ -130,12 +130,12 @@ class Solicitud implements  iClienteFilter , iFacilityFilter , iSucursalClienteF
     private $ordenTrabajo;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $numeroSucursal;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $direccionSucursal;
 
@@ -155,7 +155,7 @@ class Solicitud implements  iClienteFilter , iFacilityFilter , iSucursalClienteF
     private $fechaCompromiso;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $nroIncidencia;
 

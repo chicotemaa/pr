@@ -60,6 +60,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
         3 => 'No me atendio',
         4 => 'Finalizado',
         5 => 'Postergado',
+        6 => 'Pendiente de revision',
     ];
 
     public static $estadosGestion = [
@@ -112,7 +113,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
     private $horaInicio;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      * @Groups({"read"})
      */
     private $orden;

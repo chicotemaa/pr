@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\SucursalDeClienteRepository")
  */
 class SucursalDeCliente
-
+implements  iClienteFilter, iFacilityFilter
 {
     /**
      * @ORM\Id()
@@ -20,7 +20,7 @@ class SucursalDeCliente
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $codigo;
 
@@ -49,6 +49,11 @@ class SucursalDeCliente
      * @ORM\OneToMany(targetEntity="App\Entity\Solicitud", mappedBy="SucursalDeCliente")
      */
     private $solicituds;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="sucursalDeClientes")
+     */
+    private $facility;
 
 
     public function __construct()
@@ -194,6 +199,18 @@ class SucursalDeCliente
                 $solicitud->setSucursalDeCliente(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFacility(): ?Facility
+    {
+        return $this->facility;
+    }
+
+    public function setFacility(?Facility $facility): self
+    {
+        $this->facility = $facility;
 
         return $this;
     }

@@ -2,7 +2,6 @@ easy_admin:
     entities:
         UserCliente:
             class: App\Entity\UserCliente
-            implements: App\Entity\iClienteFilter
             controller: App\Controller\UserController
             disabled_actions: [ 'new', 'delete']
             templates:

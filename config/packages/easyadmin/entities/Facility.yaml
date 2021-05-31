@@ -13,6 +13,14 @@ easy_admin:
                     - { property: 'Codigo' }
             edit:
                 item_permission: [ROLE_ITEM] 
+                fields:
+                    - { property: 'Apellido', type: 'text', columns: 6 }
+                    - { property: 'Nombre', type: 'text', columns: 6 }
+                    - { property: 'Correo', type: 'text', columns: 6 }
+                    - { property: 'Telefono', type: 'text', columns: 6 }
+                    - { property: 'codigo', type: 'text', columns: 6 }
+                    - { property: 'Cliente',  columns: 6 }
+                    - { property: 'users',  columns: 6 }
             new:
                 item_permission: [ROLE_ITEM] 
             show:
