@@ -54,6 +54,9 @@
               <label>
                 <input type="radio" name="formato" id="formato" value="PDF" >
                 PDF
+                <div class="alert alert-warning" id="incompleto" style="display:none">
+                   El Formulario aun no tiene la revisión final
+                </div>
             </div>
           </form>     
         </div>
@@ -169,7 +172,16 @@
     });
     // para enviar el formulario donde
     function exportar(){
-      $("#formExportar1").submit();
+        var x = document.getElementById("batch_form_ids").value;
+        var incompleto = document.getElementById("incompleto");
+        var botonEstado = document.getElementById("estadoGestion"+x).value;
+        if (botonEstado==2){
+          $("#formExportar1").submit();
+        }else{
+          incompleto.style.display = "block";
+          setTimeout(function(){ incompleto.style.display = "none"; }, 2000);
+        }
+      console.log(botonEstado);
     };
 
 
@@ -178,8 +190,6 @@
         document.getElementById("ordenes_trabajo").value = x;
         // $("#ordenes_trabajo").val($(this).data("2"));
         //console.log(document.getElementById("ordenes_trabajo")) ;
-        var botonEstado = document.getElementById("estadoGestion"+x).value;
-        console.log(botonEstado);
     });
 
     function exportarBatch(){

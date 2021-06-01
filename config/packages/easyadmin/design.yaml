@@ -54,6 +54,7 @@ easy_admin:
 
             - { label: 'Formularios', permission: [ROLE_FORMULARIO, ROLE_MODULO, ROLE_ITEM ]   }
             - { entity: 'Formulario', label: 'Formularios', icon: 'align-justify', permission: [ ROLE_FORMULARIO ] }
+            - { entity: 'CarpetaOT', label: 'Formularios Resultado', icon: 'align-justify', permission: [ ROLE_FORMULARIO ] }
             - { entity: 'Modulo', label: 'Modulos', icon: 'boxes', permission: [ROLE_MODULO] }
             - { entity: 'Item', label: 'Items', icon: 'pager', permission: [ROLE_ITEM] }
 

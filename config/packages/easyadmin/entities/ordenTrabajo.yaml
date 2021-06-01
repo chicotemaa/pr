@@ -64,7 +64,7 @@ easy_admin:
                     - { property: 'imageName', type: 'image', label: 'Firma', base_path: 'uploads/imagenes/resultado/', columns: 6 }
                     - { property: 'responsableFirma', label: 'Firma del responsable', columns: 6 }
                     - { property: 'comentario' }
-                actions: ['-edit', '-delete', 'list']
+                actions: [ '-delete', 'list']
             new:
                 item_permission: [ROLE_ORDEN_TRABAJO]
                 fields:

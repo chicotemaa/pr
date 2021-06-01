@@ -137,6 +137,10 @@ class FormularioResultado
     {
         $this->resultados = new ArrayCollection();
     }
+    public function __toString()
+    {
+        return 'Formulario: '.$this->id;
+    }
 
     public function getId(): ?int
     {

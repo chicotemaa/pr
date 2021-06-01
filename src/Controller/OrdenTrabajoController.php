@@ -231,7 +231,7 @@ class OrdenTrabajoController extends EasyAdminController
 
 
                 //verifica si algun form orden esta vacio
-                if (!$this->formularioResultado) {
+                if ((!$this->formularioResultado) && ($this->isGranted('ROLE_ADMIN'))) {
                     $this->addFlash('warning', 'El formulario no ha sido completado');
 
                     if ('show' == $this->request->request->get('actionReturn')) {
@@ -244,6 +244,25 @@ class OrdenTrabajoController extends EasyAdminController
                         return $this->redirectToRoute('easyadmin', [
                             'action' => 'list',
                             'entity' => $this->request->query->get('entity'),
+                        ]);
+                    }
+
+
+                }
+                //verifica si algun form orden esta vacio
+                if ((!$this->formularioResultado) && ($this->isGranted('ROLE_STAFF'))) {
+                    $this->addFlash('warning', 'El formulario no ha sido verificado');
+
+                    if ('show' == $this->request->request->get('actionReturn')) {
+                        return $this->redirectToRoute('easyadmin', [
+                            'action' => 'show',
+                            'id' => $this->request->get('orden_trabajo'),
+                            'entity' => $this->request->query->get('entity'),
+                        ]);
+                    } else {
+                        return $this->redirectToRoute('easyadmin', [
+                            'action' => 'list',
+                            'entity' => 'OrdenTrabajoCliente' //$this->request->query->get('entity'),
                         ]);
                     }
 

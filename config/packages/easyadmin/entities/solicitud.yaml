@@ -46,7 +46,7 @@ easy_admin:
             form:
                 fields:
                     - { type: 'group', columns: 6 }
-                    - { property: 'sucursal', permission: ROLE_ENCARGADO }
+                    - { property: 'sucursal',label: 'Sucursal de Hogar', permission: ROLE_ENCARGADO }
                     - { property: 'cliente', permission: ROLE_ENCARGADO }
                     - { property: 'estado', permission: ROLE_ENCARGADO, type: 'choice', type_options: { choices: '%solicitudEstadoArray%' } }
                     - { 
@@ -55,7 +55,7 @@ easy_admin:
                         type_options: { class: 'App\Entity\Servicio', query_builder: 'App\Repository\SolicitudRepository::finByActivo' }
                      }
                     - { property: 'necesitasAyuda' }
-                    - { property: 'SucursalDeCliente' ,  permission: [ROLE_FACILITY, ROLE_ENCARGADO]}
+                    - { property: 'SucursalDeCliente' , permission: [ROLE_FACILITY, ROLE_ENCARGADO], label: 'Sucursal'}
                     - { property: 'consulta', label: 'Cual es el problema?' }
                     - { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }
                     - { type: 'group', columns: 6 }
