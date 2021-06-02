@@ -125,7 +125,6 @@
             </div>
         </div>
     </div>
-
     {% macro renderModulo(propiedadModulo, propiedadItems) %}
         {% import _self as render %}
         <table class="table table-bordered">
@@ -140,8 +139,9 @@
         </table>
         <br>
     {% endmacro %}
-
+    {% block entity_form %} 
     {% macro renderItem(item, propiedadItemsResultado) %}
+       
             {% if item.tipo == 'foto' %}
                 {% for k, r in propiedadItemsResultado %}
                     {% if r.imageName is not empty %}
@@ -171,11 +171,17 @@
                 {% if texto is not empty %}
                     <tr>
                         <td>{{ item.titulo ~ ':' }}</td>
+                        {% if item.tipo == 'texto' %}
+                        <td align="center"><input type="text" value="{{ texto|trim }}"></input></td>
+                        {% else %}
                         <td align="center">{{ texto|trim  }}</td>
+                        {% endif %}
                     </tr>
                 {% endif %}
             {% endif %}
-    {% endmacro %}
+        {% endmacro %}
+        <button class=" btn btn-primary btn-lg action-save" style="float:right" onclick="guardar()">Guardar</button>
+    {% endblock entity_form %}
 {% endblock %}
 
 {% block body_javascript %}
