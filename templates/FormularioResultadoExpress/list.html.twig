@@ -3,27 +3,78 @@
 {% block body %}
     {{ parent() }}
     <!-- Exportar modal -->
+    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color:#f05536;">
+            <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar - Seleccionar formato</h4>
+            <button type="button" class="close"  style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+          </div>
+          <div class="modal-body">
+              <form id="formExportar" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: 'dsfdsf' }) }}" method="POST">
+                <input type="hidden" name="orden_trabajo" id="orden_trabajo" value="2" >
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="formato" id="formato" value="WORD" checked>
+                    WORD
+                  </label><br>
+                  <label>
+                    <input type="radio" name="formato" id="formato" value="PDF" >
+                    PDF
+                  </label><br>
+                  <label>
+                    <input type="radio" name="formato" id="formato" value="EXCEL" >
+                    EXCEL
+                  </label>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
+            </div>
+        </div>
+      </div>
+    </div>
+
   <div class="modal fade bs-example2-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-header" style="background-color:#f05536;">
-          <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar PDF</h4>
+          <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar - Seleccionar formato</h4>
           <button type="button" class="close"  style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
         </div>
-        {% if is_granted('ROLE_STAFF') %}
+        {% if is_granted('ROLE_ENCARGADO') %}
         <div class="modal-body">
           <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
             <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
             <div class="radio">
               <label>
+                <input type="radio" name="formato" id="formato" value="WORD" checked>
+                WORD
+              </label><br>
+              <label>
                 <input type="radio" name="formato" id="formato" value="PDF" >
                 PDF
+              </label><br>
+              <label>
+                <input type="radio" name="formato" id="formato" value="EXCEL" >
+                EXCEL
+              </label>
+              <label>
+                <input type="radio" name="formato" id="formato" value="ORDENESEXCEL">
+                LISTADO DE ÓRDENES EXCEL
+              </label>
+              <label>
+                <input type="radio" name="formato" id="formato" value="ALLORDENESEXCEL">
+                LISTADO DE ÓRDENES EXCEL (toda la lista filtrada)
+              </label>
             </div>
           </form>     
         </div>
         {% endif %}
-
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
           <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
@@ -134,7 +185,7 @@
     });
     // para enviar el formulario donde
     function exportar(){
-          $("#formExportar1").submit();
+      $("#formExportar1").submit();
     };
 
 
@@ -143,6 +194,8 @@
         document.getElementById("ordenes_trabajo").value = x;
         // $("#ordenes_trabajo").val($(this).data("2"));
         //console.log(document.getElementById("ordenes_trabajo")) ;
+        var botonEstado = document.getElementById("estadoGestion"+x).value;
+        console.log(botonEstado);
     });
 
     function exportarBatch(){

@@ -15,30 +15,36 @@
             <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar - Seleccionar formato</h4>
             <button type="button" class="close" style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           </div>
-          <div class="modal-body">
-              <form id="formExportar" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar' }) }}" method="POST">
-                <input type="hidden" name= "orden_trabajo" id="orden_trabajo" value="" >
-                <input type="hidden" name= "actionReturn" id="orden_trabajo" value="show" >
-                <input type="hidden" name= "ordenes_trabajo" id="ordenes_trabajo" value="" >
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="formato" id="formato" value="WORD" checked>
-                    WORD
-                  </label><br>
-                  <label>
-                    <input type="radio" name="formato" id="formato" value="PDF" >
-                    PDF
-                  </label><br>
-                  <label>
-                    <input type="radio" name="formato" id="formato" value="EXCEL" >
-                    EXCEL
-                  </label>
-                </div>
-              </form>
+       <div class="modal-body">
+          <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
+            <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
+            <div class="radio">
+              <label>
+                <input type="radio" name="formato" id="formato" value="WORD" checked>
+                WORD
+              </label><br>
+              <label>
+                <input type="radio" name="formato" id="formato" value="PDF" >
+                PDF
+              </label><br>
+              <label>
+                <input type="radio" name="formato" id="formato" value="EXCEL" >
+                EXCEL
+              </label>
+              <label>
+                <input type="radio" name="formato" id="formato" value="ORDENESEXCEL">
+                LISTADO DE ÓRDENES EXCEL
+              </label>
+              <label>
+                <input type="radio" name="formato" id="formato" value="ALLORDENESEXCEL">
+                LISTADO DE ÓRDENES EXCEL (toda la lista filtrada)
+              </label>
             </div>
+          </form>
+          </div>  
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
+               <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
             </div>
         </div>
       </div>
@@ -194,9 +200,9 @@
             $("#ordenes_trabajo").val($(this).data('id'));
         });
 
-        function exportar(){
-            $("#formExportar").submit();
-        };
+    function exportar(){
+      $("#formExportar1").submit();
+    };
         //Mapa Recibido
         var map;
         var myLatLng = {lat: {{entity.latitud|default(0)}}, lng: {{entity.longitud|default(0)}}};

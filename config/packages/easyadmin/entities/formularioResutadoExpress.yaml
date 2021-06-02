@@ -6,16 +6,20 @@ easy_admin:
             title: "Formularios Express"
             templates:
                 show: 'FormularioResultadoExpress/show.html.twig'
+                list: 'FormularioResultadoExpress/list.html.twig'
             list:
                 title: "Formularios Express"
                 item_permission: [ROLE_ORDEN_TRABAJO]
+                batch_actions: ['exportar']
                 fields:
-                - 'id'
+                - { property: 'id',template: 'FormularioResultadoExpress/id.html.twig'}
                 - { property: 'formulario', type: 'text'}
                 - { property: 'user', type: 'text'}
                 - { property: 'estado', label: 'Estado', template: 'OrdenTrabajo/estado.html.twig'  }
                 - { property: 'fecha', format: 'd/m/Y' }
                 - { property: 'cliente', type: 'string' }
+                - { property: 'horaInicio', columns: 6, format: 'H:i' }
+                - { property: 'horaFin', columns: 6, format: 'H:i' }
                 dql_filter: 'entity.compraMateriales is NULL'
                 actions:
                     - { name: 'show',  icon: 'search', label: '' }
