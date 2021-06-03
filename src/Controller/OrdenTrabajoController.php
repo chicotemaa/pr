@@ -844,7 +844,6 @@ class OrdenTrabajoController extends EasyAdminController
         //si es de tipo foto
         if ('foto' == $item->getTipo()) {
             //obtengo todos los resultados de propiedad item
-
             $mostrarTitulo = true;
             foreach ($resultados as $keyResultado => $resultado) {
                 if (!empty($resultado->getImageName())) {
@@ -988,7 +987,7 @@ class OrdenTrabajoController extends EasyAdminController
                 ));
             }
             $entity->setCliente($solicitud->getCliente());
-            $entity->setComentario($solicitud->getDetalle());
+            $entity->setComentario($solicitud->getNecesitasAyuda());
             $entity->setSucursal($solicitud->getSucursal());
             $entity->setSolicitud($solicitud);
             
@@ -1080,7 +1079,7 @@ class OrdenTrabajoController extends EasyAdminController
             $solicitud->setEstado(1);
             $entity->setCliente($solicitud->getCliente());
             $entity->setServicio($solicitud->getServicio());
-            $entity->setComentario($solicitud->getDetalle());
+            $entity->setComentario($solicitud->getNecesitasAyuda());
             $entity->setFacility($solicitud->getFacility());
             $entity->setSucursalDeCliente($solicitud->getSucursalDeCliente());
             $entity->setSucursal($entity->getCliente()->getSucursal());

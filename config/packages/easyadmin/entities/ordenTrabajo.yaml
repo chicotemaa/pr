@@ -53,6 +53,7 @@ easy_admin:
                     - { property: 'orden', columns: 6 }
                     - { property: 'sucursal', type: 'text', columns: 6 }
                     - { property: 'cliente', type: 'text', columns: 6 }
+                    - { property: 'Comentario', type: 'text', columns: 6 }
                     - { property: 'SucursalDeCliente', type: 'text', columns: 6 }
                     - { property: 'estadoToString', label: 'Estado', columns: 6 }
                     - { property: 'horaInicio', columns: 6, format: 'H:i' }

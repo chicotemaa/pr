@@ -145,11 +145,6 @@ class Solicitud implements  iClienteFilter , iFacilityFilter , iSucursalClienteF
     private $pisoSector;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $detalle;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $fechaCompromiso;
@@ -376,17 +371,6 @@ class Solicitud implements  iClienteFilter , iFacilityFilter , iSucursalClienteF
         return $this;
     }
 
-    public function getDetalle(): ?string
-    {
-        return $this->detalle;
-    }
-
-    public function setDetalle(?string $detalle): self
-    {
-        $this->detalle = $detalle;
-
-        return $this;
-    }
 
     public function getConsulta(): ?string
     {

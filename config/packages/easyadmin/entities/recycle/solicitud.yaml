@@ -21,7 +21,6 @@ easy_admin:
                     - { property: 'numeroSucursal', label: 'Nro. de Sucursal'}
                     - { property: 'direccionSucursal', label: 'Dirección de Sucursal'}
                     - { property: 'pisoSector', label: 'Piso de Sector'}
-                    - { property: 'detalle', label: 'Nro. de Detalle'}
                     - { property: 'fechaCompromiso' }
                 fields:
                     - id
@@ -61,7 +60,6 @@ easy_admin:
                     - { property: 'numeroSucursal', label: 'Número Sucursal' }
                     - { property: 'direccionSucursal', label: 'Dirección Sucursal' }
                     - { property: 'pisoSector', label: 'Piso/Sector afectado' }
-                    - { property: 'detalle', label: 'Detalle' }
                     - 
                         property: 'fechaCompromiso'
                         label: 'Fecha de compromiso de solución'

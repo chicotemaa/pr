@@ -173,7 +173,6 @@
                     {% set resArray = resArray|merge([r.obtenerValorToString()]) %}
                 {% endfor %}
                 {% set texto = resArray|join('|') %}
-                
                 {% if texto is not empty %}
                     <tr>
                         <td>{{ item.titulo ~ ':' }}</td>

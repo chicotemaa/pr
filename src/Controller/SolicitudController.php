@@ -99,7 +99,7 @@ class SolicitudController extends EasyAdminController
                 'fecha' => $solicitud->getCreatedAt()->format('d/m/Y'),
                 'cliente' => $solicitud->getCliente()->getNombre(),
                 'consulta' => $solicitud->getConsulta(),
-                'detalle' => $solicitud->getDetalle(),
+                'detalle' => $solicitud->getNecesitasAyuda(),
                 'sucursal' => $solicitud->getSucursal(),
                 'direccion' => $solicitud->getSucursalDeCliente()->getDireccion(),
                 'facility' => $solicitud->getFacility()->getApellido(),
