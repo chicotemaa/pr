@@ -989,6 +989,7 @@ class OrdenTrabajoController extends EasyAdminController
             $entity->setCliente($solicitud->getCliente());
             $entity->setComentario($solicitud->getNecesitasAyuda());
             $entity->setSucursal($solicitud->getSucursal());
+            $entity->setSucursalDeCliente($solicitud->getSucursalDeCliente());
             $entity->setSolicitud($solicitud);
             
 

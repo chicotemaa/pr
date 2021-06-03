@@ -69,16 +69,23 @@ class SolicitudController extends EasyAdminController
         return $queryBuilder;
     }
 
-    protected function persistEntity($entity)
+    protected function persistEntity($solicitud)
     {
         if ($this->isGranted('ROLE_CLIENTE') && !$this->isGranted('ROLE_ENCARGADO')) {
-            $entity->setCliente($this->getUser()->getCliente());
-            $entity->setSucursalDeCliente($this->getUser()->getSucursalDeCliente());
-            $entity->setFacility($this->getUser()->getFacility());
+            $solicitud->setCliente($this->getUser()->getCliente());
+            
+            if($this->isGranted('ROLE_FACILITY')){
+                $solicitud->setFacility($this->getUser()->getFacility());
+            }
+            if ($this->isGranted('ROLE_STAFF')){
+                $solicitud->setSucursalDeCliente($this->getUser()->getSucursalDeCliente());
+                $solicitud->setFacility($this->getUser()->getFacility());                
+            } 
+                        
             //$entity->setServicio($this->getUser()->getServicio());
         }
 
-        parent::persistEntity($entity);
+        parent::persistEntity($solicitud);
     }
 
     protected function generarOtAction()
