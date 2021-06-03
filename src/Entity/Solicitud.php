@@ -41,7 +41,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  * @Vich\Uploadable
  * @AppAssert\SolicitudConstraint
  */
-class Solicitud implements  iClienteFilter , iFacilityFilter , iSucursalClienteFilter
+class Solicitud implements iClienteFilter, iFacilityFilter, iSucursalClienteFilter
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
@@ -62,7 +62,7 @@ class Solicitud implements  iClienteFilter , iFacilityFilter , iSucursalClienteF
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="solicituds")
-     * @Groups({"write"})
+     * @Groups({"write", "read"})
      */
     private $cliente;
 
@@ -86,7 +86,7 @@ class Solicitud implements  iClienteFilter , iFacilityFilter , iSucursalClienteF
 
     /**
      * @Vich\UploadableField(mapping="solicitud_imagen", fileNameProperty="imagen", size="imageSize")
-     *
+     * @Groups({"read", "write"})
      * @var File
      */
     private $imageFile;
@@ -131,6 +131,7 @@ class Solicitud implements  iClienteFilter , iFacilityFilter , iSucursalClienteF
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read"})
      */
     private $numeroSucursal;
 
@@ -161,6 +162,7 @@ class Solicitud implements  iClienteFilter , iFacilityFilter , iSucursalClienteF
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Groups({"read"})
      */
     private $necesitasAyuda;
 
