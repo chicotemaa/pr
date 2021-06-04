@@ -141,14 +141,17 @@
                     {% if propiedadItems[pi.id] is defined %}
                         {{render.renderItem(pi.item, propiedadItems[pi.id])}}
                     {% endif %}
+                    
                 {% endfor %}
             </tbody>
         </table>
         <br>
     {% endmacro %}
-    {% block entity_form %} 
+    
     {% macro renderItem(item, propiedadItemsResultado) %}
-        <form action="/admin/?entity=OrdenTrabajo&renderItem" method="POST">
+
+        <form action="/admin/?entity=OrdenTrabajo&action=editFormulario" method="POST">
+
             {% if item.tipo == 'foto' %}
                 {% for k, r in propiedadItemsResultado %}
                     {% if r.imageName is not empty %}
@@ -170,15 +173,21 @@
                 <td colspan="2">{{ item.titulo }}</td>
             {% else %}
                 {% set resArray = [] %}
+
                 {% for r in propiedadItemsResultado %}
                     {% set resArray = resArray|merge([r.obtenerValorToString()]) %}
                 {% endfor %}
+                {{dump(resArray|merge([1]))}}
+
                 {% set texto = resArray|join('|') %}
                 {% if texto is not empty %}
+                    {% if item.tipo == 'texto' %}
+                    {{dump(texto)}}
+                    {% endif  %}
                     <tr>
                         <td>{{ item.titulo ~ ':' }}</td>
                         {% if item.tipo == 'texto' %}
-                        <td align="center"><input type="text" name="item" value="{{ texto|trim }}"></input></td>
+                        <td align="center"><input type="text" name="item" value="{{ texto|trim }}"></input> <button class="btn btn-warning">edit</button></td>
                         {% else %}
                         <td align="center">{{ texto|trim  }}</td>
                         {% endif %}
@@ -188,7 +197,6 @@
         {% endmacro %}
         <button class=" btn btn-primary btn-lg action-save" id="btn1" style="float:right" onclick="guardar()">Guardar</button>
         </form >
-    {% endblock entity_form %}
 {% endblock %}
 
 {% block body_javascript %}

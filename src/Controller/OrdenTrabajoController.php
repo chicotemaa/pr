@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Solicitud;
 use App\Entity\OrdenTrabajo;
-use App\Entity\Modulo;
 use App\Entity\Sucursal;
 use Symfony\Component\Process\Process;
 use Symfony\Component\HttpFoundation\Response;
@@ -1101,12 +1100,13 @@ class OrdenTrabajoController extends EasyAdminController
         // cast to integer instead of string to avoid sending empty responses for 'false'
         return new Response((int) $newValue);
     }
-    public function editFormularioAction($item)
+    public function editFormularioAction(Request $request)
     {   
+        var_dump($request->get($_POST['item']));
 
-        $item->handleRequest($this->request);
+        //$request = Request::createFromGlobals();
+        //$form->handleRequest($request);
 
-        dump($item);
         
     }
 
