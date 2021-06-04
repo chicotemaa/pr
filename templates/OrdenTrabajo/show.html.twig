@@ -13,7 +13,7 @@
         <div class="modal-content">
           <div class="modal-header" style="background-color:#f05536;">
             <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar - Seleccionar formato</h4>
-            <button type="button" class="close" style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="submit" class="close" style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           </div>
        <div class="modal-body">
           <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
@@ -125,6 +125,7 @@
                             <h6>{{ pm.modulo.titulo }}</h6>
 
                             {{ render.renderModulo(pm, resultados[pm.modulo.id][modulosRepetido[pm.modulo.id]]) }}
+                            
                         {% endif %}
                     {% endfor %}
                 {% endif %}
@@ -147,7 +148,7 @@
     {% endmacro %}
     {% block entity_form %} 
     {% macro renderItem(item, propiedadItemsResultado) %}
-       
+        <form action="/admin/?entity=OrdenTrabajo&renderItem" method="POST">
             {% if item.tipo == 'foto' %}
                 {% for k, r in propiedadItemsResultado %}
                     {% if r.imageName is not empty %}
@@ -177,7 +178,7 @@
                     <tr>
                         <td>{{ item.titulo ~ ':' }}</td>
                         {% if item.tipo == 'texto' %}
-                        <td align="center"><input type="text" value="{{ texto|trim }}"></input></td>
+                        <td align="center"><input type="text" name="item" value="{{ texto|trim }}"></input></td>
                         {% else %}
                         <td align="center">{{ texto|trim  }}</td>
                         {% endif %}
@@ -185,7 +186,8 @@
                 {% endif %}
             {% endif %}
         {% endmacro %}
-        <button class=" btn btn-primary btn-lg action-save" style="float:right" onclick="guardar()">Guardar</button>
+        <button class=" btn btn-primary btn-lg action-save" id="btn1" style="float:right" onclick="guardar()">Guardar</button>
+        </form >
     {% endblock entity_form %}
 {% endblock %}
 
@@ -198,6 +200,7 @@
             $("#orden_trabajo").val($(this).data('id'));
             $("#ordenes_trabajo").val($(this).data('id'));
         });
+
 
     function exportar(){
       $("#formExportar1").submit();

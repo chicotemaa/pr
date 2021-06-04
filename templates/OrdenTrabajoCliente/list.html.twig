@@ -46,10 +46,10 @@
           <button type="button" class="close"  style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
         </div>
-        {% if is_granted('ROLE_STAFF') %}
+        {% if is_granted('ROLE_CLIENTE') %}
         <div class="modal-body">
           <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
-            <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
+            <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="" >
             <div class="radio">
               <label>
                 <input type="radio" name="formato" id="formato" value="PDF" >
@@ -189,7 +189,7 @@
         var x = document.getElementById("batch_form_ids").value;
         document.getElementById("ordenes_trabajo").value = x;
         // $("#ordenes_trabajo").val($(this).data("2"));
-        //console.log(document.getElementById("ordenes_trabajo")) ;
+        console.log(document.getElementById("ordenes_trabajo")) ;
     });
 
     function exportarBatch(){

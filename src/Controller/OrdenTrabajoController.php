@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Solicitud;
 use App\Entity\OrdenTrabajo;
+use App\Entity\Modulo;
 use App\Entity\Sucursal;
 use Symfony\Component\Process\Process;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
@@ -16,6 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\Common\Drawing;
+use App\Form\ModuloDependenciasType;
 use App\Service\ValidatorService;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -1097,6 +1100,14 @@ class OrdenTrabajoController extends EasyAdminController
 
         // cast to integer instead of string to avoid sending empty responses for 'false'
         return new Response((int) $newValue);
+    }
+    public function editFormularioAction($item)
+    {   
+
+        $item->handleRequest($this->request);
+
+        dump($item);
+        
     }
 
     /**
