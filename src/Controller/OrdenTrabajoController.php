@@ -5,11 +5,12 @@ namespace App\Controller;
 use App\Entity\Solicitud;
 use App\Entity\OrdenTrabajo;
 use App\Entity\Sucursal;
+use App\Entity\Resultado;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Process\Process;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
@@ -1256,6 +1257,17 @@ class OrdenTrabajoController extends EasyAdminController
         $writer->save($tmp.'/'.$fileName);
 
         return $fileName;
+    }
+
+    public function editarFormulario(Request $request){
+        $id = $request->request->get('id');
+        $valor = $request->request->get('valor');
+        $array[]=$valor;
+        $resultado =  $this->getDoctrine()->getRepository(Resultado::class)->find($id);
+        $resultado->setValor($array);
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse(1);
     }
 
 }
