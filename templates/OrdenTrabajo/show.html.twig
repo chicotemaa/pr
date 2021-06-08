@@ -150,8 +150,6 @@
     
     {% macro renderItem(item, propiedadItemsResultado) %}
 
-        <form action="/admin/?entity=OrdenTrabajo&action=editFormulario" method="POST">
-
             {% if item.tipo == 'foto' %}
                 {% for k, r in propiedadItemsResultado %}
                     {% if r.imageName is not empty %}
@@ -177,17 +175,23 @@
                 {% for r in propiedadItemsResultado %}
                     {% set resArray = resArray|merge([r.obtenerValorToString()]) %}
                 {% endfor %}
-                {{dump(resArray|merge([1]))}}
-
                 {% set texto = resArray|join('|') %}
                 {% if texto is not empty %}
                     {% if item.tipo == 'texto' %}
-                    {{dump(texto)}}
-                    {% endif  %}
+                   {% endif  %}
+                    
                     <tr>
                         <td>{{ item.titulo ~ ':' }}</td>
                         {% if item.tipo == 'texto' %}
-                        <td align="center"><input type="text" name="item" value="{{ texto|trim }}"></input> <button class="btn btn-warning">edit</button></td>
+                        <form id="EditarForm" method="POST">
+                        <td align="center">
+                        <label>{{ texto|trim }} </label>
+                        <input name="valor" style="display:none" id="NuevoDato" value="{{ texto }}"></input>
+                        <input name="id" type="hidden" value="{{ propiedadItemsResultado[0].id }}"></input>
+                        <button id="editar" class="btn btn-warning" onclick=editarDatos()>edit</button>
+                        <button id="guardar" type="submit" style="display:none" class="btn btn-secondary" onclick=guardarDatos()>guardar</button>
+                        </td>
+                        </form>
                         {% else %}
                         <td align="center">{{ texto|trim  }}</td>
                         {% endif %}
@@ -195,8 +199,7 @@
                 {% endif %}
             {% endif %}
         {% endmacro %}
-        <button class=" btn btn-primary btn-lg action-save" id="btn1" style="float:right" onclick="guardar()">Guardar</button>
-        </form >
+        
 {% endblock %}
 
 {% block body_javascript %}
@@ -243,9 +246,36 @@
                 title: 'Orden de trabajo'
             });
         }
-
-        
-        
+        let editar=document.getElementById('NuevoDato');
+        let btneditar=document.getElementById('editar');
+        let guardar=document.getElementById('guardar');
+        function editarDatos(){
+            btneditar.style.display='none';
+            guardar.style.display='block';
+            editar.style.display='block';
+        }
+        function guardarDatos(){
+            btneditar.style.display='block';
+            guardar.style.display='none';
+            editar.style.display='none';
+        } 
+            $("#editar").click(function(event){
+                event.preventDefault();
+            });
+            $(document).ready(function(){
+                $("#guardar").click(function(event){
+                event.preventDefault();
+                let datos= $("#EditarForm").serialize();
+                alert(datos);
+                return false;
+                $.ajax({
+                "type": "POST" ,
+                "url": "",
+                "data":datos
+                })           
+            });
+            })
+             
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{googleKeyApi}}&callback=initMap"
     async defer></script>
