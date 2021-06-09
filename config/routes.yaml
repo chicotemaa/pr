@@ -27,3 +27,9 @@ app_upload_image:
     path: /api/upload-file/
     controller: App\Action\UploadFile
 
+editarFormulario:
+    path: /editar-formulario/
+    defaults: { _controller: 'App\Controller\OrdenTrabajoController::editarFormulario' }
+    requirements:
+        _method: POST
+

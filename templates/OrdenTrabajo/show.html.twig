@@ -183,15 +183,14 @@
                     <tr>
                         <td>{{ item.titulo ~ ':' }}</td>
                         {% if item.tipo == 'texto' %}
-                        <form id="EditarForm" method="POST">
-                        <td align="center">
-                        <label>{{ texto|trim }} </label>
-                        <input name="valor" style="display:none" id="NuevoDato" value="{{ texto }}"></input>
-                        <input name="id" type="hidden" value="{{ propiedadItemsResultado[0].id }}"></input>
-                        <button id="editar" class="btn btn-warning" onclick=editarDatos()>edit</button>
-                        <button id="guardar" type="submit" style="display:none" class="btn btn-secondary" onclick=guardarDatos()>guardar</button>
+                        <div class="alert alert-success row" id="completo-{{propiedadItemsResultado[0].id}}" style="display:none">El Campo Fue Editado</div>
+                        <div class="alert alert-warning row" id="incompleto-{{propiedadItemsResultado[0].id}}" style="display:none">Los datos no fueron cargados</div>
+                        <td align="center" class="form-group-lg row">
+                        <label id="ViejoDato-{{propiedadItemsResultado[0].id}}" class="col-sm-6 col-form-label">{{ texto|trim }} </label>
+                        <input id="guardar-{{propiedadItemsResultado[0].id}}" class="form-control col-sm" name="valor" style="display:none" id="input-{{propiedadItemsResultado[0].id}}" value="{{ texto|trim }}"></input>
+                        <button id="editar-{{propiedadItemsResultado[0].id}}"class="btn btn-warning mb-8" onclick=editarDatos({{propiedadItemsResultado[0].id}})>Editar</button>
+                        <button id="btnguardar-{{propiedadItemsResultado[0].id}}" type="submit" style="display:none" class="btn btn-success mb-2" onclick=guardarDatos({{propiedadItemsResultado[0].id}})>guardar</button>
                         </td>
-                        </form>
                         {% else %}
                         <td align="center">{{ texto|trim  }}</td>
                         {% endif %}
@@ -246,35 +245,51 @@
                 title: 'Orden de trabajo'
             });
         }
-        let editar=document.getElementById('NuevoDato');
-        let btneditar=document.getElementById('editar');
-        let guardar=document.getElementById('guardar');
-        function editarDatos(){
+        
+        function editarDatos(id){
+        let ViejoDato=document.getElementById('ViejoDato-'+id);
+        let guardar=document.getElementById('guardar-'+id);
+        let btnguardar=document.getElementById('btnguardar-'+id);
+        let btneditar=document.getElementById('editar-'+id);
             btneditar.style.display='none';
+            ViejoDato.style.display='none';
             guardar.style.display='block';
-            editar.style.display='block';
+            btnguardar.style.display='block';
         }
-        function guardarDatos(){
+        function guardarDatos(id){
+        let completo = document.getElementById('completo-'+id);
+        let incompleto = document.getElementById('completo-'+id);
+        let ViejoDato=document.getElementById('ViejoDato-'+id);
+        let guardar=document.getElementById('guardar-'+id);
+        let btnguardar=document.getElementById('btnguardar-'+id);
+        let btneditar=document.getElementById('editar-'+id);
+            ViejoDato.style.display='block';
             btneditar.style.display='block';
             guardar.style.display='none';
-            editar.style.display='none';
-        } 
-            $("#editar").click(function(event){
-                event.preventDefault();
-            });
-            $(document).ready(function(){
-                $("#guardar").click(function(event){
-                event.preventDefault();
-                let datos= $("#EditarForm").serialize();
-                alert(datos);
-                return false;
-                $.ajax({
+            btnguardar.style.display='none';
+        let valor=guardar.value;
+        let datos={
+            'id':id,
+            'valor':valor
+        }
+            $.ajax({
                 "type": "POST" ,
-                "url": "",
-                "data":datos
-                })           
-            });
-            })
+                "url": "/editar-formulario/",
+                "data":datos,
+                success:function(r){
+                    if(r==1){
+                        ViejoDato.innerHTML=datos.valor;
+                        completo.style.display = "block";
+                        setTimeout(function(){ completo.style.display = "none"; }, 4000);
+                        //alert("formulario editado");
+                    }else{
+                        incompleto.style.display = "block";
+                        setTimeout(function(){ incompleto.style.display = "none"; }, 4000);
+                    }
+                }
+            }) 
+        } 
+
              
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{googleKeyApi}}&callback=initMap"
