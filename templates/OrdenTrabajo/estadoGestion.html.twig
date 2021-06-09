@@ -8,8 +8,8 @@
         {% elseif value == 1 %} style="color: #fff; background-color: #f39c12; font-weight: bold;"
         {% elseif value == 2 %} style="color: #fff; background-color: #00a65a; font-weight: bold;" {% endif %}
         id="estadoGestion{{ item.id }}" class="form-control form-control-sm estadoGestionSelect" data-id="{{ item.id }}" data-pre="0">
-    <option value="0">Abierta</option>
-    <option value="1">Pendiente</option>
+    <option value="0">Procesando Orden</option>
+    <option value="1">Pendiente a Revision</option>
     <option value="2">Cerrada</option>
     </select>
 </div>

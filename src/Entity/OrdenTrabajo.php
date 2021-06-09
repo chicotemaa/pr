@@ -48,7 +48,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *  }
  * )
  */
-class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
+class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFacilityFilter, iSucursalClienteFilter
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
@@ -60,6 +60,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
         3 => 'No me atendio',
         4 => 'Finalizado',
         5 => 'Postergado',
+        6 => 'Pendiente de revision',
     ];
 
     public static $estadosGestion = [
@@ -112,7 +113,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
     private $horaInicio;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      * @Groups({"read"})
      */
     private $orden;
@@ -235,6 +236,21 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
      * @Groups({"read","write"})
      */
     private $longitudCierre;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="ordenTrabajos")
+     */
+    private $Facility;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="no")
+     */
+    private $facility;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="ordenTrabajos")
+     */
+    private $SucursalDeCliente;
 
     public function __toString()
     {
@@ -681,4 +697,29 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter
 
         return $this;
     }
+
+    public function getFacility(): ?Facility
+    {
+        return $this->facility;
+    }
+
+    public function setFacility(?Facility $facility): self
+    {
+        $this->facility = $facility;
+
+        return $this;
+    }
+
+    public function getSucursalDeCliente(): ?SucursalDeCliente
+    {
+        return $this->SucursalDeCliente;
+    }
+
+    public function setSucursalDeCliente(?SucursalDeCliente $SucursalDeCliente): self
+    {
+        $this->SucursalDeCliente = $SucursalDeCliente;
+
+        return $this;
+    }
+
 }

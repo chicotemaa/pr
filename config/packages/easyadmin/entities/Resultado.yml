@@ -1,0 +1,20 @@
+easy_admin:
+    entities:
+        Resultado:
+            class: App\Entity\Resultado
+            list:
+                item_permission: [ROLE_FORMULARIO]
+                fields: ['id', 'formularioResultado', 'ordenTrabajo']
+            edit:
+                item_permission: [ROLE_FORMULARIO]
+            new:
+                item_permission: [ROLE_FORMULARIO]
+            show:
+                item_permission: [ROLE_FORMULARIO]
+            delete:
+                item_permission: [ROLE_FORMULARIO]
+            search:
+                item_permission: [ROLE_FORMULARIO]
+            form:
+                item_permission: [ROLE_FORMULARIO]
+               

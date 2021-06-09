@@ -41,12 +41,12 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  * @Vich\Uploadable
  * @AppAssert\SolicitudConstraint
  */
-class Solicitud implements iClienteFilter, iSucursalFilter
+class Solicitud implements iClienteFilter, iFacilityFilter, iSucursalClienteFilter
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
 
-    public static $estados = [
+    public $estados = [
         0 => 'Pendiente',
         1 => 'Generada OT',
         2 => 'Derivada',
@@ -62,7 +62,7 @@ class Solicitud implements iClienteFilter, iSucursalFilter
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="solicituds")
-     * @Groups({"write"})
+     * @Groups({"write", "read"})
      */
     private $cliente;
 
@@ -86,7 +86,7 @@ class Solicitud implements iClienteFilter, iSucursalFilter
 
     /**
      * @Vich\UploadableField(mapping="solicitud_imagen", fileNameProperty="imagen", size="imageSize")
-     *
+     * @Groups({"read", "write"})
      * @var File
      */
     private $imageFile;
@@ -130,12 +130,13 @@ class Solicitud implements iClienteFilter, iSucursalFilter
     private $ordenTrabajo;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read"})
      */
     private $numeroSucursal;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $direccionSucursal;
 
@@ -145,17 +146,12 @@ class Solicitud implements iClienteFilter, iSucursalFilter
     private $pisoSector;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $detalle;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $fechaCompromiso;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $nroIncidencia;
 
@@ -166,6 +162,7 @@ class Solicitud implements iClienteFilter, iSucursalFilter
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Groups({"read"})
      */
     private $necesitasAyuda;
 
@@ -174,6 +171,16 @@ class Solicitud implements iClienteFilter, iSucursalFilter
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $leido;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="solicituds")
+     */
+    private $Facility;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="solicituds")
+     */
+    private $SucursalDeCliente;
 
     public function __toString()
     {
@@ -366,17 +373,6 @@ class Solicitud implements iClienteFilter, iSucursalFilter
         return $this;
     }
 
-    public function getDetalle(): ?string
-    {
-        return $this->detalle;
-    }
-
-    public function setDetalle(?string $detalle): self
-    {
-        $this->detalle = $detalle;
-
-        return $this;
-    }
 
     public function getConsulta(): ?string
     {
@@ -422,6 +418,30 @@ class Solicitud implements iClienteFilter, iSucursalFilter
     public function setLeido(?bool $leido): self
     {
         $this->leido = $leido;
+
+        return $this;
+    }
+
+    public function getFacility(): ?Facility
+    {
+        return $this->Facility;
+    }
+
+    public function setFacility(?Facility $Facility): self
+    {
+        $this->Facility = $Facility;
+
+        return $this;
+    }
+
+    public function getSucursalDeCliente(): ?SucursalDeCliente
+    {
+        return $this->SucursalDeCliente;
+    }
+
+    public function setSucursalDeCliente(?SucursalDeCliente $SucursalDeCliente): self
+    {
+        $this->SucursalDeCliente = $SucursalDeCliente;
 
         return $this;
     }

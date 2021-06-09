@@ -39,6 +39,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *     })
  */
 class User extends BaseUser   
+
 {
     use SoftDeleteableEntity;
     
@@ -50,7 +51,7 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\OrdenTrabajo", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\OrdenTrabajo", mappedBy="user", orphanRemoval=false)
      */
     private $ordenTrabajo;
 
@@ -66,7 +67,7 @@ class User extends BaseUser
     private $sucursal;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="user", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="user", cascade={"persist"})
      * @Groups({"readRegistration", "writeRegistration", "userInfo"})
      */
     private $cliente;
@@ -98,9 +99,15 @@ class User extends BaseUser
     protected $groups;
 
     /**
-     * @ORM\Column(type="string", length=60, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="users")
      */
-    private $facility;
+    private $SucursalDeCliente;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="users")
+     */
+    private $Facility;
+
 
         public function __construct()
     {
@@ -197,15 +204,28 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getFacility(): ?string
+    public function getSucursalDeCliente(): ?SucursalDeCliente
     {
-        return $this->facility;
+        return $this->SucursalDeCliente;
     }
 
-    public function setFacility(?string $facility): self
+    public function setSucursalDeCliente(?SucursalDeCliente $SucursalDeCliente): self
     {
-        $this->facility = $facility;
+        $this->SucursalDeCliente = $SucursalDeCliente;
 
         return $this;
     }
+
+    public function getFacility(): ?Facility
+    {
+        return $this->Facility;
+    }
+
+    public function setFacility(?Facility $Facility): self
+    {
+        $this->Facility = $Facility;
+
+        return $this;
+    }
+
 }

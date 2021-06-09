@@ -1,0 +1,43 @@
+easy_admin:
+    entities:
+        Facility:
+            class: App\Entity\Facility
+            list:
+                item_permission: [ROLE_ITEM, ROLE_MANAGER]
+                fields:
+                    - id
+                    - { property: 'Apellido' }
+                    - { property: 'Nombre' }
+                    - { property: 'Correo' }
+                    - { property: 'Telefono' }
+                    - { property: 'Codigo' }
+            edit:
+                item_permission: [ROLE_ITEM] 
+                fields:
+                    - { property: 'Apellido', type: 'text', columns: 6 }
+                    - { property: 'Nombre', type: 'text', columns: 6 }
+                    - { property: 'Correo', type: 'text', columns: 6 }
+                    - { property: 'Telefono', type: 'text', columns: 6 }
+                    - { property: 'codigo', type: 'text', columns: 6 }
+                    - { property: 'Cliente',  columns: 6 }
+                    - { property: 'users',  columns: 6 }
+            new:
+                item_permission: [ROLE_ITEM] 
+            show:
+                item_permission: [ROLE_CLIENTE, ROLE_MANAGER]
+                actions:
+                    - { name: '-edit', permission: ROLE_CLIENTE }
+                    - { name: '-delete', permission: ROLE_CLIENTE }
+                fields:
+                    - id
+                    - Apellido
+                    - Nombre
+                    - Correo 
+                    - Telefono
+                    - Codigo
+                    - { property: 'Cliente', type: 'text' }
+                    - { property: 'users',  permission: ROLE_ADMIN }
+            delete:
+                item_permission: [ROLE_ITEM] 
+            search:
+                item_permission: [ROLE_ITEM] 

@@ -144,6 +144,18 @@ class Cliente implements iSucursalFilter
      */
     private $longitud;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SucursalDeCliente", mappedBy="Cliente")
+     */
+    private $sucursalDeClientes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Facility", mappedBy="Cliente")
+     */
+    private $facilities;
+
+
+
 
 
 
@@ -152,6 +164,9 @@ class Cliente implements iSucursalFilter
         $this->ordenTrabajos = new ArrayCollection();
         $this->solicituds = new ArrayCollection();
         $this->equipos = new ArrayCollection();
+        $this->sucursalDeClientes = new ArrayCollection();
+        $this->SucursalDeCliente = new ArrayCollection();
+        $this->facilities = new ArrayCollection();
     }
 
     public function __toString()
@@ -469,6 +484,76 @@ class Cliente implements iSucursalFilter
     public function setLongitud(?int $longitud): self
     {
         $this->longitud = $longitud;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SucursalDeCliente[]
+     */
+    public function getSucursalDeClientes(): Collection
+    {
+        return $this->sucursalDeClientes;
+    }
+
+    public function addSucursalDeCliente(SucursalDeCliente $sucursalDeCliente): self
+    {
+        if (!$this->sucursalDeClientes->contains($sucursalDeCliente)) {
+            $this->sucursalDeClientes[] = $sucursalDeCliente;
+            $sucursalDeCliente->setCliente($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSucursalDeCliente(SucursalDeCliente $sucursalDeCliente): self
+    {
+        if ($this->sucursalDeClientes->contains($sucursalDeCliente)) {
+            $this->sucursalDeClientes->removeElement($sucursalDeCliente);
+            // set the owning side to null (unless already changed)
+            if ($sucursalDeCliente->getCliente() === $this) {
+                $sucursalDeCliente->setCliente(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SucursalDeCliente[]
+     */
+    public function getSucursalDeCliente(): Collection
+    {
+        return $this->SucursalDeCliente;
+    }
+
+    /**
+     * @return Collection|Facility[]
+     */
+    public function getFacilities(): Collection
+    {
+        return $this->facilities;
+    }
+
+    public function addFacility(Facility $facility): self
+    {
+        if (!$this->facilities->contains($facility)) {
+            $this->facilities[] = $facility;
+            $facility->setCliente($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFacility(Facility $facility): self
+    {
+        if ($this->facilities->contains($facility)) {
+            $this->facilities->removeElement($facility);
+            // set the owning side to null (unless already changed)
+            if ($facility->getCliente() === $this) {
+                $facility->setCliente(null);
+            }
+        }
 
         return $this;
     }

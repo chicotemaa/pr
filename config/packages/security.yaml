@@ -10,8 +10,8 @@ security:
         ROLE_EMPLEADO: ROLE_USER
         ROLE_ENCARGADO: ROLE_USER
         ROLE_STAFF: ROLE_CLIENTE
-        ROLE_FACILITY: ROLE_STAFF
-        ROLE_MANAGER: ROLE_FACILITY
+        ROLE_FACILITY: ROLE_CLIENTE
+        ROLE_MANAGER: ROLE_CLIENTE
         
         ROLE_ADMIN:
             - ROLE_USER
@@ -92,4 +92,5 @@ security:
         - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/dashboard, roles: ROLE_DASHBOARD }
         - { path: ^/admin, roles: ROLE_USER }
+        - { path: ^/editar-formulario, roles: ROLE_ADMIN }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

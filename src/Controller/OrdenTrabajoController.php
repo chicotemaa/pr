@@ -5,7 +5,11 @@ namespace App\Controller;
 use App\Entity\Solicitud;
 use App\Entity\OrdenTrabajo;
 use App\Entity\Sucursal;
+use App\Entity\Resultado;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Process\Process;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -16,6 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\Common\Drawing;
+use App\Form\ModuloDependenciasType;
 use App\Service\ValidatorService;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -231,7 +236,7 @@ class OrdenTrabajoController extends EasyAdminController
 
 
                 //verifica si algun form orden esta vacio
-                if (!$this->formularioResultado) {
+                if ((!$this->formularioResultado) && ($this->isGranted('ROLE_ADMIN'))) {
                     $this->addFlash('warning', 'El formulario no ha sido completado');
 
                     if ('show' == $this->request->request->get('actionReturn')) {
@@ -244,6 +249,25 @@ class OrdenTrabajoController extends EasyAdminController
                         return $this->redirectToRoute('easyadmin', [
                             'action' => 'list',
                             'entity' => $this->request->query->get('entity'),
+                        ]);
+                    }
+
+
+                }
+                //verifica si algun form orden esta vacio
+                if ((!$this->formularioResultado) && ($this->isGranted('ROLE_STAFF'))) {
+                    $this->addFlash('warning', 'El formulario no ha sido verificado');
+
+                    if ('show' == $this->request->request->get('actionReturn')) {
+                        return $this->redirectToRoute('easyadmin', [
+                            'action' => 'show',
+                            'id' => $this->request->get('orden_trabajo'),
+                            'entity' => $this->request->query->get('entity'),
+                        ]);
+                    } else {
+                        return $this->redirectToRoute('easyadmin', [
+                            'action' => 'list',
+                            'entity' => 'OrdenTrabajoCliente' //$this->request->query->get('entity'),
                         ]);
                     }
 
@@ -825,7 +849,6 @@ class OrdenTrabajoController extends EasyAdminController
         //si es de tipo foto
         if ('foto' == $item->getTipo()) {
             //obtengo todos los resultados de propiedad item
-
             $mostrarTitulo = true;
             foreach ($resultados as $keyResultado => $resultado) {
                 if (!empty($resultado->getImageName())) {
@@ -969,8 +992,9 @@ class OrdenTrabajoController extends EasyAdminController
                 ));
             }
             $entity->setCliente($solicitud->getCliente());
-            $entity->setComentario($solicitud->getDetalle());
+            $entity->setComentario($solicitud->getNecesitasAyuda());
             $entity->setSucursal($solicitud->getSucursal());
+            $entity->setSucursalDeCliente($solicitud->getSucursalDeCliente());
             $entity->setSolicitud($solicitud);
             
 
@@ -1061,7 +1085,9 @@ class OrdenTrabajoController extends EasyAdminController
             $solicitud->setEstado(1);
             $entity->setCliente($solicitud->getCliente());
             $entity->setServicio($solicitud->getServicio());
-            $entity->setComentario($solicitud->getDetalle());
+            $entity->setComentario($solicitud->getNecesitasAyuda());
+            $entity->setFacility($solicitud->getFacility());
+            $entity->setSucursalDeCliente($solicitud->getSucursalDeCliente());
             $entity->setSucursal($entity->getCliente()->getSucursal());
         }
 
@@ -1076,6 +1102,15 @@ class OrdenTrabajoController extends EasyAdminController
 
         // cast to integer instead of string to avoid sending empty responses for 'false'
         return new Response((int) $newValue);
+    }
+    public function editFormularioAction(Request $request)
+    {   
+        var_dump($request->get($_POST['item']));
+
+        //$request = Request::createFromGlobals();
+        //$form->handleRequest($request);
+
+        
     }
 
     /**
@@ -1222,6 +1257,74 @@ class OrdenTrabajoController extends EasyAdminController
         $writer->save($tmp.'/'.$fileName);
 
         return $fileName;
+    }
+    public function exportarAllOrdenesExcelFormulario($tmp)
+    {
+        $session = new Session();
+        $ordenes = $session->get('entities_to_export');
+        $i = 3;
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($this->getParameter('kernel.root_dir').'/../public/uploads/templates/'.'templateListaOrdenes.xls');
+        $sheet = $spreadsheet->getActiveSheet();
+        foreach ($ordenes as $valor){
+            $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
+            $cliente = ($ordenTrabajo->getCliente())
+                ? $ordenTrabajo->getCliente()->getId() : '';
+            $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
+            $fileName = 'lista.xls';
+
+            //$spreadsheet = new Spreadsheet();
+
+            foreach(range('B','L') as $columnID) {
+                $sheet->getColumnDimension($columnID)
+                    ->setAutoSize(true);
+            }
+            $sheet->setCellValue('A'.$i, $ordenTrabajo->getId());
+            $sheet->setCellValue('B'.$i, $ordenTrabajo->estadoToString());
+            $sheet->setCellValue('C'.$i, $titulo);
+            if ($ordenTrabajo->getUser()->getUserName()) {
+                $sheet->setCellValue('D'.$i, $ordenTrabajo->getUser()->getUserName());
+            }
+            $sheet->setCellValue('E'.$i, $ordenTrabajo->getEstado());
+            $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha());
+
+            $horaInicio = ($ordenTrabajo->getHoraInicio())
+                ? $ordenTrabajo->getHoraInicio()->format('H:i') : '';
+
+            $horaFin = ($ordenTrabajo->getHoraFin())
+                ? $ordenTrabajo->getHoraFin()->format('H:i') : '';
+
+            $sheet->setCellValue('G'.$i, $horaInicio);
+            $sheet->setCellValue('H'.$i, $horaFin);
+            if ($ordenTrabajo->getFormularioResultado()) {
+                $sheet->setCellValue('I'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
+            }
+            $sheet->setCellValue('J'.$i, $cliente);
+            $sheet->setCellValue('K'.$i, $ordenTrabajo->getLongitud());
+            $sheet->setCellValue('L'.$i, $ordenTrabajo->getLatitud());
+
+            $i++;
+        }
+
+
+        $writer = new Xlsx($spreadsheet);
+
+        $writer->save($tmp.'/'.$fileName);
+
+        return $fileName;
+    }
+
+    public function editarFormulario(Request $request){
+        if ($request->request !=NULL) {
+            $id = $request->request->get('id');
+            $valor = $request->request->get('valor');
+            $array[]=$valor;
+            $resultado =  $this->getDoctrine()->getRepository(Resultado::class)->find($id);
+            $resultado->setValor($array);
+            $this->getDoctrine()->getManager()->flush();
+        }
+
+
+        return new JsonResponse(1);
     }
 
 }

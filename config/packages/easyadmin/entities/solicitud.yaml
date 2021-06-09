@@ -21,13 +21,13 @@ easy_admin:
                     - { property: 'numeroSucursal', label: 'Nro. de Sucursal'}
                     - { property: 'direccionSucursal', label: 'Dirección de Sucursal'}
                     - { property: 'pisoSector', label: 'Piso de Sector'}
-                    - { property: 'detalle', label: 'Nro. de Detalle'}
-                    - { property: 'fechaCompromiso' }
+                    #- { property: 'fechaCompromiso' }
                 fields:
                     - id
-                    - { property: 'fechaCompromiso', format: 'd/m/Y H:i' }
-                    - { property: 'cliente', type: 'text' }
+                    #- { property: 'fechaCompromiso', format: 'd/m/Y H:i' }
                     - { property: 'servicio', type: 'text' }
+                    - { property: 'SucursalDeCliente' }
+                    - { property: 'cliente', type: 'text' }
                     - nroIncidencia
                     - numeroSucursal
                     - { property: 'estado', label: 'Estado' ,template: 'Solicitud/estado.html.twig' }
@@ -45,7 +45,7 @@ easy_admin:
             form:
                 fields:
                     - { type: 'group', columns: 6 }
-                    - { property: 'sucursal', permission: ROLE_ENCARGADO }
+                    - { property: 'sucursal',label: 'Sucursal de Hogar', permission: ROLE_ENCARGADO }
                     - { property: 'cliente', permission: ROLE_ENCARGADO }
                     - { property: 'estado', permission: ROLE_ENCARGADO, type: 'choice', type_options: { choices: '%solicitudEstadoArray%' } }
                     - { 
@@ -54,17 +54,18 @@ easy_admin:
                         type_options: { class: 'App\Entity\Servicio', query_builder: 'App\Repository\SolicitudRepository::finByActivo' }
                      }
                     - { property: 'necesitasAyuda' }
+                    - { property: 'SucursalDeCliente' , permission: [ROLE_FACILITY, ROLE_ENCARGADO], label: 'Sucursal'}
                     - { property: 'consulta', label: 'Cual es el problema?' }
                     - { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }
                     - { type: 'group', columns: 6 }
                     - { property: 'nroIncidencia' }
-                    - { property: 'numeroSucursal', label: 'Número Sucursal' }
-                    - { property: 'direccionSucursal', label: 'Dirección Sucursal' }
+                    #- { property: 'numeroSucursal', label: 'Número Sucursal' }
+                    #- { property: 'direccionSucursal', label: 'Dirección Sucursal' }
                     - { property: 'pisoSector', label: 'Piso/Sector afectado' }
-                    - { property: 'detalle', label: 'Detalle' }
                     - 
                         property: 'fechaCompromiso'
                         label: 'Fecha de compromiso de solución'
+                        permission: ROLE_ENCARGADO
                         type_options:
                             attr:
                                 data-inputmask: "'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy HH:MM'"

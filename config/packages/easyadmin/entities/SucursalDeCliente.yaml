@@ -1,0 +1,26 @@
+easy_admin:
+    entities:
+        SucursalDeCliente:
+            class: App\Entity\SucursalDeCliente
+            list:
+                item_permission: [ROLE_PROPIEDAD_ITEM, ROLE_CLIENTE]
+                fields:
+                    - id
+                    - codigo
+                    - { property: 'Cliente', type: 'text'}
+                    - users
+            edit:
+                item_permission: [ROLE_CLIENTE]
+            new:
+                item_permission: [ROLE_PROPIEDAD_ITEM]
+            show:
+                item_permission: [ROLE_CLIENTE]
+                fields:
+                    - id
+                    - direccion
+                    - codigo
+                    - { property: 'Cliente', type: 'text' }
+            delete:
+                item_permission: [ROLE_PROPIEDAD_ITEM]
+            search:
+                item_permission: [ROLE_PROPIEDAD_ITEM]

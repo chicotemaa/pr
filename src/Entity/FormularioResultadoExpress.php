@@ -63,6 +63,7 @@ class FormularioResultadoExpress
         3 => 'No me atendio',
         4 => 'Finalizado',
         5 => 'Postergado',
+        6 => 'Pendiente de revision',
     ];
 
     /**

@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\FacilityRepository")
  */
 class Facility
+implements  iClienteFilter
 {
     /**
      * @ORM\Id()
@@ -28,30 +29,6 @@ class Facility
      */
     private $nombre;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $street;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $city;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $provincia;
-
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $pais;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $fechaNacimiento;
 
     /**
      * @ORM\Column(type="string", length=100)
@@ -59,23 +36,59 @@ class Facility
     private $correo;
 
     /**
-     * @ORM\Column(type="integer")
+    * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $telefono;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Empresa", inversedBy="facilities")
+     * @ORM\Column(type="integer")
      */
-    private $empresa;
+    private $codigo;
+
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Cliente", mappedBy="facility")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="facilities")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $facility;
+    private $Cliente;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="Facility")
+     */
+    private $users;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\OrdenTrabajo", mappedBy="Facility")
+     */
+    private $ordenTrabajos;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\OrdenTrabajo", mappedBy="facility")
+     */
+    private $no;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Solicitud", mappedBy="Facility")
+     */
+    private $solicituds;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SucursalDeCliente", mappedBy="facility")
+     */
+    private $sucursalDeClientes;
 
     public function __construct()
     {
         $this->facility = new ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->ordenTrabajos = new ArrayCollection();
+        $this->no = new ArrayCollection();
+        $this->solicituds = new ArrayCollection();
+        $this->sucursalDeClientes = new ArrayCollection();
+    }
+    public function __toString()
+    {
+        return $this->Cliente.'| Nombre: '.$this->nombre.' '.$this->apellido;
     }
 
     public function getId(): ?int
@@ -107,65 +120,6 @@ class Facility
         return $this;
     }
 
-    public function getStreet(): ?string
-    {
-        return $this->street;
-    }
-
-    public function setStreet(string $street): self
-    {
-        $this->street = $street;
-
-        return $this;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(string $city): self
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    public function getProvincia(): ?string
-    {
-        return $this->provincia;
-    }
-
-    public function setProvincia(string $provincia): self
-    {
-        $this->provincia = $provincia;
-
-        return $this;
-    }
-
-    public function getPais(): ?string
-    {
-        return $this->pais;
-    }
-
-    public function setPais(string $pais): self
-    {
-        $this->pais = $pais;
-
-        return $this;
-    }
-
-    public function getFechaNacimiento(): ?string
-    {
-        return $this->fechaNacimiento;
-    }
-
-    public function setFechaNacimiento(string $fechaNacimiento): self
-    {
-        $this->fechaNacimiento = $fechaNacimiento;
-
-        return $this;
-    }
 
     public function getCorreo(): ?string
     {
@@ -191,17 +145,6 @@ class Facility
         return $this;
     }
 
-    public function getEmpresa(): ?Empresa
-    {
-        return $this->empresa;
-    }
-
-    public function setEmpresa(?Empresa $empresa): self
-    {
-        $this->empresa = $empresa;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Cliente[]
@@ -228,6 +171,186 @@ class Facility
             // set the owning side to null (unless already changed)
             if ($facility->getFacility() === $this) {
                 $facility->setFacility(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCodigo(): ?int
+    {
+        return $this->codigo;
+    }
+
+    public function setCodigo(int $codigo): self
+    {
+        $this->codigo = $codigo;
+
+        return $this;
+    }
+
+
+    public function getCliente(): ?Cliente
+    {
+        return $this->Cliente;
+    }
+
+    public function setCliente(?Cliente $Cliente): self
+    {
+        $this->Cliente = $Cliente;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setFacility($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getFacility() === $this) {
+                $user->setFacility(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrdenTrabajo[]
+     */
+    public function getOrdenTrabajos(): Collection
+    {
+        return $this->ordenTrabajos;
+    }
+
+    public function addOrdenTrabajo(OrdenTrabajo $ordenTrabajo): self
+    {
+        if (!$this->ordenTrabajos->contains($ordenTrabajo)) {
+            $this->ordenTrabajos[] = $ordenTrabajo;
+            $ordenTrabajo->setFacility($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrdenTrabajo(OrdenTrabajo $ordenTrabajo): self
+    {
+        if ($this->ordenTrabajos->contains($ordenTrabajo)) {
+            $this->ordenTrabajos->removeElement($ordenTrabajo);
+            // set the owning side to null (unless already changed)
+            if ($ordenTrabajo->getFacility() === $this) {
+                $ordenTrabajo->setFacility(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrdenTrabajo[]
+     */
+    public function getNo(): Collection
+    {
+        return $this->no;
+    }
+
+    public function addNo(OrdenTrabajo $no): self
+    {
+        if (!$this->no->contains($no)) {
+            $this->no[] = $no;
+            $no->setFacility($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNo(OrdenTrabajo $no): self
+    {
+        if ($this->no->contains($no)) {
+            $this->no->removeElement($no);
+            // set the owning side to null (unless already changed)
+            if ($no->getFacility() === $this) {
+                $no->setFacility(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Solicitud[]
+     */
+    public function getSolicituds(): Collection
+    {
+        return $this->solicituds;
+    }
+
+    public function addSolicitud(Solicitud $solicitud): self
+    {
+        if (!$this->solicituds->contains($solicitud)) {
+            $this->solicituds[] = $solicitud;
+            $solicitud->setFacility($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolicitud(Solicitud $solicitud): self
+    {
+        if ($this->solicituds->contains($solicitud)) {
+            $this->solicituds->removeElement($solicitud);
+            // set the owning side to null (unless already changed)
+            if ($solicitud->getFacility() === $this) {
+                $solicitud->setFacility(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SucursalDeCliente[]
+     */
+    public function getSucursalDeClientes(): Collection
+    {
+        return $this->sucursalDeClientes;
+    }
+
+    public function addSucursalDeCliente(SucursalDeCliente $sucursalDeCliente): self
+    {
+        if (!$this->sucursalDeClientes->contains($sucursalDeCliente)) {
+            $this->sucursalDeClientes[] = $sucursalDeCliente;
+            $sucursalDeCliente->setFacility($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSucursalDeCliente(SucursalDeCliente $sucursalDeCliente): self
+    {
+        if ($this->sucursalDeClientes->contains($sucursalDeCliente)) {
+            $this->sucursalDeClientes->removeElement($sucursalDeCliente);
+            // set the owning side to null (unless already changed)
+            if ($sucursalDeCliente->getFacility() === $this) {
+                $sucursalDeCliente->setFacility(null);
             }
         }
 

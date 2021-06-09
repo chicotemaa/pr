@@ -15,7 +15,6 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
- * @ORM\Table(name="fos_user")
  * @AppAssert\UserConstraint
  * @ApiResource(
  *    attributes={
@@ -38,8 +37,9 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *           "get"={"method"="GET"}
  *     })
  */
-class UserCliente  extends BaseUser
-    implements  iClienteFilter
+class UserCliente extends BaseUser   
+ implements  iClienteFilter , iFacilityFilter , iSucursalClienteFilter
+ 
 {
     use SoftDeleteableEntity;
     
@@ -91,14 +91,25 @@ class UserCliente  extends BaseUser
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Group")
-     * @ORM\JoinTable(name="fos_user_group",
+     * @ORM\JoinTable(name="user_cliente_group",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
      * )
      */
     protected $groups;
 
-    public function __construct()
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="users")
+     */
+    private $SucursalDeCliente;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="users")
+     */
+    private $Facility;
+
+
+        public function __construct()
     {
         parent::__construct();
         $this->ordenTrabajo = new ArrayCollection();
@@ -192,4 +203,29 @@ class UserCliente  extends BaseUser
 
         return $this;
     }
+
+    public function getSucursalDeCliente(): ?SucursalDeCliente
+    {
+        return $this->SucursalDeCliente;
+    }
+
+    public function setSucursalDeCliente(?SucursalDeCliente $SucursalDeCliente): self
+    {
+        $this->SucursalDeCliente = $SucursalDeCliente;
+
+        return $this;
+    }
+
+    public function getFacility(): ?Facility
+    {
+        return $this->Facility;
+    }
+
+    public function setFacility(?Facility $Facility): self
+    {
+        $this->Facility = $Facility;
+
+        return $this;
+    }
+
 }

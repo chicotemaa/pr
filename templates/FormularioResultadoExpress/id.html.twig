@@ -1,0 +1,12 @@
+<p id="estadoGestion{{ item.id }}">
+{{ item.id }}
+</p>
+<script>
+ $(function(){
+     $("#estadoGestion{{ item.id }}").val('{{value}}');
+     $("#estadoGestion{{ item.id }}").on('focus', function () {
+        // Store the current value on focus and on change
+        $(this).data("pre",$(this).val())
+    })
+ })
+</script>

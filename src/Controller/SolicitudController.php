@@ -69,14 +69,23 @@ class SolicitudController extends EasyAdminController
         return $queryBuilder;
     }
 
-    protected function persistEntity($entity)
+    protected function persistEntity($solicitud)
     {
         if ($this->isGranted('ROLE_CLIENTE') && !$this->isGranted('ROLE_ENCARGADO')) {
-            $entity->setCliente($this->getUser()->getCliente());
+            $solicitud->setCliente($this->getUser()->getCliente());
+            
+            if($this->isGranted('ROLE_FACILITY')){
+                $solicitud->setFacility($this->getUser()->getFacility());
+            }
+            if ($this->isGranted('ROLE_STAFF')){
+                $solicitud->setSucursalDeCliente($this->getUser()->getSucursalDeCliente());
+                $solicitud->setFacility($this->getUser()->getFacility());                
+            } 
+                        
             //$entity->setServicio($this->getUser()->getServicio());
         }
 
-        parent::persistEntity($entity);
+        parent::persistEntity($solicitud);
     }
 
     protected function generarOtAction()
@@ -95,12 +104,14 @@ class SolicitudController extends EasyAdminController
             $this->request->getSession()->set('solicitud_ot', [
                 'id' => $solicitud->getId(),
                 'fecha' => $solicitud->getCreatedAt()->format('d/m/Y'),
-                'cliente' => $solicitud->getCliente(),
+                'cliente' => $solicitud->getCliente()->getNombre(),
                 'consulta' => $solicitud->getConsulta(),
-                'detalle' => $solicitud->getDetalle(),
+                'detalle' => $solicitud->getNecesitasAyuda(),
                 'sucursal' => $solicitud->getSucursal(),
+                'direccion' => $solicitud->getSucursalDeCliente()->getDireccion(),
+                'facility' => $solicitud->getFacility()->getApellido(),
+                
             ]);
-
             return $this->redirectToRoute('easyadmin', array(
                 'action' => 'new',
                 'entity' => 'OrdenTrabajo',

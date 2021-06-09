@@ -22,6 +22,7 @@ class EstadoFilterType extends FilterType
                 'No me atendió' => 3,
                 'Finalizado' => 4,
                 'Postergado' => 5,
+                'Pendiente de revision'=> 6,
             ],
             'expanded' => true,
             'multiple' => false,

@@ -239,6 +239,7 @@ export default {
           'Estoy en camino': '#f39c12',
           'Me recibió': '#00a65a',
           'No me atendió': '#ffb100',
+          'Pendiente de revision': '#F44600',
           'Finalizado': '#5cbe4a',
           'Postergado': '#2db7f0'
        },

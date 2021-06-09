@@ -13,32 +13,38 @@
         <div class="modal-content">
           <div class="modal-header" style="background-color:#f05536;">
             <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar - Seleccionar formato</h4>
-            <button type="button" class="close" style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="submit" class="close" style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           </div>
-          <div class="modal-body">
-              <form id="formExportar" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar' }) }}" method="POST">
-                <input type="hidden" name= "orden_trabajo" id="orden_trabajo" value="" >
-                <input type="hidden" name= "actionReturn" id="orden_trabajo" value="show" >
-                <input type="hidden" name= "ordenes_trabajo" id="ordenes_trabajo" value="" >
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="formato" id="formato" value="WORD" checked>
-                    WORD
-                  </label><br>
-                  <label>
-                    <input type="radio" name="formato" id="formato" value="PDF" >
-                    PDF
-                  </label><br>
-                  <label>
-                    <input type="radio" name="formato" id="formato" value="EXCEL" >
-                    EXCEL
-                  </label>
-                </div>
-              </form>
+       <div class="modal-body">
+          <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
+            <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
+            <div class="radio">
+              <label>
+                <input type="radio" name="formato" id="formato" value="WORD" checked>
+                WORD
+              </label><br>
+              <label>
+                <input type="radio" name="formato" id="formato" value="PDF" >
+                PDF
+              </label><br>
+              <label>
+                <input type="radio" name="formato" id="formato" value="EXCEL" >
+                EXCEL
+              </label>
+              <label>
+                <input type="radio" name="formato" id="formato" value="ORDENESEXCEL">
+                LISTADO DE ÓRDENES EXCEL
+              </label>
+              <label>
+                <input type="radio" name="formato" id="formato" value="ALLORDENESEXCEL">
+                LISTADO DE ÓRDENES EXCEL (toda la lista filtrada)
+              </label>
             </div>
+          </form>
+          </div>  
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
+               <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
             </div>
         </div>
       </div>
@@ -119,13 +125,13 @@
                             <h6>{{ pm.modulo.titulo }}</h6>
 
                             {{ render.renderModulo(pm, resultados[pm.modulo.id][modulosRepetido[pm.modulo.id]]) }}
+                            
                         {% endif %}
                     {% endfor %}
                 {% endif %}
             </div>
         </div>
     </div>
-
     {% macro renderModulo(propiedadModulo, propiedadItems) %}
         {% import _self as render %}
         <table class="table table-bordered">
@@ -135,13 +141,15 @@
                     {% if propiedadItems[pi.id] is defined %}
                         {{render.renderItem(pi.item, propiedadItems[pi.id])}}
                     {% endif %}
+                    
                 {% endfor %}
             </tbody>
         </table>
         <br>
     {% endmacro %}
-
+    
     {% macro renderItem(item, propiedadItemsResultado) %}
+
             {% if item.tipo == 'foto' %}
                 {% for k, r in propiedadItemsResultado %}
                     {% if r.imageName is not empty %}
@@ -163,19 +171,34 @@
                 <td colspan="2">{{ item.titulo }}</td>
             {% else %}
                 {% set resArray = [] %}
+
                 {% for r in propiedadItemsResultado %}
                     {% set resArray = resArray|merge([r.obtenerValorToString()]) %}
                 {% endfor %}
                 {% set texto = resArray|join('|') %}
-                
                 {% if texto is not empty %}
+                    {% if item.tipo == 'texto' %}
+                   {% endif  %}
+                    
                     <tr>
                         <td>{{ item.titulo ~ ':' }}</td>
+                        {% if item.tipo == 'texto' %}
+                        <div class="alert alert-success row" id="completo-{{propiedadItemsResultado[0].id}}" style="display:none">El Campo Fue Editado</div>
+                        <div class="alert alert-warning row" id="incompleto-{{propiedadItemsResultado[0].id}}" style="display:none">Los datos no fueron cargados</div>
+                        <td align="center" class="form-group-lg row">
+                        <label id="ViejoDato-{{propiedadItemsResultado[0].id}}" class="col-sm-6 col-form-label">{{ texto|trim }} </label>
+                        <input id="guardar-{{propiedadItemsResultado[0].id}}" class="form-control col-sm" name="valor" style="display:none" id="input-{{propiedadItemsResultado[0].id}}" value="{{ texto|trim }}"></input>
+                        <button id="editar-{{propiedadItemsResultado[0].id}}"class="btn btn-warning mb-8" onclick=editarDatos({{propiedadItemsResultado[0].id}})>Editar</button>
+                        <button id="btnguardar-{{propiedadItemsResultado[0].id}}" type="submit" style="display:none" class="btn btn-success mb-2" onclick=guardarDatos({{propiedadItemsResultado[0].id}})>guardar</button>
+                        </td>
+                        {% else %}
                         <td align="center">{{ texto|trim  }}</td>
+                        {% endif %}
                     </tr>
                 {% endif %}
             {% endif %}
-    {% endmacro %}
+        {% endmacro %}
+        
 {% endblock %}
 
 {% block body_javascript %}
@@ -188,9 +211,10 @@
             $("#ordenes_trabajo").val($(this).data('id'));
         });
 
-        function exportar(){
-            $("#formExportar").submit();
-        };
+
+    function exportar(){
+      $("#formExportar1").submit();
+    };
         //Mapa Recibido
         var map;
         var myLatLng = {lat: {{entity.latitud|default(0)}}, lng: {{entity.longitud|default(0)}}};
@@ -221,9 +245,52 @@
                 title: 'Orden de trabajo'
             });
         }
+        
+        function editarDatos(id){
+        let ViejoDato=document.getElementById('ViejoDato-'+id);
+        let guardar=document.getElementById('guardar-'+id);
+        let btnguardar=document.getElementById('btnguardar-'+id);
+        let btneditar=document.getElementById('editar-'+id);
+            btneditar.style.display='none';
+            ViejoDato.style.display='none';
+            guardar.style.display='block';
+            btnguardar.style.display='block';
+        }
+        function guardarDatos(id){
+        let completo = document.getElementById('completo-'+id);
+        let incompleto = document.getElementById('completo-'+id);
+        let ViejoDato=document.getElementById('ViejoDato-'+id);
+        let guardar=document.getElementById('guardar-'+id);
+        let btnguardar=document.getElementById('btnguardar-'+id);
+        let btneditar=document.getElementById('editar-'+id);
+            ViejoDato.style.display='block';
+            btneditar.style.display='block';
+            guardar.style.display='none';
+            btnguardar.style.display='none';
+        let valor=guardar.value;
+        let datos={
+            'id':id,
+            'valor':valor
+        }
+            $.ajax({
+                "type": "POST" ,
+                "url": "/editar-formulario/",
+                "data":datos,
+                success:function(r){
+                    if(r==1){
+                        ViejoDato.innerHTML=datos.valor;
+                        completo.style.display = "block";
+                        setTimeout(function(){ completo.style.display = "none"; }, 4000);
+                        //alert("formulario editado");
+                    }else{
+                        incompleto.style.display = "block";
+                        setTimeout(function(){ incompleto.style.display = "none"; }, 4000);
+                    }
+                }
+            }) 
+        } 
 
-        
-        
+             
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{googleKeyApi}}&callback=initMap"
     async defer></script>
