@@ -154,12 +154,12 @@
                     {% if r.imageName is not empty %}
                         {% if k == 0%}
                             <tr>
-                                <td colspan="2" >
+                                <td colspan="2"  >
                                     {{  item.titulo }}<br>
                         {% endif %}
                                 {% if propiedadItemsResultado[k].deleted==1  %}
                                 <button id="guardar-{{propiedadItemsResultado[k].id}}" class="btn btn-succes" onclick=recuperarFoto({{propiedadItemsResultado[k].id}})>foto n°{{propiedadItemsResultado[k].id}} Deshabilitada</button>
-                                <button id="editar-{{propiedadItemsResultado[k].id}}" style="display:none"class="btn btn-danger mb-2" onclick=eliminarFoto({{propiedadItemsResultado[k].id}})>Deshabilitar foto</button>
+                                <button id="editar-{{propiedadItemsResultado[k].id}}" style="display:none"class="btn btn-danger" onclick=eliminarFoto({{propiedadItemsResultado[k].id}})>Deshabilitar foto</button>
                                 <a target="_blank" style="display:none" id="ViejoDato-{{propiedadItemsResultado[k].id}}" class="example-image-link" href="{{vich_uploader_asset(r, 'imageFile')}}" data-lightbox="example-set">
                                     <img id="ViejoDato-{{propiedadItemsResultado[k].id}}"  class="example-image" src="{{vich_uploader_asset(r, 'imageFile')}}" alt=""  width="150" height="200"/>
                                 </a>
@@ -273,11 +273,6 @@
                 "url": "/editar-formulario/",
                 "data":datos,
                 success:function(r){
-                    if(r==1){
-                        alert("foto borrada");
-                    }else{
-                        alert("no se puede borrar foto");
-                    }
                 }
             }) 
         }
@@ -292,11 +287,6 @@
                 "url": "/editar-formulario/",
                 "data":datos,
                 success:function(r){
-                    if(r==1){
-                        alert("foto recuperada");
-                    }else{
-                        alert("no se pudo recuperar foto");
-                    }
                 }
             })
             let ViejoDato=document.getElementById('ViejoDato-'+id);
