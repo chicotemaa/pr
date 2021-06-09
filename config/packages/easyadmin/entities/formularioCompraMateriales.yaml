@@ -14,6 +14,7 @@ easy_admin:
                 - { property: 'formulario', type: 'text'}
                 - { property: 'user', type: 'text'}
                 - { property: 'estado', label: 'Estado', template: 'FormularioResultadoExpress/estadoCompraMateriales.html.twig'  }
+                - { property: 'horaInicio', columns: 6, format: 'H:i' }
                 - { property: 'fecha', format: 'd/m/Y' }
                 dql_filter: 'entity.compraMateriales is not NULL'
                 actions:

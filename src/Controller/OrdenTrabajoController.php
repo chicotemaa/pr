@@ -807,6 +807,7 @@ class OrdenTrabajoController extends EasyAdminController
 
             $mostrarTitulo = true;
             foreach ($resultados as $keyResultado => $resultado) {
+                if ($resultado->getDeleted()== null) {
                 if (!empty($resultado->getImageName())) {
                     if ($mostrarTitulo) {
                         $sheet->setCellValue('C'.$i, $item->getTitulo());
@@ -822,6 +823,7 @@ class OrdenTrabajoController extends EasyAdminController
                     $sheet->getRowDimension($i)->setRowHeight(140);
                     $i++;
                 }
+             }
             }
         } else {
             if ('titulo' == $item->getTipo()) {
@@ -851,6 +853,7 @@ class OrdenTrabajoController extends EasyAdminController
             //obtengo todos los resultados de propiedad item
             $mostrarTitulo = true;
             foreach ($resultados as $keyResultado => $resultado) {
+
                 if (!empty($resultado->getImageName())) {
                     if ($mostrarTitulo) {
                         $tablaModulo->addRow();
@@ -1316,15 +1319,18 @@ class OrdenTrabajoController extends EasyAdminController
     public function editarFormulario(Request $request){
         if ($request->request !=NULL) {
             $id = $request->request->get('id');
+            $deleted = $request->request->get('deleted');
             $valor = $request->request->get('valor');
             $array[]=$valor;
             $resultado =  $this->getDoctrine()->getRepository(Resultado::class)->find($id);
             $resultado->setValor($array);
+            $resultado->setDeleted($deleted);
             $this->getDoctrine()->getManager()->flush();
         }
 
 
         return new JsonResponse(1);
     }
+
 
 }

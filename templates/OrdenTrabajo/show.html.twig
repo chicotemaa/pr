@@ -141,7 +141,6 @@
                     {% if propiedadItems[pi.id] is defined %}
                         {{render.renderItem(pi.item, propiedadItems[pi.id])}}
                     {% endif %}
-                    
                 {% endfor %}
             </tbody>
         </table>
@@ -155,12 +154,24 @@
                     {% if r.imageName is not empty %}
                         {% if k == 0%}
                             <tr>
-                                <td colspan="2">
+                                <td colspan="2" >
                                     {{  item.titulo }}<br>
                         {% endif %}
-                                <a target="_blank" class="example-image-link" href="{{vich_uploader_asset(r, 'imageFile')}}" data-lightbox="example-set">
-                                    <img class="example-image" src="{{vich_uploader_asset(r, 'imageFile')}}" alt=""  width="150" height="200"/>
+                                {% if propiedadItemsResultado[k].deleted==1  %}
+                                <button id="guardar-{{propiedadItemsResultado[k].id}}" class="btn btn-succes" onclick=recuperarFoto({{propiedadItemsResultado[k].id}})>foto n°{{propiedadItemsResultado[k].id}} Deshabilitada</button>
+                                <button id="editar-{{propiedadItemsResultado[k].id}}" style="display:none"class="btn btn-danger mb-2" onclick=eliminarFoto({{propiedadItemsResultado[k].id}})>Deshabilitar foto</button>
+                                <a target="_blank" style="display:none" id="ViejoDato-{{propiedadItemsResultado[k].id}}" class="example-image-link" href="{{vich_uploader_asset(r, 'imageFile')}}" data-lightbox="example-set">
+                                    <img id="ViejoDato-{{propiedadItemsResultado[k].id}}"  class="example-image" src="{{vich_uploader_asset(r, 'imageFile')}}" alt=""  width="150" height="200"/>
                                 </a>
+                                {% endif %}
+                                {% if propiedadItemsResultado[k].deleted==null  %}
+                                <button id="guardar-{{propiedadItemsResultado[k].id}}" class="btn btn-succes" style="display:none" onclick=recuperarFoto({{propiedadItemsResultado[k].id}})>foto n°{{propiedadItemsResultado[k].id}} Deshabilitada</button>
+                                <button id="editar-{{propiedadItemsResultado[k].id}}" class="btn btn-danger mb-2" onclick=eliminarFoto({{propiedadItemsResultado[k].id}})>Deshabilitar foto</button>
+                                <a target="_blank" id="guardar-{{propiedadItemsResultado[k].id}}" class="example-image-link" href="{{vich_uploader_asset(r, 'imageFile')}}" data-lightbox="example-set">
+                                    <img id="ViejoDato-{{propiedadItemsResultado[k].id}}" class="example-image" src="{{vich_uploader_asset(r, 'imageFile')}}" alt=""  width="150" height="200"/>
+                                    <button class="btn btn-succes" style="display:none" onclick=recuperarFoto({{propiedadItemsResultado[k].id}})>foto n°{{propiedadItemsResultado[k].id}} Deshabilitada</button>
+                                </a>
+                                {% endif %}
                         {% if k == propiedadItemsResultado|length - 1%}
                             </td>
                         </tr>
@@ -245,16 +256,66 @@
                 title: 'Orden de trabajo'
             });
         }
-        
+        function eliminarFoto(id){
+        let ViejoDato=document.getElementById('ViejoDato-'+id);
+        let guardar=document.getElementById('guardar-'+id);
+        let btneditar=document.getElementById('editar-'+id);
+            btneditar.style.display='none';
+            guardar.style.display='block';
+            ViejoDato.style.display='none';
+            let deleted=1;
+            let datos={
+                'id':id,
+                'deleted':deleted
+                }
+           $.ajax({
+                "type": "POST" ,
+                "url": "/editar-formulario/",
+                "data":datos,
+                success:function(r){
+                    if(r==1){
+                        alert("foto borrada");
+                    }else{
+                        alert("no se puede borrar foto");
+                    }
+                }
+            }) 
+        }
+        function recuperarFoto(id){
+            let deleted=null;
+            let datos={
+                'id':id,
+                'deleted':deleted
+                }
+           $.ajax({
+                "type": "POST" ,
+                "url": "/editar-formulario/",
+                "data":datos,
+                success:function(r){
+                    if(r==1){
+                        alert("foto recuperada");
+                    }else{
+                        alert("no se pudo recuperar foto");
+                    }
+                }
+            })
+            let ViejoDato=document.getElementById('ViejoDato-'+id);
+            let guardar=document.getElementById('guardar-'+id);
+            let btneditar=document.getElementById('editar-'+id);
+            btneditar.style.display='block';
+            guardar.style.display='none';
+            ViejoDato.style.display='block'; 
+        }
         function editarDatos(id){
+
         let ViejoDato=document.getElementById('ViejoDato-'+id);
         let guardar=document.getElementById('guardar-'+id);
         let btnguardar=document.getElementById('btnguardar-'+id);
         let btneditar=document.getElementById('editar-'+id);
             btneditar.style.display='none';
-            ViejoDato.style.display='none';
             guardar.style.display='block';
             btnguardar.style.display='block';
+            ViejoDato.style.display='none';
         }
         function guardarDatos(id){
         let completo = document.getElementById('completo-'+id);
@@ -271,7 +332,7 @@
         let datos={
             'id':id,
             'valor':valor
-        }
+            }
             $.ajax({
                 "type": "POST" ,
                 "url": "/editar-formulario/",
