@@ -22,7 +22,15 @@ easy_admin:
                     - { property: 'Cliente',  columns: 6 }
                     - { property: 'users',  columns: 6 }
             new:
-                item_permission: [ROLE_ITEM] 
+                item_permission: [ROLE_ITEM]
+                fields:
+                    - { property: 'apellido' }
+                    - nombre
+                    - correo 
+                    - telefono
+                    - codigo
+                    - Cliente
+                    - users  
             show:
                 item_permission: [ROLE_CLIENTE, ROLE_MANAGER]
                 actions:
