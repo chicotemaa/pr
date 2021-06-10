@@ -16,7 +16,7 @@ easy_admin:
                 fields:
                     - id
                     - direccion
-                    - { property: 'Cliente', type: 'text'}
+                    - { property: 'Cliente',}
                     - users
                     - facility
             show:
