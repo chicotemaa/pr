@@ -26,13 +26,14 @@ easy_admin:
                     - id
                     #- { property: 'fechaCompromiso', format: 'd/m/Y H:i' }
                     - { property: 'servicio', type: 'text' }
-                    - { property: 'SucursalDeCliente' }
                     - { property: 'cliente', type: 'text' }
+                    - { property: 'SucursalDeCliente' }
+                    - facility
                     - nroIncidencia
                     - numeroSucursal
                     - { property: 'estado', label: 'Estado' ,template: 'Solicitud/estado.html.twig' }
                     - consulta
-                    - facility
+                    
             edit:
                 item_permission: [ROLE_SOLICITUD,ROLE_CLIENTE]
             new:
@@ -55,7 +56,7 @@ easy_admin:
                         type_options: { class: 'App\Entity\Servicio', query_builder: 'App\Repository\SolicitudRepository::finByActivo' }
                      }
                     - { property: 'necesitasAyuda' }
-                    - { property: 'Facility' }
+                    - { property: 'Facility', permission: [ ROLE_ENCARGADO]}
                     - { property: 'SucursalDeCliente' , permission: [ROLE_FACILITY, ROLE_ENCARGADO], label: 'Sucursal'}
                     - { property: 'consulta', label: 'Cual es el problema?' }
                     - { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }

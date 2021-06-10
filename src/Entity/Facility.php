@@ -145,38 +145,6 @@ implements  iClienteFilter
         return $this;
     }
 
-
-    /**
-     * @return Collection|Cliente[]
-     */
-    public function getFacility(): Collection
-    {
-        return $this->facility;
-    }
-
-    public function addFacility(Cliente $facility): self
-    {
-        if (!$this->facility->contains($facility)) {
-            $this->facility[] = $facility;
-            $facility->setFacility($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFacility(Cliente $facility): self
-    {
-        if ($this->facility->contains($facility)) {
-            $this->facility->removeElement($facility);
-            // set the owning side to null (unless already changed)
-            if ($facility->getFacility() === $this) {
-                $facility->setFacility(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getCodigo(): ?int
     {
         return $this->codigo;
@@ -232,6 +200,7 @@ implements  iClienteFilter
 
         return $this;
     }
+
 
     /**
      * @return Collection|OrdenTrabajo[]
