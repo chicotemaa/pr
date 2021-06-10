@@ -13,6 +13,12 @@ easy_admin:
                 item_permission: [ROLE_CLIENTE]
             new:
                 item_permission: [ROLE_PROPIEDAD_ITEM]
+                fields:
+                    - id
+                    - direccion
+                    - { property: 'Cliente', type: 'text'}
+                    - users
+                    - facility
             show:
                 item_permission: [ROLE_CLIENTE]
                 fields:
