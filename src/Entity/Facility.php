@@ -62,10 +62,6 @@ implements  iClienteFilter
      */
     private $ordenTrabajos;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\OrdenTrabajo", mappedBy="facility")
-     */
-    private $no;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Solicitud", mappedBy="Facility")
@@ -79,10 +75,8 @@ implements  iClienteFilter
 
     public function __construct()
     {
-        $this->facility = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->ordenTrabajos = new ArrayCollection();
-        $this->no = new ArrayCollection();
         $this->solicituds = new ArrayCollection();
         $this->sucursalDeClientes = new ArrayCollection();
     }
@@ -234,37 +228,6 @@ implements  iClienteFilter
     }
 
     /**
-     * @return Collection|OrdenTrabajo[]
-     */
-    public function getNo(): Collection
-    {
-        return $this->no;
-    }
-
-    public function addNo(OrdenTrabajo $no): self
-    {
-        if (!$this->no->contains($no)) {
-            $this->no[] = $no;
-            $no->setFacility($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNo(OrdenTrabajo $no): self
-    {
-        if ($this->no->contains($no)) {
-            $this->no->removeElement($no);
-            // set the owning side to null (unless already changed)
-            if ($no->getFacility() === $this) {
-                $no->setFacility(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Solicitud[]
      */
     public function getSolicituds(): Collection
@@ -325,4 +288,5 @@ implements  iClienteFilter
 
         return $this;
     }
+
 }
