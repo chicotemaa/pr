@@ -11,6 +11,12 @@ easy_admin:
                     - users
             edit:
                 item_permission: [ROLE_CLIENTE]
+                fields:
+                    - codigo
+                    - direccion
+                    - { property: 'Cliente',}
+                    - users
+                    - facility
             new:
                 item_permission: [ROLE_PROPIEDAD_ITEM]
                 fields:
