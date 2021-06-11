@@ -33,3 +33,9 @@ editarFormulario:
     requirements:
         _method: POST
 
+firma:
+    path: /firmar-formulario/
+    defaults: { _controller: 'App\Controller\OrdenTrabajoController::firma' }
+    requirements:
+        _method: POST
+

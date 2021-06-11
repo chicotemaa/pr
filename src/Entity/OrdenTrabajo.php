@@ -252,6 +252,11 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
      */
     private $SucursalDeCliente;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $firma;
+
     public function __toString()
     {
         return 'Cliente: '.$this->cliente.'| Usuario: '.$this->user.'| Formulario'.$this->formulario;
@@ -718,6 +723,18 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
     public function setSucursalDeCliente(?SucursalDeCliente $SucursalDeCliente): self
     {
         $this->SucursalDeCliente = $SucursalDeCliente;
+
+        return $this;
+    }
+
+    public function getFirma(): ?string
+    {
+        return $this->firma;
+    }
+
+    public function setFirma(?string $firma): self
+    {
+        $this->firma = $firma;
 
         return $this;
     }

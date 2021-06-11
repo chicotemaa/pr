@@ -48,7 +48,6 @@ class OrdenTrabajoController extends EasyAdminController
     private $modulosRepetido;
     private $ordenExcel ;
     private $entitiesToExport;
-
     protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
     {
         $queryBuilder = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
@@ -1317,6 +1316,7 @@ class OrdenTrabajoController extends EasyAdminController
     }
 
     public function editarFormulario(Request $request){
+
         if ($request->request !=NULL) {
             $id = $request->request->get('id');
             $deleted = $request->request->get('deleted');
@@ -1327,10 +1327,15 @@ class OrdenTrabajoController extends EasyAdminController
             $resultado->setDeleted($deleted);
             $this->getDoctrine()->getManager()->flush();
         }
-
-
         return new JsonResponse(1);
     }
-
+    public function Firma(Request $request){
+        $idOrden = $request->request->get('idOrden');
+        $firma = $request->request->get('firma');
+        $ordenTrabajo =  $this->getDoctrine()->getRepository(OrdenTrabajo::class)->find($idOrden);
+        $ordenTrabajo->setFirma($firma);
+        $this->getDoctrine()->getManager()->flush();
+        return new JsonResponse(1);
+    }
 
 }

@@ -2,7 +2,7 @@
 
 {% block content_title %}
     {{parent()}}
-    <a class="btn btn-success exportOt" style="float:right;" href="javascript:;" data-toggle="modal" data-target=".bs-example-modal-sm" target="_self" data-id="{{entity.id}}"><i class="fa fa-download"></i>&nbsp;Exportar</a>
+    <a class="btn btn-success exportOt" id="exportar" style="float:right;" href="javascript:;" data-toggle="modal" data-target=".bs-example-modal-sm" target="_self" data-id="{{entity.id}}" value="{{entity.id}}" usuario="{{ app.user.username }}"><i class="fa fa-download"></i>&nbsp;Exportar</a>
 {% endblock %}
 
 {% block main %}
@@ -12,7 +12,7 @@
       <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
           <div class="modal-header" style="background-color:#f05536;">
-            <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar - Seleccionar formato</h4>
+            <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar  - Seleccionar formato</h4>
             <button type="submit" class="close" style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           </div>
        <div class="modal-body">
@@ -158,15 +158,15 @@
                                     {{  item.titulo }}<br>
                         {% endif %}
                                 {% if propiedadItemsResultado[k].deleted==1  %}
-                                <button id="guardar-{{propiedadItemsResultado[k].id}}" style=" float:left;" class="btn btn-succes" onclick=recuperarFoto({{propiedadItemsResultado[k].id}})>foto n°{{propiedadItemsResultado[k].id}} Deshabilitada</button>
-                                <button id="editar-{{propiedadItemsResultado[k].id}}" style="position:absolute; display:none"class="btn btn-danger" onclick=eliminarFoto({{propiedadItemsResultado[k].id}})>Deshabilitar foto</button>
+                                <button id="guardar-{{propiedadItemsResultado[k].id}}" style=" float:left;" class="btn btn-succes firmar" onclick=recuperarFoto({{propiedadItemsResultado[k].id}})>foto n°{{propiedadItemsResultado[k].id}} Deshabilitada</button>
+                                <button id="editar-{{propiedadItemsResultado[k].id}}" style="position:absolute; display:none"class="btn btn-danger firmar" onclick=eliminarFoto({{propiedadItemsResultado[k].id}})>Deshabilitar foto</button>
                                 <a target="_blank" style="display:none" id="ViejoDato-{{propiedadItemsResultado[k].id}}" class="example-image-link" href="{{vich_uploader_asset(r, 'imageFile')}}" data-lightbox="example-set">
                                     <img id="ViejoDato-{{propiedadItemsResultado[k].id}}"  class="example-image" src="{{vich_uploader_asset(r, 'imageFile')}}" alt=""  width="150" height="200"/>
                                 </a>
                                 {% endif %}
                                 {% if propiedadItemsResultado[k].deleted==null  %}
-                                <button id="guardar-{{propiedadItemsResultado[k].id}}" class="btn btn-succes" style="display:none; float:left;" onclick=recuperarFoto({{propiedadItemsResultado[k].id}})>foto n°{{propiedadItemsResultado[k].id}} Deshabilitada</button>
-                                <button id="editar-{{propiedadItemsResultado[k].id}}" class="btn btn-danger mb-2" style="position:absolute;"onclick=eliminarFoto({{propiedadItemsResultado[k].id}})>Deshabilitar foto</button>
+                                <button id="guardar-{{propiedadItemsResultado[k].id}}" class="btn btn-succes firmar" style="display:none; float:left;" onclick=recuperarFoto({{propiedadItemsResultado[k].id}})>foto n°{{propiedadItemsResultado[k].id}} Deshabilitada</button>
+                                <button id="editar-{{propiedadItemsResultado[k].id}}" class="btn btn-danger mb-2 firmar" style="position:absolute;"onclick=eliminarFoto({{propiedadItemsResultado[k].id}})>Deshabilitar foto</button>
                                 <a target="_blank" id="guardar-{{propiedadItemsResultado[k].id}}" class="example-image-link" href="{{vich_uploader_asset(r, 'imageFile')}}" data-lightbox="example-set">
                                     <img id="ViejoDato-{{propiedadItemsResultado[k].id}}" class="example-image" src="{{vich_uploader_asset(r, 'imageFile')}}" alt=""  width="150" height="200"/>
                                     <button class="btn btn-succes" style="display:none" onclick=recuperarFoto({{propiedadItemsResultado[k].id}})>foto n°{{propiedadItemsResultado[k].id}} Deshabilitada</button>
@@ -198,9 +198,9 @@
                         <div class="alert alert-warning row" id="incompleto-{{propiedadItemsResultado[0].id}}" style="display:none">Los datos no fueron cargados</div>
                         <td align="center" class="form-group-lg row">
                         <label id="ViejoDato-{{propiedadItemsResultado[0].id}}" class="col-sm-6 col-form-label">{{ texto|trim }} </label>
-                        <input id="guardar-{{propiedadItemsResultado[0].id}}" class="form-control col-sm" name="valor" style="display:none" id="input-{{propiedadItemsResultado[0].id}}" value="{{ texto|trim }}"></input>
+                        <input id="guardar-{{propiedadItemsResultado[0].id}}" class="form-control col-sm firmar" name="valor" style="display:none" id="input-{{propiedadItemsResultado[0].id}}" value="{{ texto|trim }}"></input>
                         <button id="editar-{{propiedadItemsResultado[0].id}}"class="btn btn-warning mb-8" onclick=editarDatos({{propiedadItemsResultado[0].id}})>Editar</button>
-                        <button id="btnguardar-{{propiedadItemsResultado[0].id}}" type="submit" style="display:none" class="btn btn-success mb-2" onclick=guardarDatos({{propiedadItemsResultado[0].id}})>guardar</button>
+                        <button id="btnguardar-{{propiedadItemsResultado[0].id}}" type="submit" style="display:none" class="btn btn-success mb-2 firmar" onclick=guardarDatos({{propiedadItemsResultado[0].id}})>guardar</button>
                         </td>
                         {% else %}
                         <td align="center">{{ texto|trim  }}</td>
@@ -216,11 +216,34 @@
     {{ parent() }}
 
     <script>
-        
+    
+
         $(".exportOt").click(function(){
             $("#orden_trabajo").val($(this).data('id'));
             $("#ordenes_trabajo").val($(this).data('id'));
         });
+        $(".firmar").click(function(){
+            var ordenN=document.getElementById('exportar');
+            var idOrden=ordenN.getAttribute('value');
+            var UserName=ordenN.getAttribute('usuario');
+            //console.log(UserName);
+            var date = new Date();
+            var fecha = " fecha " + currentdate.getDate() + "/"
+                + (date.getMonth()+1)  + "/" 
+                + date.getFullYear() + " "  
+                + date.getHours() + ":"  
+                + date.getMinutes()  
+            let datos={
+            'idOrden':idOrden,
+            'firma':UserName+fecha,
+            }
+            $.ajax({
+            "type": "POST" ,
+            "url": "/firmar-formulario/",
+            "data":datos,
+        })
+        });
+        
 
 
     function exportar(){
@@ -256,93 +279,9 @@
                 title: 'Orden de trabajo'
             });
         }
-        function eliminarFoto(id){
-        let ViejoDato=document.getElementById('ViejoDato-'+id);
-        let guardar=document.getElementById('guardar-'+id);
-        let btneditar=document.getElementById('editar-'+id);
-            btneditar.style.display='none';
-            guardar.style.display='block';
-            ViejoDato.style.display='none';
-            let deleted=1;
-            let datos={
-                'id':id,
-                'deleted':deleted
-                }
-           $.ajax({
-                "type": "POST" ,
-                "url": "/editar-formulario/",
-                "data":datos,
-                success:function(r){
-                }
-            }) 
-        }
-        function recuperarFoto(id){
-            let deleted=null;
-            let datos={
-                'id':id,
-                'deleted':deleted
-                }
-           $.ajax({
-                "type": "POST" ,
-                "url": "/editar-formulario/",
-                "data":datos,
-                success:function(r){
-                }
-            })
-            let ViejoDato=document.getElementById('ViejoDato-'+id);
-            let guardar=document.getElementById('guardar-'+id);
-            let btneditar=document.getElementById('editar-'+id);
-            btneditar.style.display='block';
-            guardar.style.display='none';
-            ViejoDato.style.display='block'; 
-        }
-        function editarDatos(id){
-
-        let ViejoDato=document.getElementById('ViejoDato-'+id);
-        let guardar=document.getElementById('guardar-'+id);
-        let btnguardar=document.getElementById('btnguardar-'+id);
-        let btneditar=document.getElementById('editar-'+id);
-            btneditar.style.display='none';
-            guardar.style.display='block';
-            btnguardar.style.display='block';
-            ViejoDato.style.display='none';
-        }
-        function guardarDatos(id){
-        let completo = document.getElementById('completo-'+id);
-        let incompleto = document.getElementById('completo-'+id);
-        let ViejoDato=document.getElementById('ViejoDato-'+id);
-        let guardar=document.getElementById('guardar-'+id);
-        let btnguardar=document.getElementById('btnguardar-'+id);
-        let btneditar=document.getElementById('editar-'+id);
-            ViejoDato.style.display='block';
-            btneditar.style.display='block';
-            guardar.style.display='none';
-            btnguardar.style.display='none';
-        let valor=guardar.value;
-        let datos={
-            'id':id,
-            'valor':valor
-            }
-            $.ajax({
-                "type": "POST" ,
-                "url": "/editar-formulario/",
-                "data":datos,
-                success:function(r){
-                    if(r==1){
-                        ViejoDato.innerHTML=datos.valor;
-                        completo.style.display = "block";
-                        setTimeout(function(){ completo.style.display = "none"; }, 4000);
-                        //alert("formulario editado");
-                    }else{
-                        incompleto.style.display = "block";
-                        setTimeout(function(){ incompleto.style.display = "none"; }, 4000);
-                    }
-                }
-            }) 
-        } 
-
-             
+         
     </script>
+    <script src="{{asset('js/editarformulario.js')}}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{googleKeyApi}}&callback=initMap"
     async defer></script>
     
