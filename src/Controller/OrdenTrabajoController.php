@@ -852,7 +852,7 @@ class OrdenTrabajoController extends EasyAdminController
             //obtengo todos los resultados de propiedad item
             $mostrarTitulo = true;
             foreach ($resultados as $keyResultado => $resultado) {
-
+                if ($resultado->getDeleted()== null) {
                 if (!empty($resultado->getImageName())) {
                     if ($mostrarTitulo) {
                         $tablaModulo->addRow();
@@ -871,6 +871,7 @@ class OrdenTrabajoController extends EasyAdminController
 
                     $textrun->addText(htmlspecialchars('  '), ['size' => '8']);
                 }
+                S}
             }
         } else {
             if ('titulo' == $item->getTipo()) {
