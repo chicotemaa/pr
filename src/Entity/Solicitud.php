@@ -46,7 +46,7 @@ class Solicitud implements iClienteFilter, iFacilityFilter, iSucursalClienteFilt
     use TimestampableEntity;
     use SoftDeleteableEntity;
 
-    public $estados = [
+    public static $estados = [
         0 => 'Pendiente',
         1 => 'Generada OT',
         2 => 'Derivada',
