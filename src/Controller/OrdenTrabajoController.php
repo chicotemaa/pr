@@ -871,7 +871,7 @@ class OrdenTrabajoController extends EasyAdminController
 
                     $textrun->addText(htmlspecialchars('  '), ['size' => '8']);
                 }
-                S}
+                }
             }
         } else {
             if ('titulo' == $item->getTipo()) {
