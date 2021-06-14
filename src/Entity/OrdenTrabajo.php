@@ -239,16 +239,14 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="ordenTrabajos")
+     * @Groups({"read","write"})
      */
     private $Facility;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="no")
-     */
-    private $facility;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="ordenTrabajos")
+    * @Groups({"read","write"})
      */
     private $SucursalDeCliente;
 
@@ -705,7 +703,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     public function getFacility(): ?Facility
     {
-        return $this->facility;
+        return $this->Facility;
     }
 
     public function setFacility(?Facility $facility): self
