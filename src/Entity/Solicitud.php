@@ -164,7 +164,7 @@ class Solicitud implements iClienteFilter, iFacilityFilter, iSucursalClienteFilt
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Groups({"read"})
+     * @Groups({"write","read"})
      */
     private $necesitasAyuda;
 
