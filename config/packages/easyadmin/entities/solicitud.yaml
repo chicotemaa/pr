@@ -15,7 +15,7 @@ easy_admin:
                     - property: 'cliente'
                     - property: 'estado'
                     - property: 'servicio'
-                    - property: 'consulta'
+                    - property: 'necesitasAyuda'
                     - property: 'ordenTrabajo'
                     - property: 'nroIncidencia'
                     - { property: 'numeroSucursal', label: 'Nro. de Sucursal'}
