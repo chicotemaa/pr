@@ -142,6 +142,7 @@ class Solicitud implements iClienteFilter, iFacilityFilter, iSucursalClienteFilt
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"write", "read"})
      */
     private $pisoSector;
 
@@ -157,6 +158,7 @@ class Solicitud implements iClienteFilter, iFacilityFilter, iSucursalClienteFilt
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Sucursal")
+     * @Groups({"write", "read"})
      */
     private $sucursal;
 
