@@ -32,7 +32,7 @@ easy_admin:
                     - nroIncidencia
                     - numeroSucursal
                     - { property: 'estado', label: 'Estado' ,template: 'Solicitud/estado.html.twig' }
-                    - consulta
+                    - necesitasAyuda
                     
             edit:
                 item_permission: [ROLE_SOLICITUD,ROLE_CLIENTE]
