@@ -6,6 +6,7 @@ use App\Entity\Solicitud;
 use App\Entity\OrdenTrabajo;
 use App\Entity\Sucursal;
 use App\Entity\Resultado;
+use App\Entity\FormularioResultado;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Process\Process;
@@ -1330,6 +1331,20 @@ class OrdenTrabajoController extends EasyAdminController
         }
         return new JsonResponse(1);
     }
+
+    public function editarFormularioexpress(Request $request){
+
+        if ($request->request !=NULL) {
+            $id = $request->request->get('id');
+            $valor = $request->request->get('valor');
+            $resultadoExpress = $this->getDoctrine()->getRepository(FormularioResultado::class)->find($id);
+            $resultadoExpress->setMinutosTrabajado($valor);
+
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return new JsonResponse(1);
+    }
+
     public function Firma(Request $request){
         $idOrden = $request->request->get('idOrden');
         $firma = $request->request->get('firma');

@@ -37,9 +37,9 @@ function eliminarFoto(id){
         let ViejoDato=document.getElementById('ViejoDato-'+id);
         let guardar=document.getElementById('guardar-'+id);
         let btneditar=document.getElementById('editar-'+id);
-        btneditar.style.display='block';
+        btneditar.style.display='inline-block';
         guardar.style.display='none';
-        ViejoDato.style.display='block'; 
+        ViejoDato.style.display='inline-block'; 
     }
     function editarDatos(id){
        
@@ -48,8 +48,8 @@ function eliminarFoto(id){
     let btnguardar=document.getElementById('btnguardar-'+id);
     let btneditar=document.getElementById('editar-'+id);
         btneditar.style.display='none';
-        guardar.style.display='block';
-        btnguardar.style.display='block';
+        guardar.style.display='inline-block';
+        btnguardar.style.display='inline-block';
         ViejoDato.style.display='none';
     }
     function guardarDatos(id){
@@ -60,8 +60,8 @@ function eliminarFoto(id){
     let guardar=document.getElementById('guardar-'+id);
     let btnguardar=document.getElementById('btnguardar-'+id);
     let btneditar=document.getElementById('editar-'+id);
-        ViejoDato.style.display='block';
-        btneditar.style.display='block';
+        ViejoDato.style.display='inline-block';
+        btneditar.style.display='inline-block';
         guardar.style.display='none';
         btnguardar.style.display='none';
     let valor=guardar.value;
@@ -76,11 +76,11 @@ function eliminarFoto(id){
             success:function(r){
                 if(r==1){
                     ViejoDato.innerHTML=datos.valor;
-                    completo.style.display = "block";
+                    completo.style.display = "inline-block";
                     setTimeout(function(){ completo.style.display = "none"; }, 4000);
                     //alert("formulario editado");
                 }else{
-                    incompleto.style.display = "block";
+                    incompleto.style.display = "inline-block";
                     setTimeout(function(){ incompleto.style.display = "none"; }, 4000);
                 }
             }
