@@ -1348,8 +1348,10 @@ class OrdenTrabajoController extends EasyAdminController
     public function Firma(Request $request){
         $idOrden = $request->request->get('idOrden');
         $firma = $request->request->get('firma');
+        $estadoGestion = $request->request->get('estadoGestion');
         $ordenTrabajo =  $this->getDoctrine()->getRepository(OrdenTrabajo::class)->find($idOrden);
         $ordenTrabajo->setFirma($firma);
+        $ordenTrabajo->setEstadoGestion($estadoGestion);
         $this->getDoctrine()->getManager()->flush();
         return new JsonResponse(1);
     }
