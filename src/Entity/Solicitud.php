@@ -176,12 +176,14 @@ class Solicitud implements iClienteFilter, iFacilityFilter, iSucursalClienteFilt
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="solicituds")
+     * @Groups({"write","read"})
      */
     private $Facility;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="solicituds")
      * @Groups({"write", "read"})
+
      */
     private $SucursalDeCliente;
 
