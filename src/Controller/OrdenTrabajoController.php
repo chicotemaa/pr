@@ -996,7 +996,7 @@ class OrdenTrabajoController extends EasyAdminController
                 ));
             }
             $entity->setCliente($solicitud->getCliente());
-            $entity->setComentario($solicitud->getNecesitasAyuda());
+            $entity->setComentario($solicitud->getConsulta());
             $entity->setSucursal($solicitud->getSucursal());
             $entity->setSucursalDeCliente($solicitud->getSucursalDeCliente());
             $entity->setSolicitud($solicitud);
@@ -1089,7 +1089,7 @@ class OrdenTrabajoController extends EasyAdminController
             $solicitud->setEstado(1);
             $entity->setCliente($solicitud->getCliente());
             $entity->setServicio($solicitud->getServicio());
-            $entity->setComentario($solicitud->getNecesitasAyuda());
+            $entity->setComentario($solicitud->getConsulta());
             $entity->setFacility($solicitud->getFacility());
             $entity->setSucursalDeCliente($solicitud->getSucursalDeCliente());
             $entity->setSucursal($entity->getCliente()->getSucursal());
