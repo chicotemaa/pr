@@ -164,7 +164,7 @@ class Solicitud implements iClienteFilter, iFacilityFilter, iSucursalClienteFilt
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Groups({"write", "read"})
+     * @Groups({"write","read"})
      */
     private $necesitasAyuda;
 
@@ -176,12 +176,14 @@ class Solicitud implements iClienteFilter, iFacilityFilter, iSucursalClienteFilt
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="solicituds")
+     * @Groups({"write","read"})
      */
     private $Facility;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="solicituds")
      * @Groups({"write", "read"})
+
      */
     private $SucursalDeCliente;
 
