@@ -228,6 +228,7 @@
             var ordenN=document.getElementById('exportar');
             var idOrden=ordenN.getAttribute('value');
             var UserName=ordenN.getAttribute('usuario');
+            var date = new Date();
             var fecha = " fecha " + date.getDate() + "/"
                 + (date.getMonth()+1)  + "/" 
                 + date.getFullYear() + " "  
@@ -235,7 +236,6 @@
                 + date.getMinutes()  
 
         $(".firmar").click(function(){
-            var date = new Date();
             let datos={
             'idOrden':idOrden,
             'firma':UserName+fecha,
