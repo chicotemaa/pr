@@ -3,15 +3,16 @@
         {% elseif value == 1 %} has-warning
         {% elseif value == 2 %} has-success {% endif %}"
     >
-    <select 
+    <button 
         {% if value == 0 %} style="color: #fff; background-color: #dd4b39; font-weight: bold;" 
         {% elseif value == 1 %} style="color: #fff; background-color: #f39c12; font-weight: bold;"
         {% elseif value == 2 %} style="color: #fff; background-color: #00a65a; font-weight: bold;" {% endif %}
         id="estadoGestion{{ item.id }}" class="form-control form-control-sm estadoGestionSelect" data-id="{{ item.id }}" data-pre="0">
-    <option value="0">Procesando Orden</option>
-    <option value="1">Pendiente a Revision</option>
-    <option value="2">Cerrada</option>
-    </select>
+     {% if value == 0 %} Procesando 
+    {% elseif value == 1 %} En revision
+    {% elseif value == 2 %} Cerrada
+    {% endif %}
+    </button>
 </div>
 
 <script>
