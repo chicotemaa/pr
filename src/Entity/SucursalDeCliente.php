@@ -2,56 +2,76 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SucursalDeClienteRepository")
+ *  @ApiResource(
+ *    attributes={
+ *     "normalization_context"={"groups"={"read", "readRegistration"}},
+ *     "denormalization_context"={"groups"={"write","writeRegistration"}}
+ *     },
+ *  collectionOperations = {
+ *     "get"={"method"="GET"}
+ *  },
+ *  itemOperations={
+ *          "get"={"method"="GET"}
+ *  })
  */
 class SucursalDeCliente
-implements  iClienteFilter, iFacilityFilter
+implements iClienteFilter, iFacilityFilter
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer")     
      */
     private $id;
 
     /**
      * @ORM\Column(type="string")
+     *  @Groups({"readRegistration"})
      */
     private $codigo;
 
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="sucursalDeClientes")
+     *  @Groups({"readRegistration"})
      */
     private $Cliente;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"readRegistration"})
      */
     private $direccion;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="SucursalDeCliente")
+     * 
      */
     private $users;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\OrdenTrabajo", mappedBy="SucursalDeCliente")
+     * 
      */
     private $ordenTrabajos;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Solicitud", mappedBy="SucursalDeCliente")
+     *  
      */
     private $solicituds;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="sucursalDeClientes")
+     * 
      */
     private $facility;
 
@@ -64,8 +84,7 @@ implements  iClienteFilter, iFacilityFilter
     }
     public function __toString()
     {
-        return 'Cliente: '.$this->Cliente.'| Direccion: '.$this->direccion;
-          
+        return 'Cliente: ' . $this->Cliente . '| Direccion: ' . $this->direccion;
     }
     public function getId(): ?int
     {
@@ -84,7 +103,7 @@ implements  iClienteFilter, iFacilityFilter
         return $this;
     }
 
-    
+
 
     public function getCliente(): ?Cliente
     {
@@ -214,5 +233,4 @@ implements  iClienteFilter, iFacilityFilter
 
         return $this;
     }
-
 }
