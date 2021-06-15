@@ -38,11 +38,11 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *           "get"={"method"="GET"}
  *     })
  */
-class User extends BaseUser   
+class User extends BaseUser
 
 {
     use SoftDeleteableEntity;
-    
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -100,16 +100,18 @@ class User extends BaseUser
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="users")
+     * @Groups({"readRegistration", "writeRegistration", "userInfo"})
      */
     private $SucursalDeCliente;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="users")
+     * @Groups({"readRegistration", "writeRegistration", "userInfo"})
      */
     private $Facility;
 
 
-        public function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->ordenTrabajo = new ArrayCollection();
@@ -227,5 +229,4 @@ class User extends BaseUser
 
         return $this;
     }
-
 }

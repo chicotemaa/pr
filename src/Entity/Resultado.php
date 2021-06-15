@@ -199,6 +199,11 @@ class Resultado
     private $idPropiedadItem;
 
     /**
+     * @ORM\Column(type="string", length=5, nullable=true)
+     */
+    private $deleted;
+
+    /**
      * @ORM\PrePersist
      */
     public function setPrePersist()
@@ -523,6 +528,18 @@ class Resultado
     public function setFormularioResultadoExpress(?FormularioResultadoExpress $formularioResultadoExpress): self
     {
         $this->formularioResultadoExpress = $formularioResultadoExpress;
+
+        return $this;
+    }
+
+    public function getDeleted(): ?string
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(?string $deleted): self
+    {
+        $this->deleted = $deleted;
 
         return $this;
     }

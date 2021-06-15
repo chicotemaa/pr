@@ -17,12 +17,20 @@ easy_admin:
                     - { property: 'Apellido', type: 'text', columns: 6 }
                     - { property: 'Nombre', type: 'text', columns: 6 }
                     - { property: 'Correo', type: 'text', columns: 6 }
-                    - { property: 'Telefono', type: 'text', columns: 6 }
+                    - { property: 'Telefono', type: 'number', columns: 6 }
                     - { property: 'codigo', type: 'text', columns: 6 }
                     - { property: 'Cliente',  columns: 6 }
                     - { property: 'users',  columns: 6 }
             new:
-                item_permission: [ROLE_ITEM] 
+                item_permission: [ROLE_ITEM]
+                fields:
+                    - { property: 'apellido' }
+                    - nombre
+                    - correo 
+                    - { property: 'Telefono', type: 'number'}
+                    - codigo
+                    - Cliente
+                    - users  
             show:
                 item_permission: [ROLE_CLIENTE, ROLE_MANAGER]
                 actions:

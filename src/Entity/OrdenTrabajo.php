@@ -239,18 +239,21 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="ordenTrabajos")
+     * @Groups({"read","write"})
      */
     private $Facility;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="no")
-     */
-    private $facility;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="ordenTrabajos")
+    * @Groups({"read","write"})
      */
     private $SucursalDeCliente;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $firma;
 
     public function __toString()
     {
@@ -700,7 +703,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     public function getFacility(): ?Facility
     {
-        return $this->facility;
+        return $this->Facility;
     }
 
     public function setFacility(?Facility $facility): self
@@ -718,6 +721,18 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
     public function setSucursalDeCliente(?SucursalDeCliente $SucursalDeCliente): self
     {
         $this->SucursalDeCliente = $SucursalDeCliente;
+
+        return $this;
+    }
+
+    public function getFirma(): ?string
+    {
+        return $this->firma;
+    }
+
+    public function setFirma(?string $firma): self
+    {
+        $this->firma = $firma;
 
         return $this;
     }

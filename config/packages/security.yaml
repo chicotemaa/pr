@@ -1,96 +1,96 @@
 security:
-    encoders:
-        FOS\UserBundle\Model\UserInterface: bcrypt
-        Symfony\Component\Security\Core\User\User:
-            algorithm: bcrypt
-            cost: 12
+  encoders:
+    FOS\UserBundle\Model\UserInterface: bcrypt
+    Symfony\Component\Security\Core\User\User:
+      algorithm: bcrypt
+      cost: 12
 
-    role_hierarchy:
-        ROLE_CLIENTE: ROLE_USER
-        ROLE_EMPLEADO: ROLE_USER
-        ROLE_ENCARGADO: ROLE_USER
-        ROLE_STAFF: ROLE_CLIENTE
-        ROLE_FACILITY: ROLE_CLIENTE
-        ROLE_MANAGER: ROLE_CLIENTE
-        
-        ROLE_ADMIN:
-            - ROLE_USER
-            - ROLE_USER_CRUD
-            - ROLE_GROUP
-            - ROLE_CARPETA
-            - ROLE_CLIENTE
-            - ROLE_CLIENTE_CRUD
-            - ROLE_EMPLEADO
-            - ROLE_ENCARGADO
-            - ROLE_FORMULARIO
-            - ROLE_ITEM
-            - ROLE_MODULO
-            - ROLE_OPCION
-            - ROLE_ORDEN_TRABAJO
-            - ROLE_PROPIEDAD_ITEM
-            - ROLE_PAIS
-            - ROLE_SERVICIO
-            - ROLE_SOLICITUD
-            - ROLE_SUCURSAL
-            - ROLE_DASHBOARD
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+  role_hierarchy:
+    ROLE_CLIENTE: ROLE_USER
+    ROLE_EMPLEADO: ROLE_USER
+    ROLE_ENCARGADO: ROLE_USER
+    ROLE_STAFF: ROLE_CLIENTE
+    ROLE_FACILITY: ROLE_CLIENTE
+    ROLE_MANAGER: ROLE_CLIENTE
 
-    providers:
-        oauth:
-            id: knpu.oauth2.user_provider
-        fos_userbundle:
-            id: fos_user.user_provider.username_email
-        in_memory:
-            memory:
-                users:
-                    superadmin:
-                        password: '%env(PASSADMIN)%'
-                        roles: 'ROLE_SUPER_ADMIN'
-        chain_provider:
-            chain:
-                providers: [in_memory, fos_userbundle]
+    ROLE_ADMIN:
+      - ROLE_USER
+      - ROLE_USER_CRUD
+      - ROLE_GROUP
+      - ROLE_CARPETA
+      - ROLE_CLIENTE
+      - ROLE_CLIENTE_CRUD
+      - ROLE_EMPLEADO
+      - ROLE_ENCARGADO
+      - ROLE_FORMULARIO
+      - ROLE_ITEM
+      - ROLE_MODULO
+      - ROLE_OPCION
+      - ROLE_ORDEN_TRABAJO
+      - ROLE_PROPIEDAD_ITEM
+      - ROLE_PAIS
+      - ROLE_SERVICIO
+      - ROLE_SOLICITUD
+      - ROLE_SUCURSAL
+      - ROLE_DASHBOARD
+    ROLE_SUPER_ADMIN: ROLE_ADMIN
 
-    firewalls:
-        oauth_token:
-            pattern:    ^/oauth/v2/token
-            security:   false
-        api:
-            pattern:    ^/api
-            fos_oauth:  true
-            stateless:  true
-            anonymous:  false # can be omitted as its default value
-            provider: fos_userbundle
-        main:
-            pattern: ^/
-            form_login:
-                provider: chain_provider
-                csrf_token_generator: security.csrf.token_manager
-                default_target_path: /admin
-                # if you are using Symfony < 2.8, use the following config instead:
-                # csrf_provider: form.csrf_provider
-            guard:
-                authenticators:
-                    - App\Security\GoogleAuthenticator
-                provider: oauth
-            #logout_on_user_change: true
-            logout:       true
-            anonymous:    true
-        social:
-            pattern: ^/connect/
-            stateless: true
-            anonymous: ~
-            guard:
-                authenticators:
-                    - App\Security\GoogleAuthenticator
-                provider: oauth
+  providers:
+    oauth:
+      id: knpu.oauth2.user_provider
+    fos_userbundle:
+      id: fos_user.user_provider.username_email
+    in_memory:
+      memory:
+        users:
+          superadmin:
+            password: '%env(PASSADMIN)%'
+            roles: 'ROLE_SUPER_ADMIN'
+    chain_provider:
+      chain:
+        providers: [in_memory, fos_userbundle]
 
-    access_control:
-        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/connect/google/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/connect/google/check/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/dashboard, roles: ROLE_DASHBOARD }
-        - { path: ^/admin, roles: ROLE_USER }
-        - { path: ^/editar-formulario, roles: ROLE_ADMIN }
-        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+  firewalls:
+    oauth_token:
+      pattern: ^/oauth/v2/token
+      security: false
+    api:
+      pattern: ^/api
+      fos_oauth: true
+      stateless: true
+      anonymous: false # can be omitted as its default value
+      provider: fos_userbundle
+    main:
+      pattern: ^/
+      form_login:
+        provider: chain_provider
+        csrf_token_generator: security.csrf.token_manager
+        default_target_path: /admin
+        # if you are using Symfony < 2.8, use the following config instead:
+        # csrf_provider: form.csrf_provider
+      guard:
+        authenticators:
+          - App\Security\GoogleAuthenticator
+        provider: oauth
+      #logout_on_user_change: true
+      logout: true
+      anonymous: true
+    social:
+      pattern: ^/connect/
+      stateless: true
+      anonymous: ~
+      guard:
+        authenticators:
+          - App\Security\GoogleAuthenticator
+        provider: oauth
+
+  access_control:
+    - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/connect/google/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/connect/google/check/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/admin/dashboard, roles: ROLE_DASHBOARD }
+    - { path: ^/admin, roles: ROLE_USER }
+    - { path: ^/editar-formulario, roles: ROLE_ADMIN }
+    - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

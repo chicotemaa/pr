@@ -65,6 +65,7 @@ easy_admin:
                     - { property: 'imageName', type: 'image', label: 'Firma', base_path: 'uploads/imagenes/resultado/', columns: 6 }
                     - { property: 'responsableFirma', label: 'Firma del responsable', columns: 6 }
                     - { property: 'comentario' }
+                    - { property: 'firma' , label: 'Ultima Edicion de Formulario'}
                 actions: [ '-delete', 'list']
             new:
                 item_permission: [ROLE_ORDEN_TRABAJO]
@@ -73,6 +74,9 @@ easy_admin:
                     - { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
             edit:
                 item_permission: [ROLE_ORDEN_TRABAJO]
+                fields:
+                    - { property: 'horaInicio', columns: 12, format: 'H:i',  }
+                    - { property: 'horaFin', columns: 12, format: 'H:i',  }
             delete:
                 item_permission: [ROLE_ORDEN_TRABAJO]
             form:

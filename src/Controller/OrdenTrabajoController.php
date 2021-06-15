@@ -6,6 +6,7 @@ use App\Entity\Solicitud;
 use App\Entity\OrdenTrabajo;
 use App\Entity\Sucursal;
 use App\Entity\Resultado;
+use App\Entity\FormularioResultado;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Process\Process;
@@ -48,7 +49,6 @@ class OrdenTrabajoController extends EasyAdminController
     private $modulosRepetido;
     private $ordenExcel ;
     private $entitiesToExport;
-
     protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
     {
         $queryBuilder = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
@@ -807,6 +807,7 @@ class OrdenTrabajoController extends EasyAdminController
 
             $mostrarTitulo = true;
             foreach ($resultados as $keyResultado => $resultado) {
+                if ($resultado->getDeleted()== null) {
                 if (!empty($resultado->getImageName())) {
                     if ($mostrarTitulo) {
                         $sheet->setCellValue('C'.$i, $item->getTitulo());
@@ -822,6 +823,7 @@ class OrdenTrabajoController extends EasyAdminController
                     $sheet->getRowDimension($i)->setRowHeight(140);
                     $i++;
                 }
+             }
             }
         } else {
             if ('titulo' == $item->getTipo()) {
@@ -851,6 +853,7 @@ class OrdenTrabajoController extends EasyAdminController
             //obtengo todos los resultados de propiedad item
             $mostrarTitulo = true;
             foreach ($resultados as $keyResultado => $resultado) {
+                if ($resultado->getDeleted()== null) {
                 if (!empty($resultado->getImageName())) {
                     if ($mostrarTitulo) {
                         $tablaModulo->addRow();
@@ -868,6 +871,7 @@ class OrdenTrabajoController extends EasyAdminController
                     );
 
                     $textrun->addText(htmlspecialchars('  '), ['size' => '8']);
+                }
                 }
             }
         } else {
@@ -992,7 +996,7 @@ class OrdenTrabajoController extends EasyAdminController
                 ));
             }
             $entity->setCliente($solicitud->getCliente());
-            $entity->setComentario($solicitud->getNecesitasAyuda());
+            $entity->setComentario($solicitud->getConsulta());
             $entity->setSucursal($solicitud->getSucursal());
             $entity->setSucursalDeCliente($solicitud->getSucursalDeCliente());
             $entity->setSolicitud($solicitud);
@@ -1085,7 +1089,7 @@ class OrdenTrabajoController extends EasyAdminController
             $solicitud->setEstado(1);
             $entity->setCliente($solicitud->getCliente());
             $entity->setServicio($solicitud->getServicio());
-            $entity->setComentario($solicitud->getNecesitasAyuda());
+            $entity->setComentario($solicitud->getConsulta());
             $entity->setFacility($solicitud->getFacility());
             $entity->setSucursalDeCliente($solicitud->getSucursalDeCliente());
             $entity->setSucursal($entity->getCliente()->getSucursal());
@@ -1314,16 +1318,41 @@ class OrdenTrabajoController extends EasyAdminController
     }
 
     public function editarFormulario(Request $request){
+
         if ($request->request !=NULL) {
             $id = $request->request->get('id');
+            $deleted = $request->request->get('deleted');
             $valor = $request->request->get('valor');
             $array[]=$valor;
             $resultado =  $this->getDoctrine()->getRepository(Resultado::class)->find($id);
             $resultado->setValor($array);
+            $resultado->setDeleted($deleted);
             $this->getDoctrine()->getManager()->flush();
         }
+        return new JsonResponse(1);
+    }
 
+    public function editarFormularioexpress(Request $request){
 
+        if ($request->request !=NULL) {
+            $id = $request->request->get('id');
+            $valor = $request->request->get('valor');
+            $resultadoExpress = $this->getDoctrine()->getRepository(FormularioResultado::class)->find($id);
+            $resultadoExpress->setMinutosTrabajado($valor);
+
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return new JsonResponse(1);
+    }
+
+    public function Firma(Request $request){
+        $idOrden = $request->request->get('idOrden');
+        $firma = $request->request->get('firma');
+        $estadoGestion = $request->request->get('estadoGestion');
+        $ordenTrabajo =  $this->getDoctrine()->getRepository(OrdenTrabajo::class)->find($idOrden);
+        $ordenTrabajo->setFirma($firma);
+        $ordenTrabajo->setEstadoGestion($estadoGestion);
+        $this->getDoctrine()->getManager()->flush();
         return new JsonResponse(1);
     }
 

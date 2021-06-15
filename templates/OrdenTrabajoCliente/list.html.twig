@@ -16,7 +16,7 @@
                 <input type="hidden" name="orden_trabajo" id="orden_trabajo" value="2" >
                 <div class="radio">
                   <label>
-                    <input type="radio" name="formato" id="formato" value="WORD" checked>
+                  <input type="radio" name="formato" id="formato" value="WORD" checked>
                     WORD
                   </label><br>
                   <label>
@@ -52,8 +52,9 @@
             <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="" >
             <div class="radio">
               <label>
-                <input type="radio" name="formato" id="formato" value="PDF" >
-                PDF
+                <input type="radio" name="formato" id="formato" value="WORD" checked>
+                  WORD
+                </label>
                 <div class="alert alert-warning" id="incompleto" style="display:none">
                    El Formulario aun no tiene la revisión final
                 </div>
@@ -169,6 +170,7 @@
     // paso el valor del id de la fila que seleccione para exportar
     $(".exportOt").click(function(){
         $("#orden_trabajo").val($(this).data('id'));
+        
     });
     // para enviar el formulario donde
     function exportar(){

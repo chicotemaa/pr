@@ -46,7 +46,7 @@ class Solicitud implements iClienteFilter, iFacilityFilter, iSucursalClienteFilt
     use TimestampableEntity;
     use SoftDeleteableEntity;
 
-    public $estados = [
+    public static $estados = [
         0 => 'Pendiente',
         1 => 'Generada OT',
         2 => 'Derivada',
@@ -142,6 +142,7 @@ class Solicitud implements iClienteFilter, iFacilityFilter, iSucursalClienteFilt
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"write", "read"})
      */
     private $pisoSector;
 
@@ -157,12 +158,13 @@ class Solicitud implements iClienteFilter, iFacilityFilter, iSucursalClienteFilt
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Sucursal")
+     * @Groups({"write", "read"})
      */
     private $sucursal;
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Groups({"read"})
+     * @Groups({"write","read"})
      */
     private $necesitasAyuda;
 
@@ -174,11 +176,14 @@ class Solicitud implements iClienteFilter, iFacilityFilter, iSucursalClienteFilt
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="solicituds")
+     * @Groups({"write","read"})
      */
     private $Facility;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="solicituds")
+     * @Groups({"write", "read"})
+
      */
     private $SucursalDeCliente;
 

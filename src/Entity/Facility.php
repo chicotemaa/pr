@@ -2,46 +2,65 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FacilityRepository")
+ * @ApiResource(
+ *    attributes={
+ *     "normalization_context"={"groups"={"read", "readRegistration"}},
+ *     "denormalization_context"={"groups"={"write","writeRegistration"}}
+ *     },
+ *  collectionOperations = {
+ *     "get"={"method"="GET"}
+ *  },
+ *  itemOperations={
+ *          "get"={"method"="GET"}
+ *  })
  */
 class Facility
-implements  iClienteFilter
+implements iClienteFilter
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=60)
+     * @Groups({"read"})
      */
     private $apellido;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Groups({"read"})
      */
     private $nombre;
 
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Groups({"read"})
      */
     private $correo;
 
     /**
-    * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\Column(type="string", length=50, nullable=true)
+     * @Groups({"read"})
      */
     private $telefono;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"read"})
      */
     private $codigo;
 
@@ -49,46 +68,44 @@ implements  iClienteFilter
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="facilities")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"read"})
      */
     private $Cliente;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="Facility")
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="Facility")     
      */
     private $users;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\OrdenTrabajo", mappedBy="Facility")
+     * 
      */
     private $ordenTrabajos;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\OrdenTrabajo", mappedBy="facility")
-     */
-    private $no;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Solicitud", mappedBy="Facility")
+     * 
      */
     private $solicituds;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SucursalDeCliente", mappedBy="facility")
+     * @Groups({"read"})
      */
     private $sucursalDeClientes;
 
     public function __construct()
     {
-        $this->facility = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->ordenTrabajos = new ArrayCollection();
-        $this->no = new ArrayCollection();
         $this->solicituds = new ArrayCollection();
         $this->sucursalDeClientes = new ArrayCollection();
     }
     public function __toString()
     {
-        return $this->Cliente.'| Nombre: '.$this->nombre.' '.$this->apellido;
+        return $this->Cliente . '| Nombre: ' . $this->nombre . ' ' . $this->apellido;
     }
 
     public function getId(): ?int
@@ -141,38 +158,6 @@ implements  iClienteFilter
     public function setTelefono(int $telefono): self
     {
         $this->telefono = $telefono;
-
-        return $this;
-    }
-
-
-    /**
-     * @return Collection|Cliente[]
-     */
-    public function getFacility(): Collection
-    {
-        return $this->facility;
-    }
-
-    public function addFacility(Cliente $facility): self
-    {
-        if (!$this->facility->contains($facility)) {
-            $this->facility[] = $facility;
-            $facility->setFacility($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFacility(Cliente $facility): self
-    {
-        if ($this->facility->contains($facility)) {
-            $this->facility->removeElement($facility);
-            // set the owning side to null (unless already changed)
-            if ($facility->getFacility() === $this) {
-                $facility->setFacility(null);
-            }
-        }
 
         return $this;
     }
@@ -233,6 +218,7 @@ implements  iClienteFilter
         return $this;
     }
 
+
     /**
      * @return Collection|OrdenTrabajo[]
      */
@@ -258,37 +244,6 @@ implements  iClienteFilter
             // set the owning side to null (unless already changed)
             if ($ordenTrabajo->getFacility() === $this) {
                 $ordenTrabajo->setFacility(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|OrdenTrabajo[]
-     */
-    public function getNo(): Collection
-    {
-        return $this->no;
-    }
-
-    public function addNo(OrdenTrabajo $no): self
-    {
-        if (!$this->no->contains($no)) {
-            $this->no[] = $no;
-            $no->setFacility($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNo(OrdenTrabajo $no): self
-    {
-        if ($this->no->contains($no)) {
-            $this->no->removeElement($no);
-            // set the owning side to null (unless already changed)
-            if ($no->getFacility() === $this) {
-                $no->setFacility(null);
             }
         }
 
