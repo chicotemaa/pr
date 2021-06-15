@@ -8,6 +8,17 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FacilityRepository")
+ * @ApiResource(
+ *    attributes={
+ *     "normalization_context"={"groups"={"read", "readRegistration"}},
+ *     "denormalization_context"={"groups"={"write","writeRegistration"}}
+ *     },
+ *  collectionOperations = {
+ *     "get"={"method"="GET"}
+ *  },
+ *  itemOperations={
+ *          "get"={"method"="GET"}
+ *  })
  */
 class Facility
 implements  iClienteFilter
