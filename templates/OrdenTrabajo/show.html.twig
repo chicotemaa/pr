@@ -211,7 +211,10 @@
                 {% endif %}
             {% endif %}
         {% endmacro %}
+        <div class="card container">
+        <div class="alert alert-success row" id="Firmaformularioa" style="display:none">El Formulario fue revisado y queda habilitado para clientes</div>
         <button id="Firmaformulario" style="float:right;" type="submit" class="btn btn-success mb-2 " onclick=firmarFormulario() >Finalizar edicion de formulario</button>
+        <div/>
 {% endblock %}
 
 {% block body_javascript %}
@@ -256,7 +259,13 @@
                 $.ajax({
                 "type": "POST" ,
                 "url": "/firmar-formulario/",
-                "data":datos}) 
+                "data":datos,
+                success:function(r){
+                let FirmaFormularioa = document.getElementById('Firmaformularioa');
+                console.log(FirmaFormularioa)
+                FirmaFormularioa.style.display = "inline-block";
+                 setTimeout(function(){ FirmaFormularioa.style.display = "none"; }, 4000);
+                }})
                 }
         
 

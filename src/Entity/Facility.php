@@ -85,7 +85,7 @@ implements iClienteFilter
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Solicitud", mappedBy="Facility")
+     * @ORM\OneToMany(targetEntity="App\Entity\Solicitud", mappedBy="Facility" ,cascade={"persist", "remove"})
      * 
      */
     private $solicituds;
@@ -105,7 +105,7 @@ implements iClienteFilter
     }
     public function __toString()
     {
-        return $this->Cliente . '| Nombre: ' . $this->nombre . ' ' . $this->apellido;
+        return $this->Cliente . '| Nombre: ' . $this->nombre;
     }
 
     public function getId(): ?int

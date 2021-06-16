@@ -33,8 +33,8 @@ implements iClienteFilter, iFacilityFilter
     private $id;
 
     /**
-     * @ORM\Column(type="string")
-     *  @Groups({"readRegistration"})
+     * @ORM\Column(type="string", length=55)
+     * @Groups({"readRegistration"})
      */
     private $codigo;
 
@@ -52,19 +52,19 @@ implements iClienteFilter, iFacilityFilter
     private $direccion;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="SucursalDeCliente")
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="SucursalDeCliente" ,cascade={"persist", "remove"})
      * 
      */
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\OrdenTrabajo", mappedBy="SucursalDeCliente")
+     * @ORM\OneToMany(targetEntity="App\Entity\OrdenTrabajo", mappedBy="SucursalDeCliente" , cascade={"persist", "remove"})
      * 
      */
     private $ordenTrabajos;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Solicitud", mappedBy="SucursalDeCliente")
+     * @ORM\OneToMany(targetEntity="App\Entity\Solicitud", mappedBy="SucursalDeCliente" , cascade={"persist", "remove"})
      *  
      */
     private $solicituds;
@@ -91,12 +91,12 @@ implements iClienteFilter, iFacilityFilter
         return $this->id;
     }
 
-    public function getCodigo(): ?int
+    public function getCodigo(): ?string
     {
         return $this->codigo;
     }
-
-    public function setCodigo(int $codigo): self
+    
+    public function setCodigo(string $codigo): self
     {
         $this->codigo = $codigo;
 
