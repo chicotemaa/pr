@@ -211,18 +211,19 @@
                 {% endif %}
             {% endif %}
         {% endmacro %}
+        {% if entity.formularioResultado is not null %}
         <div class="card container">
         <div class="alert alert-success row" id="Firmaformularioa" style="display:none">El Formulario fue revisado y queda habilitado para clientes</div>
         <button id="Firmaformulario" style="float:right;" type="submit" class="btn btn-success mb-2 " onclick=firmarFormulario() >Finalizar edicion de formulario</button>
         <div/>
+        {% endif %}
 {% endblock %}
 
 {% block body_javascript %}
     {{ parent() }}
 
     <script>
-        
-  
+
         $(".exportOt").click(function(){
             $("#orden_trabajo").val($(this).data('id'));
             $("#ordenes_trabajo").val($(this).data('id'));

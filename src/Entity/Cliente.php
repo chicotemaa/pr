@@ -135,16 +135,6 @@ class Cliente implements iSucursalFilter
     private $equipos;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $latitud;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $longitud;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\SucursalDeCliente", mappedBy="Cliente")
      */
     private $sucursalDeClientes;
@@ -172,7 +162,7 @@ class Cliente implements iSucursalFilter
     public function __toString()
     {
         try {
-            return (string) $this->razonSocial.' '.$this->street; // If it is possible, return a string value from object.
+            return (string) $this->razonSocial; // If it is possible, return a string value from object.
          } catch (Exception $e) {
             return get_class($this).'@'.spl_object_hash($this); // If it is not possible, return a preset string to identify instance of object, e.g.
          }
@@ -464,29 +454,6 @@ class Cliente implements iSucursalFilter
         return $this;
     }
 
-    public function getLatitud(): ?int
-    {
-        return $this->latitud;
-    }
-
-    public function setLatitud(?int $latitud): self
-    {
-        $this->latitud = $latitud;
-
-        return $this;
-    }
-
-    public function getLongitud(): ?int
-    {
-        return $this->longitud;
-    }
-
-    public function setLongitud(?int $longitud): self
-    {
-        $this->longitud = $longitud;
-
-        return $this;
-    }
 
     /**
      * @return Collection|SucursalDeCliente[]
