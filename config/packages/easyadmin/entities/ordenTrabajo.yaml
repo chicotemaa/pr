@@ -87,7 +87,7 @@ easy_admin:
                     - { property: 'orden', css_class: 'col-md-4' }
                     - { property: 'servicio', css_class: 'col-md-4' }
                     - { property: 'sucursal', type_options: { required: true }, permission: ROLE_ENCARGADO }
-                    - { property: 'user', label: 'user', type_options: { required: true } }
+                    - { property: 'user', label: 'user' }
                     - { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } } }
                     - { property: 'Facility', label: 'facility', type_options: { required: true } }
                     - { property: 'SucursalDeCliente', label: 'Sucursal de Cliente', type_options: { required: true } }
