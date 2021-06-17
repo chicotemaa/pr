@@ -28,9 +28,9 @@ easy_admin:
                     - { property: 'servicio', type: 'text' }
                     - { property: 'cliente', type: 'text' }
                     - { property: 'SucursalDeCliente' }
-                    - facility
-                    - nroIncidencia
-                    - numeroSucursal
+                    - { property: 'facility', label: ' Datos de Facility' }
+                    - { property: 'nroIncidencia', label: ' Incidencia Nro' }
+                    - { property: 'numeroSucursal', label: ' Nro sucursal' }
                     - { property: 'estado', label: 'Estado' ,template: 'Solicitud/estado.html.twig' }
                     - necesitasAyuda
                     

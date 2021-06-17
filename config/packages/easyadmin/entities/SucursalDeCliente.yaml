@@ -9,6 +9,7 @@ easy_admin:
           - codigo
           - { property: 'Cliente', type: 'text' }
           - users
+          - facility
       edit:
         item_permission: [ROLE_CLIENTE]
         fields:
