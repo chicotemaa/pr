@@ -708,7 +708,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     public function setFacility(?Facility $facility): self
     {
-        $this->facility = $facility;
+        $this->Facility = $facility;
 
         return $this;
     }

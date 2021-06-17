@@ -31,7 +31,10 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *        }
  *  },
  * itemOperations={
- *          "get",
+ *          "get"={
+ *              "normalization_context"={"groups"={"read"}},
+ *              "denormalization_context"={"groups"={"write"}}
+ *          },
  *          "delete"={
  *              "method"="DELETE",
  *              "controller" = "App\Action\SolicitudDelete"
@@ -73,8 +76,8 @@ class Solicitud implements iClienteFilter, iFacilityFilter, iSucursalClienteFilt
     private $servicio;
 
     /**
-     * @ORM\Column(type="integer", nullable=false, options={"default": 0}))
-     * @Groups({"read"})
+     * @ORM\Column(type="integer"))
+     * @Groups({"write", "read"})
      */
     private $estado = 0;
 

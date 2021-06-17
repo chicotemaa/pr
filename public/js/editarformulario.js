@@ -18,7 +18,6 @@ function eliminarFoto(id){
             success:function(r){
             }
         }) 
-        Firmar();
     }
     function recuperarFoto(id){
        

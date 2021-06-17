@@ -172,7 +172,7 @@ class Cliente implements iSucursalFilter
     public function __toString()
     {
         try {
-            return (string) $this->razonSocial.' '.$this->nombre.' '.$this->street; // If it is possible, return a string value from object.
+            return (string) $this->razonSocial.' '.$this->street; // If it is possible, return a string value from object.
          } catch (Exception $e) {
             return get_class($this).'@'.spl_object_hash($this); // If it is not possible, return a preset string to identify instance of object, e.g.
          }
