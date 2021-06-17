@@ -75,6 +75,16 @@ implements iClienteFilter, iFacilityFilter
      */
     private $facility;
 
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $latitud;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $longitud;
+
 
     public function __construct()
     {
@@ -230,6 +240,30 @@ implements iClienteFilter, iFacilityFilter
     public function setFacility(?Facility $facility): self
     {
         $this->facility = $facility;
+
+        return $this;
+    }
+
+    public function getLatitud(): ?string
+    {
+        return $this->latitud;
+    }
+
+    public function setLatitud(?string $latitud): self
+    {
+        $this->latitud = $latitud;
+
+        return $this;
+    }
+
+    public function getLongitud(): ?string
+    {
+        return $this->longitud;
+    }
+
+    public function setLongitud(?string $longitud): self
+    {
+        $this->longitud = $longitud;
 
         return $this;
     }

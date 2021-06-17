@@ -15,7 +15,6 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
- * @ORM\Table(name="fos_user")
  * @AppAssert\UserConstraint
  * @ApiResource(
  *    attributes={
