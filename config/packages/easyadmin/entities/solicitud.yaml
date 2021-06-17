@@ -59,7 +59,7 @@ easy_admin:
                     - { property: 'Facility', permission: [ ROLE_ENCARGADO]}
                     - { property: 'SucursalDeCliente' , permission: [ROLE_FACILITY, ROLE_ENCARGADO], label: 'Sucursal'}
                     - { property: 'consulta', label: 'Cual es el problema?' }
-                    - { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }
+                    #- { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }
                     - { type: 'group', columns: 6 }
                     - { property: 'nroIncidencia' }
                     #- { property: 'numeroSucursal', label: 'Número Sucursal' }
