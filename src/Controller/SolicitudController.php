@@ -109,7 +109,7 @@ class SolicitudController extends EasyAdminController
                 'detalle' => $solicitud->getNecesitasAyuda(),
                 'sucursal' => $solicitud->getSucursal(),
                 'direccion' => $solicitud->getSucursalDeCliente()->getDireccion(),
-                'facility' => $solicitud->getFacility()->getApellido(),
+                'facilityid' => $solicitud->getFacility()->getApellido(),
                 
             ]);
             return $this->redirectToRoute('easyadmin', array(
