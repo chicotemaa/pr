@@ -54,8 +54,7 @@ class RequestListener
                 $filter->setParameter('sucursal_de_cliente_id', $user->getSucursalDeCliente()->getId());
             } elseif ($this->authorizationChecker->isGranted('ROLE_ENCARGADO', $user)) {
                 $filter = $this->em->getFilters()->enable('sucursal_filter');
-                $filter->setParameter('sucursal_id', $user->getSucursal()->getId());
-                
+                $filter->setParameter('sucursal_id', $user->getSucursal()->getId());    
             }
         }
     }

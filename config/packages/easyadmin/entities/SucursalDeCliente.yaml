@@ -8,7 +8,6 @@ easy_admin:
           - id
           - codigo
           - { property: 'Cliente', type: 'text' }
-          - users
           - facility
       edit:
         item_permission: [ROLE_CLIENTE]
@@ -16,7 +15,6 @@ easy_admin:
           - codigo
           - direccion
           - { property: 'Cliente' }
-          - users
           - facility
       new:
         item_permission: [ROLE_PROPIEDAD_ITEM]
@@ -24,7 +22,6 @@ easy_admin:
           - codigo
           - direccion
           - { property: 'Cliente' }
-          - users
           - facility
       show:
         item_permission: [ROLE_CLIENTE]

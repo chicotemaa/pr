@@ -37,7 +37,7 @@ easy_admin:
             edit:
                 item_permission: [ROLE_SOLICITUD,ROLE_CLIENTE]
             new:
-                item_permission: [ROLE_SOLICITUD,ROLE_CLIENTE]
+                item_permission: [ROLE_ADMIN,ROLE_CLIENTE]
             show:
                 item_permission: [ROLE_SOLICITUD, ROLE_CLIENTE]
             delete:

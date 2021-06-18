@@ -48,7 +48,7 @@ class UserController extends EasyAdminController
         $sucursal = $this->isGranted('ROLE_ADMIN') ? null : $session->get('user_sucursal', null);
 
         $users = $em->getRepository(User::class)->findBySucursal($term, $sucursal);
-
+        
         $results = [];
         foreach ($users as $key => $user) {
             $results[] = [

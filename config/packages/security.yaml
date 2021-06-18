@@ -8,17 +8,29 @@ security:
   role_hierarchy:
     ROLE_CLIENTE: ROLE_USER
     ROLE_EMPLEADO: ROLE_USER
-    ROLE_ENCARGADO: ROLE_USER
     ROLE_STAFF: ROLE_CLIENTE
     ROLE_FACILITY: ROLE_CLIENTE
     ROLE_MANAGER: ROLE_CLIENTE
 
+    ROLE_ENCARGADO:
+      - ROLE_USER
+      - ROLE_USER_CRUD
+      - ROLE_FORMULARIO
+      - ROLE_ITEM
+      - ROLE_MODULO
+      - ROLE_OPCION
+      - ROLE_ORDEN_TRABAJO
+      - ROLE_PROPIEDAD_ITEM
+      - ROLE_SERVICIO
+      - ROLE_SOLICITUD
+      - ROLE_DASHBOARD
+
     ROLE_ADMIN:
+      - ROLE_ENCARGADO
       - ROLE_USER
       - ROLE_USER_CRUD
       - ROLE_GROUP
       - ROLE_CARPETA
-      - ROLE_ENCARGADO
       - ROLE_CLIENTE
       - ROLE_CLIENTE_CRUD
       - ROLE_EMPLEADO
@@ -92,5 +104,5 @@ security:
     - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/admin/dashboard, roles: ROLE_DASHBOARD }
     - { path: ^/admin, roles: ROLE_USER }
-    - { path: ^/editar-formulario, roles: ROLE_ADMIN }
+    - { path: ^/editar-formulario, roles:[ ROLE_ADMIN ,ROLE_ENCARGADO ]}
     - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
