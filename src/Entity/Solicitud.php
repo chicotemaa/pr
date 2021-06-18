@@ -44,7 +44,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  * @Vich\Uploadable
  * @AppAssert\SolicitudConstraint
  */
-class Solicitud implements iClienteFilter, iFacilityFilter, iSucursalClienteFilter
+class Solicitud implements iSucursalFilter, iClienteFilter, iFacilityFilter, iSucursalClienteFilter
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;

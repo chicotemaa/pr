@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\HttpFoundation\File\File;
@@ -80,6 +82,16 @@ class Sucursal
      * @var File
      */
     private $imagePieFile;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SucursalDeCliente", mappedBy="Sucursal")
+     */
+    private $sucursalDeClientes;
+
+    public function __construct()
+    {
+        $this->sucursalDeClientes = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -203,6 +215,37 @@ class Sucursal
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SucursalDeCliente[]
+     */
+    public function getSucursalDeClientes(): Collection
+    {
+        return $this->sucursalDeClientes;
+    }
+
+    public function addSucursalDeCliente(SucursalDeCliente $sucursalDeCliente): self
+    {
+        if (!$this->sucursalDeClientes->contains($sucursalDeCliente)) {
+            $this->sucursalDeClientes[] = $sucursalDeCliente;
+            $sucursalDeCliente->setSucursal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSucursalDeCliente(SucursalDeCliente $sucursalDeCliente): self
+    {
+        if ($this->sucursalDeClientes->contains($sucursalDeCliente)) {
+            $this->sucursalDeClientes->removeElement($sucursalDeCliente);
+            // set the owning side to null (unless already changed)
+            if ($sucursalDeCliente->getSucursal() === $this) {
+                $sucursalDeCliente->setSucursal(null);
+            }
+        }
 
         return $this;
     }
