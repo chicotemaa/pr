@@ -157,6 +157,7 @@ class Cliente
 
     public function __toString()
     {
+        /* Prueba de Jira */
         try {
             return (string) $this->razonSocial; // If it is possible, return a string value from object.
          } catch (Exception $e) {
