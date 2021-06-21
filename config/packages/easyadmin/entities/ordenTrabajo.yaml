@@ -35,9 +35,11 @@ easy_admin:
                     - { property: 'sucursal', type: 'text'}
                     - { property: 'estado', label: 'Estado', template: 'OrdenTrabajo/estado.html.twig'  }
                     - { property: 'fecha', format: 'd/m/Y' }
-                    - { property: 'horaInicio', format: 'H:i' }
-                    - { property: 'horaFin', format: 'H:i' }
+                    #- { property: 'horaInicio', format: 'H:i' }
+                    #- { property: 'horaFin', format: 'H:i' }
                     #- { property: 'formularioResultado.minutosTrabajado', format: 'H:i', label: 'Minutos trabajados' }
+                    - { property: 'SucursalDeCliente', type: 'text', columns: 6 }
+                    - { property: 'Facility', type: 'text', columns: 6 }                    
                     - { property: 'cliente', type: 'string' }
                     # - { property: 'motivo', label: 'Postergado por' }
                 actions:
@@ -55,6 +57,7 @@ easy_admin:
                     - { property: 'cliente', type: 'text', columns: 6 }
                     - { property: 'Comentario', type: 'text', columns: 6 }
                     - { property: 'SucursalDeCliente', type: 'text', columns: 6 }
+                    - { property: 'Facility', type: 'text', columns: 6 }
                     - { property: 'estadoToString', label: 'Estado', columns: 6 }
                     - { property: 'horaInicio', columns: 6, format: 'H:i' }
                     - { property: 'horaFin', columns: 6, format: 'H:i' }
