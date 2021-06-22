@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
  *  })
  */
 class SucursalDeCliente
-implements iClienteFilter, iFacilityFilter
+implements iSucursalFilter, iClienteFilter, iFacilityFilter
 {
     /**
      * @ORM\Id()
@@ -85,6 +85,11 @@ implements iClienteFilter, iFacilityFilter
      */
     private $longitud;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sucursal", inversedBy="sucursalDeClientes")
+     */
+    private $Sucursal;
+
 
     public function __construct()
     {
@@ -94,7 +99,7 @@ implements iClienteFilter, iFacilityFilter
     }
     public function __toString()
     {
-        return 'Cliente: ' . $this->Cliente . '| Direccion: ' . $this->direccion;
+        return 'Direccion: ' . $this->direccion;
     }
     public function getId(): ?int
     {
@@ -264,6 +269,18 @@ implements iClienteFilter, iFacilityFilter
     public function setLongitud(?string $longitud): self
     {
         $this->longitud = $longitud;
+
+        return $this;
+    }
+
+    public function getSucursal(): ?Sucursal
+    {
+        return $this->Sucursal;
+    }
+
+    public function setSucursal(?Sucursal $Sucursal): self
+    {
+        $this->Sucursal = $Sucursal;
 
         return $this;
     }

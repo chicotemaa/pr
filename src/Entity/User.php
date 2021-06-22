@@ -35,7 +35,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *          }
  *    },
  *    itemOperations={
- *           "get"={"method"="GET"}
+ *              "get"={"method"="GET"}
  *     })
  */
 class User extends BaseUser

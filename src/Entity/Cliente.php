@@ -30,7 +30,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *          "get"={"method"="GET"}
  *  })
  */
-class Cliente implements iSucursalFilter
+class Cliente 
 {
     use GoogleAddress;
     use SoftDeleteableEntity;
@@ -104,10 +104,6 @@ class Cliente implements iSucursalFilter
      */
     private $cuit;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sucursal")
-     */
-    private $sucursal;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="cliente", cascade={"persist", "remove"})
@@ -161,24 +157,15 @@ class Cliente implements iSucursalFilter
 
     public function __toString()
     {
+        /* Prueba de Jira */
         try {
-            return (string) $this->razonSocial; // If it is possible, return a string value from object.
+            return (string) $this->razonSocial.' '.$this->street; // If it is possible, return a string value from object.
          } catch (Exception $e) {
             return get_class($this).'@'.spl_object_hash($this); // If it is not possible, return a preset string to identify instance of object, e.g.
          }
     }
 
-    public function getSucursal(): ?Sucursal
-    {
-        return $this->sucursal;
-    }
 
-    public function setSucursal(?Sucursal $sucursal): self
-    {
-        $this->sucursal = $sucursal;
-
-        return $this;
-    }
 
     /**
      * @Assert\Callback

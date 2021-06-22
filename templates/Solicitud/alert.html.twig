@@ -8,10 +8,12 @@
 			<a href="#" class="dropdown-menu-header">Solicitudes no leidas</a>
 		</li>
 		<ul class="timeline timeline-icons timeline-sm">
-			{% for unread in unreads %}
+			{% for unread in unreads   %}
 				<li>
-					<p>						
+					<p>	
+						{% if (unread.sucursal == app.user.sucursal )   %}
 						<a href="{{ path('easyadmin', { action: 'show', entity: 'Solicitud', view: 'list', id: unread.id}) }}">{{unread.cliente.RazonSocial}}</a>						
+						{% endif %}
 					</p>
 				</li>
 			{% endfor %}
