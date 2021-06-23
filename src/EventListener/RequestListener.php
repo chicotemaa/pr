@@ -52,7 +52,7 @@ class RequestListener
             } elseif ($this->authorizationChecker->isGranted('ROLE_STAFF', $user)) {
                 $filter = $this->em->getFilters()->enable('sucursal_cliente_filter');
                 $filter->setParameter('sucursal_de_cliente_id', $user->getSucursalDeCliente()->getId());
-            } elseif ($this->authorizationChecker->isGranted('ROLE_ENCARGADO', $user)) {
+            } elseif ($this->authorizationChecker->isGranted('ROLE_SUCURSAL', $user)) {
                 $filter = $this->em->getFilters()->enable('sucursal_filter');
                 $filter->setParameter('sucursal_id', $user->getSucursal()->getId());    
             }
