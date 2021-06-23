@@ -48,7 +48,6 @@ easy_admin:
                icon: 'folder'
                permission: ROLE_ADMIN   
                children:
-                - { entity: 'UserParaCliente', label: 'Crear Usuario De Cliente', icon: 'user', permission: [ROLE_ADMIN] }
                 - { entity: 'Facility', label: 'Crear Facility', icon: 'user', permission: [ROLE_ADMIN] }
                 - { entity: 'SucursalDeCliente', label: 'Datos de Sucursal', icon: 'building', permission: [ROLE_ADMIN] }
 
