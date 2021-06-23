@@ -1097,6 +1097,7 @@ class OrdenTrabajoController extends EasyAdminController
         }
 
         return $entity;
+        
     }
 
     public function cambiarEstadoGestionAction()

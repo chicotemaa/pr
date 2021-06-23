@@ -11,7 +11,12 @@
 			{% for unread in unreads   %}
 				<li>
 					<p>	
+						{% if is_granted('ROLE_ENCARGADO') %}
 						{% if (unread.sucursal == app.user.sucursal )   %}
+						<a href="{{ path('easyadmin', { action: 'show', entity: 'Solicitud', view: 'list', id: unread.id}) }}">{{unread.cliente.RazonSocial}}</a>						
+						{% endif %}
+						{% endif %}
+						{% if is_granted('ROLE_ADMIN') %}
 						<a href="{{ path('easyadmin', { action: 'show', entity: 'Solicitud', view: 'list', id: unread.id}) }}">{{unread.cliente.RazonSocial}}</a>						
 						{% endif %}
 					</p>

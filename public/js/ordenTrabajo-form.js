@@ -22,10 +22,13 @@ function fieldUserUrl () {
             processResults: function (data, params) {
                 return {
                     results: data.results
-                };
+                }
+                
             },
             placeholder: '',
             allowClear: true
           }
+          
     })
+
 }
