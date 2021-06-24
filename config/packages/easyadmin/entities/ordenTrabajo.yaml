@@ -78,7 +78,7 @@ easy_admin:
                     - '-estado'
                     - { property: 'SucursalDeCliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
                     - { property: 'Facility', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
-                    - { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
+                    #- { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
             edit:
                 item_permission: [ROLE_ORDEN_TRABAJO]
                 fields:
@@ -105,3 +105,4 @@ easy_admin:
                     - { property: 'horaDesde', columns: 6, format: 'H:i', type_options: { widget: 'single_text', required: true } }
                     - { property: 'horaHasta', columns: 6, format: 'H:i', type_options: { widget: 'single_text', required: true } }
                     - { property: 'solicitudOpcion', type: 'hidden', type_options: { mapped: false } }
+                    #- { property: 'minutosTrabajados', type: text ,type_options: { mapped: false } }
