@@ -6,7 +6,7 @@ easy_admin:
                 list:  'Carpeta/list.html.twig'
                 show:  'Carpeta/show.html.twig'
             list:
-                item_permission: [ROLE_CARPETA]
+                item_permission: [ADMIN]
                 filters:
                     - property: 'clientes'
                     - property: 'activo'
@@ -18,28 +18,28 @@ easy_admin:
                     - property: 'nombre'
                     - { property: 'descripcion', type: 'fos_ckeditor', type_options: { config_name: 'my_config' } }
             edit:
-                item_permission: [ROLE_CARPETA]
+                item_permission: [ADMIN]
                 fields:
                     - { property: 'clientes' , type_options: { 'by_reference': false }}
                     - property: 'activo'
                     - property: 'nombre'
                     - { property: 'descripcion', type: 'fos_ckeditor', type_options: { config_name: 'my_config' } }
             new:
-                item_permission: [ROLE_CARPETA]
+                item_permission: [ADMIN]
                 fields:
                     - { property: 'clientes' , type_options: { 'by_reference': false }}
                     - property: 'activo'
                     - property: 'nombre'
                     - { property: 'descripcion', type: 'fos_ckeditor', type_options: { config_name: 'my_config' } }
             show:
-                item_permission: [ROLE_CARPETA]
+                item_permission: [ADMIN]
                 fields:
                     - property: 'clientes'
                     - property: 'activo'
                     - property: 'nombre'
                     - { property: 'descripcion', type: 'fos_ckeditor', type_options: { config_name: 'my_config' } }
             delete:
-                item_permission: [ROLE_CARPETA]
+                item_permission: [ADMIN]
             search:
-                item_permission: [ROLE_CARPETA]
+                item_permission: [ADMIN]
                 

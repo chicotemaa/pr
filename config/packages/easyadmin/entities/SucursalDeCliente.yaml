@@ -7,6 +7,7 @@ easy_admin:
         fields:
           - id
           - codigo
+          - direccion
           - { property: 'Cliente', type: 'text' }
           - facility
       edit:
