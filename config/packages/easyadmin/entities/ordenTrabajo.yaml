@@ -10,7 +10,7 @@ easy_admin:
                 show: 'OrdenTrabajo/show.html.twig'
                 list: 'OrdenTrabajo/list.html.twig'
             list:
-                item_permission: [ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ORDEN_TRABAJO, ROLE_SUCURSAL]
                 batch_actions: ['exportar']
 
                 filters:
@@ -18,6 +18,8 @@ easy_admin:
                     - property: 'formulario'
                     - property: 'sucursal'
                     - property: 'cliente'
+                    - property: 'Facility'
+                    - property: 'SucursalDeCliente'
                     - property: 'fecha'
                     - property: 'motivo'
                     - property: 'estadosGestion'

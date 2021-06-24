@@ -4,6 +4,10 @@ easy_admin:
             class: App\Entity\Facility
             list:
                 item_permission: [ROLE_ITEM, ROLE_MANAGER]
+                filters:
+                    - property: 'nombre'
+                    - property: 'Cliente'
+                    - property: 'sucursalDeClientes'
                 fields:
                     - id
                     - { property: 'Apellido' }
