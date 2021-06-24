@@ -38,7 +38,6 @@ security:
       - ROLE_PAIS
       - ROLE_SERVICIO
       - ROLE_SOLICITUD
-      - ROLE_SUCURSAL
       - ROLE_DASHBOARD
     ROLE_SUPER_ADMIN: ROLE_ADMIN
 
