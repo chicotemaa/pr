@@ -105,4 +105,4 @@ easy_admin:
                     - { property: 'horaDesde', columns: 6, format: 'H:i', type_options: { widget: 'single_text', required: true } }
                     - { property: 'horaHasta', columns: 6, format: 'H:i', type_options: { widget: 'single_text', required: true } }
                     - { property: 'solicitudOpcion', type: 'hidden', type_options: { mapped: false } }
-                    #- { property: 'minutosTrabajados', type: text ,type_options: { mapped: false } }
+                    - { property: 'minutos', label: 'Minutos Trabajados', type: 'integer' ,type_options: { mapped: false }, css_class: 'col-md-4' }

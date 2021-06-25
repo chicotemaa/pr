@@ -1347,7 +1347,6 @@ class OrdenTrabajoController extends EasyAdminController
             $valor = $request->request->get('valor');
             $resultadoExpress = $this->getDoctrine()->getRepository(FormularioResultado::class)->find($id);
             $resultadoExpress->setMinutosTrabajado($valor);
-
             $this->getDoctrine()->getManager()->flush();
         }
         return new JsonResponse(1);

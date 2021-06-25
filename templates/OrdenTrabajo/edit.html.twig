@@ -24,20 +24,13 @@
                 </div>
             </div>
         </div>
+       
     {% endif %}
+    <input id="inputminutos" type="integer" class="card-text" style="display:none" value="{{entity.formularioResultado.minutosTrabajado}}" name="{{entity.formularioResultado.id}}"></input>
     {{ form(form) }}
 {% if entity.formularioResultado is not null%}
- <div class="container fieldset">
- <div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">Editar Minutos trabajados</h5>
-    <label id="labelminutos"class="card-text text-center form-control">{{entity.formularioResultado.minutosTrabajado}}</label>
-    <input id="inputminutos" type="number"class="card-text" style="display:none" value="{{entity.formularioResultado.minutosTrabajado}}"></input>
-    <button  class="btn btn-primary btn-editar text-center" id=">{{entity.formularioResultado}}" onclick=EditarMinutos(id)>Editar Minutos Trabajados </button>
-    <button  class="btn btn-success btn-guardar" id="{{entity.formularioResultado.id}}" style="display:none" onclick=GuardarMinutos(id,value)>Guardar Minutos Trabajados </button>
-  </div>
-</div>
-</div>
+    
+
  {% endif %}
 {% endblock entity_form %}
 
@@ -45,33 +38,28 @@
     {{ parent() }}
     <script src="{{asset('js/ordenTrabajo-form.js')}}"></script>
     <script>
-    let labelminutos=document.getElementById('labelminutos');
-    let inputminutos=document.getElementById('inputminutos');
-    let editar=document.getElementsByClassName('btn-editar');
-    let guardar=document.getElementsByClassName('btn-guardar');
-    function EditarMinutos(){
-        labelminutos.style.display='none';
-        editar[0].style.display='none';
-        inputminutos.style.display='inline-block';
-        guardar[0].style.display='inline-block';
-    }
-    function GuardarMinutos(id){
-        labelminutos.style.display='inline-block';
-        editar[0].style.display='inline-block';
-        inputminutos.style.display='none';
-        guardar[0].style.display='none';
-        let valor=parseInt(inputminutos.value);
-        let datos={
-            'id':id,
-            'valor':valor}
-            $.ajax({
+    var minutos=document.getElementById('ordentrabajo_minutos');
+    var valorId =document.getElementById('inputminutos').name;
+    let valorMinutos =document.getElementById('inputminutos').value;
+        minutos.setAttribute('value',valorMinutos);
+    
+    $("#edit-ordentrabajo-form").submit(function(){
+        let minutost=document.getElementById('ordentrabajo_minutos').value
+        let valorminutos=minutost;
+        let id=valorId;
+        var datos={
+            'id':parseInt(id),
+            'valor':parseInt(valorminutos)}
+        $.ajax({
             "type": "POST" ,
             "url": "/editar-formularioExpress/",
             "data":datos,
             success:function(r){
-               inputminutos.innerHTML=datos.valor;
+               minutos.setAttribute('value',datos.valor);  
             }
             })
-    }
+        });
+
+
     </script>
 {% endblock body_javascript %}
