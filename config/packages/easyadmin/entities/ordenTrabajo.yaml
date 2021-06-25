@@ -76,15 +76,16 @@ easy_admin:
                 item_permission: [ROLE_ORDEN_TRABAJO]
                 fields:
                     - '-estado'
-                    - { property: 'SucursalDeCliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
+                    - { property: 'SucursalDeCliente',  }
                     - { property: 'Facility', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
                     #- { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
             edit:
                 item_permission: [ROLE_ORDEN_TRABAJO]
                 fields:
-                    - { property: 'horaInicio', columns: 12, format: 'H:i',  }
-                    - { property: 'horaFin', columns: 12, format: 'H:i',  }
-                    - { property: 'minutos', label: 'Minutos Trabajados', type: 'integer' ,type_options: { mapped: false }, css_class: 'col-md-4' }
+                    - { property: 'SucursalDeCliente', label: 'Sucursal de Cliente' }
+                    - { property: 'horaInicio', columns: 7, format: 'H:i', type_options: { widget: 'single_text', required: true } }
+                    - { property: 'horaFin', columns: 7, format: 'H:i', type_options: { widget: 'single_text', required: true } }
+                    - { property: 'minutos', label: 'Minutos Trabajados', type: 'integer' ,type_options: { mapped: false }, css_class: 'col-md-5' }
             delete:
                 item_permission: [ROLE_ORDEN_TRABAJO]
             form:
