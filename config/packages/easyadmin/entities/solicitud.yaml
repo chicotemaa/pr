@@ -35,11 +35,11 @@ easy_admin:
                     - necesitasAyuda
                     
             edit:
-                item_permission: [ROLE_SOLICITUD,ROLE_CLIENTE]
+                item_permission: [ROLE_ADMIN,ROLE_SUCURSAL,ROLE_CLIENTE]
             new:
-                item_permission: [ROLE_ADMIN,ROLE_CLIENTE]
+                item_permission: [ROLE_ADMIN,ROLE_SUCURSAL,ROLE_CLIENTE]
             show:
-                item_permission: [ROLE_SOLICITUD, ROLE_CLIENTE]
+                item_permission: [ROLE_ADMIN,ROLE_SUCURSAL,ROLE_CLIENTE]
             delete:
                 item_permission: [ROLE_SOLICITUD, ROLE_FACILITY]
             search:
@@ -59,7 +59,7 @@ easy_admin:
                     - { property: 'Facility', permission: [ ROLE_ENCARGADO]}
                     - { property: 'SucursalDeCliente' , permission: [ROLE_FACILITY, ROLE_ENCARGADO], label: 'Sucursal'}
                     - { property: 'consulta', label: 'Cual es el problema?' }
-                    #- { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }
+                    - { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }
                     - { type: 'group', columns: 6 }
                     - { property: 'nroIncidencia' }
                     #- { property: 'numeroSucursal', label: 'Número Sucursal' }

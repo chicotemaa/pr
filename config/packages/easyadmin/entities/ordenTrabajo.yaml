@@ -10,7 +10,7 @@ easy_admin:
                 show: 'OrdenTrabajo/show.html.twig'
                 list: 'OrdenTrabajo/list.html.twig'
             list:
-                item_permission: [ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ORDEN_TRABAJO, ROLE_SUCURSAL]
                 batch_actions: ['exportar']
 
                 filters:
@@ -18,6 +18,8 @@ easy_admin:
                     - property: 'formulario'
                     - property: 'sucursal'
                     - property: 'cliente'
+                    - property: 'Facility'
+                    - property: 'SucursalDeCliente'
                     - property: 'fecha'
                     - property: 'motivo'
                     - property: 'estadosGestion'
@@ -74,12 +76,16 @@ easy_admin:
                 item_permission: [ROLE_ORDEN_TRABAJO]
                 fields:
                     - '-estado'
-                    - { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
+                    - { property: 'SucursalDeCliente',  }
+                    - { property: 'Facility', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
+                    #- { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
             edit:
                 item_permission: [ROLE_ORDEN_TRABAJO]
                 fields:
-                    - { property: 'horaInicio', columns: 12, format: 'H:i',  }
-                    - { property: 'horaFin', columns: 12, format: 'H:i',  }
+                    - { property: 'SucursalDeCliente', label: 'Sucursal de Cliente' }
+                    - { property: 'horaInicio', columns: 7, format: 'H:i', type_options: { widget: 'single_text', required: true } }
+                    - { property: 'horaFin', columns: 7, format: 'H:i', type_options: { widget: 'single_text', required: true } }
+                    - { property: 'minutos', label: 'Minutos Trabajados', type: 'integer' ,type_options: { mapped: false }, css_class: 'col-md-5' }
             delete:
                 item_permission: [ROLE_ORDEN_TRABAJO]
             form:
@@ -89,11 +95,11 @@ easy_admin:
                     - { property: 'formulario', css_class: 'col-md-8', type_options: { required: true } }
                     - { property: 'orden', css_class: 'col-md-4' }
                     - { property: 'servicio', css_class: 'col-md-4' }
-                    - { property: 'sucursal', type_options: { required: true }, permission: [ROLE_ADMIN, ROLE_ENCARGADO] }
+                    - { property: 'sucursal', type_options: { required: true }, permission: [ROLE_ADMIN] }
                     - { property: 'user', label: 'Tecnico' }
-                    - { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }  }
-                    - { property: 'Facility', label: 'Facility', type_options: { required: true } }
                     - { property: 'SucursalDeCliente', label: 'Sucursal de Cliente', type_options: { required: true } }
+                    - { property: 'Facility', label: 'Facility', type_options: { required: true } }
+                    - { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }  }                   
                     - { property: 'comentario' }
                     - { property: 'estado', type: 'choice', type_options: { choices: '%otEstadoArray%' } }
                     - { type: 'group', label: 'Date', css_class: 'col-md-4' }
@@ -101,3 +107,4 @@ easy_admin:
                     - { property: 'horaDesde', columns: 6, format: 'H:i', type_options: { widget: 'single_text', required: true } }
                     - { property: 'horaHasta', columns: 6, format: 'H:i', type_options: { widget: 'single_text', required: true } }
                     - { property: 'solicitudOpcion', type: 'hidden', type_options: { mapped: false } }
+                   

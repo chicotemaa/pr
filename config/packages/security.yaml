@@ -13,14 +13,10 @@ security:
     ROLE_MANAGER: ROLE_CLIENTE
 
     ROLE_SUCURSAL:
+      - ROLE_ENCARGADO
       - ROLE_USER
-      - ROLE_USER_CRUD
-      - ROLE_FORMULARIO
-      - ROLE_ITEM
-      - ROLE_MODULO
       - ROLE_OPCION
       - ROLE_ORDEN_TRABAJO
-      - ROLE_PROPIEDAD_ITEM
       - ROLE_SERVICIO
       - ROLE_SOLICITUD
       - ROLE_DASHBOARD
@@ -30,7 +26,6 @@ security:
       - ROLE_USER
       - ROLE_USER_CRUD
       - ROLE_GROUP
-      - ROLE_CARPETA
       - ROLE_CLIENTE
       - ROLE_CLIENTE_CRUD
       - ROLE_EMPLEADO
@@ -43,7 +38,6 @@ security:
       - ROLE_PAIS
       - ROLE_SERVICIO
       - ROLE_SOLICITUD
-      - ROLE_SUCURSAL
       - ROLE_DASHBOARD
     ROLE_SUPER_ADMIN: ROLE_ADMIN
 

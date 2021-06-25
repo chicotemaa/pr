@@ -9,12 +9,12 @@ easy_admin:
         templates:
             layout: 'easy_admin/layout.html.twig'
         menu:
-            - { label: 'Gestión de Trabajo' , permission: [ROLE_ADMIN, ROLE_ORDEN_TRABAJO, ROLE_SOLICITUD, ROLE_CARPETA, ROLE_DASHBOARD, ROLE_STAFF, ROLE_EMPLEADO, ROLE_FACILITY, ROLE_MANAGER] }
+            - { label: 'Gestión de Trabajo' , permission: [ROLE_ADMIN, ROLE_ORDEN_TRABAJO, ROLE_SOLICITUD, ROLE_ADMIN, ROLE_DASHBOARD, ROLE_STAFF, ROLE_EMPLEADO, ROLE_FACILITY, ROLE_MANAGER] }
             - { label: 'Dashboard', route: 'dashboard', icon: 'dashboard', permission: [ROLE_ADMIN, ROLE_DASHBOARD] }
             - { entity: 'OrdenTrabajo', label: 'Ordenes Trabajo', icon: 'briefcase', permission: [ROLE_ORDEN_TRABAJO] }
             - { entity: 'OrdenTrabajoCliente', label: 'Ordenes Trabajo', icon: 'briefcase', permission: [ROLE_STAFF, ROLE_FACILITY , ROLE_MANAGER] }
             - { entity: 'Solicitud', label: 'Solicitudes',default: true, icon: 'list', permission: [ROLE_SOLICITUD, ROLE_STAFF, ROLE_FACILITY, ROLE_MANAGER] }
-            - { entity: 'Carpeta', label: 'Carpetas', icon: 'folder', permission: [ROLE_CARPETA]}
+            - { entity: 'Carpeta', label: 'Carpetas', icon: 'folder', permission: [ROLE_ADMIN]}
             - { entity: 'Equipo', label: 'Equipos', icon: 'server', permission: [ROLE_ORDEN_TRABAJO, ROLE_CLIENTE_CRUD] }
             - { entity: 'FormularioResultadoExpress', permission: [ROLE_ADMIN] , label: 'Formularios Express', icon: 'business-time'}
             - { entity: 'formularioCompraMateriales', label: 'Compra de materiales', icon: 'shopping-cart', permission: [ROLE_ADMIN] }
