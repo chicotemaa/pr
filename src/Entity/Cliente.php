@@ -30,7 +30,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *          "get"={"method"="GET"}
  *  })
  */
-class Cliente implements iSucursalFilter
+class Cliente 
 {
     use GoogleAddress;
     use SoftDeleteableEntity;
@@ -104,10 +104,6 @@ class Cliente implements iSucursalFilter
      */
     private $cuit;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sucursal")
-     */
-    private $sucursal;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="cliente", cascade={"persist", "remove"})
@@ -133,16 +129,6 @@ class Cliente implements iSucursalFilter
      * @ORM\OneToMany(targetEntity="App\Entity\Equipo", mappedBy="cliente")
      */
     private $equipos;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $latitud;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $longitud;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SucursalDeCliente", mappedBy="Cliente")
@@ -171,6 +157,7 @@ class Cliente implements iSucursalFilter
 
     public function __toString()
     {
+        /* Prueba de Jira */
         try {
             return (string) $this->razonSocial.' '.$this->street; // If it is possible, return a string value from object.
          } catch (Exception $e) {
@@ -178,17 +165,7 @@ class Cliente implements iSucursalFilter
          }
     }
 
-    public function getSucursal(): ?Sucursal
-    {
-        return $this->sucursal;
-    }
 
-    public function setSucursal(?Sucursal $sucursal): self
-    {
-        $this->sucursal = $sucursal;
-
-        return $this;
-    }
 
     /**
      * @Assert\Callback
@@ -464,29 +441,6 @@ class Cliente implements iSucursalFilter
         return $this;
     }
 
-    public function getLatitud(): ?int
-    {
-        return $this->latitud;
-    }
-
-    public function setLatitud(?int $latitud): self
-    {
-        $this->latitud = $latitud;
-
-        return $this;
-    }
-
-    public function getLongitud(): ?int
-    {
-        return $this->longitud;
-    }
-
-    public function setLongitud(?int $longitud): self
-    {
-        $this->longitud = $longitud;
-
-        return $this;
-    }
 
     /**
      * @return Collection|SucursalDeCliente[]

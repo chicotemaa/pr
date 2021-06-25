@@ -9,6 +9,7 @@ Enabled: Activo
 Lastlogin: Ultimo ingreso
 Last login: Ultimo ingreso
 Plain password: Contraseña
+SucursalDeCliente: Sucursales
 Roles: Roles
 ROLE_SUPER_ADMIN: Superadministrador
 ROLE_ADMIN: Administrador
@@ -18,7 +19,6 @@ ROLE_CLIENTE: Cliente
 ROLE_USER: Usuario
 ROLE_USER_CRUD: Administrar usuarios
 ROLE_GROUP: Grupos
-ROLE_CARPETA: Carpetas
 ROLE_CLIENTE_CRUD: Administrar clientes
 ROLE_FORMULARIO: Formularios
 ROLE_ITEM: Campos Formulario
@@ -35,6 +35,7 @@ ROLE_DASHBOARD: Panel de Control / Dashboard
 ROLE_STAFF: Rol de encargado de sucursal
 ROLE_FACILITY: Rol de facility
 ROLE_MANAGER: Cliente empresa
+ROLE_ZONA: SEPARACION POR ZONA
 Nombre: Nombre
 Pagina: Página
 Modulo: Módulo

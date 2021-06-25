@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
  *  })
  */
 class SucursalDeCliente
-implements iClienteFilter, iFacilityFilter
+implements iSucursalFilter, iClienteFilter, iFacilityFilter
 {
     /**
      * @ORM\Id()
@@ -75,6 +75,21 @@ implements iClienteFilter, iFacilityFilter
      */
     private $facility;
 
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $latitud;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $longitud;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sucursal", inversedBy="sucursalDeClientes")
+     */
+    private $Sucursal;
+
 
     public function __construct()
     {
@@ -84,7 +99,7 @@ implements iClienteFilter, iFacilityFilter
     }
     public function __toString()
     {
-        return 'Cliente: ' . $this->Cliente . '| Direccion: ' . $this->direccion;
+        return $this->Cliente.' Direccion: ' . $this->direccion;
     }
     public function getId(): ?int
     {
@@ -230,6 +245,42 @@ implements iClienteFilter, iFacilityFilter
     public function setFacility(?Facility $facility): self
     {
         $this->facility = $facility;
+
+        return $this;
+    }
+
+    public function getLatitud(): ?string
+    {
+        return $this->latitud;
+    }
+
+    public function setLatitud(?string $latitud): self
+    {
+        $this->latitud = $latitud;
+
+        return $this;
+    }
+
+    public function getLongitud(): ?string
+    {
+        return $this->longitud;
+    }
+
+    public function setLongitud(?string $longitud): self
+    {
+        $this->longitud = $longitud;
+
+        return $this;
+    }
+
+    public function getSucursal(): ?Sucursal
+    {
+        return $this->Sucursal;
+    }
+
+    public function setSucursal(?Sucursal $Sucursal): self
+    {
+        $this->Sucursal = $Sucursal;
 
         return $this;
     }

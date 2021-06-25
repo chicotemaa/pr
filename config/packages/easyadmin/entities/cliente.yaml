@@ -15,7 +15,6 @@ easy_admin:
                     - 'apellido'
                     - 'nombre'
                     - 'razonSocial'
-                    - 'sucursal'
                     - 'ivaConditionString'
             edit:
                 item_permission: [ROLE_CLIENTE_CRUD]
@@ -35,7 +34,6 @@ easy_admin:
                     - property: 'fechaNacimiento'
                     - property: 'condicionIVA'
                     - property: 'cuit'
-                    - property: 'sucursal'
                     - property: 'correo'
                     - property: 'telefono'
                     - property: 'autocompleteAddress'
@@ -51,7 +49,6 @@ easy_admin:
                     - { property: 'fechaNacimiento', type_options: { widget: 'single_text' }, columns: 6 }
                     - { property: 'condicionIVA', type: 'choice', type_options: { choices: '%ivaConditionArray%' }, columns: 6 }
                     - { property: 'cuit', columns: 6 }
-                    - { property: 'sucursal', permission: ROLE_ENCARGADO, columns: 6 }
                     - { type: 'group', label: 'ContactInformation', icon: 'phone', columns: 12 }
                     - { property: 'correo', type: 'email', columns: 6 }
                     - { property: 'telefono', columns: 6 }

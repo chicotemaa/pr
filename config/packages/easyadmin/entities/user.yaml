@@ -36,7 +36,7 @@ easy_admin:
                         columns: 6
                         type_options:
                             multiple: true
-                            expanded: true
+                            expanded: false
                             choices: '%LISTA_ROLES%'
                 form_options: { validation_groups: ['Default', 'Profile'] }
             new:

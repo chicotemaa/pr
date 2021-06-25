@@ -1001,7 +1001,10 @@ class OrdenTrabajoController extends EasyAdminController
             $entity->setFacility($solicitud->getFacility());
             $entity->setSucursalDeCliente($solicitud->getSucursalDeCliente());
             $entity->setSolicitud($solicitud);
-            
+        
+        if ($this->isGranted('ROLE_SUCURSAL')) {
+            $entity->setSucursal($entity->getUser()->getSucursal());
+         }
 
             $this->request->getSession()->remove('solicitud_ot');
         }
@@ -1093,10 +1096,14 @@ class OrdenTrabajoController extends EasyAdminController
             $entity->setComentario($solicitud->getConsulta());
             $entity->setFacility($solicitud->getFacility());
             $entity->setSucursalDeCliente($solicitud->getSucursalDeCliente());
-            $entity->setSucursal($entity->getCliente()->getSucursal());
+            $entity->setSucursal($solicitud->getSucursal()); 
         }
+        if ($this->isGranted('ROLE_SUCURSAL')) {
+            $entity->setSucursal($this->getUser()->getSucursal());
+         }
 
         return $entity;
+        
     }
 
     public function cambiarEstadoGestionAction()
@@ -1340,7 +1347,6 @@ class OrdenTrabajoController extends EasyAdminController
             $valor = $request->request->get('valor');
             $resultadoExpress = $this->getDoctrine()->getRepository(FormularioResultado::class)->find($id);
             $resultadoExpress->setMinutosTrabajado($valor);
-
             $this->getDoctrine()->getManager()->flush();
         }
         return new JsonResponse(1);

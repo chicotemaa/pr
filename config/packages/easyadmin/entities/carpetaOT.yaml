@@ -8,7 +8,7 @@ easy_admin:
                 list:  'Carpeta/carpetaOT.html.twig'
             list:
                 max_results: 50
-                item_permission: [ROLE_CARPETA]
+                item_permission: [ROLE_ADMIN]
                 filters: 
                     - property: 'user'
                     - property: 'formulario'

@@ -4,11 +4,16 @@ easy_admin:
       class: App\Entity\SucursalDeCliente
       list:
         item_permission: [ROLE_PROPIEDAD_ITEM, ROLE_CLIENTE]
+        filters:
+          - property: 'Sucursal'
+          - property: 'Cliente'
+          - property: 'facility'
+                 
         fields:
           - id
           - codigo
+          - direccion
           - { property: 'Cliente', type: 'text' }
-          - users
           - facility
       edit:
         item_permission: [ROLE_CLIENTE]
@@ -16,15 +21,14 @@ easy_admin:
           - codigo
           - direccion
           - { property: 'Cliente' }
-          - users
           - facility
+          - Sucursal
       new:
         item_permission: [ROLE_PROPIEDAD_ITEM]
         fields:
           - codigo
           - direccion
           - { property: 'Cliente' }
-          - users
           - facility
       show:
         item_permission: [ROLE_CLIENTE]
