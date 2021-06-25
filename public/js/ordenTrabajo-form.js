@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    console.log(SucursalDecliente);
     fieldUserUrl();
     $("#ordentrabajo_horaInicio").change(function() {
         let Imunutos=document.getElementById('ordentrabajo_horaInicio').value;
