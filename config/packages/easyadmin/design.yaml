@@ -39,7 +39,7 @@ easy_admin:
             - { entity: 'Cliente', label: 'Clientes', icon: 'user', permission: [ROLE_CLIENTE_CRUD] }
             - { entity: 'Group', label: 'Groups', icon: 'users', permission: [ROLE_GROUP] }
             - { entity: 'Servicio', label: 'Servicios', icon: 'paper-plane', permission: [ROLE_SERVICIO] }
-            - { entity: 'Sucursal', label: 'Sucursales', icon: 'building', permission: [ROLE_SUCURSAL] }
+            - { entity: 'Sucursal', label: 'Sucursales', icon: 'building', permission: [ROLE_ADMIN] }
             - { entity: 'Pais', label: 'Países', icon: 'globe-americas', permission: [ROLE_PAIS] }
             - { entity: 'facilityCliente', label: ' Facility', icon: 'user', permission: [ROLE_MANAGER] }
             - { entity: 'UserCliente', label: 'Datos de Usuario', icon: 'user', permission: [ROLE_STAFF, ROLE_FACILITY, ROLE_MANAGER] }

@@ -100,7 +100,7 @@ implements iSucursalFilter, iClienteFilter, iFacilityFilter
     public function __toString()
     {
 
-        return $this->codigo.' || Direccion: ' . $this->direccion;
+        return $this->codigo.' || ' . $this->direccion;
 
     }
     public function getId(): ?int
