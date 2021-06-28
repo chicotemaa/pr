@@ -40,7 +40,7 @@ class RequestListener
             // Si es ROLE_STAFF filtrar  por cliente id
             // Si es ROLE_ENCARGADO filtrar por sucursal
 
-            if ($this->authorizationChecker->isGranted('ROLE_EMPLEADO', $user)&& (!$this->isGranted('ROLE_SUCURSAL')) {
+            if ($this->authorizationChecker->isGranted('ROLE_EMPLEADO', $user)&&) {
                 $filter = $this->em->getFilters()->enable('user_filter');
                 $filter->setParameter('user_id', $user->getId());
             } elseif ($this->authorizationChecker->isGranted('ROLE_MANAGER', $user)) {
