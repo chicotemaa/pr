@@ -3,7 +3,7 @@ easy_admin:
         Sucursal:
             class: App\Entity\Sucursal
             list:
-                item_permission: [ROLE_FORMULARIO]
+                item_permission: [ROLE_ADMIN]
                 filters:
                     - property: 'nombre'
                     - property: 'pais'
@@ -14,15 +14,15 @@ easy_admin:
                     - { property: 'imageCabecera', label: 'Imagen cabecera', type: 'image', base_path: '%imagenes_sucursal%'}
                     - { property: 'imagePie', label: 'Imagen Pie',type: 'image', base_path: '%imagenes_sucursal%'} 
             edit:
-                item_permission: [ROLE_FORMULARIO]
+                item_permission: [ROLE_ADMIN]
             new:
-                item_permission: [ROLE_FORMULARIO]
+                item_permission: [ROLE_ADMIN]
             show:
-                item_permission: [ROLE_FORMULARIO]
+                item_permission: [ROLE_ADMIN]
             delete:
-                item_permission: [ROLE_FORMULARIO]
+                item_permission: [ROLE_ADMIN]
             search:
-                item_permission: [ROLE_FORMULARIO]
+                item_permission: [ROLE_ADMIN]
             form:
                 fields:
                     - { property: 'nombre' }

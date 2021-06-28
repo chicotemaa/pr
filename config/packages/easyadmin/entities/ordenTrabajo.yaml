@@ -42,7 +42,7 @@ easy_admin:
                     #- { property: 'formularioResultado.minutosTrabajado', format: 'H:i', label: 'Minutos trabajados' }
                     - { property: 'cliente', type: 'string' }
                     - { property: 'SucursalDeCliente', type: 'text', columns: 6 }
-                    - { property: 'Facility', type: 'text', columns: 6 }                    
+                    #- { property: 'Facility', type: 'text', columns: 6 }                    
                     # - { property: 'motivo', label: 'Postergado por' }
                 actions:
                     - { name: 'show',  icon: 'search', label: '' }
@@ -66,7 +66,7 @@ easy_admin:
                     - { property: 'fechaCompleta', columns: 6 }
                     - { property: 'motivo', columns: 6, label: 'Postergado por' }
                     - { property: 'createdAt', label: 'Creado', columns: 6, format: 'd/m/Y H:i' }
-                    - { property: 'solicitud.servicio', label: 'Solicitud asociada', columns: 6 }
+                    #- { property: 'solicitud.servicio', label: 'Solicitud asociada', columns: 6 }
                     - { property: 'imageName', type: 'image', label: 'Firma', base_path: 'uploads/imagenes/resultado/', columns: 6 }
                     - { property: 'responsableFirma', label: 'Firma del responsable', columns: 6 }
                     - { property: 'comentario' }
