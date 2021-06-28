@@ -40,9 +40,9 @@ easy_admin:
                     #- { property: 'horaInicio', format: 'H:i' }
                     #- { property: 'horaFin', format: 'H:i' }
                     #- { property: 'formularioResultado.minutosTrabajado', format: 'H:i', label: 'Minutos trabajados' }
+                    - { property: 'cliente', type: 'string' }
                     - { property: 'SucursalDeCliente', type: 'text', columns: 6 }
                     - { property: 'Facility', type: 'text', columns: 6 }                    
-                    - { property: 'cliente', type: 'string' }
                     # - { property: 'motivo', label: 'Postergado por' }
                 actions:
                     - { name: 'show',  icon: 'search', label: '' }
@@ -92,14 +92,14 @@ easy_admin:
                 item_permission: [ROLE_ORDEN_TRABAJO]
                 fields:
                     - { type: 'group', label: 'Information', css_class: 'col-md-8'}
+                    - { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }  }                   
+                    - { property: 'SucursalDeCliente', label: 'Sucursal de Cliente', type_options: { required: true } }
+                    - { property: 'Facility', label: 'Facility', type_options: { required: true } }
                     - { property: 'formulario', css_class: 'col-md-8', type_options: { required: true } }
+                    - { property: 'user', label: 'Tecnico asignado' }
                     - { property: 'orden', css_class: 'col-md-4' }
                     - { property: 'servicio', css_class: 'col-md-4' }
                     - { property: 'sucursal', type_options: { required: true }, permission: [ROLE_ADMIN] }
-                    - { property: 'user', label: 'Tecnico' }
-                    - { property: 'SucursalDeCliente', label: 'Sucursal de Cliente', type_options: { required: true } }
-                    - { property: 'Facility', label: 'Facility', type_options: { required: true } }
-                    - { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }  }                   
                     - { property: 'comentario' }
                     - { property: 'estado', type: 'choice', type_options: { choices: '%otEstadoArray%' } }
                     - { type: 'group', label: 'Date', css_class: 'col-md-4' }
