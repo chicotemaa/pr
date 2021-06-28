@@ -13,6 +13,7 @@ security:
     ROLE_MANAGER: ROLE_CLIENTE
 
     ROLE_SUCURSAL:
+      - ROLE_EMPLEADO    
       - ROLE_ENCARGADO
       - ROLE_USER
       - ROLE_OPCION
