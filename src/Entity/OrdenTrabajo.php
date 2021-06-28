@@ -90,7 +90,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ordenTrabajo")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL", nullable=false)
      */
     private $user;
 
