@@ -40,7 +40,11 @@ class RequestListener
             // Si es ROLE_STAFF filtrar  por cliente id
             // Si es ROLE_ENCARGADO filtrar por sucursal
 
-            if ($this->authorizationChecker->isGranted('ROLE_EMPLEADO', $user)) {
+            if ($this->authorizationChecker->isGranted('ROLE_SUCURSAL', $user)) {
+                $filter = $this->em->getFilters()->enable('sucursal_filter');
+                $filter->setParameter('sucursal_id', $user->getSucursal()->getId());    
+            }
+            elseif ($this->authorizationChecker->isGranted('ROLE_EMPLEADO', $user)) {
                 $filter = $this->em->getFilters()->enable('user_filter');
                 $filter->setParameter('user_id', $user->getId());
             } elseif ($this->authorizationChecker->isGranted('ROLE_MANAGER', $user)) {
@@ -52,10 +56,6 @@ class RequestListener
             } elseif ($this->authorizationChecker->isGranted('ROLE_STAFF', $user)) {
                 $filter = $this->em->getFilters()->enable('sucursal_cliente_filter');
                 $filter->setParameter('sucursal_de_cliente_id', $user->getSucursalDeCliente()->getId());
-            } if ($this->authorizationChecker->isGranted('ROLE_SUCURSAL', $user)) {
-                $filter = $this->em->getFilters()->disable('user_filter');
-                $filter = $this->em->getFilters()->enable('sucursal_filter');
-                $filter->setParameter('sucursal_id', $user->getSucursal()->getId());    
             }
         }
     }

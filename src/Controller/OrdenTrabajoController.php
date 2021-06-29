@@ -323,7 +323,7 @@ class OrdenTrabajoController extends EasyAdminController
 
                 $textrun->addText(
                     htmlspecialchars(
-                        ' '.$ordenTrabajo->getCliente()->getStreet().' \n '
+                        ' '.$ordenTrabajo->getSucursalDeCliente()->getDireccion().' \n '
                     )
                 );
                 $tablaCliente->addRow();
@@ -665,7 +665,7 @@ class OrdenTrabajoController extends EasyAdminController
             $sheet->setCellValue('B2', $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.cliente'));
             $sheet->setCellValue('C2', $ordenTrabajo->getCliente());
             $sheet->setCellValue('B3', $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.direccion'));
-            $sheet->setCellValue('C3', $ordenTrabajo->getCliente()->getStreet());
+            $sheet->setCellValue('C3', $ordenTrabajo->getSucursalDeCliente()->getDireccion());
             $sheet->setCellValue('B4', $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.correo'));
             $sheet->setCellValue('C4', $ordenTrabajo->getCliente()->getCorreo());
             $sheet->setCellValue('B5', $this->get(TranslatorInterface::class)->trans('Fecha de envío del formulario'));
