@@ -246,7 +246,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="ordenTrabajos")
-    * @Groups({"read","write"})
+    * @Groups({"read","write","readList","writeList"})
      */
     private $SucursalDeCliente;
 
