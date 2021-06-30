@@ -16,26 +16,6 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
  * @AppAssert\UserConstraint
- * @ApiResource(
- *    attributes={
- *     "normalization_context"={"groups"={"readRegistration"}},
- *     "denormalization_context"={"groups"={"writeRegistration"}}
- *     },
- *   collectionOperations = {
- *          "post"={
- *                  "method"="POST",
- *                  "controller" = "App\Action\UserRegistration"
- *          },
- *           "getUserInfo"={
- *              "method"="GET",
- *              "path"="/user/info",
- *              "controller" = "App\Action\UserInfo",
- *              "normalization_context"={"groups"={"userInfo"}}
- *          }
- *    },
- *    itemOperations={
- *           "get"={"method"="GET"}
- *     })
  */
 class UserCliente extends BaseUser   
  implements  iClienteFilter , iFacilityFilter , iSucursalClienteFilter

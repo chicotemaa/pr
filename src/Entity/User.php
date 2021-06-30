@@ -84,6 +84,7 @@ class User extends BaseUser
      */
     protected $username;
 
+
     /**
      * @Groups({"readRegistration", "writeRegistration"})
      */
@@ -205,6 +206,7 @@ class User extends BaseUser
 
         return $this;
     }
+    
 
     public function getSucursalDeCliente(): ?SucursalDeCliente
     {
