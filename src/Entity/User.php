@@ -84,6 +84,10 @@ class User extends BaseUser
      */
     protected $username;
 
+    /**
+     * @Groups({"readRegistration", "userInfo"})
+     */
+    protected $roles;
 
     /**
      * @Groups({"readRegistration", "writeRegistration"})
