@@ -1188,7 +1188,7 @@ class OrdenTrabajoController extends EasyAdminController
             $sheet->setCellValue('C'.$i, $titulo);
             $sheet->setCellValue('D'.$i, $ordenTrabajo->getUser()->getUserName());
             $sheet->setCellValue('E'.$i, $ordenTrabajo->getEstado());
-            $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha());
+            $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha()->format('d-m-Y H:i'));
 
             $horaInicio = ($ordenTrabajo->getHoraInicio())
                 ? $ordenTrabajo->getHoraInicio()->format('H:i') : '';
@@ -1243,7 +1243,7 @@ class OrdenTrabajoController extends EasyAdminController
                 $sheet->setCellValue('D'.$i, $ordenTrabajo->getUser()->getUserName());
             }
             $sheet->setCellValue('E'.$i, $ordenTrabajo->getEstado());
-            $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha());
+            $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha()->format('d-m-Y H:i'));
 
             $horaInicio = ($ordenTrabajo->getHoraInicio())
                 ? $ordenTrabajo->getHoraInicio()->format('H:i') : '';
