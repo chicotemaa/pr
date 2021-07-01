@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Cliente;
+use App\Entity\SucursalDeCliente;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,4 +33,35 @@ class ClienteController extends EasyAdminController
             'results' => $results,
         ]);
     }
+
+
+    /**
+    * @Route("/admin/facility/by/sucursaldecliente")
+    */
+   public function userSinLoggedUserSucursal(Request $request)
+   {
+       $this->request = $request;
+       $term = $this->request->query->get('query');
+       $session = $this->request->getSession();
+       $em = $this->getDoctrine()->getManager();
+
+       $sucursal = $this->isGranted('ROLE_ADMIN') ? null : $session->get('user_cliente', null);
+
+       $users = $em->getRepository(SucursalDeCliente::class)->findByFacility($term, $sucursal);
+       
+       $results = [];
+       foreach ($users as $key => $user) {
+           $results[] = [
+               
+               'cliente'=>$user->getId()
+               
+           ];
+       }
+
+       return new JsonResponse([
+           'results' => $results,
+       ]);
+   }
+
+
 }
