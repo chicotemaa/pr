@@ -76,7 +76,7 @@ easy_admin:
                 item_permission: [ROLE_ORDEN_TRABAJO]
                 fields:
                     - '-estado'
-                    - { property: 'SucursalDeCliente' , type_options: { attr: { required: true, create: true } }, columns: 12 }
+                    - { property: 'SucursalDeCliente' ,  columns: 12 }
                     - { property: 'Facility', type: 'easyadmin_autocomplete', type_options: { attr: { required: false, create: true } }, columns: 12 }
                     - { property: 'user', label: 'Tecnico asignado' , type_options: { required: true }}
                     #- { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }

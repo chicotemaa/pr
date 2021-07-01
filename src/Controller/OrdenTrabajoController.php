@@ -1173,13 +1173,17 @@ class OrdenTrabajoController extends EasyAdminController
 
             $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
             $cliente = ($ordenTrabajo->getSucursalDeCliente())
-                ? $ordenTrabajo->getSucursalDeCliente()->getId() : '';
+
+                ? $ordenTrabajo->getSucursalDeCliente()->getDireccion() : '';
+            $Razon = ($ordenTrabajo->getCliente())
+                ? $ordenTrabajo->getCliente()->getRazonSocial() : '';
+
             $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
             $fileName = 'lista.xls';
 
             //$spreadsheet = new Spreadsheet();
 
-            foreach(range('B','L') as $columnID) {
+            foreach(range('B','M') as $columnID) {
                 $sheet->getColumnDimension($columnID)
                     ->setAutoSize(true);
             }
@@ -1188,7 +1192,8 @@ class OrdenTrabajoController extends EasyAdminController
             $sheet->setCellValue('C'.$i, $titulo);
             $sheet->setCellValue('D'.$i, $ordenTrabajo->getUser()->getUserName());
             $sheet->setCellValue('E'.$i, $ordenTrabajo->getEstado());
-            $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha()->format('d-m-Y H:i'));
+
+            $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha()->format('d-m-Y'));
 
             $horaInicio = ($ordenTrabajo->getHoraInicio())
                 ? $ordenTrabajo->getHoraInicio()->format('H:i') : '';
@@ -1202,8 +1207,9 @@ class OrdenTrabajoController extends EasyAdminController
                 $sheet->setCellValue('I'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
             }
             $sheet->setCellValue('J'.$i, $cliente);
-            $sheet->setCellValue('K'.$i, $ordenTrabajo->getLongitud());
-            $sheet->setCellValue('L'.$i, $ordenTrabajo->getLatitud());
+            $sheet->setCellValue('K'.$i, $Razon);
+            $sheet->setCellValue('L'.$i, $ordenTrabajo->getLongitud());
+            $sheet->setCellValue('M'.$i, $ordenTrabajo->getLatitud());
 
             $i++;
         }
@@ -1226,13 +1232,17 @@ class OrdenTrabajoController extends EasyAdminController
         foreach ($ordenes as $valor){
             $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
             $cliente = ($ordenTrabajo->getSucursalDeCliente())
-                ? $ordenTrabajo->getSucursalDeCliente()->getId() : '';
+
+                ? $ordenTrabajo->getSucursalDeCliente()->getDireccion() : '';
+            $Razon = ($ordenTrabajo->getCliente())
+                ? $ordenTrabajo->getCliente()->getRazonSocial() : '';
+
             $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
             $fileName = 'lista.xls';
 
             //$spreadsheet = new Spreadsheet();
 
-            foreach(range('B','L') as $columnID) {
+            foreach(range('B','M') as $columnID) {
                 $sheet->getColumnDimension($columnID)
                     ->setAutoSize(true);
             }
@@ -1243,7 +1253,9 @@ class OrdenTrabajoController extends EasyAdminController
                 $sheet->setCellValue('D'.$i, $ordenTrabajo->getUser()->getUserName());
             }
             $sheet->setCellValue('E'.$i, $ordenTrabajo->getEstado());
-            $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha()->format('d-m-Y H:i'));
+
+            $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha()->format('d-m-Y'));
+
 
             $horaInicio = ($ordenTrabajo->getHoraInicio())
                 ? $ordenTrabajo->getHoraInicio()->format('H:i') : '';
@@ -1257,8 +1269,9 @@ class OrdenTrabajoController extends EasyAdminController
                 $sheet->setCellValue('I'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
             }
             $sheet->setCellValue('J'.$i, $cliente);
-            $sheet->setCellValue('K'.$i, $ordenTrabajo->getLongitud());
-            $sheet->setCellValue('L'.$i, $ordenTrabajo->getLatitud());
+            $sheet->setCellValue('K'.$i, $Razon);
+            $sheet->setCellValue('L'.$i, $ordenTrabajo->getLongitud());
+            $sheet->setCellValue('M'.$i, $ordenTrabajo->getLatitud());
 
             $i++;
         }
