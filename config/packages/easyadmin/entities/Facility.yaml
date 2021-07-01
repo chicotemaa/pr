@@ -5,6 +5,7 @@ easy_admin:
             list:
                 item_permission: [ROLE_ITEM, ROLE_MANAGER]
                 filters:
+                    - { property: 'id', label: 'ID' }
                     - property: 'nombre'
                     - property: 'Cliente'
                     - property: 'sucursalDeClientes'
