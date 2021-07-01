@@ -1172,8 +1172,8 @@ class OrdenTrabajoController extends EasyAdminController
         foreach ($this->ordenExcel as $valor){
 
             $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
-            $cliente = ($ordenTrabajo->getCliente())
-                ? $ordenTrabajo->getCliente()->getId() : '';
+            $cliente = ($ordenTrabajo->getSucursalDeClientes())
+                ? $ordenTrabajo->getSucursalDeClientes()->getId() : '';
             $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
             $fileName = 'lista.xls';
 
@@ -1225,8 +1225,8 @@ class OrdenTrabajoController extends EasyAdminController
         $sheet = $spreadsheet->getActiveSheet();
         foreach ($ordenes as $valor){
             $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
-            $cliente = ($ordenTrabajo->getCliente())
-                ? $ordenTrabajo->getCliente()->getId() : '';
+            $cliente = ($ordenTrabajo->getSucursalDeClientes())
+                ? $ordenTrabajo->getSucursalDeClientes()->getId() : '';
             $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
             $fileName = 'lista.xls';
 
