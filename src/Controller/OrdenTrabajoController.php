@@ -1173,9 +1173,11 @@ class OrdenTrabajoController extends EasyAdminController
 
             $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
             $cliente = ($ordenTrabajo->getSucursalDeCliente())
+
                 ? $ordenTrabajo->getSucursalDeCliente()->getDireccion() : '';
             $razon = ($ordenTrabajo->getCliente())
                 ? $ordenTrabajo->getCliente()->getRazonSocial() : '';
+
             $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
             $fileName = 'lista.xls';
 
@@ -1190,6 +1192,7 @@ class OrdenTrabajoController extends EasyAdminController
             $sheet->setCellValue('C'.$i, $titulo);
             $sheet->setCellValue('D'.$i, $ordenTrabajo->getUser()->getUserName());
             $sheet->setCellValue('E'.$i, $ordenTrabajo->getEstado());
+
             $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha()->format('d-m-Y'));
 
             $horaInicio = ($ordenTrabajo->getHoraInicio())
@@ -1229,9 +1232,11 @@ class OrdenTrabajoController extends EasyAdminController
         foreach ($ordenes as $valor){
             $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
             $cliente = ($ordenTrabajo->getSucursalDeCliente())
+
                 ? $ordenTrabajo->getSucursalDeCliente()->getDireccion() : '';
             $razon = ($ordenTrabajo->getCliente())
                 ? $ordenTrabajo->getCliente()->getRazonSocial() : '';
+
             $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
             $fileName = 'lista.xls';
 
@@ -1248,7 +1253,9 @@ class OrdenTrabajoController extends EasyAdminController
                 $sheet->setCellValue('D'.$i, $ordenTrabajo->getUser()->getUserName());
             }
             $sheet->setCellValue('E'.$i, $ordenTrabajo->getEstado());
+
             $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha()->format('d-m-Y'));
+
 
             $horaInicio = ($ordenTrabajo->getHoraInicio())
                 ? $ordenTrabajo->getHoraInicio()->format('H:i') : '';
