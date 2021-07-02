@@ -36,8 +36,8 @@ $(document).ready(function(){
             //let facility = $("#ordentrabajo_Facility").val('4');
             let idcliente= r.results.clienteId;
             let idfacility= r.results.facilityId;
-            $('#ordentrabajo_Facility').html(idfacility);
-            $('#ordentrabajo_cliente').html(idcliente);
+            //$('#ordentrabajo_Facility').html(idfacility);
+            //$('#ordentrabajo_cliente').html(idcliente);
             //document.getElementById("ordentrabajo_Facility span").setAttribute('title',idfacility)
             console.log(document.getElementById("ordentrabajo_Facility"));
             console.log(document.getElementById("ordentrabajo_cliente"));
