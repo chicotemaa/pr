@@ -1230,7 +1230,7 @@ class OrdenTrabajoController extends EasyAdminController
             $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
             $cliente = ($ordenTrabajo->getSucursalDeCliente())
                 ? $ordenTrabajo->getSucursalDeCliente()->getDireccion() : '';
-            $Razon = ($ordenTrabajo->getCliente())
+            $razon = ($ordenTrabajo->getCliente())
                 ? $ordenTrabajo->getCliente()->getRazonSocial() : '';
             $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
             $fileName = 'lista.xls';
@@ -1262,7 +1262,7 @@ class OrdenTrabajoController extends EasyAdminController
                 $sheet->setCellValue('I'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
             }
             $sheet->setCellValue('J'.$i, $cliente);
-            $sheet->setCellValue('K'.$i, $Razon);
+            $sheet->setCellValue('K'.$i, $razon);
             $sheet->setCellValue('L'.$i, $ordenTrabajo->getLongitud());
             $sheet->setCellValue('M'.$i, $ordenTrabajo->getLatitud());
 
@@ -1292,7 +1292,7 @@ class OrdenTrabajoController extends EasyAdminController
 
             //$spreadsheet = new Spreadsheet();
 
-            foreach(range('B','L') as $columnID) {
+            foreach(range('B','M') as $columnID) {
                 $sheet->getColumnDimension($columnID)
                     ->setAutoSize(true);
             }
@@ -1317,9 +1317,9 @@ class OrdenTrabajoController extends EasyAdminController
                 $sheet->setCellValue('I'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
             }
             $sheet->setCellValue('J'.$i, $cliente);
-            $sheet->setCellValue('K'.$i, $ordenTrabajo->getLongitud());
-            $sheet->setCellValue('L'.$i, $ordenTrabajo->getLatitud());
-
+            $sheet->setCellValue('K'.$i, $razon);
+            $sheet->setCellValue('L'.$i, $ordenTrabajo->getLongitud());
+            $sheet->setCellValue('M'.$i, $ordenTrabajo->getLatitud());
             $i++;
         }
 
