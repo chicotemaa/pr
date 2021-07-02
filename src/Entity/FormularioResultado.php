@@ -133,6 +133,12 @@ class FormularioResultado
      */
     private $minutosTrabajado;
 
+     /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"writeFormularioResultado","readFormularioResultado"})
+     */
+    private $minutosReales;
+
     public function __construct()
     {
         $this->resultados = new ArrayCollection();
@@ -345,6 +351,18 @@ class FormularioResultado
     public function setMinutosTrabajado(?int $minutosTrabajado): self
     {
         $this->minutosTrabajado = $minutosTrabajado;
+
+        return $this;
+    }
+
+    public function getminutosReales(): ?int
+    {
+        return $this->minutosReales;
+    }
+
+    public function setminutosReales(?int $minutosReales): self
+    {
+        $this->minutosTrabajado = $minutosReales;
 
         return $this;
     }

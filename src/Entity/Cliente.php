@@ -106,7 +106,7 @@ class Cliente
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="cliente", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="cliente", cascade={"persist"})
      */
     private $user;
 

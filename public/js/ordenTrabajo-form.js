@@ -1,5 +1,9 @@
+
+
 $(document).ready(function(){
-    console.log(SucursalDecliente);
+    
+    document.ready = document.getElementById("ordentrabajo_Facility").style.display
+    var facility=document.getElementById('ordentrabajo_facility');
     fieldUserUrl();
     $("#ordentrabajo_horaInicio").change(function() {
         let Imunutos=document.getElementById('ordentrabajo_horaInicio').value;
@@ -20,7 +24,28 @@ $(document).ready(function(){
         
     });
     $("#ordentrabajo_SucursalDeCliente").change(function() {
-       console.log(SucursalDecliente.value);
+       let id=SucursalDecliente.value;
+       let datos={
+        'id':parseInt(id)}
+       $.ajax({
+        "type": "POST" ,
+        "url": "/admin/facility/by/sucursaldecliente",
+        "data":datos,
+        success:function(r){
+            console.log(r.results.cliente)
+            //let facility = $("#ordentrabajo_Facility").val('4');
+            let idcliente= r.results.clienteId;
+            let idfacility= r.results.facilityId;
+            $('#ordentrabajo_Facility').html(idfacility);
+            $('#ordentrabajo_cliente').html(idcliente);
+            //document.getElementById("ordentrabajo_Facility span").setAttribute('title',idfacility)
+            console.log(document.getElementById("ordentrabajo_Facility"));
+            console.log(document.getElementById("ordentrabajo_cliente"));
+            console.log($('#ordentrabajo_Facility'));
+
+            
+        }
+    }) 
     })
 });
 

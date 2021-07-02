@@ -41,22 +41,21 @@ class ClienteController extends EasyAdminController
    public function userSinLoggedUserSucursal(Request $request)
    {
        $this->request = $request;
-       $term = $this->request->query->get('query');
+       $id = $request->request->get('id');
        $session = $this->request->getSession();
        $em = $this->getDoctrine()->getManager();
+        dump($id);
+       //$sucursal = $this->isGranted('ROLE_ADMIN') ? null : $session->get('user_cliente', null);
 
-       $sucursal = $this->isGranted('ROLE_ADMIN') ? null : $session->get('user_cliente', null);
+       $sucursalDeCliente = $this->getDoctrine()->getRepository(SucursalDeCliente::class)->find($id);
+       //$ordenTrabajo =  $this->getDoctrine()->getRepository(OrdenTrabajo::class)->find($idOrden);
 
-       $users = $em->getRepository(SucursalDeCliente::class)->findByFacility($term, $sucursal);
-       
-       $results = [];
-       foreach ($users as $key => $user) {
-           $results[] = [
-               
-               'cliente'=>$user->getId()
-               
+           $results = [
+               'cliente'=>$sucursalDeCliente->getCliente()->__toString(),
+               'clienteId'=>$sucursalDeCliente->getCliente()->getId(),
+               'facility'=>$sucursalDeCliente->getFacility()->__toString(),
+               'facilityId'=>$sucursalDeCliente->getFacility()->getId()
            ];
-       }
 
        return new JsonResponse([
            'results' => $results,
