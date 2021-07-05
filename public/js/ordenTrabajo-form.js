@@ -36,13 +36,10 @@ $(document).ready(function(){
             //let facility = $("#ordentrabajo_Facility").val('4');
             let idcliente= r.results.clienteId;
             let idfacility= r.results.facilityId;
-            //$('#ordentrabajo_Facility').html(idfacility);
-            //$('#ordentrabajo_cliente').html(idcliente);
-            //document.getElementById("ordentrabajo_Facility span").setAttribute('title',idfacility)
+            $('#ordentrabajo_Facility').val(idfacility);
+            $('#ordentrabajo_cliente').val(idcliente);
             console.log(document.getElementById("ordentrabajo_Facility"));
             console.log(document.getElementById("ordentrabajo_cliente"));
-            console.log($('#ordentrabajo_Facility'));
-
             
         }
     }) 
