@@ -44,7 +44,6 @@ class ClienteController extends EasyAdminController
        $id = $request->request->get('id');
        $session = $this->request->getSession();
        $em = $this->getDoctrine()->getManager();
-        dump($id);
        //$sucursal = $this->isGranted('ROLE_ADMIN') ? null : $session->get('user_cliente', null);
 
        $sucursalDeCliente = $this->getDoctrine()->getRepository(SucursalDeCliente::class)->find($id);
