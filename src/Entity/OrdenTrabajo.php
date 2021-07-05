@@ -128,7 +128,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
      * @var string
      *
      * @ORM\Column(name="latitud", type="string", length=255, nullable=true)
-     * @Groups({"read","write"})
+     * @Groups({"read","write","readList","writeList"})
      */
     private $latitud;
 
@@ -136,7 +136,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
      * @var string
      *
      * @ORM\Column(name="longitud", type="string", length=255, nullable=true)
-     * @Groups({"read","write"})
+     * @Groups({"read","write","readList","writeList"})
      */
     private $longitud;
 
@@ -208,13 +208,13 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"write","read"})
+     * @Groups({"read","write","readList","writeList"})
      */
     private $responsableFirma;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"write","read","readList"})
+     * @Groups({"read","write","readList","writeList"})
      */
     private $comentario;
 
@@ -227,13 +227,13 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"read","write"})
+     * @Groups({"read","write","readList","writeList"})
      */
     private $latitudCierre;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"read","write"})
+     * @Groups({"read","write","readList","writeList"})
      */
     private $longitudCierre;
 
