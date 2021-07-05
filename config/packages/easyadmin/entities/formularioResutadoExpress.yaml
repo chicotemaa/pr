@@ -19,7 +19,8 @@ easy_admin:
                 - { property: 'fecha', format: 'd/m/Y' }
                 - { property: 'cliente', type: 'string' }
                 - { property: 'horaInicio', columns: 6, format: 'H:i' }
-                - { property: 'horaFin', columns: 6, format: 'H:i' }
+                - { property: 'updatedAt', label: 'Hora fin', columns: 6, format: 'H:i' }
+                - { property: 'minutosTrabajado'}
                 dql_filter: 'entity.compraMateriales is NULL'
                 actions:
                     - { name: 'show',  icon: 'search', label: '' }

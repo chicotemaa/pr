@@ -105,7 +105,7 @@ implements iClienteFilter
     }
     public function __toString()
     {
-        return  'Nombre: ' .$this->nombre.' '.$this->apellido.'| '.$this->Cliente;
+        return  $this->nombre.' '.$this->apellido.'| '.$this->Cliente;
     }
 
     public function getId(): ?int

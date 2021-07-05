@@ -8,13 +8,15 @@ easy_admin:
                 show: 'FormularioResultadoExpress/show.html.twig'
             list:
                 title: "Formularios - Compra de Materiales"
-                item_permission: [ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ORDEN_TRABAJO, ROLE_SUCURSAL]
                 fields:
                 - 'id'
                 - { property: 'formulario', type: 'text'}
                 - { property: 'user', type: 'text'}
                 - { property: 'estado', label: 'Estado', template: 'FormularioResultadoExpress/estadoCompraMateriales.html.twig'  }
                 - { property: 'horaInicio', columns: 6, format: 'H:i' }
+                - { property: 'updatedAt', label: 'Hora fin', columns: 6, format: 'H:i' }
+                - { property: 'minutosTrabajado'}
                 - { property: 'fecha', format: 'd/m/Y' }
                 dql_filter: 'entity.compraMateriales is not NULL'
                 actions:
@@ -28,7 +30,7 @@ easy_admin:
                       type: 'App\Form\Filter\EstadoFilterType'
                       mapped: false
                 show:
-                    item_permission: [ROLE_ORDEN_TRABAJO]
+                    item_permission: [ROLE_ORDEN_TRABAJO, ROLE_SUCURSAL]
                     fields:
                         - { property: 'id', columns: 6 }
                         - { property: 'user', type: 'text', columns: 6 }

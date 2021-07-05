@@ -106,7 +106,7 @@ class Cliente
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="cliente", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="cliente", cascade={"persist"})
      */
     private $user;
 
@@ -159,7 +159,7 @@ class Cliente
     {
         /* Prueba de Jira */
         try {
-            return (string) $this->razonSocial.' '.$this->street; // If it is possible, return a string value from object.
+            return (string) $this->razonSocial; // If it is possible, return a string value from object.
          } catch (Exception $e) {
             return get_class($this).'@'.spl_object_hash($this); // If it is not possible, return a preset string to identify instance of object, e.g.
          }

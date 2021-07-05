@@ -16,8 +16,8 @@ easy_admin:
             - { entity: 'Solicitud', label: 'Solicitudes',default: true, icon: 'list', permission: [ROLE_SOLICITUD, ROLE_STAFF, ROLE_FACILITY, ROLE_MANAGER] }
             - { entity: 'Carpeta', label: 'Carpetas', icon: 'folder', permission: [ROLE_ADMIN]}
             - { entity: 'Equipo', label: 'Equipos', icon: 'server', permission: [ROLE_ORDEN_TRABAJO, ROLE_CLIENTE_CRUD] }
-            - { entity: 'FormularioResultadoExpress', permission: [ROLE_ADMIN] , label: 'Formularios Express', icon: 'business-time'}
-            - { entity: 'formularioCompraMateriales', label: 'Compra de materiales', icon: 'shopping-cart', permission: [ROLE_ADMIN] }
+            - { entity: 'FormularioResultadoExpress', permission: [ROLE_ADMIN, ROLE_SUCURSAL] , label: 'Formularios Express', icon: 'business-time'}
+            - { entity: 'formularioCompraMateriales', label: 'Compra de materiales', icon: 'shopping-cart', permission: [ROLE_ADMIN,ROLE_SUCURSAL] }
             - label: 'Papelera'
               icon: 'trash-alt' 
               permission: [ROLE_ADMIN, ROLE_STAFF,ROLE_FACILITY , ROLE_MANAGER]
@@ -39,7 +39,7 @@ easy_admin:
             - { entity: 'Cliente', label: 'Clientes', icon: 'user', permission: [ROLE_CLIENTE_CRUD] }
             - { entity: 'Group', label: 'Groups', icon: 'users', permission: [ROLE_GROUP] }
             - { entity: 'Servicio', label: 'Servicios', icon: 'paper-plane', permission: [ROLE_SERVICIO] }
-            - { entity: 'Sucursal', label: 'Sucursales', icon: 'building', permission: [ROLE_SUCURSAL] }
+            - { entity: 'Sucursal', label: 'Sucursales', icon: 'building', permission: [ROLE_ADMIN] }
             - { entity: 'Pais', label: 'Países', icon: 'globe-americas', permission: [ROLE_PAIS] }
             - { entity: 'facilityCliente', label: ' Facility', icon: 'user', permission: [ROLE_MANAGER] }
             - { entity: 'UserCliente', label: 'Datos de Usuario', icon: 'user', permission: [ROLE_STAFF, ROLE_FACILITY, ROLE_MANAGER] }
