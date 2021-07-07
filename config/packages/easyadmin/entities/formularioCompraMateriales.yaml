@@ -6,9 +6,11 @@ easy_admin:
             title: "Formularios - Compra de Materiales"
             templates:
                 show: 'FormularioResultadoExpress/show.html.twig'
+                list: 'FormularioResultadoExpress/list.html.twig'
             list:
                 title: "Formularios - Compra de Materiales"
                 item_permission: [ROLE_ORDEN_TRABAJO, ROLE_SUCURSAL]
+                batch_actions: ['exportar']
                 fields:
                 - 'id'
                 #- { property: 'formulario', type: 'text'}
