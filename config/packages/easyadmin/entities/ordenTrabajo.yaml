@@ -10,8 +10,9 @@ easy_admin:
                 show: 'OrdenTrabajo/show.html.twig'
                 list: 'OrdenTrabajo/list.html.twig'
             list:
+                max_results: 30
                 item_permission: [ROLE_ORDEN_TRABAJO, ROLE_SUCURSAL]
-                batch_actions: ['exportar']
+                batch_actions: ['exportar','delete']
 
                 filters:
                     - property: 'user'
@@ -71,7 +72,7 @@ easy_admin:
                     - { property: 'responsableFirma', label: 'Firma del responsable', columns: 6 }
                     - { property: 'comentario' }
                     - { property: 'firma' , label: 'Ultima Edicion de Formulario'}
-                actions: [ '-delete', 'list']
+                actions: [ 'delete', 'list']
             new:
                 item_permission: [ROLE_ORDEN_TRABAJO]
                 fields:

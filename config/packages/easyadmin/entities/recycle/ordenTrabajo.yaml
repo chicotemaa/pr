@@ -77,7 +77,7 @@ easy_admin:
                     - { type: 'group', label: 'Information', css_class: 'col-md-8'}
                     - { property: 'formulario', css_class: 'col-md-8', type_options: { required: true } }
                     - { property: 'orden', css_class: 'col-md-4' }
-                    - { property: 'sucursal', type_options: { required: true }, permission: ROLE_ENCARGADO }
+                    - { property: 'sucursal', type_options: { required: true }, permission: ROLE_ADMIN }
                     - { property: 'user', label: 'user', type_options: { required: true } }
                     - { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } } }
                     - { property: 'comentario' }

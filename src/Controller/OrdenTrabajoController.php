@@ -7,6 +7,7 @@ use App\Entity\OrdenTrabajo;
 use App\Entity\Sucursal;
 use App\Entity\Resultado;
 use App\Entity\FormularioResultado;
+use App\Entity\FormularioResultadoExpress;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Process\Process;
@@ -25,6 +26,8 @@ use App\Form\ModuloDependenciasType;
 use App\Service\ValidatorService;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class OrdenTrabajoController extends EasyAdminController
 {
@@ -236,7 +239,7 @@ class OrdenTrabajoController extends EasyAdminController
 
 
                 //verifica si algun form orden esta vacio
-                if ((!$this->formularioResultado) && ($this->isGranted('ROLE_ADMIN'))) {
+                if ((!$this->formularioResultado) && ($this->isGranted('ROLE_ORDEN_TRABAJO'))) {
                     $this->addFlash('warning', 'El formulario no ha sido completado');
 
                     if ('show' == $this->request->request->get('actionReturn')) {
@@ -621,7 +624,12 @@ class OrdenTrabajoController extends EasyAdminController
             $tmp = $this->createDirectory();
             $contentType = 'application/vnd.ms-excel';
             $fileName = $this->exportarAllOrdenesExcel($tmp);
-        }//fin if control pdf
+        }elseif ('ALLORDENESEXCELFORMULARIO' == $this->formato){
+            $tmp = $this->createDirectory();
+            $contentType = 'application/vnd.ms-excel';
+            $fileName = $this->exportarAllOrdenesExcelFormulario($tmp);
+        }
+        //fin if control pdf
 
 
         //$contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
@@ -1285,48 +1293,46 @@ class OrdenTrabajoController extends EasyAdminController
     }
     public function exportarAllOrdenesExcelFormulario($tmp)
     {
-        $session = new Session();
-        $ordenes = $session->get('entities_to_export');
+        //$session = new Session();
+        $ordenesTrabajo = $this->request->get('ordenes_trabajo');
+        $array = explode(",", $ordenesTrabajo);
         $i = 3;
-        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($this->getParameter('kernel.root_dir').'/../public/uploads/templates/'.'templateListaOrdenes.xls');
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($this->getParameter('kernel.root_dir').'/../public/uploads/templates/'.'FormulariosExpress.xls');
         $sheet = $spreadsheet->getActiveSheet();
-        foreach ($ordenes as $valor){
-            $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
-            $cliente = ($ordenTrabajo->getCliente())
-                ? $ordenTrabajo->getCliente()->getId() : '';
+        foreach ($array as $valor){
+            $ordenTrabajo = $this->em->getRepository(FormularioResultadoExpress::class)->find($valor);
+            //dump($ordenTrabajo);die;
+            $cliente = $ordenTrabajo->getCliente();
             $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
             $fileName = 'lista.xls';
 
             //$spreadsheet = new Spreadsheet();
 
-            foreach(range('B','M') as $columnID) {
+            foreach(range('B','I') as $columnID) {
                 $sheet->getColumnDimension($columnID)
                     ->setAutoSize(true);
             }
             $sheet->setCellValue('A'.$i, $ordenTrabajo->getId());
-            $sheet->setCellValue('B'.$i, $ordenTrabajo->estadoToString());
-            $sheet->setCellValue('C'.$i, $titulo);
+            //$sheet->setCellValue('B'.$i, $ordenTrabajo->estadoToString());
+            $sheet->setCellValue('B'.$i, $titulo);
             if ($ordenTrabajo->getUser()->getUserName()) {
-                $sheet->setCellValue('D'.$i, $ordenTrabajo->getUser()->getUserName());
+                $sheet->setCellValue('C'.$i, $ordenTrabajo->getUser()->getUserName());
             }
-            $sheet->setCellValue('E'.$i, $ordenTrabajo->getEstado());
-            $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha());
+            $sheet->setCellValue('D'.$i, $ordenTrabajo->getEstado());
+            $sheet->setCellValue('E'.$i, $ordenTrabajo->getFecha());
 
             $horaInicio = ($ordenTrabajo->getHoraInicio())
                 ? $ordenTrabajo->getHoraInicio()->format('H:i') : '';
 
-            $horaFin = ($ordenTrabajo->getHoraFin())
-                ? $ordenTrabajo->getHoraFin()->format('H:i') : '';
+            $horaFin = ($ordenTrabajo->getUpdatedAt())
+                ? $ordenTrabajo->getUpdatedAt()->format('H:i') : '';
 
-            $sheet->setCellValue('G'.$i, $horaInicio);
-            $sheet->setCellValue('H'.$i, $horaFin);
-            if ($ordenTrabajo->getFormularioResultado()) {
-                $sheet->setCellValue('I'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
-            }
-            $sheet->setCellValue('J'.$i, $cliente);
-            $sheet->setCellValue('K'.$i, $razon);
-            $sheet->setCellValue('L'.$i, $ordenTrabajo->getLongitud());
-            $sheet->setCellValue('M'.$i, $ordenTrabajo->getLatitud());
+            $sheet->setCellValue('F'.$i, $horaInicio);
+            $sheet->setCellValue('G'.$i, $horaFin);
+            //if ($ordenTrabajo->getFormularioResultado()) {
+               $sheet->setCellValue('H'.$i, $ordenTrabajo->getMinutosTrabajado());
+            //}
+            $sheet->setCellValue('I'.$i, $cliente);
             $i++;
         }
 
@@ -1337,6 +1343,7 @@ class OrdenTrabajoController extends EasyAdminController
 
         return $fileName;
     }
+
 
     public function editarFormulario(Request $request){
 
@@ -1374,6 +1381,24 @@ class OrdenTrabajoController extends EasyAdminController
         $ordenTrabajo->setEstadoGestion($estadoGestion);
         $this->getDoctrine()->getManager()->flush();
         return new JsonResponse(1);
+    }
+
+    public function BorrarAction(){
+        $ordenesTrabajo = $this->request->get('ordenes_trabajo');
+        $array = explode(",", $ordenesTrabajo);
+        $date = new \DateTime('@'.strtotime('now'));
+        foreach ($array as $valor){
+            //$dateImmutable = \DateTime::createFromFormat('Y-m-d H:i:s', strtotime('now'));
+            $ordenTrabajo = $this->getDoctrine()->getRepository(OrdenTrabajo::class)->find($valor);
+            $ordenTrabajo->setDeletedAt(new \DateTime('@'.strtotime('now')));
+            $this->getDoctrine()->getManager()->flush();
+            //dump($ordenTrabajo);die;
+        }
+        return $this->redirectToRoute('easyadmin', [
+            'action' => 'list',
+            'entity' => $this->request->query->get('entity'),
+        ]);
+
     }
 
 }

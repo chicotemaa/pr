@@ -78,11 +78,13 @@ class SolicitudController extends EasyAdminController
             if($this->isGranted('ROLE_FACILITY')){
                 $solicitud->setSucursal($this->getUser()->getSucursal());
                 $solicitud->setFacility($this->getUser()->getFacility());
+                $solicitud->setCliente($this->getUser()->getCliente());
             }
             if ($this->isGranted('ROLE_STAFF')){
                 $solicitud->setSucursal($this->getUser()->getSucursal());
                 $solicitud->setSucursalDeCliente($this->getUser()->getSucursalDeCliente());
-                $solicitud->setFacility($this->getUser()->getFacility());                
+                $solicitud->setFacility($this->getUser()->getFacility());
+                $solicitud->setCliente($this->getUser()->getCliente());               
             } 
                         
             //$entity->setServicio($this->getUser()->getServicio());

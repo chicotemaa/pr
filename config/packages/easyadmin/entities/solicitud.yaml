@@ -47,17 +47,17 @@ easy_admin:
             form:
                 fields:
                     - { type: 'group', columns: 6 }
-                    - { property: 'sucursal',label: 'Sucursal de Hogar', permission: ROLE_ENCARGADO }
-                    - { property: 'cliente', permission: ROLE_ENCARGADO }
-                    - { property: 'estado', permission: ROLE_ENCARGADO, type: 'choice', type_options: { choices: '%solicitudEstadoArray%' } }
+                    - { property: 'sucursal',label: 'Sucursal de Hogar', permission: ROLE_ADMIN }
+                    - { property: 'cliente', permission: ROLE_ADMIN }
+                    - { property: 'estado', permission: ROLE_ADMIN, type: 'choice', type_options: { choices: '%solicitudEstadoArray%' } }
                     - { 
                         property: 'servicio',
                         type: 'entity',
                         type_options: { class: 'App\Entity\Servicio', query_builder: 'App\Repository\SolicitudRepository::finByActivo' }
                      }
                     - { property: 'necesitasAyuda' }
-                    - { property: 'Facility', permission: [ ROLE_ENCARGADO]}
-                    - { property: 'SucursalDeCliente' , permission: [ROLE_FACILITY, ROLE_ENCARGADO], label: 'Sucursal'}
+                    - { property: 'Facility', permission: [ ROLE_ADMIN]}
+                    - { property: 'SucursalDeCliente' , permission: [ROLE_FACILITY, ROLE_ADMIN], label: 'Sucursal'}
                     - { property: 'consulta', label: 'Cual es el problema?' }
                     - { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }
                     - { type: 'group', columns: 6 }
@@ -68,7 +68,7 @@ easy_admin:
                     - 
                         property: 'fechaCompromiso'
                         label: 'Fecha de compromiso de solución'
-                        permission: ROLE_ENCARGADO
+                        permission: ROLE_ADMIN
                         type_options:
                             attr:
                                 data-inputmask: "'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy HH:MM'"
