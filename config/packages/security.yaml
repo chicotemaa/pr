@@ -98,5 +98,5 @@ security:
     - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/admin/dashboard, roles: ROLE_DASHBOARD }
     - { path: ^/admin, roles: ROLE_USER }
-    - { path: ^/editar-formulario, roles:[ ROLE_ADMIN ,ROLE_ENCARGADO ]}
+    - { path: ^/editar-formulario, roles:[ ROLE_ADMIN ,ROLE_SUCURSAL ]}
     - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

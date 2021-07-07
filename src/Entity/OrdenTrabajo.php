@@ -33,6 +33,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *             "controller" = "App\Action\OrdenTrabajoByUser",
  *             "normalization_context"={"groups"={"readList"}},
  *             "denormalization_context"={"groups"={"write"}}
+ *        },
+ *          "BySucursalDeCliente" = {
+ *             "method" =  "GET",
+ *             "path" = "/ordentrabajo/by/sucursalCliente",
+ *             "controller" = "App\Action\OrdenTrabajoBySucursalDeCliente",
+ *             "normalization_context"={"groups"={"readList"}},
+ *             "denormalization_context"={"groups"={"writeList1"}}
  *        }
  *  },
  * itemOperations={
@@ -246,7 +253,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="ordenTrabajos")
-    * @Groups({"read","write","readList","writeList"})
+    * @Groups({"read","write","readList","writeList", "readList"})
      */
     private $SucursalDeCliente;
 
@@ -466,7 +473,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
         $incidencias = [];
         $modulosRepetidos = [];
         $cantidadIncidencias = 0;
-        
+        if (isset($this->formulario)){
         foreach ($this->formulario->getPropiedadModulos() as $propiedadModulo) {
             $modulosRepetidos = $this->arrayIndiceModulo($modulosRepetidos, $propiedadModulo->getModulo()->getId());
 
@@ -482,7 +489,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
                 }
             }
         }
-
+        }
         return [
             'incidenciasEncontradas' => $incidencias,
             'incidenciasTotal' => $cantidadIncidencias

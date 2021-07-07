@@ -19,6 +19,20 @@ class OrdenTrabajoRepository extends ServiceEntityRepository
         parent::__construct($registry, OrdenTrabajo::class);
     }
 
+    public function findBySucursalDeCliente( $sucursalesDeCliente)
+    {
+        return $this->createQueryBuilder('oa')
+            ->andWhere('oa.SucursalDeCliente = :sucursalesDeCliente')
+            ->andWhere('oa.fecha <= CURRENT_DATE()')
+            ->setParameter('sucursalesDeCliente', $sucursalesDeCliente)
+            ->orderBy('oa.fecha', 'DESC')
+            ->addOrderBy('oa.id', 'DESC')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function findByUser($userId)
     {
         return $this->createQueryBuilder('o')
@@ -49,6 +63,8 @@ class OrdenTrabajoRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+
 
     public function findDashboard($idCliente = null , $fechaDesde = null , $fechaHasta = null)
     {
