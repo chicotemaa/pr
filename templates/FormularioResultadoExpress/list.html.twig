@@ -51,25 +51,9 @@
           <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
             <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
             <div class="radio">
-              <label>
-                <input type="radio" name="formato" id="formato" value="WORD" checked>
-                WORD
-              </label><br>
-              <label>
-                <input type="radio" name="formato" id="formato" value="PDF" >
-                PDF
-              </label><br>
-              <label>
-                <input type="radio" name="formato" id="formato" value="EXCEL" >
-                EXCEL
-              </label>
-              <label>
-                <input type="radio" name="formato" id="formato" value="ORDENESEXCEL">
-                LISTADO DE ÓRDENES EXCEL
-              </label>
-              <label>
-                <input type="radio" name="formato" id="formato" value="ALLORDENESEXCEL">
-                LISTADO DE ÓRDENES EXCEL (toda la lista filtrada)
+               <label>
+                <input type="radio" name="formato" id="formato" value="ALLORDENESEXCELFORMULARIO">
+                TODOS LOS FORMULARIOS SELECCIONADOS
               </label>
             </div>
           </form>     
