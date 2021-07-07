@@ -25,6 +25,8 @@ use App\Form\ModuloDependenciasType;
 use App\Service\ValidatorService;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class OrdenTrabajoController extends EasyAdminController
 {
@@ -1374,6 +1376,24 @@ class OrdenTrabajoController extends EasyAdminController
         $ordenTrabajo->setEstadoGestion($estadoGestion);
         $this->getDoctrine()->getManager()->flush();
         return new JsonResponse(1);
+    }
+
+    public function BorrarAction(){
+        $ordenesTrabajo = $this->request->get('ordenes_trabajo');
+        $array = explode(",", $ordenesTrabajo);
+        $date = new \DateTime('@'.strtotime('now'));
+        foreach ($array as $valor){
+            //$dateImmutable = \DateTime::createFromFormat('Y-m-d H:i:s', strtotime('now'));
+            $ordenTrabajo = $this->getDoctrine()->getRepository(OrdenTrabajo::class)->find($valor);
+            $ordenTrabajo->setDeletedAt(new \DateTime('@'.strtotime('now')));
+            $this->getDoctrine()->getManager()->flush();
+            //dump($ordenTrabajo);die;
+        }
+        return $this->redirectToRoute('easyadmin', [
+            'action' => 'list',
+            'entity' => $this->request->query->get('entity'),
+        ]);
+
     }
 
 }

@@ -9,7 +9,7 @@ framework:
     session:
         handler_id: ~
         # cookie_lifetime: 86400 # 24 horas de duracion
-        # gc_maxlifetime: 7200 # Maximo 2 horas inactivo
+        # gc_maxlifetime: 14400 # Maximo 4 horas inactivo
 
     #esi: true
     #fragments: true
