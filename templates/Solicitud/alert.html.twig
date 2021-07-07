@@ -1,3 +1,4 @@
+{% if is_granted('ROLE_SUCURSAL') %}
 <div class="dropdown" style="float: right; padding: 8px">
 	<a href="#" onclick="return false;" role="button" data-toggle="dropdown" id="dropdownMenu1" data-target="#" style="float: left" aria-expanded="true">
 		<i class="fa fa-bell-o" style="font-size: 20px; float: left; color: black"></i>
@@ -7,25 +8,25 @@
 		<li role="presentation">
 			<a href="#" class="dropdown-menu-header">Solicitudes no leidas</a>
 		</li>
+		
 		<ul class="timeline timeline-icons timeline-sm">
 			{% for unread in unreads   %}
+				
 				<li>
 					<p>	
-						{% if is_granted('ROLE_SUCURSAL') %}
 						{% if (unread.sucursal == app.user.sucursal )   %}
-						<a href="{{ path('easyadmin', { action: 'show', entity: 'Solicitud', view: 'list', id: unread.id}) }}">{{unread.cliente.RazonSocial}}</a>						
-						{% endif %}
-						{% endif %}
-						{% if is_granted('ROLE_ADMIN') %}
 						<a href="{{ path('easyadmin', { action: 'show', entity: 'Solicitud', view: 'list', id: unread.id}) }}">{{unread.cliente.RazonSocial}}</a>						
 						{% endif %}
 					</p>
 				</li>
+				
 			{% endfor %}
 		</ul>
+		
 		<li role="presentation">
 			<a href="#" class="dropdown-menu-header"></a>
 		</li>
 	</ul>
 
 </div>
+{% endif %}

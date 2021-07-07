@@ -11,8 +11,9 @@ easy_admin:
                 item_permission: [ROLE_ORDEN_TRABAJO, ROLE_SUCURSAL]
                 fields:
                 - 'id'
-                - { property: 'formulario', type: 'text'}
+                #- { property: 'formulario', type: 'text'}
                 - { property: 'user', type: 'text'}
+                - { property: 'cliente', type: 'text'}
                 - { property: 'estado', label: 'Estado', template: 'FormularioResultadoExpress/estadoCompraMateriales.html.twig'  }
                 - { property: 'horaInicio', columns: 6, format: 'H:i' }
                 - { property: 'updatedAt', label: 'Hora fin', columns: 6, format: 'H:i' }

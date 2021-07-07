@@ -53,7 +53,7 @@ easy_admin:
                     - { property: 'fechaNacimiento', type_options: { widget: 'single_text' }, columns: 6 }
                     - { property: 'condicionIVA', type: 'choice', type_options: { choices: '%ivaConditionArray%' }, columns: 6 }
                     - { property: 'cuit', columns: 6 }
-                    - { property: 'sucursal', permission: ROLE_ENCARGADO, columns: 6 }
+                    - { property: 'sucursal', permission: ROLE_ADMIN, columns: 6 }
                     - { type: 'group', label: 'ContactInformation', icon: 'phone', columns: 12 }
                     - { property: 'correo', type: 'email', columns: 6 }
                     - { property: 'telefono', columns: 6 }
