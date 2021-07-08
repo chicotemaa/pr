@@ -8,6 +8,7 @@ easy_admin:
                 show: 'FormularioResultadoExpress/show.html.twig'
                 list: 'FormularioResultadoExpress/list.html.twig'
             list:
+                max_results: 50
                 title: "Formularios - Compra de Materiales"
                 item_permission: [ROLE_ORDEN_TRABAJO, ROLE_SUCURSAL]
                 batch_actions: ['exportar']
