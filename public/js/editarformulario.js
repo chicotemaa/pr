@@ -11,7 +11,15 @@ function eliminarFoto(id){
             'id':id,
             'deleted':deleted
             }
+            $.ajax({
+                "type": "POST" ,
+                "url": "/editar-formulario/",
+                "data":datos,
+                success:function(r){
+                }
+            })
     }
+
     function recuperarFoto(id){
        
         let deleted=null;

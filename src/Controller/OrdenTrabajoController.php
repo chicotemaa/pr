@@ -1191,17 +1191,19 @@ class OrdenTrabajoController extends EasyAdminController
 
             //$spreadsheet = new Spreadsheet();
 
-            foreach(range('B','M') as $columnID) {
+            foreach(range('B','N') as $columnID) {
                 $sheet->getColumnDimension($columnID)
                     ->setAutoSize(true);
             }
             $sheet->setCellValue('A'.$i, $ordenTrabajo->getId());
-            $sheet->setCellValue('B'.$i, $ordenTrabajo->estadoToString());
+            $sheet->setCellValue('B'.$i, $ordenTrabajo->estadoGestionToString());
             $sheet->setCellValue('C'.$i, $titulo);
-            $sheet->setCellValue('D'.$i, $ordenTrabajo->getUser()->getUserName());
-            $sheet->setCellValue('E'.$i, $ordenTrabajo->getEstado());
+            if ($ordenTrabajo->getUser()->getUserName()) {
+                $sheet->setCellValue('D'.$i, $ordenTrabajo->getUser()->getUserName());
+            }
 
-            $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha()->format('d-m-Y'));
+            $sheet->setCellValue('E'.$i, $ordenTrabajo->getFecha()->format('d-m-Y'));
+            $sheet->setCellValue('F'.$i, $ordenTrabajo->getHoraFin()->format('d-m-Y'));
 
             $horaInicio = ($ordenTrabajo->getHoraInicio())
                 ? $ordenTrabajo->getHoraInicio()->format('H:i') : '';
@@ -1214,8 +1216,8 @@ class OrdenTrabajoController extends EasyAdminController
             if ($ordenTrabajo->getFormularioResultado()) {
                 $sheet->setCellValue('I'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
             }
-            $sheet->setCellValue('J'.$i, $cliente);
-            $sheet->setCellValue('K'.$i, $razon);
+            $sheet->setCellValue('J'.$i, $razon);
+            $sheet->setCellValue('K'.$i, $cliente);
             $sheet->setCellValue('L'.$i, $ordenTrabajo->getLongitud());
             $sheet->setCellValue('M'.$i, $ordenTrabajo->getLatitud());
 
@@ -1250,7 +1252,7 @@ class OrdenTrabajoController extends EasyAdminController
 
             //$spreadsheet = new Spreadsheet();
 
-            foreach(range('B','M') as $columnID) {
+            foreach(range('B','N') as $columnID) {
                 $sheet->getColumnDimension($columnID)
                     ->setAutoSize(true);
             }
@@ -1263,7 +1265,7 @@ class OrdenTrabajoController extends EasyAdminController
             $sheet->setCellValue('E'.$i, $ordenTrabajo->getEstado());
 
             $sheet->setCellValue('F'.$i, $ordenTrabajo->getFecha()->format('d-m-Y'));
-
+            $sheet->setCellValue('G'.$i, $ordenTrabajo->getHoraFin()->format('d-m-Y'));
 
             $horaInicio = ($ordenTrabajo->getHoraInicio())
                 ? $ordenTrabajo->getHoraInicio()->format('H:i') : '';
@@ -1271,15 +1273,15 @@ class OrdenTrabajoController extends EasyAdminController
             $horaFin = ($ordenTrabajo->getHoraFin())
                 ? $ordenTrabajo->getHoraFin()->format('H:i') : '';
 
-            $sheet->setCellValue('G'.$i, $horaInicio);
-            $sheet->setCellValue('H'.$i, $horaFin);
+            $sheet->setCellValue('H'.$i, $horaInicio);
+            $sheet->setCellValue('I'.$i, $horaFin);
             if ($ordenTrabajo->getFormularioResultado()) {
-                $sheet->setCellValue('I'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
+                $sheet->setCellValue('J'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
             }
-            $sheet->setCellValue('J'.$i, $cliente);
-            $sheet->setCellValue('K'.$i, $razon);
+            $sheet->setCellValue('K'.$i, $cliente);
+            $sheet->setCellValue('L'.$i, $razon);
             $sheet->setCellValue('L'.$i, $ordenTrabajo->getLongitud());
-            $sheet->setCellValue('M'.$i, $ordenTrabajo->getLatitud());
+            $sheet->setCellValue('N'.$i, $ordenTrabajo->getLatitud());
 
             $i++;
         }
