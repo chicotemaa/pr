@@ -63,8 +63,8 @@ easy_admin:
                     - { property: 'SucursalDeCliente', type: 'text', columns: 6 }
                     - { property: 'Facility', type: 'text', columns: 6 }
                     - { property: 'estadoToString', label: 'Estado', columns: 6 }
-                    - { property: 'horaInicio', columns: 6, format: 'H:i' }
-                    - { property: 'horaFin', columns: 6, format: 'H:i' }
+                    - { property: 'horaInicio', columns: 6, format: 'd/m/Y H:i' }
+                    - { property: 'horaFin', columns: 6, format: 'd/m/Y H:i' }
                     - { property: 'fechaCompleta', columns: 6 }
                     - { property: 'motivo', columns: 6, label: 'Postergado por' }
                     - { property: 'createdAt', label: 'Creado', columns: 6, format: 'd/m/Y H:i' }
@@ -88,7 +88,7 @@ easy_admin:
                 item_permission: [ROLE_ORDEN_TRABAJO]
                 fields:
                     - { property: 'SucursalDeCliente', label: 'Sucursal de Cliente' }
-                    - { property: 'horaInicio', columns: 7, format: 'H:i', type_options: { widget: 'single_text', required: true } }
+                    - { property: 'horaInicio', columns: 7, format: 'H:i', type_options: { widget: 'single_text', required: false }, label: 'Hora de inicio (NO EDITAR)' }
                     - { property: 'horaFin', columns: 7, format: 'H:i', type_options: { widget: 'single_text', required: true } }
                     - { property: 'minutos', label: 'Minutos Trabajados', type: 'integer' ,type_options: { mapped: false}, css_class: 'col-md-5' }
             delete:
