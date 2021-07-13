@@ -46,7 +46,7 @@
           <button type="button" class="close"  style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
         </div>
-        {% if is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_ORDEN_TRABAJO') %}
         <div class="modal-body">
           <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
             <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
@@ -90,7 +90,7 @@
           <button type="button" class="close"  style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
         </div>
-        {% if is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_ORDEN_TRABAJO') %}
         <div class="modal-body">
           <form id="formBorrar" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'Borrar', filters: app.request.get('filters') }) }}" method="POST">
             <input type="hidden" name="ordenes_trabajo" id="ordenes" value="2" >
@@ -112,7 +112,7 @@
 {% endblock %}
 
 {% block new_action %}
-    {% if is_granted('ROLE_ADMIN') %}
+    {% if is_granted('ROLE_ORDEN_TRABAJO') %}
         <div class="button-action">
             <a class="{{ _action.css_class|default('') }}" href="{{ path('easyadmin', _request_parameters|merge({ action: _action.name })) }}&from_list=1" target="{{ _action.target }}">
                 {% if _action.icon %}<i class="fa fa-{{ _action.icon }}"></i>{% endif %}
