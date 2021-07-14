@@ -1278,9 +1278,9 @@ class OrdenTrabajoController extends EasyAdminController
             if ($ordenTrabajo->getFormularioResultado()) {
                 $sheet->setCellValue('J'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
             }
-            $sheet->setCellValue('K'.$i, $cliente);
-            $sheet->setCellValue('L'.$i, $razon);
-            $sheet->setCellValue('L'.$i, $ordenTrabajo->getLongitud());
+            $sheet->setCellValue('K'.$i, $razon);
+            $sheet->setCellValue('L'.$i, $cliente);
+            $sheet->setCellValue('M'.$i, $ordenTrabajo->getLongitud());
             $sheet->setCellValue('N'.$i, $ordenTrabajo->getLatitud());
 
             $i++;
