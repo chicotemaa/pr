@@ -1237,7 +1237,7 @@ class OrdenTrabajoController extends EasyAdminController
         $session = new Session();
         $ordenes = $session->get('entities_to_export');
         $i = 3;
-        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($this->getParameter('kernel.root_dir').'/../public/uploads/templates/'.'templateListaOrdenes.xls');
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($this->getParameter('kernel.root_dir').'/../public/uploads/templates/'.'templateListaOrdenes2.xls');
         $sheet = $spreadsheet->getActiveSheet();
         foreach ($ordenes as $valor){
             $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
@@ -1278,9 +1278,9 @@ class OrdenTrabajoController extends EasyAdminController
             if ($ordenTrabajo->getFormularioResultado()) {
                 $sheet->setCellValue('J'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
             }
-            $sheet->setCellValue('K'.$i, $cliente);
-            $sheet->setCellValue('L'.$i, $razon);
-            $sheet->setCellValue('L'.$i, $ordenTrabajo->getLongitud());
+            $sheet->setCellValue('K'.$i, $razon);
+            $sheet->setCellValue('L'.$i, $cliente);
+            $sheet->setCellValue('M'.$i, $ordenTrabajo->getLongitud());
             $sheet->setCellValue('N'.$i, $ordenTrabajo->getLatitud());
 
             $i++;
