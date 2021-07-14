@@ -1237,7 +1237,7 @@ class OrdenTrabajoController extends EasyAdminController
         $session = new Session();
         $ordenes = $session->get('entities_to_export');
         $i = 3;
-        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($this->getParameter('kernel.root_dir').'/../public/uploads/templates/'.'templateListaOrdenes.xls');
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($this->getParameter('kernel.root_dir').'/../public/uploads/templates/'.'templateListaOrdenes2.xls');
         $sheet = $spreadsheet->getActiveSheet();
         foreach ($ordenes as $valor){
             $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
