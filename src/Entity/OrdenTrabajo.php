@@ -36,10 +36,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *        },
  *          "BySucursalDeCliente" = {
  *             "method" =  "GET",
- *             "path" = "/ordentrabajo/by/sucursalCliente",
+ *             "path" = "/orden_trabajo/{id}",
  *             "controller" = "App\Action\OrdenTrabajoBySucursalDeCliente",
- *             "normalization_context"={"groups"={"readList"}},
- *             "denormalization_context"={"groups"={"writeList1"}}
+ *             "normalization_context"={"groups"={"read"}},
+ *             "denormalization_context"={"groups"={"write"}}
  *        }
  *  },
  * itemOperations={
@@ -253,7 +253,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="ordenTrabajos")
-    * @Groups({"read","write","readList","writeList", "readList"})
+    * @Groups({"read","write","readList","writeList"})
      */
     private $SucursalDeCliente;
 
