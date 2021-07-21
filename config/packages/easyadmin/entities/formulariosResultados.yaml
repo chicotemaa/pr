@@ -1,6 +1,6 @@
 easy_admin:
     entities:
-        Formularios:
+        formulariosResultados:
             class: App\Entity\FormularioResultado
             list:
                 item_permission: [ROLE_FORMULARIO]

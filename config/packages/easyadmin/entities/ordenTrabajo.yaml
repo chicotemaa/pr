@@ -90,7 +90,7 @@ easy_admin:
                     - { property: 'SucursalDeCliente', label: 'Sucursal de Cliente' }
                     - { property: 'horaInicio', columns: 7, format: 'H:i', type_options: { widget: 'single_text', required: false }, label: 'Hora de inicio (NO EDITAR)' }
                     - { property: 'horaFin', columns: 7, format: 'H:i', type_options: { widget: 'single_text', required: true } }
-                    - { property: 'minutos', label: 'Minutos Trabajados', type: 'integer' ,type_options: { mapped: false}, css_class: 'col-md-5' }
+                    - { property: 'minutos', label: 'Minutos Trabajados', type: 'integer' ,type_options: { mapped: false},css_class: 'invisible' }
             delete:
                 item_permission: [ROLE_ORDEN_TRABAJO]
             form:
