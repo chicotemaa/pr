@@ -214,4 +214,29 @@ class AppController extends AbstractController
         
         return new JsonResponse($listaClientes);
     }
+
+    /**
+    * @Route("/orden_trabajo/sucursaldecliente/{id}")
+    */
+    public function OTxSucursalDeCliente($id)
+    {
+       
+        $em = $this->getDoctrine()->getManager();
+        
+        $ordenesTrabajo = $this->getDoctrine()->getRepository(OrdenTrabajo::class)->findBySucursalDeCliente($id);
+ 
+            $results=[];
+            foreach ($ordenesTrabajo as $key => $ordenTrabajo) {
+                $results[]=[
+                    'id'=> $ordenTrabajo->getId(),
+                    'Cliente'=> $ordenTrabajo->getCliente()->getRazonSocial(),
+                    'Sucursal de Cliente'=> $ordenTrabajo->getSucursalDeCliente()->getDireccion(),
+
+                   ];
+            }
+ 
+        return new JsonResponse([
+            'results' => $results,
+        ]);
+    }
 }

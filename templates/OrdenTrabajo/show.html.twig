@@ -60,11 +60,81 @@
         }
     </style>
     {# Aca se muestran los mapas de recibido y cierre #}
+    {% if entity.estadoGestion !=2  %}
+      <h3 class="text-center">Modificar formulario   </h3>
+    {% else %}
+        <h3 class="text-center">Formulario firmado  </h3>
+        <style>
+        .firmar, .btn-warning, .guardarHora, #Firmaformulario{
+            display: none;
+        }
+        .btn-warning{
+            display: none;
+        }
+    </style>
+    {% endif %}
     {% if entity.latitud is not empty %}
         <p><strong> Ubicación Recibido </strong></p>
         <div id="mapRecibido" class="map"></div>
         <p><strong> Ubicación Cierre </strong></p>
         <div id="mapCierre" class="map"></div>
+    {% endif %}
+
+    {# Aca se muestran la edicion de los campos hora de inicio hora de fin y minutos trabajados#}
+    {% if (entity.horaInicio and entity.horaFin) is not empty %}
+    <br/>
+    <h4 class="m-3"><strong> Fecha y Hora de Trabajo </strong></h4>
+     <div class="col-md-4 m-2">
+      <label for="inicio">Hora de Inicio:</label>
+      <label type="datetime-local" class="form-control" >{{ (entity.horaInicio.date)|date("d/m/Y H:i") }}</label>
+      <input type="datetime-local" class="form-control invisible" id="ordentrabajo_horaInicio" name="inicio"value="{{ (entity.horaInicio.date)|date("Y-m-d") }}T{{ (entity.horaInicio.date)|date("H:i") }}">
+      <label for="fin">Hora de Fin:</label>
+      <input type="datetime-local" class="form-control"  id="ordentrabajo_horaFin" name="fin" value="{{ (entity.horaFin.date)|date("Y-m-d") }}T{{ (entity.horaFin.date)|date("H:i") }}" >   
+     </div>
+     <div>
+     {% if entity.formularioResultado is not null %}
+     <label class="col-md-4 m-2">Minutos Trabajados:<span id="minutos">{{entity.formularioResultado.minutosTrabajado}}</span></label>
+     {% else %}
+     <div>
+         <label class="col-md-4 m-2">Minutos Trabajados:<span id="minutos">0</span></label>
+     </div>
+     {% endif %}
+    {% endif %}
+    {% if (entity.horaInicio is not empty) and (entity.horaFin is empty)  %}
+    <br/>
+    <h4 class="m-3"><strong> Fecha y Hora de Trabajo "Hora de fin vacio"</strong></h4>
+     <div class="col-md-4 m-2">
+      <label for="inicio">Hora de Inicio:</label>
+      <label type="datetime-local" class="form-control" >{{ (entity.horaInicio.date)|date("d/m/Y H:i") }}</label>
+      <input type="datetime-local" class="form-control invisible" id="ordentrabajo_horaInicio" name="inicio"value="{{ (entity.horaInicio.date)|date("Y-m-d") }}T{{ (entity.horaInicio.date)|date("H:i") }}">
+      <label for="fin">Hora de Fin:</label>
+      <input type="datetime-local" class="form-control"  id="ordentrabajo_horaFin" name="fin" >   
+     </div>
+     <div >
+         <label class="col-md-4 m-2">Minutos Trabajados:<span id="minutos"></span></label>
+     </div>
+    {% endif %}
+    {% if (entity.horaInicio is empty) and (entity.horaFin is not empty)  %}
+    <br/>
+    <h4 class="m-3"><strong> Fecha y Hora de Trabajo "Hora de inicio vacio"</strong></h4>
+     <div class="col-md-4 m-2">
+      <label for="inicio">Hora de Inicio:</label>
+      <input type="datetime-local" class="form-control" id="ordentrabajo_horaInicio" name="inicio">
+      <label for="fin">Hora de Fin:</label>
+      <input type="datetime-local" class="form-control"  id="ordentrabajo_horaFin" name="fin" value="{{ (entity.horaFin.date)|date("Y-m-d") }}T{{ (entity.horaFin.date)|date("H:i") }}">   
+     </div>
+     <div>
+         <label class="col-md-4 m-2">Minutos Trabajados:<span id="minutos"></span></label>
+     </div>
+    {% endif %}
+    {% if entity.formularioResultado is not null %}
+     <div class="col-md-4 m-2">
+        <button class="btn btn-outline-warning guardarHora" id="{{entity.formularioResultado.id}}" onclick="GuardarMinutos(id)">Guardar cambios </button>
+     </div>
+    {% else %}
+     <div class="col-md-4 m-2">
+        <button class="btn btn-outline-warning guardarHora ">Guardar cambios </button>
+     </div>
     {% endif %}
     {% if entity.formularioResultado is not null %}
     <hr>
@@ -250,13 +320,13 @@
             "data":datos,
         })
         });
-                function firmarFormulario(){
-                let datos={
+        function firmarFormulario(){
+             let datos={
                 'idOrden':idOrden,
                 'firma':UserName+fecha,
                 'estadoGestion':2
                 }
-                $.ajax({
+             $.ajax({
                 "type": "POST" ,
                 "url": "/firmar-formulario/",
                 "data":datos,
@@ -265,14 +335,43 @@
                 console.log(FirmaFormularioa)
                 FirmaFormularioa.style.display = "inline-block";
                  setTimeout(function(){ FirmaFormularioa.style.display = "none"; }, 4000);
-                }})
-                }
-        
+               }})
+        }
+    function GuardarMinutos(id){
+        let minutos = parseInt(document.getElementById('minutos').textContent);
+        let datos={
+            'id':id,
+            'valor':minutos
+        }
+        $.ajax({
+            "type": "POST" ,
+            "url": "/editar-formularioExpress/",
+            "data":datos,
+        })
+
+    }    
 
 
     function exportar(){
       $("#formExportar1").submit();
     };
+        $(".guardarHora").click(function(){
+            let iniciomin=document.getElementById('ordentrabajo_horaInicio').value;
+            let finmin=document.getElementById('ordentrabajo_horaFin').value;
+            let options = { hour12: false, };
+            let datos={
+            'idOrden':idOrden,
+            'iniciomin':iniciomin,
+            'Finmin':finmin.toLocaleString('en-US', options),
+            'firma':UserName+fecha,
+            'estadoGestion':1
+            }
+            $.ajax({
+            "type": "POST" ,
+            "url": "/firmar-formulario/",
+            "data":datos,
+        })
+        });
         //Mapa Recibido
         var map;
         var myLatLng = {lat: {{entity.latitud|default(0)}}, lng: {{entity.longitud|default(0)}}};
@@ -304,6 +403,20 @@
             });
         }
          
+        $("#ordentrabajo_horaInicio").change(function() {
+        calcularminutos();
+        });
+        $("#ordentrabajo_horaFin").change(function() {
+        calcularminutos();
+        });
+        function calcularminutos(){
+            let iniciomin=new Date(document.getElementById('ordentrabajo_horaInicio').value);
+            let finmin=new Date(document.getElementById('ordentrabajo_horaFin').value);
+            let resultadominutos=(finmin.getTime()-iniciomin.getTime())/60000;
+            let minutos = document.getElementById('minutos');
+            minutos.innerHTML=resultadominutos;
+        }
+
     </script>
     <script src="{{asset('js/editarformulario.js')}}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{googleKeyApi}}&callback=initMap"

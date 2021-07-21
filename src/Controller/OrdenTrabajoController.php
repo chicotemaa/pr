@@ -1257,7 +1257,7 @@ class OrdenTrabajoController extends EasyAdminController
                     ->setAutoSize(true);
             }
             $sheet->setCellValue('A'.$i, $ordenTrabajo->getId());
-            $sheet->setCellValue('B'.$i, $ordenTrabajo->estadoToString());
+            $sheet->setCellValue('B'.$i, $ordenTrabajo->estadoGestionToString());
             $sheet->setCellValue('C'.$i, $titulo);
             if ($ordenTrabajo->getUser()->getUserName()) {
                 $sheet->setCellValue('D'.$i, $ordenTrabajo->getUser()->getUserName());
@@ -1381,7 +1381,16 @@ class OrdenTrabajoController extends EasyAdminController
         $ordenTrabajo =  $this->getDoctrine()->getRepository(OrdenTrabajo::class)->find($idOrden);
         $ordenTrabajo->setFirma($firma);
         $ordenTrabajo->setEstadoGestion($estadoGestion);
+        if ($request->request->get('iniciomin') != null) {
+            $iniciomin = new \DateTime($request->request->get('iniciomin'));
+            $ordenTrabajo->setHoraInicio($iniciomin);       
+        }
+        if ($request->request->get('Finmin') != null) {
+            $Finmin = new \DateTime($request->request->get('Finmin'));
+            $ordenTrabajo->setHoraFin($Finmin);       
+        }
         $this->getDoctrine()->getManager()->flush();
+                
         return new JsonResponse(1);
     }
 
