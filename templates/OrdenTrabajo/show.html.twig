@@ -81,6 +81,7 @@
     {% endif %}
 
     {# Aca se muestran la edicion de los campos hora de inicio hora de fin y minutos trabajados#}
+    {% if (entity.horaInicio or entity.horaFin) is not empty %}
     {% if (entity.horaInicio and entity.horaFin) is not empty %}
     <br/>
     <h4 class="m-3"><strong> Fecha y Hora de Trabajo </strong></h4>
@@ -135,6 +136,7 @@
      <div class="col-md-4 m-2">
         <button class="btn btn-outline-warning guardarHora ">Guardar cambios </button>
      </div>
+    {% endif %}
     {% endif %}
     {% if entity.formularioResultado is not null %}
     <hr>
