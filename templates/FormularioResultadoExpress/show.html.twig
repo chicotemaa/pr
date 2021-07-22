@@ -32,6 +32,10 @@
                     <input type="radio" name="formato" id="formato" value="EXCEL" >
                     EXCEL
                   </label>
+                  <label>
+                    <input type="radio" name="formato" id="formato" value="ALLORDENESEXCELFORMULARIO">
+                    FORMULARIO SELECCIONADO
+                  </label>
                 </div>
               </form>
             </div>
@@ -58,6 +62,7 @@
         <div class="card-body">
             <h5 class="card-title">Formulario</h5>
             <div>
+                    
                     {# Recorro modulos #}
                     {% set resultados = entity.mergeResultadoFormulario() %}
                     {% set modulosRepetido = [] %}

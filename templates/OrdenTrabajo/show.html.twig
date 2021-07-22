@@ -338,6 +338,8 @@
                 FirmaFormularioa.style.display = "inline-block";
                  setTimeout(function(){ FirmaFormularioa.style.display = "none"; }, 4000);
                }})
+            setTimeout(function(){ location.reload(); }, 4000)
+            
         }
     function GuardarMinutos(id){
         let minutos = parseInt(document.getElementById('minutos').textContent);
