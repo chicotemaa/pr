@@ -186,7 +186,19 @@ class OrdenTrabajoRepository extends ServiceEntityRepository
 
         return $query->getQuery()->getResult();
     }
-
+    public function findByFormularioExpress($formularioResultadoExpress)
+    {
+        return $this->createQueryBuilder('oa')
+        ->andWhere('oa.formularioResultadoExpress = :formularioResultadoExpress')
+        ->andWhere('oa.fecha <= CURRENT_DATE()')
+        ->setParameter('formularioResultadoExpress', $formularioResultadoExpress)
+        ->orderBy('oa.fecha', 'DESC')
+        ->addOrderBy('oa.id', 'DESC')
+        ->setMaxResults(100)
+        ->getQuery()
+        ->getResult()
+    ;
+    }
 //    /**
 //     * @return OrdenTrabajo[] Returns an array of OrdenTrabajo objects
 //     */

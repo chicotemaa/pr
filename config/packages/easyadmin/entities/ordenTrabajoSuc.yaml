@@ -1,6 +1,6 @@
 easy_admin:
     entities:
-        OrdenTrabajo:
+        OrdenTrabajoSuc:
             class: App\Entity\OrdenTrabajo
             controller: App\Controller\OrdenTrabajoController
             templates:
@@ -48,7 +48,7 @@ easy_admin:
                     # - { property: 'motivo', label: 'Postergado por' }
                 actions:
                     - { name: 'show',  icon: 'search', label: '' }
-                    - { name: 'edit', icon: 'pencil', label: '' }
+                    - { name: '-edit', icon: 'pencil', label: '' }
                     - { name: 'delete', icon: 'remove', label: '' }
             show:
                 item_permission: [ROLE_ORDEN_TRABAJO, ROLE_SUCURSAL]
@@ -73,7 +73,7 @@ easy_admin:
                     - { property: 'responsableFirma', label: 'Firma del responsable', columns: 6 }
                     - { property: 'comentario' }
                     - { property: 'firma' , label: 'Ultima Edicion de Formulario'}
-                actions: [ 'delete', 'list', 'edit']
+                actions: [ 'delete', 'list', '-edit']
             new:
                 item_permission: [ROLE_ORDEN_TRABAJO, ROLE_SUCURSAL]
                 fields:
