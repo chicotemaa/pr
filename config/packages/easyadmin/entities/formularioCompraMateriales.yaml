@@ -10,7 +10,7 @@ easy_admin:
             list:
                 max_results: 50
                 title: "Formularios - Compra de Materiales"
-                item_permission: [ROLE_ORDEN_TRABAJO, ROLE_SUCURSAL]
+                item_permission: [ROLE_ENCARGADO, ROLE_SUCURSAL]
                 batch_actions: ['exportar']
                 fields:
                 - 'id'
@@ -34,7 +34,7 @@ easy_admin:
                       type: 'App\Form\Filter\EstadoFilterType'
                       mapped: false
                 show:
-                    item_permission: [ROLE_ORDEN_TRABAJO, ROLE_SUCURSAL]
+                    item_permission: [ROLE_ENCARGADO, ROLE_SUCURSAL]
                     fields:
                         - { property: 'id', columns: 6 }
                         - { property: 'user', type: 'text', columns: 6 }

@@ -8,7 +8,7 @@ easy_admin:
                 new: 'Modulo/new.html.twig'
                 edit: 'Modulo/edit.html.twig'
             list:
-                item_permission: [ROLE_MODULO]
+                item_permission: [ROLE_ADMIN]
                 filters:
                     - property: 'nombre'
                     - property: 'titulo'
@@ -17,17 +17,17 @@ easy_admin:
                 actions:
                     - { name: 'agregarDependencias', label: 'ver dependencias' }
             edit:
-                item_permission: [ROLE_MODULO]
+                item_permission: [ROLE_ADMIN]
             new:
-                item_permission: [ROLE_MODULO]
+                item_permission: [ROLE_ADMIN]
             show:
-                item_permission: [ROLE_MODULO]
+                item_permission: [ROLE_ADMIN]
             delete:
-                item_permission: [ROLE_MODULO]
+                item_permission: [ROLE_ADMIN]
             search:
-                item_permission: [ROLE_MODULO]
+                item_permission: [ROLE_ADMIN]
             form:
-                item_permission: [ROLE_MODULO]
+                item_permission: [ROLE_ADMIN]
                 fields:
                     - { type: 'group', columns: 12 }
                     - { property: 'nombre', columns: 6 }

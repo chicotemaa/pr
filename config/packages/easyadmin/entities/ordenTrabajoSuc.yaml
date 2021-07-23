@@ -11,7 +11,7 @@ easy_admin:
                 list: 'OrdenTrabajo/list.html.twig'
             list:
                 max_results: 30
-                item_permission: [ROLE_ORDEN_TRABAJO, ROLE_SUCURSAL]
+                item_permission: [ROLE_ADMIN, ROLE_SUCURSAL]
                 batch_actions: ['exportar','delete']
 
                 filters:
@@ -51,7 +51,7 @@ easy_admin:
                     - { name: '-edit', icon: 'pencil', label: '' }
                     - { name: 'delete', icon: 'remove', label: '' }
             show:
-                item_permission: [ROLE_ORDEN_TRABAJO, ROLE_SUCURSAL]
+                item_permission: [ROLE_ADMIN, ROLE_SUCURSAL]
                 fields:
                     - { property: 'id', columns: 6 }
                     - { property: 'user', type: 'text', columns: 6 }
@@ -75,7 +75,7 @@ easy_admin:
                     - { property: 'firma' , label: 'Ultima Edicion de Formulario'}
                 actions: [ 'delete', 'list', '-edit']
             new:
-                item_permission: [ROLE_ORDEN_TRABAJO, ROLE_SUCURSAL]
+                item_permission: [ROLE_ADMIN, ROLE_SUCURSAL]
                 fields:
                     - '-estado'
                     - { property: 'SucursalDeCliente' }
@@ -92,9 +92,9 @@ easy_admin:
                     - { property: 'horaFin', columns: 7, format: 'H:i', type_options: { widget: 'single_text', required: true } }
                     - { property: 'minutos', label: 'Minutos Trabajados', type: 'integer' ,type_options: { mapped: false},css_class: 'invisible' }
             delete:
-                item_permission: [ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ADMIN]
             form:
-                item_permission: [ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ADMIN]
                 fields:
                     - { type: 'group', label: 'Information', css_class: 'col-md-8'}
                     - { property: 'SucursalDeCliente', label: 'Sucursal de Cliente', { attr: { required: true, create: true } }

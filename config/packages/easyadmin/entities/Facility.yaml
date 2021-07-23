@@ -3,7 +3,7 @@ easy_admin:
         Facility:
             class: App\Entity\Facility
             list:
-                item_permission: [ROLE_ITEM, ROLE_MANAGER]
+                item_permission: [ROLE_ADMIN, ROLE_MANAGER]
                 filters:
                     - { property: 'id', label: 'ID' }
                     - property: 'nombre'
@@ -17,7 +17,7 @@ easy_admin:
                     - { property: 'Telefono' }
                     - { property: 'Codigo' }
             edit:
-                item_permission: [ROLE_ITEM] 
+                item_permission: [ROLE_ADMIN] 
                 fields:
                     - { property: 'Apellido', type: 'text', columns: 6 }
                     - { property: 'Nombre', type: 'text', columns: 6 }
@@ -27,7 +27,7 @@ easy_admin:
                     - { property: 'Cliente',  columns: 6 }
                     - { property: 'users',  columns: 6 }
             new:
-                item_permission: [ROLE_ITEM]
+                item_permission: [ROLE_ADMIN]
                 fields:
                     - { property: 'apellido' }
                     - nombre
@@ -51,6 +51,6 @@ easy_admin:
                     - { property: 'Cliente', type: 'text' }
                     - { property: 'users',  permission: ROLE_ADMIN }
             delete:
-                item_permission: [ROLE_ITEM] 
+                item_permission: [ROLE_ADMIN] 
             search:
-                item_permission: [ROLE_ITEM] 
+                item_permission: [ROLE_ADMIN] 

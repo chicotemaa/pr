@@ -6,7 +6,7 @@ easy_admin:
                 # Twig namespace template syntax
                 show: 'Equipo/show.html.twig'
             list:
-                item_permission: [ROLE_CLIENTE_CRUD, ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ADMIN, ROLE_ENCARGADO]
                 filters:
                     - property: 'codigo'
                     - property: 'descripcion'
@@ -20,19 +20,19 @@ easy_admin:
                     - { name: 'edit', icon: 'pencil', label: '' }
                     - { name: 'delete', icon: 'remove', label: '' }
             edit:
-                item_permission: [ROLE_CLIENTE_CRUD, ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ADMIN, ROLE_ENCARGADO]
             new:
-                item_permission: [ROLE_CLIENTE_CRUD, ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ADMIN, ROLE_ENCARGADO]
             show:
-                item_permission: [ROLE_CLIENTE_CRUD, ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ADMIN, ROLE_ENCARGADO]
                 fields:
                     - { property: 'codigo' }
                     - { property: 'descripcion' }
                     - { property: 'cliente' }
             delete:
-                item_permission: [ROLE_CLIENTE_CRUD, ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ADMIN, ROLE_ENCARGADO]
             search:
-                item_permission: [ROLE_CLIENTE_CRUD, ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ADMIN, ROLE_ENCARGADO]
             form:
                 fields:
                     - { property: 'codigo' }
