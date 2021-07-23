@@ -4,14 +4,14 @@ easy_admin:
             class: App\Entity\Opcion
             controller: App\Controller\OpcionController
             list:
-                item_permission: [ROLE_ITEM]
+                item_permission: [ROLE_ADMIN]
             edit:
-                item_permission: [ROLE_ITEM] 
+                item_permission: [ROLE_ADMIN] 
             new:
-                item_permission: [ROLE_ITEM] 
+                item_permission: [ROLE_ADMIN] 
             show:
-                item_permission: [ROLE_ITEM] 
+                item_permission: [ROLE_ADMIN] 
             delete:
-                item_permission: [ROLE_ITEM] 
+                item_permission: [ROLE_ADMIN] 
             search:
-                item_permission: [ROLE_ITEM] 
+                item_permission: [ROLE_ADMIN] 

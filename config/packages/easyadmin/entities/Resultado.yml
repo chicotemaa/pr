@@ -3,18 +3,18 @@ easy_admin:
         Resultado:
             class: App\Entity\Resultado
             list:
-                item_permission: [ROLE_FORMULARIO]
+                item_permission: [ROLE_ADMIN]
                 fields: ['id', 'formularioResultado', 'ordenTrabajo']
             edit:
-                item_permission: [ROLE_FORMULARIO]
+                item_permission: [ROLE_ADMIN]
             new:
-                item_permission: [ROLE_FORMULARIO]
+                item_permission: [ROLE_ADMIN]
             show:
-                item_permission: [ROLE_FORMULARIO]
+                item_permission: [ROLE_ADMIN]
             delete:
-                item_permission: [ROLE_FORMULARIO]
+                item_permission: [ROLE_ADMIN]
             search:
-                item_permission: [ROLE_FORMULARIO]
+                item_permission: [ROLE_ADMIN]
             form:
-                item_permission: [ROLE_FORMULARIO]
+                item_permission: [ROLE_ADMIN]
                

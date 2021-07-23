@@ -4,7 +4,7 @@ easy_admin:
             class: App\Entity\SucursalDeCliente
             disabled_actions: ['new', 'delete']
             list:
-                item_permission: [ROLE_PROPIEDAD_ITEM, ROLE_CLIENTE]
+                item_permission: [ROLE_ADMIN, ROLE_CLIENTE]
                 fields:
                     - id
                     - codigo
@@ -16,7 +16,7 @@ easy_admin:
                     - codigo
                     - direccion
             new:
-                item_permission: [ROLE_PROPIEDAD_ITEM]
+                item_permission: [ROLE_ADMIN]
             show:
                 item_permission: [ROLE_CLIENTE]
                 fields:
@@ -25,6 +25,6 @@ easy_admin:
                     - Cliente
                     - users
             delete:
-                item_permission: [ROLE_PROPIEDAD_ITEM]
+                item_permission: [ROLE_ADMIN]
             search:
-                item_permission: [ROLE_PROPIEDAD_ITEM]
+                item_permission: [ROLE_ADMIN]

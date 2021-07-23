@@ -10,7 +10,7 @@ easy_admin:
             disabled_actions: ['edit', 'new']
             list:
                 title: "Usuarios Eliminados"
-                item_permission: [ROLE_USER_CRUD]
+                item_permission: [ROLE_ADMIN]
                 filters:
                     - property: 'username'
                     - property: 'email'
@@ -20,7 +20,7 @@ easy_admin:
                     - property: 'roles'
                 fields: ['id', 'username', 'email', 'enabled', 'sucursal', 'lastLogin', 'roles']
             edit:
-                item_permission: [ROLE_USER_CRUD]
+                item_permission: [ROLE_ADMIN]
                 fields:
                     - { property: 'username', columns: 6 }
                     - { property: 'email', columns: 6 }
@@ -40,7 +40,7 @@ easy_admin:
                             choices: '%LISTA_ROLES%'
                 form_options: { validation_groups: ['Default', 'Profile'] }
             new:
-                item_permission: [ROLE_USER_CRUD]
+                item_permission: [ROLE_ADMIN]
                 fields:
                     - { property: 'username', columns: 6 }
                     - { property: 'email', columns: 6 }
@@ -60,13 +60,13 @@ easy_admin:
                             choices: '%LISTA_ROLES%'
                 form_options: { validation_groups: ['Default', 'Registration'] }
             show:
-                item_permission: [ROLE_USER_CRUD,ROLE_CLIENTE]
+                item_permission: [ROLE_ADMIN,ROLE_CLIENTE]
                 fields:
                     - { property: 'username', columns: 6 }
                     - { property: 'email', columns: 6 }
                     - { property: 'SucursalDeCliente', columns: 6 }
                     - { property: 'cliente', type: 'text', columns: 6 }
             delete:
-                item_permission: [ROLE_USER_CRUD]
+                item_permission: [ROLE_ADMIN]
             search:
-                item_permission: [ROLE_USER_CRUD]
+                item_permission: [ROLE_ADMIN]

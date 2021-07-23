@@ -8,7 +8,7 @@ easy_admin:
                 new: 'Solicitud/new.html.twig'
                 edit: 'Solicitud/edit.html.twig'
             list:
-                item_permission: [ROLE_SOLICITUD,ROLE_CLIENTE]
+                item_permission: [ROLE_ENCARGADO,ROLE_CLIENTE]
                 actions:
                     - { name: generarOt }
                 filters:
@@ -41,9 +41,9 @@ easy_admin:
             show:
                 item_permission: [ROLE_ADMIN,ROLE_SUCURSAL,ROLE_CLIENTE]
             delete:
-                item_permission: [ROLE_SOLICITUD, ROLE_FACILITY]
+                item_permission: [ROLE_ENCARGADO, ROLE_FACILITY]
             search:
-                item_permission: [ROLE_SOLICITUD,ROLE_CLIENTE]
+                item_permission: [ROLE_ENCARGADO,ROLE_CLIENTE]
             form:
                 fields:
                     - { type: 'group', columns: 6 }

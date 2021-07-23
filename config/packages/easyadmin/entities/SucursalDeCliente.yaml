@@ -3,7 +3,7 @@ easy_admin:
     SucursalDeCliente:
       class: App\Entity\SucursalDeCliente
       list:
-        item_permission: [ROLE_PROPIEDAD_ITEM, ROLE_CLIENTE]
+        item_permission: [ROLE_ADMIN, ROLE_CLIENTE]
         filters:
           - { property: 'id', label: 'ID' }
           - { property: 'codigo' }
@@ -26,7 +26,7 @@ easy_admin:
           - facility
           - Sucursal
       new:
-        item_permission: [ROLE_PROPIEDAD_ITEM]
+        item_permission: [ROLE_ADMIN]
         fields:
           - codigo
           - direccion
@@ -40,6 +40,6 @@ easy_admin:
           - codigo
           - { property: 'Cliente', type: 'text' }
       delete:
-        item_permission: [ROLE_PROPIEDAD_ITEM]
+        item_permission: [ROLE_ADMIN]
       search:
-        item_permission: [ROLE_PROPIEDAD_ITEM]
+        item_permission: [ROLE_ADMIN]

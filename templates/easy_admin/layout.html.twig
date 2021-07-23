@@ -84,7 +84,7 @@ localStorage.getItem('easyadmin/sidebar/width') || 'normal'
 								<div class="navbar-collapse collapse" id="collapsingNavbar">
 
 									<ul class="navbar-nav ml-auto">
-										{% if is_granted('ROLE_SOLICITUD') %}
+										{% if is_granted('ROLE_ENCARGADO') %}
 										<li class="nav-item">
 											{{ render(controller('App\\Controller\\SolicitudController::getUnreads')) }}
 										</li>

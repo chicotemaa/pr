@@ -17,18 +17,6 @@ ROLE_ENCARGADO: Encargado
 ROLE_EMPLEADO: Empleado (Aplicación)
 ROLE_CLIENTE: Cliente
 ROLE_USER: Usuario
-ROLE_USER_CRUD: Administrar usuarios
-ROLE_GROUP: Grupos
-ROLE_CLIENTE_CRUD: Administrar clientes
-ROLE_FORMULARIO: Formularios
-ROLE_ITEM: Campos Formulario
-ROLE_MODULO: Módulos Formulario
-ROLE_OPCION: Opciones Formulario
-ROLE_ORDEN_TRABAJO: Ordenes de Trabajo
-ROLE_PROPIEDAD_ITEM: Propiedades de Campo
-ROLE_PAIS: Países
-ROLE_SERVICIO: Servicios
-ROLE_SOLICITUD: Solicitudes
 ROLE_SUCURSAL: Sucursales
 ROLE_CLIENTE_MENU: Menu Cliente
 ROLE_DASHBOARD: Panel de Control / Dashboard

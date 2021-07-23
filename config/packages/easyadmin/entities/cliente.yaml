@@ -9,7 +9,7 @@ easy_admin:
                 edit: 'Cliente/edit.html.twig'
                 new_ajax: 'Cliente/new_ajax.html.twig'
             list:
-                item_permission: [ROLE_CLIENTE_CRUD]
+                item_permission: [ROLE_ADMIN]
                 fields:
                     - 'id'
                     - 'apellido'
@@ -17,15 +17,15 @@ easy_admin:
                     - 'razonSocial'
                     - 'ivaConditionString'
             edit:
-                item_permission: [ROLE_CLIENTE_CRUD]
+                item_permission: [ROLE_ADMIN]
             new:
-                item_permission: [ROLE_CLIENTE_CRUD]
+                item_permission: [ROLE_ADMIN]
             show:
-                item_permission: [ROLE_CLIENTE_CRUD]
+                item_permission: [ROLE_ADMIN]
             delete:
-                item_permission: [ROLE_CLIENTE_CRUD]
+                item_permission: [ROLE_ADMIN]
             search:
-                item_permission: [ROLE_CLIENTE_CRUD]
+                item_permission: [ROLE_ADMIN]
             form:
                 filters:
                     - property: 'apellido'

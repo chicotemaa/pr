@@ -239,7 +239,7 @@ class OrdenTrabajoController extends EasyAdminController
 
 
                 //verifica si algun form orden esta vacio
-                if ((!$this->formularioResultado) && ($this->isGranted('ROLE_ORDEN_TRABAJO'))) {
+                if ((!$this->formularioResultado) && ($this->isGranted('ROLE_ENCARGADO'))) {
                     $this->addFlash('warning', 'El formulario no ha sido completado');
 
                     if ('show' == $this->request->request->get('actionReturn')) {
