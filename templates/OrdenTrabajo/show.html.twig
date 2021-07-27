@@ -294,7 +294,7 @@
                                     {{  item.titulo }}<br>
                                 <div class="row">
                         {% endif %}
-                                {{dump(propiedadItemsResultado[k].id)}}
+
                                 {% if propiedadItemsResultado[k].deleted==1  %}
                                 <button id="guardar-{{propiedadItemsResultado[k].id}}" style=" float:left;" class="btn btn-succes firmar" onclick=recuperarFoto({{propiedadItemsResultado[k].id}})>foto n°{{propiedadItemsResultado[k].id}} Deshabilitada</button>
     
