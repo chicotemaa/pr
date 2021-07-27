@@ -19,17 +19,36 @@ class OrdenTrabajoRepository extends ServiceEntityRepository
         parent::__construct($registry, OrdenTrabajo::class);
     }
 
-    public function findBySucursalDeCliente( $sucursalesDeCliente)
+    public function findBySucursalDeCliente( $sucursalesDeCliente, $ultimo)
     {
         return $this->createQueryBuilder('oa')
             ->andWhere('oa.SucursalDeCliente = :sucursalesDeCliente')
+            ->andWhere('oa.id < :ultimo')
             ->andWhere('oa.fecha <= CURRENT_DATE()')
             ->setParameter('sucursalesDeCliente', $sucursalesDeCliente)
+            ->setParameter('ultimo', $ultimo)
             ->orderBy('oa.fecha', 'DESC')
             ->addOrderBy('oa.id', 'DESC')
-            ->setMaxResults(100)
+            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
+            
+        ;
+    }
+    public function findByFacility( $facility, $ultimo)
+    {
+        return $this->createQueryBuilder('oa')
+            ->andWhere('oa.Facility = :facility')
+            ->andWhere('oa.id < :ultimo')
+            ->andWhere('oa.fecha <= CURRENT_DATE()')
+            ->setParameter('facility', $facility)
+            ->setParameter('ultimo', $ultimo)
+            ->orderBy('oa.fecha', 'DESC')
+            ->addOrderBy('oa.id', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            
         ;
     }
 

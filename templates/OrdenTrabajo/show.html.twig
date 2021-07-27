@@ -79,6 +79,68 @@
         <p><strong> Ubicación Cierre </strong></p>
         <div id="mapCierre" class="map"></div>
     {% endif %}
+    {# aca va boton de estado #}
+    <div class="col-4 m-2 alert alert-success " id="estadoEditado" style="display:none">Estado de Orden de trabajo editado</div>
+    <div class="form-group-lg card-body d-flex center-content-between align-items-center">
+    
+    <h4>Estado de Orden de Trabajo </h4>
+    <select class="btn btn-sucess ml-3 mb-1 p-2"
+    {% if entity.estado == 0 %} value="{{ entity.estado}}" style="color: #fff; background-color: #dd4b39; font-weight: bold;" 
+        {% elseif entity.estado == 1 %} value="{{ entity.estado}}" style="color: #fff; background-color: #f39c12; font-weight: bold;" 
+        {% elseif entity.estado == 2 %} value="{{ entity.estado}}" style="color: #fff; background-color: #00a65a; font-weight: bold;" 
+        {% elseif entity.estado == 3 %} value="{{ entity.estado}}" style="color: #fff; background-color: #ffb100; font-weight: bold;" 
+        {% elseif entity.estado == 4 %} value="{{ entity.estado}}" style="color: #fff; background-color: #5cbe4a; font-weight: bold;" 
+        {% elseif entity.estado == 5 %} value="{{ entity.estado}}" style="color: #fff; background-color: #2db7f0; font-weight: bold;"
+    {% endif %}
+    id="estado{{ entity.id }}"
+>   
+
+    <option value="1">Estoy en camino</option>
+    <option value="2">Me recibió</option>
+    <option value="3">No me atendió</option>
+    <option value="4">Finalizado</option>
+    <option value="5">Postergado</option>
+    
+</select>
+    </div>
+    
+    <script>
+
+    let estado= document.getElementById("estado"+{{ entity.id }});
+    let estadoeditado= document.getElementById('estadoEditado');
+    $("#estado{{ entity.id }}").val('{{entity.estado}}');
+    $("#estado{{ entity.id }}").change(function() {
+        $("#estado{{ entity.id }}").val(estado.value)
+       
+       switch (estado.value) {
+           case "1": estado.style.backgroundColor='#f39c12';
+           break;
+           case "2": estado.style.backgroundColor='#00a65a';
+           break;
+           case "3": estado.style.backgroundColor='#ffb100'; 
+           break;
+           case "4": estado.style.backgroundColor='#5cbe4a';
+           break;
+           case "5": estado.style.backgroundColor='#2db7f0';
+           break;
+           default:
+            estado.style.backgroundColor='#dd4b39'
+       }
+            let datos={
+            'idOrden':{{entity.id}},
+            'firma':UserName+fecha,
+            'estado': estado.value ,
+            'estadoGestion':1
+            }
+            $.ajax({
+            "type": "POST" ,
+            "url": "/firmar-formulario/",
+            "data":datos,
+        })
+        estadoeditado.style.display='block';
+
+        });
+    </script>
 
     {# Aca se muestran la edicion de los campos hora de inicio hora de fin y minutos trabajados#}
     {% if (entity.horaInicio or entity.horaFin) is not empty %}

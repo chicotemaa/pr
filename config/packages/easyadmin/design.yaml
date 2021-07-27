@@ -19,7 +19,6 @@ easy_admin:
             - { entity: 'Equipo', label: 'Equipos', icon: 'server', permission: [ROLE_ENCARGADO, ROLE_ADMIN] }
             - { entity: 'FormularioResultadoExpress', permission: [ROLE_ADMIN, ROLE_SUCURSAL] , label: 'Formularios Express', icon: 'business-time'}
             - { entity: 'formularioCompraMateriales', label: 'Compra de materiales', icon: 'shopping-cart', permission: [ROLE_ADMIN,ROLE_SUCURSAL] }
-            - { entity: 'FormularioResultado', label: 'Compra de materiales', icon: 'shopping-cart', permission: [ROLE_ADMIN,ROLE_SUCURSAL] }
             - label: 'Papelera'
               icon: 'trash-alt' 
               permission: [ROLE_ADMIN, ROLE_STAFF,ROLE_FACILITY , ROLE_MANAGER]
