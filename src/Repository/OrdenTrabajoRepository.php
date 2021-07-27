@@ -65,6 +65,20 @@ class OrdenTrabajoRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    public function findBySucursalUser($userId)
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.user = :userId')
+            ->andWhere('o.fecha <= CURRENT_DATE()')
+            ->setParameter('userId', $userId)
+            ->orderBy('o.fecha', 'DESC')
+            ->addOrderBy('o.id', 'DESC')
+            ->setMaxResults(20)
+            ->groupBy('o.SucursalDeCliente')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     public function findByUserEstado($userId, $estados)
     {
