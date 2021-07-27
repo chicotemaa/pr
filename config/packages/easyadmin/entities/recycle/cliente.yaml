@@ -11,7 +11,7 @@ easy_admin:
             disabled_actions: ['edit', 'new']
             list:
                 title: "Clientes Eliminados"
-                item_permission: [ROLE_CLIENTE_CRUD]
+                item_permission: [ROLE_ADMIN]
                 fields:
                     - 'id'
                     - 'apellido'
@@ -20,15 +20,15 @@ easy_admin:
                     - 'sucursal'
                     - 'ivaConditionString'
             edit:
-                item_permission: [ROLE_CLIENTE_CRUD]
+                item_permission: [ROLE_ADMIN]
             new:
-                item_permission: [ROLE_CLIENTE_CRUD]
+                item_permission: [ROLE_ADMIN]
             show:
-                item_permission: [ROLE_CLIENTE_CRUD]
+                item_permission: [ROLE_ADMIN]
             delete:
-                item_permission: [ROLE_CLIENTE_CRUD]
+                item_permission: [ROLE_ADMIN]
             search:
-                item_permission: [ROLE_CLIENTE_CRUD]
+                item_permission: [ROLE_ADMIN]
             form:
                 filters:
                     - property: 'apellido'

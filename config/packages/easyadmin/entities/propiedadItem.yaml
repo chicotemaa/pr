@@ -3,14 +3,14 @@ easy_admin:
         PropiedadItem:
             class: App\Entity\PropiedadItem
             list:
-                item_permission: [ROLE_PROPIEDAD_ITEM]
+                item_permission: [ROLE_ADMIN]
             edit:
-                item_permission: [ROLE_PROPIEDAD_ITEM]
+                item_permission: [ROLE_ADMIN]
             new:
-                item_permission: [ROLE_PROPIEDAD_ITEM]
+                item_permission: [ROLE_ADMIN]
             show:
-                item_permission: [ROLE_PROPIEDAD_ITEM]
+                item_permission: [ROLE_ADMIN]
             delete:
-                item_permission: [ROLE_PROPIEDAD_ITEM]
+                item_permission: [ROLE_ADMIN]
             search:
-                item_permission: [ROLE_PROPIEDAD_ITEM]
+                item_permission: [ROLE_ADMIN]

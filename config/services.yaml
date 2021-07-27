@@ -20,29 +20,19 @@ parameters:
         'No me atendió': 3
         'Finalizado': 4
         'Postergado': 5
+    otEstadoGestionArray:
+        'Pendiente': 0
+        'En revision': 1
+        'Finalizada': 2
     solicitudEstadoArray:
         'Pendiente': 0
         'Generada OT': 1
         'Derivada': 2
     # PARA ACCIONES PARTICULARES PARA CADA ITEM DEL MENU
     LISTA_ROLES:
-        ROLE_USER: 'ROLE_USER' #Por defecto todos los usuarios son ROLE_USER
-        ROLE_USER_CRUD: 'ROLE_USER_CRUD' #Es para administrar los usuarios
-        ROLE_GROUP: 'ROLE_GROUP'
-        ROLE_CARPETA: 'ROLE_CARPETA'
         ROLE_CLIENTE: 'ROLE_CLIENTE' #Es para que acceda desde la app movil
-        ROLE_CLIENTE_CRUD: 'ROLE_CLIENTE_CRUD' #Es para administrar los clientes
         ROLE_EMPLEADO: 'ROLE_EMPLEADO'
         ROLE_ENCARGADO: 'ROLE_ENCARGADO'
-        ROLE_FORMULARIO: 'ROLE_FORMULARIO'
-        ROLE_ITEM: 'ROLE_ITEM'
-        ROLE_MODULO: 'ROLE_MODULO'
-        ROLE_OPCION: 'ROLE_OPCION'
-        ROLE_ORDEN_TRABAJO: 'ROLE_ORDEN_TRABAJO'
-        ROLE_PROPIEDAD_ITEM: 'ROLE_PROPIEDAD_ITEM'
-        ROLE_PAIS: 'ROLE_PAIS'
-        ROLE_SERVICIO: 'ROLE_SERVICIO'
-        ROLE_SOLICITUD: 'ROLE_SOLICITUD'
         ROLE_SUCURSAL: 'ROLE_SUCURSAL'
         ROLE_CLIENTE_MENU: 'ROLE_CLIENTE_MENU'
         ROLE_DASHBOARD: 'ROLE_DASHBOARD'

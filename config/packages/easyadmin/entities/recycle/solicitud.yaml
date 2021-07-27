@@ -10,7 +10,7 @@ easy_admin:
             disabled_actions: ['edit', 'new']
             list:
                 title: "Solicitudes Eliminadas"
-                item_permission: [ROLE_SOLICITUD,ROLE_CLIENTE]
+                item_permission: [ROLE_ENCARGADO,ROLE_CLIENTE]
                 filters:
                     - property: 'cliente'
                     - property: 'estado'
@@ -32,15 +32,15 @@ easy_admin:
                     - { property: 'estado', label: 'Estado' ,template: 'Solicitud/estado.html.twig' }
                     - consulta
             edit:
-                item_permission: [ROLE_SOLICITUD]
+                item_permission: [ROLE_ENCARGADO]
             new:
-                item_permission: [ROLE_SOLICITUD]
+                item_permission: [ROLE_ENCARGADO]
             show:
-                item_permission: [ROLE_SOLICITUD]
+                item_permission: [ROLE_ENCARGADO]
             delete:
-                item_permission: [ROLE_SOLICITUD]
+                item_permission: [ROLE_ENCARGADO]
             search:
-                item_permission: [ROLE_SOLICITUD]
+                item_permission: [ROLE_ENCARGADO]
             form:
                 fields:
                     - { type: 'group', columns: 6 }

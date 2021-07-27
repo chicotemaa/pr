@@ -10,13 +10,13 @@ easy_admin:
                 - property: 'activo'
             list:
                 title: "Servicios Eliminados"
-                item_permission: [ROLE_SERVICIO]
+                item_permission: [ROLE_ENCARGADO]
                 fields:
                     - id
                     - titulo
                     - activo
             show:
-                item_permission: [ROLE_SERVICIO]
+                item_permission: [ROLE_ENCARGADO]
                 fields:
                     - id
                     - titulo
@@ -24,13 +24,13 @@ easy_admin:
                     - activo
                     - { property: 'image', type: 'image', base_path: '/uploads/imagenes/servicio' }
             edit:
-                item_permission: [ROLE_SERVICIO]
+                item_permission: [ROLE_ENCARGADO]
             new:
-                item_permission: [ROLE_SERVICIO]
+                item_permission: [ROLE_ENCARGADO]
             delete:
-                item_permission: [ROLE_SERVICIO]
+                item_permission: [ROLE_ENCARGADO]
             search:
-                item_permission: [ROLE_SERVICIO]
+                item_permission: [ROLE_ENCARGADO]
             form:
                 fields:
                     - { property: 'titulo' }

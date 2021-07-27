@@ -10,7 +10,7 @@ easy_admin:
             list:
                 max_results: 50
                 title: "Formularios Express"
-                item_permission: [ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ENCARGADO]
                 batch_actions: ['exportar']
                 fields:
                 - { property: 'id',template: 'FormularioResultadoExpress/id.html.twig'}
@@ -35,7 +35,7 @@ easy_admin:
                       type: 'App\Form\Filter\EstadoFilterType'
                       mapped: false
                 show:
-                    item_permission: [ROLE_ORDEN_TRABAJO]
+                    item_permission: [ROLE_ENCARGADO]
                     fields:
                         - { property: 'id', columns: 6 }
                         - { property: 'user', type: 'text', columns: 6 }

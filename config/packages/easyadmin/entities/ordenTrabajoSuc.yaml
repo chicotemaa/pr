@@ -1,6 +1,6 @@
 easy_admin:
     entities:
-        OrdenTrabajo:
+        OrdenTrabajoSuc:
             class: App\Entity\OrdenTrabajo
             controller: App\Controller\OrdenTrabajoController
             templates:
@@ -11,7 +11,7 @@ easy_admin:
                 list: 'OrdenTrabajo/list.html.twig'
             list:
                 max_results: 30
-                item_permission: [ROLE_ENCARGADO, ROLE_SUCURSAL]
+                item_permission: [ROLE_ADMIN, ROLE_SUCURSAL]
                 batch_actions: ['exportar','delete']
 
                 filters:
@@ -48,10 +48,10 @@ easy_admin:
                     # - { property: 'motivo', label: 'Postergado por' }
                 actions:
                     - { name: 'show',  icon: 'search', label: '' }
-                    - { name: 'edit', icon: 'pencil', label: '' }
+                    - { name: '-edit', icon: 'pencil', label: '' }
                     - { name: 'delete', icon: 'remove', label: '' }
             show:
-                item_permission: [ROLE_ENCARGADO, ROLE_SUCURSAL]
+                item_permission: [ROLE_ADMIN, ROLE_SUCURSAL]
                 fields:
                     - { property: 'id', columns: 6 }
                     - { property: 'user', type: 'text', columns: 6 }
@@ -73,15 +73,16 @@ easy_admin:
                     - { property: 'responsableFirma', label: 'Firma del responsable', columns: 6 }
                     - { property: 'comentario' }
                     - { property: 'firma' , label: 'Ultima Edicion de Formulario'}
-                actions: [ 'delete', 'list', 'edit']
+                actions: [ 'delete', 'list', '-edit']
             new:
-                item_permission: [ROLE_ENCARGADO, ROLE_SUCURSAL]
+                item_permission: [ROLE_ADMIN, ROLE_SUCURSAL]
                 fields:
                     - '-estado'
                     - { property: 'SucursalDeCliente' }
                     - { property: 'cliente', type_options:{required: false} ,columns: 12 , css_class: 'invisible' }
                     - { property: 'Facility', type_options:{required: false} , columns: 12 , css_class: 'invisible' }
                     - { property: 'user', label: 'Tecnico asignado' , type_options: { required: true }}
+                    - { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }
                     #- { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
             edit:
                 item_permission: [ROLE_ADMIN]
@@ -90,14 +91,12 @@ easy_admin:
                     - { property: 'horaInicio', columns: 7, format: 'H:i', type_options: { widget: 'single_text', required: false }, label: 'Hora de inicio (NO EDITAR)' }
                     - { property: 'horaFin', columns: 7, format: 'H:i', type_options: { widget: 'single_text', required: true } }
                     - { property: 'minutos', label: 'Minutos Trabajados', type: 'integer' ,type_options: { mapped: false},css_class: 'invisible' }
-                    - { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }
             delete:
-                item_permission: [ROLE_ENCARGADO]
+                item_permission: [ROLE_ADMIN]
             form:
-                item_permission: [ROLE_ENCARGADO]
+                item_permission: [ROLE_ADMIN]
                 fields:
                     - { type: 'group', label: 'Information', css_class: 'col-md-8'}
-                    - { property: 'estadoGestion', type: 'choice', type_options: { choices: '%otEstadoGestionArray%' } }
                     - { property: 'SucursalDeCliente', label: 'Sucursal de Cliente', { attr: { required: true, create: true } }
                     - { property: 'formulario', css_class: 'col-md-8', type_options: { required: true } }
                     - { property: 'user', label: 'Tecnico asignado' }
@@ -113,4 +112,4 @@ easy_admin:
                     - { property: 'solicitudOpcion', type: 'hidden', type_options: { mapped: false } }
                     - { property: 'cliente', type_options: { attr: { required: true, create: true } }  }                   
                     - { property: 'Facility', label: 'Facility' }
-                    - { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }
+                   

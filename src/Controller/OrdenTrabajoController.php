@@ -239,7 +239,7 @@ class OrdenTrabajoController extends EasyAdminController
 
 
                 //verifica si algun form orden esta vacio
-                if ((!$this->formularioResultado) && ($this->isGranted('ROLE_ORDEN_TRABAJO'))) {
+                if ((!$this->formularioResultado) && ($this->isGranted('ROLE_ENCARGADO'))) {
                     $this->addFlash('warning', 'El formulario no ha sido completado');
 
                     if ('show' == $this->request->request->get('actionReturn')) {
@@ -1214,7 +1214,11 @@ class OrdenTrabajoController extends EasyAdminController
             $sheet->setCellValue('G'.$i, $horaInicio);
             $sheet->setCellValue('H'.$i, $horaFin);
             if ($ordenTrabajo->getFormularioResultado()) {
-                $sheet->setCellValue('I'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
+                if ($ordenTrabajo->getFormularioResultado()->getMinutosReales()) {
+                    $sheet->setCellValue('I'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosReales());
+                }else {
+                    $sheet->setCellValue('I'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
+                }
             }
             $sheet->setCellValue('J'.$i, $razon);
             $sheet->setCellValue('K'.$i, $cliente);
@@ -1276,7 +1280,11 @@ class OrdenTrabajoController extends EasyAdminController
             $sheet->setCellValue('H'.$i, $horaInicio);
             $sheet->setCellValue('I'.$i, $horaFin);
             if ($ordenTrabajo->getFormularioResultado()) {
-                $sheet->setCellValue('J'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
+                if ($ordenTrabajo->getFormularioResultado()->getMinutosReales()) {
+                    $sheet->setCellValue('I'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosReales());
+                }else {
+                    $sheet->setCellValue('I'.$i, $ordenTrabajo->getFormularioResultado()->getMinutosTrabajado());
+                }
             }
             $sheet->setCellValue('K'.$i, $razon);
             $sheet->setCellValue('L'.$i, $cliente);
@@ -1303,14 +1311,14 @@ class OrdenTrabajoController extends EasyAdminController
         $sheet = $spreadsheet->getActiveSheet();
         foreach ($array as $valor){
             $ordenTrabajo = $this->em->getRepository(FormularioResultadoExpress::class)->find($valor);
-            //dump($ordenTrabajo);die;
+            $resultado = $this->em->getRepository(Resultado::class)->findByFormularioResultadoExpress($ordenTrabajo->getId())[0]->getValor()[0];
             $cliente = $ordenTrabajo->getCliente();
             $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
             $fileName = 'lista.xls';
 
             //$spreadsheet = new Spreadsheet();
 
-            foreach(range('B','I') as $columnID) {
+            foreach(range('B','J') as $columnID) {
                 $sheet->getColumnDimension($columnID)
                     ->setAutoSize(true);
             }
@@ -1335,6 +1343,7 @@ class OrdenTrabajoController extends EasyAdminController
                $sheet->setCellValue('H'.$i, $ordenTrabajo->getMinutosTrabajado());
             //}
             $sheet->setCellValue('I'.$i, $cliente);
+            $sheet->setCellValue('J'.$i, $resultado);
             $i++;
         }
 
@@ -1345,7 +1354,19 @@ class OrdenTrabajoController extends EasyAdminController
 
         return $fileName;
     }
-
+    public function findByFormularioExpress($formularioResultadoExpress)
+    {
+        return $this->createQueryBuilder('oa')
+        ->andWhere('oa.formularioResultadoExpress = :formularioResultadoExpress')
+        ->andWhere('oa.fecha <= CURRENT_DATE()')
+        ->setParameter('formularioResultadoExpress', $formularioResultadoExpress)
+        ->orderBy('oa.fecha', 'DESC')
+        ->addOrderBy('oa.id', 'DESC')
+        ->setMaxResults(100)
+        ->getQuery()
+        ->getResult()
+    ;
+    }
 
     public function editarFormulario(Request $request){
 
@@ -1381,6 +1402,10 @@ class OrdenTrabajoController extends EasyAdminController
         $ordenTrabajo =  $this->getDoctrine()->getRepository(OrdenTrabajo::class)->find($idOrden);
         $ordenTrabajo->setFirma($firma);
         $ordenTrabajo->setEstadoGestion($estadoGestion);
+        if ($request->request->get('estado')) {
+            $estado = $request->request->get('estado'); 
+            $ordenTrabajo->setEstado($estado);   
+        }
         if ($request->request->get('iniciomin') != null) {
             $iniciomin = new \DateTime($request->request->get('iniciomin'));
             $ordenTrabajo->setHoraInicio($iniciomin);       

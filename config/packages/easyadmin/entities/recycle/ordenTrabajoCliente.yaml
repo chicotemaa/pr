@@ -12,7 +12,7 @@ easy_admin:
             disabled_actions: ['edit', 'new', 'delete']
             list:
                 title: "Ordenes Eliminadas"
-                item_permission: [ROLE_ORDEN_TRABAJO, ROLE_CLIENTE]
+                item_permission: [ROLE_ENCARGADO, ROLE_CLIENTE]
                 filters: 
                     - property: 'user'
                     - property: 'formulario'
@@ -39,7 +39,7 @@ easy_admin:
                     - { name: 'show',  icon: 'search', label: '' }
                     - { name: 'edit', icon: 'pencil', label: '' }
             show:
-                item_permission: [ROLE_ORDEN_TRABAJO, ROLE_CLIENTE]
+                item_permission: [ROLE_ENCARGADO, ROLE_CLIENTE]
                 fields:
                     - { property: 'id', columns: 6 }
                     - { property: 'user', type: 'text', columns: 6 }
@@ -60,14 +60,14 @@ easy_admin:
                     - { property: 'comentario' }
                 actions: ['-edit', '-delete', 'list']
             new:
-                item_permission: [ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ENCARGADO]
                 fields:
                     - '-estado'
                     - { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
             edit:
-                item_permission: [ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ENCARGADO]
             form:
-                item_permission: [ROLE_ORDEN_TRABAJO]
+                item_permission: [ROLE_ENCARGADO]
                 fields:
                     - { type: 'group', label: 'Information', css_class: 'col-md-8'}
                     - { property: 'formulario', css_class: 'col-md-8', type_options: { required: true } }

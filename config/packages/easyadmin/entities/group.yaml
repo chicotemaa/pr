@@ -3,7 +3,7 @@ easy_admin:
         Group:
             class: App\Entity\Group
             list:
-                item_permission: [ROLE_GROUP]
+                item_permission: [ROLE_ADMIN]
                 filters: [
                     { property: 'name', label: 'Nombre' },
                     { property: 'descripcion' }
@@ -13,11 +13,11 @@ easy_admin:
                     - { property: 'descripcion' }
                     - { property: 'roles', template: 'group/role_list_field.html.twig' }
             new:
-                item_permission: [ROLE_GROUP]
+                item_permission: [ROLE_ADMIN]
             edit:
-                item_permission: [ROLE_GROUP]
+                item_permission: [ROLE_ADMIN]
             form:  # <-- 'form' is applied to both 'new' and 'edit' views
-                item_permission: [ROLE_GROUP]
+                item_permission: [ROLE_ADMIN]
                 fields: 
                     - { type: 'group', columns: 12, label: 'Detalles' }
                     - { property: 'name', label: 'Nombre', columns: 4 }
@@ -33,12 +33,12 @@ easy_admin:
                             expanded: true
                             choices: '%LISTA_ROLES%'
             show:
-                item_permission: [ROLE_GROUP]
+                item_permission: [ROLE_ADMIN]
                 fields:
                     - { property: 'name', label: 'Nombre', columns: 6 }
                     - { property: 'descripcion', columns: 6 }
                     - { property: 'roles', label: 'Roles', columns: 6, template: 'group/role_list_field.html.twig' }
             delete:
-                item_permission: [ROLE_GROUP]
+                item_permission: [ROLE_ADMIN]
             search:
-                item_permission: [ROLE_GROUP]
+                item_permission: [ROLE_ADMIN]
