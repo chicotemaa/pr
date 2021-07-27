@@ -340,6 +340,7 @@ class AppController extends AbstractController
             'OrdenTrabajo' => $results,
         ]);
     }
+    
     /**
     * @Route("/orden_trabajo/facility/{id}/{ultimo}")
     */
@@ -464,5 +465,30 @@ class AppController extends AbstractController
         return new JsonResponse([
             'OrdenTrabajo' => $results,
         ]);
+    }
+    
+    /**
+    * @Route("/sucursaldecliente/tecnico/{id}")
+    */
+    public function sucursalxTecnico($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $ordenesTrabajo = $this->getDoctrine()->getRepository(OrdenTrabajo::class)->findBySucursalUser($id);
+        $results=[];
+            foreach ($ordenesTrabajo as $key => $ordenTrabajo) {
+                $sucursal=$ordenTrabajo->getSucursalDeCliente()->getDireccion();
+                
+                $results[]=[
+                    $sucursal
+                ];
+                    
+            }
+            
+
+            return new JsonResponse([
+                'Sucursalesxtecnico' => $results,
+            ]);
+    
     }
 }
