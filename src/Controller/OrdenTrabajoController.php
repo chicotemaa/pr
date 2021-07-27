@@ -1402,6 +1402,10 @@ class OrdenTrabajoController extends EasyAdminController
         $ordenTrabajo =  $this->getDoctrine()->getRepository(OrdenTrabajo::class)->find($idOrden);
         $ordenTrabajo->setFirma($firma);
         $ordenTrabajo->setEstadoGestion($estadoGestion);
+        if ($request->request->get('estado')) {
+            $estado = $request->request->get('estado'); 
+            $ordenTrabajo->setEstado($estado);   
+        }
         if ($request->request->get('iniciomin') != null) {
             $iniciomin = new \DateTime($request->request->get('iniciomin'));
             $ordenTrabajo->setHoraInicio($iniciomin);       
