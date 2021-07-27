@@ -478,9 +478,11 @@ class AppController extends AbstractController
         $results=[];
             foreach ($ordenesTrabajo as $key => $ordenTrabajo) {
                 $sucursal=$ordenTrabajo->getSucursalDeCliente()->getDireccion();
+                $cliente=$ordenTrabajo->getCliente()->getRazonSocial();
                 
                 $results[]=[
-                    $sucursal
+                    'cliente'=>$cliente,
+                    'direccion'=>$sucursal
                 ];
                     
             }

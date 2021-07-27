@@ -73,9 +73,8 @@ class OrdenTrabajoRepository extends ServiceEntityRepository
             ->setParameter('userId', $userId)
             ->orderBy('o.fecha', 'DESC')
             ->addOrderBy('o.id', 'DESC')
-            ->setMaxResults(100)
+            ->setMaxResults(20)
             ->groupBy('o.SucursalDeCliente')
-            ->distinct()
             ->getQuery()
             ->getResult()
         ;
