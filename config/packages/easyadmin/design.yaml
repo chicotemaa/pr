@@ -11,8 +11,8 @@ easy_admin:
         menu:
             - { label: 'Gestión de Trabajo' , permission: [ROLE_ADMIN, ROLE_ENCARGADO, ROLE_ENCARGADO, ROLE_ADMIN, ROLE_DASHBOARD, ROLE_STAFF, ROLE_EMPLEADO, ROLE_FACILITY, ROLE_MANAGER] }
             - { label: 'Dashboard', route: 'dashboard', icon: 'dashboard', permission: [ROLE_ADMIN, ROLE_DASHBOARD] }
-            - { entity: 'OrdenTrabajoSuc', label: 'Ordenes Trabajo', icon: 'briefcase', permission: [ROLE_SUCURSAL] }
-            - { entity: 'OrdenTrabajo', label: 'Ordenes Trabajo', icon: 'briefcase', permission: [ROLE_ADMIN] }
+            #- { entity: 'OrdenTrabajoSuc', label: 'Ordenes Trabajo', icon: 'briefcase', permission: [ROLE_SUCURSAL] }
+            - { entity: 'OrdenTrabajo', label: 'Ordenes Trabajo', icon: 'briefcase', permission: [ROLE_ADMIN, ROLE_SUCURSAL] }
             - { entity: 'OrdenTrabajoCliente', label: 'Ordenes Trabajo', icon: 'briefcase', permission: [ROLE_STAFF, ROLE_FACILITY , ROLE_MANAGER] }
             - { entity: 'Solicitud', label: 'Solicitudes',default: true, icon: 'list', permission: [ROLE_ENCARGADO, ROLE_STAFF, ROLE_FACILITY, ROLE_MANAGER] }
             - { entity: 'Carpeta', label: 'Carpetas', icon: 'folder', permission: [ROLE_ADMIN]}
