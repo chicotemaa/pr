@@ -97,7 +97,7 @@ easy_admin:
                 item_permission: [ROLE_ENCARGADO]
                 fields:
                     - { type: 'group', label: 'Information', css_class: 'col-md-8'}
-                    - { property: 'estadoGestion', type: 'choice', type_options: { choices: '%otEstadoGestionArray%' } }
+                    - { property: 'estadoGestion', type: 'choice', type_options: { choices: '%otEstadoGestionArray%' }, permission: [ROLE_ADMIN]}
                     - { property: 'SucursalDeCliente', label: 'Sucursal de Cliente', { attr: { required: true, create: true } }
                     - { property: 'formulario', css_class: 'col-md-8', type_options: { required: true } }
                     - { property: 'user', label: 'Tecnico asignado' }
