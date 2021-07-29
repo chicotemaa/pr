@@ -59,7 +59,7 @@ easy_admin:
                     - { property: 'orden', columns: 6 }
                     - { property: 'sucursal', type: 'text', columns: 6 }
                     - { property: 'cliente', type: 'text', columns: 6 }
-                    - { property: 'Comentario', type: 'text', columns: 6 }
+                    - { property: 'comentario', type: 'text', columns: 6 }
                     - { property: 'SucursalDeCliente', type: 'text', columns: 6 }
                     - { property: 'Facility', type: 'text', columns: 6 }
                     - { property: 'estadoToString', label: 'Estado', columns: 6 }
@@ -71,7 +71,6 @@ easy_admin:
                     #- { property: 'solicitud.servicio', label: 'Solicitud asociada', columns: 6 }
                     - { property: 'imageName', type: 'image', label: 'Firma', base_path: 'uploads/imagenes/resultado/', columns: 6 }
                     - { property: 'responsableFirma', label: 'Firma del responsable', columns: 6 }
-                    - { property: 'comentario' }
                     - { property: 'firma' , label: 'Ultima Edicion de Formulario'}
                 actions: [ 'delete', 'list', 'edit']
             new:
@@ -84,13 +83,19 @@ easy_admin:
                     - { property: 'user', label: 'Tecnico asignado' , type_options: { required: true }}
                     #- { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
             edit:
-                item_permission: [ROLE_ADMIN]
+                item_permission: [ROLE_ADMIN, ROLE_LIDER]
                 fields:
                     - { property: 'SucursalDeCliente', label: 'Sucursal de Cliente' }
-                    - { property: 'horaInicio', columns: 7, format: 'H:i', type_options: { widget: 'single_text', required: false }, label: 'Hora de inicio (NO EDITAR)' }
-                    - { property: 'horaFin', columns: 7, format: 'H:i', type_options: { widget: 'single_text', required: true } }
-                    - { property: 'minutos', label: 'Minutos Trabajados', type: 'integer' ,type_options: { mapped: false},css_class: 'invisible' }
-                    - { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }
+                    - { property: 'orden', columns: 6 , permission: ROLE_ADMIN}
+                    - { property: 'servicio', columns: 6 , permission: ROLE_ADMIN}
+                    - { property: 'estado', label: 'Estado', template: 'OrdenTrabajo/estado.html.twig', permission: ROLE_ADMIN  }
+                    - { property: 'user', type: 'text', columns: 6 , permission: ROLE_ADMIN}
+                    - { property: 'comentario', type: 'text', columns: 6 , permission: ROLE_ADMIN}
+                    - { property: 'horaDesde', columns: 6, format: 'H:i', type_options: { widget: 'single_text', required: true } , permission: ROLE_ADMIN}
+                    - { property: 'horaHasta', columns: 6, format: 'H:i', type_options: { widget: 'single_text', required: true } , permission: ROLE_ADMIN}
+                    - { property: 'horaInicio', columns: 7, format: 'H:i', type_options: { widget: 'single_text', required: false }, label: 'Hora de inicio (NO EDITAR)', permission: ROLE_ADMIN }
+                    - { property: 'horaFin', columns: 7, format: 'H:i', type_options: { widget: 'single_text', required: true } , permission: ROLE_ADMIN}
+                    - { property: 'minutos', label: 'Minutos Trabajados', type: 'integer' ,type_options: { mapped: false},css_class: 'invisible' , permission: ROLE_ADMIN }
             delete:
                 item_permission: [ROLE_ENCARGADO]
             form:
@@ -111,6 +116,6 @@ easy_admin:
                     - { property: 'horaDesde', columns: 6, format: 'H:i', type_options: { widget: 'single_text', required: true } }
                     - { property: 'horaHasta', columns: 6, format: 'H:i', type_options: { widget: 'single_text', required: true } }
                     - { property: 'solicitudOpcion', type: 'hidden', type_options: { mapped: false } }
-                    - { property: 'cliente', type_options: { attr: { required: true, create: true } }  }                   
-                    - { property: 'Facility', label: 'Facility' }
-                    - { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }
+                    - { property: 'cliente', type_options: { attr: { required: true, create: true } } , permission: [ROLE_ADMIN]  }                   
+                    - { property: 'Facility', label: 'Facility', permission: [ROLE_ADMIN] }
+                    #- { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }

@@ -50,7 +50,15 @@
         </div>
       </div>
     </div>
+    {% if is_granted('ROLE_SUCURSAL') %}
+    <script>
+    $(document).ready(function(){
+    $( ".action-edit" ).addClass( "d-none" );
+    })
+    
+    </script>
 
+    {% endif %}
     {% import _self as render %}
     <style>
       /* Always set the map height explicitly to define the size of the div

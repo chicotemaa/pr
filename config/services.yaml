@@ -40,6 +40,7 @@ parameters:
         ROLE_STAFF: 'ROLE_STAFF'
         ROLE_FACILITY: 'ROLE_FACILITY'
         ROLE_MANAGER: 'ROLE_MANAGER'
+        ROLE_LIDER: 'ROLE_LIDER'
 
     TIPO_ITEMS:
         'Texto': texto
