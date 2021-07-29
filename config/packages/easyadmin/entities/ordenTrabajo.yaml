@@ -116,6 +116,6 @@ easy_admin:
                     - { property: 'horaDesde', columns: 6, format: 'H:i', type_options: { widget: 'single_text', required: true } }
                     - { property: 'horaHasta', columns: 6, format: 'H:i', type_options: { widget: 'single_text', required: true } }
                     - { property: 'solicitudOpcion', type: 'hidden', type_options: { mapped: false } }
-                    - { property: 'cliente', type_options: { attr: { required: true, create: true } } , permission: [ROLE_ADMIN]  }                   
-                    - { property: 'Facility', label: 'Facility', permission: [ROLE_ADMIN] }
+                    - { property: 'cliente', type_options: { attr: { required: true, create: true } }  }                   
+                    - { property: 'Facility', label: 'Facility' }
                     #- { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }
