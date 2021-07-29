@@ -120,6 +120,15 @@
             </a>
         </div>
     {% endif %}
+    {% if is_granted('ROLE_SUCURSAL') %}
+    <script>
+    $(document).ready(function(){
+    $( ".action-edit" ).addClass( "d-none" );
+    })
+    
+    </script>
+
+    {% endif %}
 {% endblock new_action %}
 
 {% set _has_batch_actions = batch_form is defined and batch_form.vars.batch_actions|length > 0 %}
