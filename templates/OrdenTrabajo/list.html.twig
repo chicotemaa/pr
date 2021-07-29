@@ -120,15 +120,6 @@
             </a>
         </div>
     {% endif %}
-    {% if is_granted('ROLE_SUCURSAL') %}
-    <script>
-    $(document).ready(function(){
-    $( ".action-edit" ).addClass( "d-none" );
-    })
-    
-    </script>
-
-    {% endif %}
 {% endblock new_action %}
 
 {% set _has_batch_actions = batch_form is defined and batch_form.vars.batch_actions|length > 0 %}
@@ -251,4 +242,22 @@
     };
 
   </script>
+
+    {% if is_granted('ROLE_SUCURSAL') %}
+      {% if is_granted('ROLE_LIDER')==false %}
+    <script>
+    let estado =document.getElementsByClassName('estadoGestionSelect')
+     console.log(estado[1])
+    for (i=0; i< estado.length; i++){
+      if (estado[i].style.backgroundColor=='#f39c12'){
+        console.log('prueba')
+      }
+    }
+
+    $(document).ready(function(){
+    $( ".action-edit" ).addClass( "d-none" );
+    })
+    </script>
+    {% endif %}
+    {% endif %}
 {% endblock %}

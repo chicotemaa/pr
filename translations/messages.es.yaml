@@ -17,7 +17,8 @@ ROLE_ENCARGADO: Encargado
 ROLE_EMPLEADO: Empleado (Aplicación)
 ROLE_CLIENTE: Cliente
 ROLE_USER: Usuario
-ROLE_SUCURSAL: Sucursales
+ROLE_SUCURSAL: Supervisor Zona
+ROLE_LIDER: Lideres de Zona
 ROLE_CLIENTE_MENU: Menu Cliente
 ROLE_DASHBOARD: Panel de Control / Dashboard
 ROLE_STAFF: Rol de encargado de sucursal
