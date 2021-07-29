@@ -30,14 +30,14 @@ easy_admin:
                     # - { property: 'lastLogin', columns: 6 }
                     - { property: 'plainPassword', type: 'text', type_options: { required: false }, columns: 6 }
                     - { property: 'enabled', columns: 6 }
-                    #-
-                    #    property: 'roles'
-                    #    type: 'choice'
-                    #    columns: 6
-                    #    type_options:
-                    #        multiple: true
-                    #        expanded: false
-                    #        choices: '%LISTA_ROLES%'
+                    -
+                        property: 'roles'
+                        type: 'choice'
+                        columns: 6
+                        type_options:
+                            multiple: true
+                            expanded: false
+                            choices: '%LISTA_ROLES%'
                 form_options: { validation_groups: ['Default', 'Profile'] }
             new:
                 item_permission: [ROLE_ADMIN]
@@ -51,14 +51,14 @@ easy_admin:
                     - { property: 'Facility', columns: 6 }
                     - { property: 'plainPassword', type: 'text', type_options: { required: true }, columns: 6 }
                     - { property: 'enabled', columns: 6 }
-                    #-
-                    #    property: 'roles'
-                    #    type: 'choice'
-                    #    columns: 6
-                    #    type_options:
-                    #        multiple: true
-                    #        expanded: true
-                    #        choices: '%LISTA_ROLES%'
+                    -
+                        property: 'roles'
+                        type: 'choice'
+                        columns: 6
+                        type_options:
+                            multiple: true
+                            expanded: true
+                            choices: '%LISTA_ROLES%'
                 form_options: { validation_groups: ['Default', 'Registration'] }
             show:
                 item_permission: [ROLE_ADMIN]
