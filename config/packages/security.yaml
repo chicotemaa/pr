@@ -51,6 +51,7 @@ security:
     api:
       pattern: ^/api
       fos_oauth: true
+      security: false
       stateless: true
       anonymous: false # can be omitted as its default value
       provider: fos_userbundle

@@ -113,7 +113,9 @@ services:
     App\EventListener\RequestListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
-
+    #App\EventListener\ExceptionListener:
+    #    tags:
+    #        - { name: kernel.event_listener, event: kernel.exception }
     app.form.registration:
         class: App\Form\RegistrationType
         tags:
