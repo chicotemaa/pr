@@ -89,7 +89,7 @@ easy_admin:
                     - { property: 'orden', columns: 6 , permission: ROLE_ADMIN}
                     - { property: 'servicio', columns: 6 , permission: ROLE_ADMIN}
                     - { property: 'estado', label: 'Estado', template: 'OrdenTrabajo/estado.html.twig', permission: ROLE_ADMIN  }
-                    - { property: 'user', type: 'text', columns: 6 , permission: ROLE_ADMIN}
+                    - { property: 'user', columns: 6 , permission: ROLE_ADMIN}
                     - { property: 'comentario', type: 'text', columns: 6 , permission: ROLE_ADMIN}
                     - { property: 'horaDesde', columns: 6, format: 'H:i', type_options: { widget: 'single_text', required: true } , permission: ROLE_ADMIN}
                     - { property: 'horaHasta', columns: 6, format: 'H:i', type_options: { widget: 'single_text', required: true } , permission: ROLE_ADMIN}
