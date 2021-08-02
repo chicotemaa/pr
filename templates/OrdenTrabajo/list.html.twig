@@ -247,11 +247,10 @@
       {% if is_granted('ROLE_LIDER')==false %}
     <script>
     let estado =document.getElementsByClassName('estadoGestionSelect')
-     console.log(estado[0])
-    
+     console.log(estado[1])
     for (i=0; i< estado.length; i++){
-      if (estado[i].value==1){
-          console.log('i')
+      if (estado[i].style.backgroundColor=='#f39c12'){
+        console.log('prueba')
       }
     }
 
