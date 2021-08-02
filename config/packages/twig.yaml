@@ -6,4 +6,3 @@ twig:
         googleKeyApi: '%googleKeyApi%'
     form_themes:
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
-    #exception_controller: App\Controller\ExceptionController::showAction
