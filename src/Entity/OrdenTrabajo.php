@@ -33,6 +33,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *             "controller" = "App\Action\OrdenTrabajoByUser",
  *             "normalization_context"={"groups"={"readList"}},
  *             "denormalization_context"={"groups"={"write"}}
+ *        },
+ *          "BySucursalDeCliente" = {
+ *             "method" =  "GET",
+ *             "path" = "/orden_trabajo/{id}",
+ *             "controller" = "App\Action\OrdenTrabajoBySucursalDeCliente",
+ *             "normalization_context"={"groups"={"read"}},
+ *             "denormalization_context"={"groups"={"write"}}
  *        }
  *  },
  * itemOperations={
