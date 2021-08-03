@@ -20,7 +20,7 @@ easy_admin:
             - { entity: 'formularioCompraMateriales', label: 'Compra de materiales', icon: 'shopping-cart', permission: [ROLE_ADMIN,ROLE_SUCURSAL] }
             - label: 'Papelera'
               icon: 'trash-alt' 
-              permission: [ROLE_ADMIN, ROLE_STAFF,ROLE_FACILITY , ROLE_MANAGER]
+              permission: [ROLE_ENCARGADO, ROLE_STAFF,ROLE_FACILITY , ROLE_MANAGER]
               children:
                 - { entity: 'RecycleOrdenTrabajo', label: 'Ordenes Trabajo', icon: 'briefcase', default: true, permission: [ROLE_ENCARGADO] }
                 - { entity: 'RecycleSolicitud', label: 'Solicitudes', icon: 'list', permission: [ROLE_ENCARGADO, ROLE_STAFF, ROLE_FACILITY, ROLE_MANAGER] }
