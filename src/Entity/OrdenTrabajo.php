@@ -114,7 +114,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups({"read","write"})
+     * @Groups({"read","write","readList"})
      */
     private $horaInicio;
 
@@ -126,7 +126,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups({"read","write"})
+     * @Groups({"read","write","readList","writeList"})
      */
     private $horaFin;
 
