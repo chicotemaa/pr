@@ -46,7 +46,7 @@
           <button type="button" class="close"  style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
         </div>
-        {% if is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_ENCARGADO') %}
         <div class="modal-body">
           <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
             <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
