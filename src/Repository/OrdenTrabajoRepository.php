@@ -232,6 +232,14 @@ class OrdenTrabajoRepository extends ServiceEntityRepository
         ->getResult()
     ;
     }
+    public function findAll()
+    {
+        return $this->createQueryBuilder('o')
+            ->addOrderBy('o.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 //    /**
 //     * @return OrdenTrabajo[] Returns an array of OrdenTrabajo objects
 //     */
