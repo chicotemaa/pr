@@ -61,4 +61,12 @@ class FormularioRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+    public function FormularioList()
+    {
+        return $this->createQueryBuilder('o')
+            ->addOrderBy('o.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
