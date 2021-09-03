@@ -23,7 +23,7 @@ class UserList
         $term = null ;
         $roles = $this->security->getUser()->getRoles();
 
-        $sucursal = in_array('ROLE_SUCURSAL', $roles)? null : $this->security->getUser()->getSucursal()->getId();
+        $sucursal = in_array('ROLE_ADMIN', $roles)? null : $this->security->getUser()->getSucursal()->getId();
         
         
         $users = $this->em->getRepository(User::class)->findBySucursal($term, $sucursal);
