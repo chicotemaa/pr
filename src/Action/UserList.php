@@ -32,7 +32,7 @@ class UserList
         foreach ($users as $key => $user) {
             $results[] = [
                 'id' => $user->getId(),
-                'text' => $user->__toString(),
+                'Nombre' => $user->__toString(),
             ];
         }
 
