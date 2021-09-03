@@ -41,6 +41,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *             "normalization_context"={"groups"={"read"}},
  *             "denormalization_context"={"groups"={"write"}}
  *        }
+ * ,
+ *          "OTListWithOutForm" = {
+ *             "method" =  "GET",
+ *             "path" = "/ordentrabajo/by/list/without-form",
+ *             "controller" = "App\Action\OrdenTrabajoList",
+ *             "normalization_context"={"groups"={"readList"}},
+ *             "denormalization_context"={"groups"={"write"}}
+ *        }
  *  },
  * itemOperations={
  *          "get"={
