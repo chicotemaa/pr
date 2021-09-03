@@ -32,6 +32,12 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *              "path"="/user/info",
  *              "controller" = "App\Action\UserInfo",
  *              "normalization_context"={"groups"={"userInfo"}}
+ *          },
+ *          "getUserList"={
+ *              "method"="GET",
+ *              "path"="/user/list",
+ *              "controller" = "App\Action\UserList",
+ *              "normalization_context"={"groups"={"read"}}
  *          }
  *    },
  *    itemOperations={
@@ -47,6 +53,7 @@ class User extends BaseUser
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"read"})
      */
     protected $id;
 
@@ -80,7 +87,7 @@ class User extends BaseUser
     protected $password;
 
     /**
-     * @Groups({"readRegistration", "writeRegistration", "userInfo"})
+     * @Groups({"readRegistration", "writeRegistration", "userInfo","read"})
      */
     protected $username;
 
