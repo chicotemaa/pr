@@ -16,7 +16,14 @@ use Doctrine\ORM\Mapping as ORM;
  *     "denormalization_context"={"groups"={"write","writeRegistration"}}
  *     },
  *  collectionOperations = {
- *     "get"={"method"="GET"}
+ *     "get"={"method"="GET"},
+ *    "ByUser" = {
+ *             "method" =  "GET",
+ *             "path" = "/sucursalcliente/by/user",
+ *             "controller" = "App\Action\SucursalDeClienteByUser",
+ *             "normalization_context"={"groups"={"read"}},
+ *             "denormalization_context"={"groups"={"write"}}
+ *        }
  *  },
  *  itemOperations={
  *          "get"={"method"="GET"}
@@ -28,26 +35,27 @@ implements iSucursalFilter, iClienteFilter, iFacilityFilter
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")     
+     * @ORM\Column(type="integer")    
+     * @Groups({"read"}) 
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=55)
-     * @Groups({"readRegistration"})
+     * @Groups({"readRegistration", "read"})
      */
     private $codigo;
 
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="sucursalDeClientes")
-     *  @Groups({"readRegistration"})
+     *  @Groups({"readRegistration","read"})
      */
     private $Cliente;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"readRegistration"})
+     * @Groups({"readRegistration","read"})
      */
     private $direccion;
 
