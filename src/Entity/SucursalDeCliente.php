@@ -27,9 +27,8 @@ use Doctrine\ORM\Mapping as ORM;
  *   "List" = {
  *             "method" =  "GET",
  *             "path" = "/sucursaldecliente/",
- *             "controller" = "App\Action\SucursalDeClienteByUser",
- *             "normalization_context"={"groups"={"readList"}},
- *             "denormalization_context"={"groups"={"write"}}
+ *             "normalization_context"={"groups"={"read", "readList"}},
+ *             "denormalization_context"={"groups"={"write","writeRegistration"}}
  *        }
  *  },
  *  itemOperations={
@@ -56,7 +55,7 @@ implements iSucursalFilter, iClienteFilter, iFacilityFilter
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="sucursalDeClientes")
-     *  @Groups({"readRegistration","read"})
+     *  @Groups({"readRegistration"})
      */
     private $Cliente;
 
@@ -86,7 +85,7 @@ implements iSucursalFilter, iClienteFilter, iFacilityFilter
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="sucursalDeClientes")
-     * @Groups({"readRegistration","readList"}) 
+     * @Groups({"read", "readList"})
      */
     private $facility;
 

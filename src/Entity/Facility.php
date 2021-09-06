@@ -92,7 +92,6 @@ implements iClienteFilter
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SucursalDeCliente", mappedBy="facility")
-     * @Groups({"read"})
      */
     private $sucursalDeClientes;
 
