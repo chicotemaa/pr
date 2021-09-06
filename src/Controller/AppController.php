@@ -215,257 +215,257 @@ class AppController extends AbstractController
         return new JsonResponse($listaClientes);
     }
 
-    /**
-    * @Route("/orden_trabajo/sucursaldecliente/{id}/{ultimo}")
-    */
-    public function OTxSucursalDeCliente($id, $ultimo)
-    {
+    // /**
+    // * @Route("/orden_trabajo/sucursaldecliente/{id}/{ultimo}")
+    // */
+    // public function OTxSucursalDeCliente($id, $ultimo)
+    // {
        
-        $em = $this->getDoctrine()->getManager();
+    //     $em = $this->getDoctrine()->getManager();
         
-        $ordenesTrabajo = $this->getDoctrine()->getRepository(OrdenTrabajo::class)->findBySucursalDeCliente($id,$ultimo);
+    //     $ordenesTrabajo = $this->getDoctrine()->getRepository(OrdenTrabajo::class)->findBySucursalDeCliente($id,$ultimo);
  
-            $results=[];
-            foreach ($ordenesTrabajo as $key => $ordenTrabajo) {
+    //         $results=[];
+    //         foreach ($ordenesTrabajo as $key => $ordenTrabajo) {
 
-                $getServicio=$ordenTrabajo->getServicio();
-                if ($getServicio) {
-                    $servicio=['titulo'=>$getServicio->getTitulo(),
-                                 'descripcion'=>$getServicio->getDescripcion()];    
-                }else{
-                    $servicio="null";
-                }
-                $getFormulario=$ordenTrabajo->getFormulario();
-                $getPropiedadModulos=$getFormulario->getPropiedadModulos();
+    //             $getServicio=$ordenTrabajo->getServicio();
+    //             if ($getServicio) {
+    //                 $servicio=['titulo'=>$getServicio->getTitulo(),
+    //                              'descripcion'=>$getServicio->getDescripcion()];    
+    //             }else{
+    //                 $servicio="null";
+    //             }
+    //             $getFormulario=$ordenTrabajo->getFormulario();
+    //             $getPropiedadModulos=$getFormulario->getPropiedadModulos();
                 
                 
-                if ($getPropiedadModulos) {
-                    $PropiedadModulos=[];
+    //             if ($getPropiedadModulos) {
+    //                 $PropiedadModulos=[];
                     
 
-                    foreach ($getPropiedadModulos as $key => $getPropiedadModulos) {
+    //                 foreach ($getPropiedadModulos as $key => $getPropiedadModulos) {
                         
-                        $getModulo=$getPropiedadModulos->getModulo();
-                        if ($getModulo) {
-                            $getPropiedadItems=$getModulo->getPropiedadItems();
-                            $propiedadItems=[];
-                            foreach ($getPropiedadItems as $key => $getPropiedadItems) {
-                                $getItem=$getPropiedadItems->getItem();
-                                $opciones=$getItem->getOpciones();
-                                $opcion=[];
-                                    foreach ($opciones as $key => $opciones) {
-                                        $opcion[]=[
-                                            'id'=>$opciones->getId(),
-                                            'nombre'=>$opciones->getNombre(),
-                                            'imagen'=>$opciones->getImagen(),
-                                            'imagenSize'=>$opciones->getImageSize()
-                                        ];
-                                    }    
-                                    $items=[
-                                        '@id'=>'api/items/'.$getItem->getId(),
-                                        '@type'=>'Item',
-                                        'id'=>$getItem->getId(),
-                                        'nombre'=>$getItem->getNombre(),
-                                        'titulo'=>$getItem->getTitulo(),
-                                        'descripcion'=>$getItem->getDescripcion(),
-                                        'tipo'=>$getItem->getTipo(),
-                                        'opciones'=>$opcion
-                                    ];
-                                $propiedadItems[]=[
-                                    '@id'=>'/api/propiedad_items/'.$getPropiedadItems->getId(),
-                                    '@type'=>'PropiedadItem',
-                                    'id'=>$getPropiedadItems->getId(),
-                                    'orden'=>$getPropiedadItems->getOrden(),
-                                    'ancho'=>$getPropiedadItems->getAncho(),
-                                    'requerido'=>$getPropiedadItems->getRequerido(),
-                                    'opcion'=>$getPropiedadItems->getOpcion(),
-                                    'items'=>$items
-                                ];
-                            }
-                            $Modulo=['id'=>$getModulo->getId(),
-                                     'propiedadItems'=> $propiedadItems,
-                                     'titulo'=>$getFormulario->getTitulo()];    
-                        }
-                    $PropiedadModulos[]=[
-                                         'id'=>$getPropiedadModulos->getId(),
-                                         'orden'=>$getPropiedadModulos->getOrden(),
-                                         'modulo'=>$Modulo];
-                    }    
-                }
+    //                     $getModulo=$getPropiedadModulos->getModulo();
+    //                     if ($getModulo) {
+    //                         $getPropiedadItems=$getModulo->getPropiedadItems();
+    //                         $propiedadItems=[];
+    //                         foreach ($getPropiedadItems as $key => $getPropiedadItems) {
+    //                             $getItem=$getPropiedadItems->getItem();
+    //                             $opciones=$getItem->getOpciones();
+    //                             $opcion=[];
+    //                                 foreach ($opciones as $key => $opciones) {
+    //                                     $opcion[]=[
+    //                                         'id'=>$opciones->getId(),
+    //                                         'nombre'=>$opciones->getNombre(),
+    //                                         'imagen'=>$opciones->getImagen(),
+    //                                         'imagenSize'=>$opciones->getImageSize()
+    //                                     ];
+    //                                 }    
+    //                                 $items=[
+    //                                     '@id'=>'api/items/'.$getItem->getId(),
+    //                                     '@type'=>'Item',
+    //                                     'id'=>$getItem->getId(),
+    //                                     'nombre'=>$getItem->getNombre(),
+    //                                     'titulo'=>$getItem->getTitulo(),
+    //                                     'descripcion'=>$getItem->getDescripcion(),
+    //                                     'tipo'=>$getItem->getTipo(),
+    //                                     'opciones'=>$opcion
+    //                                 ];
+    //                             $propiedadItems[]=[
+    //                                 '@id'=>'/api/propiedad_items/'.$getPropiedadItems->getId(),
+    //                                 '@type'=>'PropiedadItem',
+    //                                 'id'=>$getPropiedadItems->getId(),
+    //                                 'orden'=>$getPropiedadItems->getOrden(),
+    //                                 'ancho'=>$getPropiedadItems->getAncho(),
+    //                                 'requerido'=>$getPropiedadItems->getRequerido(),
+    //                                 'opcion'=>$getPropiedadItems->getOpcion(),
+    //                                 'items'=>$items
+    //                             ];
+    //                         }
+    //                         $Modulo=['id'=>$getModulo->getId(),
+    //                                  'propiedadItems'=> $propiedadItems,
+    //                                  'titulo'=>$getFormulario->getTitulo()];    
+    //                     }
+    //                 $PropiedadModulos[]=[
+    //                                      'id'=>$getPropiedadModulos->getId(),
+    //                                      'orden'=>$getPropiedadModulos->getOrden(),
+    //                                      'modulo'=>$Modulo];
+    //                 }    
+    //             }
                 
-                if (($getFormulario)) {
-                    $getExpress=$getFormulario->getExpress();
-                    $getCompraMateriales=$getFormulario->getCompraMateriales();
-                if ($getExpress) {
-                    $express=['titulo'=>$getFormulario->getExpress()];    
-                }else{
-                    $express="null";
-                }
-                if ($getCompraMateriales) {
-                    $CompraMateriales=$getFormulario->getCompraMateriales();    
-                }else{
-                    $CompraMateriales="null";
-                }
+    //             if (($getFormulario)) {
+    //                 $getExpress=$getFormulario->getExpress();
+    //                 $getCompraMateriales=$getFormulario->getCompraMateriales();
+    //             if ($getExpress) {
+    //                 $express=['titulo'=>$getFormulario->getExpress()];    
+    //             }else{
+    //                 $express="null";
+    //             }
+    //             if ($getCompraMateriales) {
+    //                 $CompraMateriales=$getFormulario->getCompraMateriales();    
+    //             }else{
+    //                 $CompraMateriales="null";
+    //             }
 
-                    $Formulario=['@id'=>"/api/servicios/".$getFormulario->getId(),
-                                 '@type'=>'Formulario',
-                                 'id'=>$getFormulario->getId(),
-                                 'titulo'=>$getFormulario->getTitulo(),
-                                 'descripcion'=>$getFormulario->getDescripcion(),
-                                 'propiedadModulos'=>$PropiedadModulos,
-                                 'updatedAt'=>$getFormulario->getUpdatedAt()->format('c'),
-                                 'version'=>$getFormulario->getVersion(),
-                                 'express'=>$express,
-                                 'compramateriales'=>$CompraMateriales
-                                ];
+    //                 $Formulario=['@id'=>"/api/servicios/".$getFormulario->getId(),
+    //                              '@type'=>'Formulario',
+    //                              'id'=>$getFormulario->getId(),
+    //                              'titulo'=>$getFormulario->getTitulo(),
+    //                              'descripcion'=>$getFormulario->getDescripcion(),
+    //                              'propiedadModulos'=>$PropiedadModulos,
+    //                              'updatedAt'=>$getFormulario->getUpdatedAt()->format('c'),
+    //                              'version'=>$getFormulario->getVersion(),
+    //                              'express'=>$express,
+    //                              'compramateriales'=>$CompraMateriales
+    //                             ];
                     
-                }else {
-                    $Formulario="null";
-                }
+    //             }else {
+    //                 $Formulario="null";
+    //             }
 
-                $results[]=[
-                    'context'=>'/api/context/OrdenTrabajo',
-                    '@id'=>'/api/orden_trabajo/'.$ordenTrabajo->getId(),
-                    'type'=>'OrdenTrabajo',
-                    'id'=> $ordenTrabajo->getId(),
-                    'servicio'=>$servicio,
-                    'formulario'=>$Formulario,
-                    'cliente'=> $ordenTrabajo->getCliente()->getRazonSocial(),
-                    'sucursalcliente'=> $ordenTrabajo->getSucursalDeCliente()->getDireccion(),
+    //             $results[]=[
+    //                 'context'=>'/api/context/OrdenTrabajo',
+    //                 '@id'=>'/api/orden_trabajo/'.$ordenTrabajo->getId(),
+    //                 'type'=>'OrdenTrabajo',
+    //                 'id'=> $ordenTrabajo->getId(),
+    //                 'servicio'=>$servicio,
+    //                 'formulario'=>$Formulario,
+    //                 'cliente'=> $ordenTrabajo->getCliente()->getRazonSocial(),
+    //                 'sucursalcliente'=> $ordenTrabajo->getSucursalDeCliente()->getDireccion(),
 
-                   ];
-            }
+    //                ];
+    //         }
  
-        return new JsonResponse([
-            'OrdenTrabajo' => $results,
-        ]);
-    }
+    //     return new JsonResponse([
+    //         'OrdenTrabajo' => $results,
+    //     ]);
+    // }
     
-    /**
-    * @Route("/orden_trabajo/facility/{id}/{ultimo}")
-    */
-    public function OTxFacility($id, $ultimo)
-    {
+    // /**
+    // * @Route("/orden_trabajo/facility/{id}/{ultimo}")
+    // */
+    // public function OTxFacility($id, $ultimo)
+    // {
        
-        $em = $this->getDoctrine()->getManager();
+    //     $em = $this->getDoctrine()->getManager();
         
-        $ordenesTrabajo = $this->getDoctrine()->getRepository(OrdenTrabajo::class)->findByFacility($id,$ultimo);
+    //     $ordenesTrabajo = $this->getDoctrine()->getRepository(OrdenTrabajo::class)->findByFacility($id,$ultimo);
  
-            $results=[];
-            foreach ($ordenesTrabajo as $key => $ordenTrabajo) {
+    //         $results=[];
+    //         foreach ($ordenesTrabajo as $key => $ordenTrabajo) {
 
-                $getServicio=$ordenTrabajo->getServicio();
-                if ($getServicio) {
-                    $servicio=['titulo'=>$getServicio->getTitulo(),
-                                 'descripcion'=>$getServicio->getDescripcion()];    
-                }else{
-                    $servicio="null";
-                }
-                $getFormulario=$ordenTrabajo->getFormulario();
-                $getPropiedadModulos=$getFormulario->getPropiedadModulos();
+    //             $getServicio=$ordenTrabajo->getServicio();
+    //             if ($getServicio) {
+    //                 $servicio=['titulo'=>$getServicio->getTitulo(),
+    //                              'descripcion'=>$getServicio->getDescripcion()];    
+    //             }else{
+    //                 $servicio="null";
+    //             }
+    //             $getFormulario=$ordenTrabajo->getFormulario();
+    //             $getPropiedadModulos=$getFormulario->getPropiedadModulos();
                 
                 
-                if ($getPropiedadModulos) {
-                    $PropiedadModulos=[];
+    //             if ($getPropiedadModulos) {
+    //                 $PropiedadModulos=[];
                     
 
-                    foreach ($getPropiedadModulos as $key => $getPropiedadModulos) {
+    //                 foreach ($getPropiedadModulos as $key => $getPropiedadModulos) {
                         
-                        $getModulo=$getPropiedadModulos->getModulo();
-                        if ($getModulo) {
-                            $getPropiedadItems=$getModulo->getPropiedadItems();
-                            $propiedadItems=[];
-                            foreach ($getPropiedadItems as $key => $getPropiedadItems) {
-                                $getItem=$getPropiedadItems->getItem();
-                                $opciones=$getItem->getOpciones();
-                                $opcion=[];
-                                    foreach ($opciones as $key => $opciones) {
-                                        $opcion[]=[
-                                            'id'=>$opciones->getId(),
-                                            'nombre'=>$opciones->getNombre(),
-                                            'imagen'=>$opciones->getImagen(),
-                                            'imagenSize'=>$opciones->getImageSize()
-                                        ];
-                                    }    
-                                    $items=[
-                                        '@id'=>'api/items/'.$getItem->getId(),
-                                        '@type'=>'Item',
-                                        'id'=>$getItem->getId(),
-                                        'nombre'=>$getItem->getNombre(),
-                                        'titulo'=>$getItem->getTitulo(),
-                                        'descripcion'=>$getItem->getDescripcion(),
-                                        'tipo'=>$getItem->getTipo(),
-                                        'opciones'=>$opcion
-                                    ];
-                                $propiedadItems[]=[
-                                    '@id'=>'/api/propiedad_items/'.$getPropiedadItems->getId(),
-                                    '@type'=>'PropiedadItem',
-                                    'id'=>$getPropiedadItems->getId(),
-                                    'orden'=>$getPropiedadItems->getOrden(),
-                                    'ancho'=>$getPropiedadItems->getAncho(),
-                                    'requerido'=>$getPropiedadItems->getRequerido(),
-                                    'opcion'=>$getPropiedadItems->getOpcion(),
-                                    'items'=>$items
-                                ];
-                            }
-                            $Modulo=['id'=>$getModulo->getId(),
-                                     'propiedadItems'=> $propiedadItems,
-                                     'titulo'=>$getFormulario->getTitulo()];    
-                        }
-                    $PropiedadModulos[]=[
-                                         'id'=>$getPropiedadModulos->getId(),
-                                         'orden'=>$getPropiedadModulos->getOrden(),
-                                         'modulo'=>$Modulo];
-                    }    
-                }
+    //                     $getModulo=$getPropiedadModulos->getModulo();
+    //                     if ($getModulo) {
+    //                         $getPropiedadItems=$getModulo->getPropiedadItems();
+    //                         $propiedadItems=[];
+    //                         foreach ($getPropiedadItems as $key => $getPropiedadItems) {
+    //                             $getItem=$getPropiedadItems->getItem();
+    //                             $opciones=$getItem->getOpciones();
+    //                             $opcion=[];
+    //                                 foreach ($opciones as $key => $opciones) {
+    //                                     $opcion[]=[
+    //                                         'id'=>$opciones->getId(),
+    //                                         'nombre'=>$opciones->getNombre(),
+    //                                         'imagen'=>$opciones->getImagen(),
+    //                                         'imagenSize'=>$opciones->getImageSize()
+    //                                     ];
+    //                                 }    
+    //                                 $items=[
+    //                                     '@id'=>'api/items/'.$getItem->getId(),
+    //                                     '@type'=>'Item',
+    //                                     'id'=>$getItem->getId(),
+    //                                     'nombre'=>$getItem->getNombre(),
+    //                                     'titulo'=>$getItem->getTitulo(),
+    //                                     'descripcion'=>$getItem->getDescripcion(),
+    //                                     'tipo'=>$getItem->getTipo(),
+    //                                     'opciones'=>$opcion
+    //                                 ];
+    //                             $propiedadItems[]=[
+    //                                 '@id'=>'/api/propiedad_items/'.$getPropiedadItems->getId(),
+    //                                 '@type'=>'PropiedadItem',
+    //                                 'id'=>$getPropiedadItems->getId(),
+    //                                 'orden'=>$getPropiedadItems->getOrden(),
+    //                                 'ancho'=>$getPropiedadItems->getAncho(),
+    //                                 'requerido'=>$getPropiedadItems->getRequerido(),
+    //                                 'opcion'=>$getPropiedadItems->getOpcion(),
+    //                                 'items'=>$items
+    //                             ];
+    //                         }
+    //                         $Modulo=['id'=>$getModulo->getId(),
+    //                                  'propiedadItems'=> $propiedadItems,
+    //                                  'titulo'=>$getFormulario->getTitulo()];    
+    //                     }
+    //                 $PropiedadModulos[]=[
+    //                                      'id'=>$getPropiedadModulos->getId(),
+    //                                      'orden'=>$getPropiedadModulos->getOrden(),
+    //                                      'modulo'=>$Modulo];
+    //                 }    
+    //             }
                 
-                if (($getFormulario)) {
-                    $getExpress=$getFormulario->getExpress();
-                    $getCompraMateriales=$getFormulario->getCompraMateriales();
-                if ($getExpress) {
-                    $express=['titulo'=>$getFormulario->getExpress()];    
-                }else{
-                    $express="null";
-                }
-                if ($getCompraMateriales) {
-                    $CompraMateriales=$getFormulario->getCompraMateriales();    
-                }else{
-                    $CompraMateriales="null";
-                }
+    //             if (($getFormulario)) {
+    //                 $getExpress=$getFormulario->getExpress();
+    //                 $getCompraMateriales=$getFormulario->getCompraMateriales();
+    //             if ($getExpress) {
+    //                 $express=['titulo'=>$getFormulario->getExpress()];    
+    //             }else{
+    //                 $express="null";
+    //             }
+    //             if ($getCompraMateriales) {
+    //                 $CompraMateriales=$getFormulario->getCompraMateriales();    
+    //             }else{
+    //                 $CompraMateriales="null";
+    //             }
 
-                    $Formulario=['@id'=>"/api/servicios/".$getFormulario->getId(),
-                                 '@type'=>'Formulario',
-                                 'id'=>$getFormulario->getId(),
-                                 'titulo'=>$getFormulario->getTitulo(),
-                                 'descripcion'=>$getFormulario->getDescripcion(),
-                                 'propiedadModulos'=>$PropiedadModulos,
-                                 'updatedAt'=>$getFormulario->getUpdatedAt()->format('c'),
-                                 'version'=>$getFormulario->getVersion(),
-                                 'express'=>$express,
-                                 'compramateriales'=>$CompraMateriales
-                                ];
+    //                 $Formulario=['@id'=>"/api/servicios/".$getFormulario->getId(),
+    //                              '@type'=>'Formulario',
+    //                              'id'=>$getFormulario->getId(),
+    //                              'titulo'=>$getFormulario->getTitulo(),
+    //                              'descripcion'=>$getFormulario->getDescripcion(),
+    //                              'propiedadModulos'=>$PropiedadModulos,
+    //                              'updatedAt'=>$getFormulario->getUpdatedAt()->format('c'),
+    //                              'version'=>$getFormulario->getVersion(),
+    //                              'express'=>$express,
+    //                              'compramateriales'=>$CompraMateriales
+    //                             ];
                     
-                }else {
-                    $Formulario="null";
-                }
+    //             }else {
+    //                 $Formulario="null";
+    //             }
 
-                $results[]=[
-                    'context'=>'/api/context/OrdenTrabajo',
-                    '@id'=>'/api/orden_trabajo/'.$ordenTrabajo->getId(),
-                    'type'=>'OrdenTrabajo',
-                    'id'=> $ordenTrabajo->getId(),
-                    'servicio'=>$servicio,
-                    'formulario'=>$Formulario,
-                    'cliente'=> $ordenTrabajo->getCliente()->getRazonSocial(),
-                    'sucursalcliente'=> $ordenTrabajo->getSucursalDeCliente()->getDireccion(),
+    //             $results[]=[
+    //                 'context'=>'/api/context/OrdenTrabajo',
+    //                 '@id'=>'/api/orden_trabajo/'.$ordenTrabajo->getId(),
+    //                 'type'=>'OrdenTrabajo',
+    //                 'id'=> $ordenTrabajo->getId(),
+    //                 'servicio'=>$servicio,
+    //                 'formulario'=>$Formulario,
+    //                 'cliente'=> $ordenTrabajo->getCliente()->getRazonSocial(),
+    //                 'sucursalcliente'=> $ordenTrabajo->getSucursalDeCliente()->getDireccion(),
 
-                   ];
-            }
+    //                ];
+    //         }
  
-        return new JsonResponse([
-            'OrdenTrabajo' => $results,
-        ]);
-    }
+    //     return new JsonResponse([
+    //         'OrdenTrabajo' => $results,
+    //     ]);
+    // }
     
     /**
     * @Route("/sucursaldecliente/tecnico/{id}")
