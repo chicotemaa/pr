@@ -23,6 +23,13 @@ use Doctrine\ORM\Mapping as ORM;
  *             "controller" = "App\Action\SucursalDeClienteByUser",
  *             "normalization_context"={"groups"={"read"}},
  *             "denormalization_context"={"groups"={"write"}}
+ *        },
+ *   "List" = {
+ *             "method" =  "GET",
+ *             "path" = "/sucursaldecliente/",
+ *             "controller" = "App\Action\SucursalDeClienteByUser",
+ *             "normalization_context"={"groups"={"readList"}},
+ *             "denormalization_context"={"groups"={"write"}}
  *        }
  *  },
  *  itemOperations={
@@ -36,13 +43,13 @@ implements iSucursalFilter, iClienteFilter, iFacilityFilter
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")    
-     * @Groups({"read"}) 
+     * @Groups({"read","readList"}) 
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=55)
-     * @Groups({"readRegistration", "read"})
+     * @Groups({"readRegistration", "read", "readList"})
      */
     private $codigo;
 
@@ -55,7 +62,7 @@ implements iSucursalFilter, iClienteFilter, iFacilityFilter
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"readRegistration","read"})
+     * @Groups({"readRegistration","read", "readList"})
      */
     private $direccion;
 
@@ -79,7 +86,7 @@ implements iSucursalFilter, iClienteFilter, iFacilityFilter
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="sucursalDeClientes")
-     * 
+     * @Groups({"readRegistration","readList"}) 
      */
     private $facility;
 
