@@ -27,7 +27,7 @@ use Doctrine\ORM\Mapping as ORM;
  *   "List" = {
  *             "method" =  "GET",
  *             "path" = "/sucursaldecliente/",
- *             "normalization_context"={"groups"={"read", "readList"}},
+ *             "normalization_context"={"groups"={"read", "List"}},
  *             "denormalization_context"={"groups"={"write","writeRegistration"}}
  *        }
  *  },
@@ -42,13 +42,13 @@ implements iSucursalFilter, iClienteFilter, iFacilityFilter
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")    
-     * @Groups({"read","readList"}) 
+     * @Groups({"read","List"}) 
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=55)
-     * @Groups({"readRegistration", "read", "readList"})
+     * @Groups({"readRegistration", "List"})
      */
     private $codigo;
 
@@ -61,7 +61,7 @@ implements iSucursalFilter, iClienteFilter, iFacilityFilter
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"readRegistration","read", "readList"})
+     * @Groups({"readRegistration", "List"})
      */
     private $direccion;
 
@@ -85,7 +85,7 @@ implements iSucursalFilter, iClienteFilter, iFacilityFilter
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="sucursalDeClientes")
-     * @Groups({"read", "readList"})
+     * @Groups({ "List"})
      */
     private $facility;
 
