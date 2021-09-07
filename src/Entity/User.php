@@ -19,7 +19,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  * @AppAssert\UserConstraint
  * @ApiResource(
  *    attributes={
- *     "normalization_context"={"groups"={"readRegistration"}},
+ *     "normalization_context"={"groups"={"read", "readRegistration"}},
  *     "denormalization_context"={"groups"={"writeRegistration"}}
  *     },
  *   collectionOperations = {
@@ -53,7 +53,7 @@ class User extends BaseUser
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"read"})
+     * @Groups({"read","readList"})
      */
     protected $id;
 
@@ -87,7 +87,7 @@ class User extends BaseUser
     protected $password;
 
     /**
-     * @Groups({"readRegistration", "writeRegistration", "userInfo","read"})
+     * @Groups({"readRegistration", "writeRegistration", "userInfo","read","readList"})
      */
     protected $username;
 
