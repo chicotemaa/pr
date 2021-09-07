@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\FacilityRepository")
  * @ApiResource(
  *    attributes={
- *     "normalization_context"={"groups"={"read", "readRegistration"}},
+ *     "normalization_context"={"groups"={"List", "readRegistration"}},
  *     "denormalization_context"={"groups"={"write","writeRegistration"}}
  *     },
  *  collectionOperations = {
@@ -29,7 +29,7 @@ implements iClienteFilter
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read"})
+     * @Groups({"List"})
      */
     private $id;
 

@@ -51,7 +51,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *             "method" =  "GET",
  *             "path" = "/ordentrabajo/by/list/without-form",
  *             "controller" = "App\Action\OrdenTrabajoList",
- *             "normalization_context"={"groups"={"readList"}},
+ *             "normalization_context"={"groups"={"readList","List"}},
  *             "denormalization_context"={"groups"={"write"}}
  *        }
  *  },
@@ -267,7 +267,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="ordenTrabajos")
-    * @Groups({"read","write","readList","writeList", "writePost"})
+     * @Groups({"read","write","readList","writeList", "writePost"})
      */
     private $SucursalDeCliente;
 
