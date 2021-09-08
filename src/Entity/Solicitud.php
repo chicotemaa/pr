@@ -28,6 +28,13 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *             "controller" = "App\Action\SolicitudByUser",
  *             "normalization_context"={"groups"={"read"}},
  *             "denormalization_context"={"groups"={"write"}}
+ *        },
+ *         "BySector" = {
+ *             "method" =  "GET",
+ *             "path" = "/solicitud/by/sector",
+ *             "controller" = "App\Action\SolicitudBySector",
+ *             "normalization_context"={"groups"={"read"}},
+ *             "denormalization_context"={"groups"={"write"}}
  *        }
  *  },
  * itemOperations={
