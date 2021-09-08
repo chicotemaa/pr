@@ -64,6 +64,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *              "method"="PUT",
  *              "normalization_context"={"groups"={"read"}},
  *              "denormalization_context"={"groups"={"write"}}
+ *          },
+ *          "delete"={
+ *              "method"="DELETE",
+ *              "controller" = "App\Action\OrdenTrabajoDelete"
  *          }
  *  }
  * )
@@ -122,7 +126,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"read","write","readList"})
+     * @Groups({"read","write","readList","writePost"})
      */
     private $estado = 0;
 
@@ -193,7 +197,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Sucursal")
-     * @Groups({"writePost"})
+     * @Groups({"writePost","read","write","readList"})
      */
     private $sucursal;
 
@@ -241,6 +245,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"read","write","readList","writePost"})
      */
     private $estadoGestion = 0;
 
