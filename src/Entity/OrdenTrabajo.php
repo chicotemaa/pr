@@ -107,14 +107,14 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Formulario", inversedBy="ordenTrabajo")
-     * @Groups({"read","readList", "writePost"})
+     * @Groups({"read","write","readList", "writePost"})
      */
     private $formulario;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ordenTrabajo")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
-     * @Groups({"readList","writePost"})
+     * @Groups({"readList","write","writePost"})
      */
     private $user;
 
@@ -173,19 +173,19 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\Column(type="time")
-     * @Groups({"read","readList","writePost"})
+     * @Groups({"read","write","readList","writePost"})
      */
     private $horaDesde;
 
     /**
      * @ORM\Column(type="time")
-     * @Groups({"read","readList", "writePost"})
+     * @Groups({"read","write","readList", "writePost"})
      */
     private $horaHasta;
 
     /**
      * @ORM\Column(type="date")
-     * @Groups({"read","readList", "writePost"})
+     * @Groups({"read","write","readList", "writePost"})
      */
     private $fecha;
 
