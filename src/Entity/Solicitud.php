@@ -45,7 +45,13 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *          "delete"={
  *              "method"="DELETE",
  *              "controller" = "App\Action\SolicitudDelete"
+ *          },
+ *          "put"={
+ *              "method"="PUT",
+ *              "normalization_context"={"groups"={"reads"}},
+ *              "denormalization_context"={"groups"={"writes"}}
  *          }
+ * 
  *  }
  * )
  * @Vich\Uploadable
@@ -136,6 +142,7 @@ class Solicitud implements iSucursalFilter, iClienteFilter, iFacilityFilter, iSu
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\OrdenTrabajo", inversedBy="solicitud", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="orden_trabajo_id", referencedColumnName="id", onDelete="SET NULL")
+     * @Groups({"reads","writes"})
      */
     private $ordenTrabajo;
 
