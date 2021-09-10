@@ -142,7 +142,7 @@ class Solicitud implements iSucursalFilter, iClienteFilter, iFacilityFilter, iSu
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\OrdenTrabajo", inversedBy="solicitud", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="orden_trabajo_id", referencedColumnName="id", onDelete="SET NULL")
-     * @Groups({"reads","writes"})
+     * @Groups({"reads","writes","read"})
      */
     private $ordenTrabajo;
 
