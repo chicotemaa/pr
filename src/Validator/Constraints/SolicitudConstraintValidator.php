@@ -14,10 +14,12 @@ class SolicitudConstraintValidator extends ConstraintValidator
     {
         /*
             Si la solicitud esta por editarse y tiene ot no permitir editar o eliminar
-        */
+        
         if ($value->getId() && $value->getOrdenTrabajo()) {
+            
             $this->context->buildViolation('No puede editarse, porque tiene una OT asociada')
                 ->addViolation();
         }
+        */
     }
 }
