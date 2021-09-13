@@ -90,7 +90,7 @@ class Solicitud implements iSucursalFilter, iClienteFilter, iFacilityFilter, iSu
 
     /**
      * @ORM\Column(type="integer"))
-     * @Groups({"write", "read"})
+     * @Groups({"write", "read", "writes", "reades"})
      */
     private $estado = 0;
 
