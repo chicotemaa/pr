@@ -89,4 +89,12 @@ class SolicitudRepository extends ServiceEntityRepository
 
         return $query->getQuery()->getResult();
     }
+    public function findAll()
+    {
+        return $this->createQueryBuilder('o')
+            ->addOrderBy('o.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

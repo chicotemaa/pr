@@ -20,6 +20,11 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Vich\Uploadable
  * @ApiResource(
  * collectionOperations = {
+ *        "post"={
+ *              "method"="POST",
+ *              "normalization_context"={"groups"={"readPost"}},
+ *              "denormalization_context"={"groups"={"writePost"}}
+ *          },
  *         "ByUser" = {
  *             "method" =  "GET",
  *             "path" = "/ordentrabajo/by/user",
@@ -41,6 +46,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *             "normalization_context"={"groups"={"read"}},
  *             "denormalization_context"={"groups"={"write"}}
  *        }
+ * ,
+ *          "OTListWithOutForm" = {
+ *             "method" =  "GET",
+ *             "path" = "/ordentrabajo/by/list/without-form",
+ *             "controller" = "App\Action\OrdenTrabajoList",
+ *             "normalization_context"={"groups"={"readList","List"}},
+ *             "denormalization_context"={"groups"={"write"}}
+ *        }
  *  },
  * itemOperations={
  *          "get"={
@@ -51,6 +64,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *              "method"="PUT",
  *              "normalization_context"={"groups"={"read"}},
  *              "denormalization_context"={"groups"={"write"}}
+ *          },
+ *          "delete"={
+ *              "method"="DELETE",
+ *              "controller" = "App\Action\OrdenTrabajoDelete"
  *          }
  *  }
  * )
@@ -84,19 +101,20 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
     private $id;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Servicio")
-     * @Groups({"read", "write"})
+     * @Groups({"read", "write","writePost"})
      */
     private $servicio;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Formulario", inversedBy="ordenTrabajo")
-     * @Groups({"read","readList"})
+     * @Groups({"read","write","readList", "writePost"})
      */
     private $formulario;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ordenTrabajo")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
+     * @Groups({"readList","write","writePost"})
      */
     private $user;
 
@@ -108,7 +126,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"read","write","readList"})
+     * @Groups({"read","write","readList","writePost"})
      */
     private $estado = 0;
 
@@ -149,36 +167,37 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cliente", inversedBy="ordenTrabajos")
      * @ORM\JoinColumn(name="cliente_id", referencedColumnName="id", onDelete="SET NULL")
-     * @Groups({"read", "readList"})
+     * @Groups({"read", "readList", "writePost"})
      */
     private $cliente;
 
     /**
      * @ORM\Column(type="time")
-     * @Groups({"read","readList"})
+     * @Groups({"read","write","readList","writePost"})
      */
     private $horaDesde;
 
     /**
      * @ORM\Column(type="time")
-     * @Groups({"read","readList"})
+     * @Groups({"read","write","readList", "writePost"})
      */
     private $horaHasta;
 
     /**
      * @ORM\Column(type="date")
-     * @Groups({"read","readList"})
+     * @Groups({"read","write","readList", "writePost"})
      */
     private $fecha;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"read","write"})
+     * @Groups({"read","write", "writePost"})
      */
     private $motivo;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Sucursal")
+     * @Groups({"writePost","read","write","readList"})
      */
     private $sucursal;
 
@@ -220,12 +239,13 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"read","write","readList","writeList"})
+     * @Groups({"read","write","readList","writeList","writePost"})
      */
     private $comentario;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"read","write","readList","writePost"})
      */
     private $estadoGestion = 0;
 
@@ -245,14 +265,14 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Facility", inversedBy="ordenTrabajos")
-     * @Groups({"read","write"})
+     * @Groups({"read","write", "writePost"})
      */
     private $Facility;
 
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SucursalDeCliente", inversedBy="ordenTrabajos")
-    * @Groups({"read","write","readList","writeList"})
+     * @Groups({"read","write","readList","writeList", "writePost"})
      */
     private $SucursalDeCliente;
 

@@ -43,6 +43,12 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *             "controller" = "App\Action\FormularioByCM",
  *             "normalization_context"={"groups"={"readList","readFormularioResultadoExpress"}},
  *             "denormalization_context"={"groups"={"write"}}
+ *        },
+ *     "ListaForm" = {
+ *             "method" =  "GET",
+ *             "path" = "/formularios/listado",
+ *             "controller" = "App\Action\FormularioList",
+ *             "normalization_context"={"groups"={"List"}},
  *        }
  *  },
  *  itemOperations={
@@ -61,7 +67,7 @@ class Formulario
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"read","readList","readFormularioResultadoExpress"})
+     * @Groups({"read","readList","readFormularioResultadoExpress", "List"})
      */
     private $id;
 
@@ -69,7 +75,7 @@ class Formulario
      * @var string
      *
      * @ORM\Column(name="titulo", type="string", length=255)
-     * @Groups({"read","readList","readFormularioResultadoExpress"})
+     * @Groups({"read","readList","readFormularioResultadoExpress","List"})
      */
     private $titulo;
 
