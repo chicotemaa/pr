@@ -212,7 +212,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"write","read"})
+     * @Groups({"write","read", "ReadList"})
      *
      * @var string
      */
