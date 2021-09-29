@@ -306,7 +306,7 @@
                                 {% if propiedadItemsResultado[k].deleted==1  %}
                                 <button id="guardar-{{propiedadItemsResultado[k].id}}" style=" float:left;" class="btn btn-succes firmar" onclick=recuperarFoto({{propiedadItemsResultado[k].id}})>foto n°{{propiedadItemsResultado[k].id}} Deshabilitada</button>
     
-                                <button id="editar-{{propiedadItemsResultado[k].id}}" style="position:absolute; display:none"class="btn btn-danger firmar" onclick=eliminarFoto({{propiedadItemsResultado[k].id}})>Deshabilitar foto</button>
+                                <button id="editar-{{propiedadItemsResultado[k].id}}" style="position:absolute; display:none"class="btn btn-danger mb-2 firmar" onclick=eliminarFoto({{propiedadItemsResultado[k].id}})>Deshabilitar foto</button>
                                 <a target="_blank" style="display:none" id="ViejoDato-{{propiedadItemsResultado[k].id}}" class="example-image-link" href="{{vich_uploader_asset(r, 'imageFile')}}" data-lightbox="example-set">
                                     <img id="ViejoDato-{{propiedadItemsResultado[k].id}}"  class="example-image" src="{{vich_uploader_asset(r, 'imageFile')}}" alt=""  width="150" height="200"/>
                                 </a>
