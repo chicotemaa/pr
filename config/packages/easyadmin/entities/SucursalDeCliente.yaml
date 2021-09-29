@@ -32,6 +32,7 @@ easy_admin:
           - direccion
           - { property: 'Cliente' }
           - facility
+          - Sucursal
       show:
         item_permission: [ROLE_CLIENTE]
         fields:
