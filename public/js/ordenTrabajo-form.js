@@ -34,10 +34,15 @@ $(document).ready(function(){
         success:function(r){
             
             //let facility = $("#ordentrabajo_Facility").val('4');
+            
             let idcliente= r.results.clienteId;
             let idfacility= r.results.facilityId;
+            let idSucursal= r.results.sucursalId
+            
             $('#ordentrabajo_Facility').val(idfacility);
             $('#ordentrabajo_cliente').val(idcliente);
+            $('#ordentrabajo_sucursal').val(idSucursal);
+            
             
             
         }
