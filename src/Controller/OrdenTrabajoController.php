@@ -1009,10 +1009,6 @@ class OrdenTrabajoController extends EasyAdminController
             $entity->setFacility($solicitud->getFacility());
             $entity->setSucursalDeCliente($solicitud->getSucursalDeCliente());
             $entity->setSolicitud($solicitud);
-        
-        if ($this->isGranted('ROLE_SUCURSAL')) {
-            $entity->setSucursal($entity->getUser()->getSucursal());
-         }
 
             $this->request->getSession()->remove('solicitud_ot');
         }
