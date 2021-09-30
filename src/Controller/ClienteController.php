@@ -53,7 +53,9 @@ class ClienteController extends EasyAdminController
                'cliente'=>$sucursalDeCliente->getCliente()->__toString(),
                'clienteId'=>$sucursalDeCliente->getCliente()->getId(),
                'facility'=>$sucursalDeCliente->getFacility()->__toString(),
-               'facilityId'=>$sucursalDeCliente->getFacility()->getId()
+               'facilityId'=>$sucursalDeCliente->getFacility()->getId(),
+               'sucursal'=>$sucursalDeCliente->getSucursal()->getNombre(),
+               'sucursalId'=>$sucursalDeCliente->getSucursal()->getId()
            ];
 
        return new JsonResponse([
