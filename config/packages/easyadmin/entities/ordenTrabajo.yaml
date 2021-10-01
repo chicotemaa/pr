@@ -36,6 +36,7 @@ easy_admin:
                     - { property: 'estadoGestion', template: 'OrdenTrabajo/estadoGestion.html.twig' }
                     - { property: 'formulario', type: 'text'}
                     - { property: 'user', type: 'text'}
+                    - { property: 'comentario' }
                     - { property: 'sucursal', type: 'text'}
                     - { property: 'estado', label: 'Estado', template: 'OrdenTrabajo/estado.html.twig'  }
                     - { property: 'fecha', format: 'd/m/Y' }
