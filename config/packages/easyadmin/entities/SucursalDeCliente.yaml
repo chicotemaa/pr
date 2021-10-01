@@ -15,6 +15,7 @@ easy_admin:
           - id
           - codigo
           - direccion
+          - { property: 'Sucursal', label: 'Sucursal de hogar' }
           - { property: 'Cliente', type: 'text' }
           - facility
       edit:
