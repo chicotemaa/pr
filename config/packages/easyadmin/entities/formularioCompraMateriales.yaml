@@ -33,20 +33,22 @@ easy_admin:
                     - property: 'estado' 
                       type: 'App\Form\Filter\EstadoFilterType'
                       mapped: false
-                show:
-                    item_permission: [ROLE_ENCARGADO, ROLE_SUCURSAL]
-                    fields:
-                        - { property: 'id', columns: 6 }
-                        - { property: 'user', type: 'text', columns: 6 }
-                        - { property: 'formulario', type: 'text', columns: 6 }
-                        - { property: 'estadoToString', label: 'Estado', columns: 6 }
-                        - { property: 'horaInicio', columns: 6, format: 'H:i' }
-                        - { property: 'horaFin', columns: 6, format: 'H:i' }
-                        - { property: 'fechaCompleta', columns: 6 }
-                        - { property: 'motivo', columns: 6, label: 'Postergado por' }
-                        - { property: 'minutosTrabajado',label: 'Minutos Trabajado', columns: 6 }
-                        - { property: 'createdAt', label: 'Creado', columns: 6, format: 'd/m/Y H:i' }
-                        - { property: 'imageName', type: 'image', label: 'Firma', base_path: 'uploads/imagenes/resultado/', columns: 6 }
-                        - { property: 'responsableFirma', label: 'Firma del responsable', columns: 6 }
-                        - { property: 'comentario' }
-                    actions: ['-edit', '-delete', 'list']
+            show:
+                    
+                item_permission: [ROLE_ENCARGADO]
+                fields:
+                    - { property: 'id', columns: 6 }
+                    - { property: 'user', type: 'text', columns: 6 }
+                    - { property: 'formulario', type: 'text', columns: 6 }
+                    - { property: 'cliente', type: 'text', columns: 6 }
+                    - { property: 'estadoToString',  label: 'Estado', template: 'OrdenTrabajo/estado.html.twig' , columns: 6 }
+                    - { property: 'horaInicio', columns: 6, format: 'H:i' }
+                    - { property: 'updatedAt', label: 'Hora fin', columns: 6, format: 'H:i' }
+                    - { property: 'fecha', columns: 6 }
+                    - { property: 'motivo', columns: 6, label: 'Postergado por' }
+                    - { property: 'minutosTrabajado',label: 'Minutos Trabajado', columns: 6 }
+                    - { property: 'createdAt', label: 'Creado', columns: 6, format: 'd/m/Y H:i' }
+                    - { property: 'imageName', type: 'image', label: 'Firma', base_path: 'uploads/imagenes/resultado/', columns: 6 }
+                    - { property: 'responsableFirma', label: 'Firma del responsable', columns: 6 }
+                    - { property: 'Motivo' }
+                actions: ['-edit', '-delete', 'list']
