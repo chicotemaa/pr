@@ -39,8 +39,8 @@ firma:
     requirements:
         _method: POST
 editar-hora:
-    path: /editar-formularioExpress/
-    defaults: { _controller: 'App\Controller\OrdenTrabajoController::editarFormularioexpress' }
+    path: /editar-horaOT/
+    defaults: { _controller: 'App\Controller\OrdenTrabajoController::editarHora' }
     requirements:
         _method: POST
 
