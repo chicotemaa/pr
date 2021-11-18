@@ -26,6 +26,8 @@ easy_admin:
           - { property: 'Cliente' }
           - facility
           - Sucursal
+          - Latitud
+          - Longitud
       new:
         item_permission: [ROLE_ADMIN]
         fields:
@@ -34,6 +36,8 @@ easy_admin:
           - { property: 'Cliente' }
           - facility
           - Sucursal
+          - Latitud
+          - Longitud
       show:
         item_permission: [ROLE_CLIENTE]
         fields:
