@@ -76,9 +76,6 @@
         .firmar, .btn-warning, .guardarHora, #Firmaformulario{
             display: none;
         }
-        .btn-warning{
-            display: none;
-        }
     </style>
     {% endif %}
     {% if entity.latitud is not empty %}
@@ -88,7 +85,7 @@
         <div id="mapCierre" class="map"></div>
     {% endif %}
     {# aca va boton de estado #}
-    <div class="col-4 m-2 alert alert-success " id="estadoEditado" style="display:none">Estado de Orden de trabajo editado</div>
+    <div class="col-4 m-2 alert alert-success " id="estadoEditado" style="display:none"></div>
     <div class="form-group-lg card-body d-flex center-content-between align-items-center">
     
     <h4>Estado de Orden de Trabajo </h4>
@@ -144,8 +141,18 @@
             "type": "POST" ,
             "url": "/firmar-formulario/",
             "data":datos,
+            success:function(r){
+                estadoeditado.style.display='block';
+                $( "#estadoEditado" ).addClass( "btn-success" ).removeClass("btn-danger");
+                estadoeditado.innerHTML = 'Estado de Orden de trabajo editado';
+            },
+            error:function(e){
+                estadoeditado.style.display='block';
+                $( "#estadoEditado" ).addClass( "btn-danger" ).removeClass("btn-success");
+                estadoeditado.innerHTML = 'Se ha producido un error al guardar los cambios';
+            }
         })
-        estadoeditado.style.display='block';
+        
 
         });
     </script>
