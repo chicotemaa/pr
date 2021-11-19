@@ -2,6 +2,9 @@ easy_admin:
   entities:
     SucursalDeCliente:
       class: App\Entity\SucursalDeCliente
+      # Controller: App\Controller\SucursalDeClienteController
+      templates:
+        new: 'SucursalDeCliente/new.html.twig'
       list:
         item_permission: [ROLE_ADMIN, ROLE_CLIENTE]
         filters:
