@@ -23,7 +23,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 L.control.scale({imperial: false, metric: true}).addTo(map);
 
 //Inicializar marcador
-let marcador = L.marker({lat: 0, lng: 0}, {draggable: true});
+let marcador = L.marker({lat: 0, lng: 0}, {draggable: false});
 function onMapClick(e) {
     /*Interactividad, clics*/
     const BaseId = "sucursaldecliente_";

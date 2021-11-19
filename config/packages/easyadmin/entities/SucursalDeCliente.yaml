@@ -5,6 +5,7 @@ easy_admin:
       # Controller: App\Controller\SucursalDeClienteController
       templates:
         new: 'SucursalDeCliente/new.html.twig'
+        edit: 'SucursalDeCliente/edit.html.twig'
       list:
         item_permission: [ROLE_ADMIN, ROLE_CLIENTE]
         filters:
