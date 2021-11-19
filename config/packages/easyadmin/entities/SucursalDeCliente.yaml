@@ -18,6 +18,9 @@ easy_admin:
           - { property: 'Sucursal', label: 'Sucursal de hogar' }
           - { property: 'Cliente', type: 'text' }
           - facility
+          # Debug, coordenadas geográficas
+          - Latitud
+          - Longitud
       edit:
         item_permission: [ROLE_CLIENTE]
         fields:
