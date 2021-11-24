@@ -12,6 +12,11 @@
 <!-- Esto va en head -->
     {{ form(form) }}
     <p><b>Ubicación de Sucursal</b></p>
+    <div id="buscador">
+        <label for="direccion">Dirección: <label/>
+        <input type="text" id="direccion" placeholder="123 Calle, Ciudad, Provincia"/>
+        <button type="button" id="buscar" class="btn btn-primary">Buscar</button>
+    </div>
     <div id="mapaSucursal" style="height:360px;"></div>
 {% endblock %}
 {% block body_javascript %}
