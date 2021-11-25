@@ -1434,5 +1434,17 @@ class OrdenTrabajoController extends EasyAdminController
         ]);
 
     }
+    
+    public function editarFoto(Request $request){
+
+        if ($request->request !=NULL) {
+            $id = $request->request->get('id');
+            $namePath = $request->request->get('namePath');
+            $ordenTrabajo = $this->getDoctrine()->getRepository(Resultado::class)->find($id);
+            $ordenTrabajo->setImageName($namePath);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return new JsonResponse(1);
+    }
 
 }
