@@ -56,7 +56,7 @@ sucursalMapa.lng(); // -58.98649737984137
 
   /* Buscador de direcciones */
   function buscador() {
-    let resLat, resLon = 0.0;
+    let resLat = 0.0, resLon = 0.0;
 
     const direccion = document.getElementById("direccion").value;
     const endpoint = new URL('/search', 'https://nominatim.openstreetmap.org');
@@ -72,8 +72,8 @@ sucursalMapa.lng(); // -58.98649737984137
         resLon = res[0].lon;
 
         // Cacheo de respuesta
-        sessionStorage.setItem(direccion+"Lat", resLat);
-        sessionStorage.setItem(direccion+"Lon", resLon);
+        sessionStorage.setItem(direccion+"Lat", String(resLat));
+        sessionStorage.setItem(direccion+"Lon", String(resLon));
 
         // Seteo de formulario
         document.getElementById(BASE_ID+"Latitud").value  =resLat;
