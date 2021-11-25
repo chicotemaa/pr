@@ -4,8 +4,8 @@ easy_admin:
       class: App\Entity\SucursalDeCliente
       # Controller: App\Controller\SucursalDeClienteController
       templates:
-        new: 'SucursalDeCliente/new.html.twig'
-        edit: 'SucursalDeCliente/edit.html.twig'
+        new: 'SucursalDeCliente/find.html.twig'
+        edit: 'SucursalDeCliente/find.html.twig'
       list:
         item_permission: [ROLE_ADMIN, ROLE_CLIENTE]
         filters:
@@ -33,8 +33,8 @@ easy_admin:
           - { property: 'Cliente' }
           - facility
           - Sucursal
-          - Latitud
-          - Longitud
+          - {property: 'Latitud', type: 'text'}
+          - {property: 'Longitud', type: 'text'}
       new:
         item_permission: [ROLE_ADMIN]
         fields:
