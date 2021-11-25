@@ -44,3 +44,6 @@ editar-hora:
     requirements:
         _method: POST
 
+editar-foto:
+    path: /reemplazar-foto/
+    defaults: { _controller: 'App\Controller\OrdenTrabajoController::editarFoto' }
