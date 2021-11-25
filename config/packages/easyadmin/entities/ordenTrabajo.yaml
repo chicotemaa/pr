@@ -73,17 +73,18 @@ easy_admin:
                     #- { property: 'solicitud.servicio', label: 'Solicitud asociada', columns: 6 }
                     - { property: 'imageName', type: 'image', label: 'Firma', base_path: 'uploads/imagenes/resultado/', columns: 6 }
                     - { property: 'responsableFirma', label: 'Firma del responsable', columns: 6 }
-                    - { property: 'firma' , label: 'Ultima Edicion de Formulario'}
+                    - { property: 'firma' , label: 'Última Edición de Formulario'}
                 actions: [ 'delete', 'list', 'edit']
             new:
                 item_permission: [ROLE_ENCARGADO, ROLE_SUCURSAL]
                 fields:
                     - '-estado'
                     - { property: 'SucursalDeCliente' }
-                    - { property: 'cliente', type_options:{required: false} ,columns: 12 , css_class: 'invisible' }
-                    - { property: 'Facility', type_options:{required: false} , columns: 12 , css_class: 'invisible' }
-                    - { property: 'sucursal', type_options:{required: false} , columns: 12 , css_class: 'invisible' }
-                    - { property: 'user', label: 'Tecnico asignado' , type_options: { required: true }}
+                    # Faltaba un espacio luego de type_options según linter
+                    - { property: 'cliente', type_options: {required: false} ,columns: 12 , css_class: 'invisible' }
+                    - { property: 'Facility', type_options: {required: false} , columns: 12 , css_class: 'invisible' }
+                    - { property: 'sucursal', type_options: {required: false} , columns: 12 , css_class: 'invisible' }
+                    - { property: 'user', label: 'Técnico asignado' , type_options: { required: true }}
                     #- { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
             edit:
                 item_permission: [ROLE_ADMIN, ROLE_LIDER]
@@ -106,9 +107,10 @@ easy_admin:
                 fields:
                     - { type: 'group', label: 'Information', css_class: 'col-md-8'}
                     - { property: 'estadoGestion', type: 'choice', type_options: { choices: '%otEstadoGestionArray%' }, permission: [ROLE_ADMIN]}
-                    - { property: 'SucursalDeCliente', label: 'Sucursal de Cliente', { attr: { required: true, create: true } }
+                    # Faltaba cerrar una llave y agregar type_options
+                    - { property: 'SucursalDeCliente', label: 'Sucursal de Cliente', type_options: { attr: { required: true, create: true } } }
                     - { property: 'formulario', css_class: 'col-md-8', type_options: { required: true } }
-                    - { property: 'user', label: 'Tecnico asignado' }
+                    - { property: 'user', label: 'Técnico asignado' }
                     - { property: 'orden', css_class: 'col-md-4' }
                     - { property: 'servicio', css_class: 'col-md-4' }
                     - { property: 'sucursal',  permission: [ROLE_ENCARGADO] }
