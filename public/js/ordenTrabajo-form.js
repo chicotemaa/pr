@@ -99,7 +99,7 @@ var minutos=document.getElementById('ordentrabajo_minutos');
             'valor':parseInt(valorminutos)}
         $.ajax({
             "type": "POST" ,
-            "url": "/editar-formularioExpress/",
+            "url": "/editar-horaOT/",
             "data":datos,
             success:function(r){
                minutos.setAttribute('value',datos.valor);  
@@ -116,7 +116,7 @@ var minutos=document.getElementById('ordentrabajo_minutos');
                 'valor':parseInt(valorminutos)}
             $.ajax({
                 "type": "POST" ,
-                "url": "/editar-formularioExpress/",
+                "url": "/editar-horaOT/",
                 "data":datos,
                 success:function(r){
                    minutos.setAttribute('value',datos.valor);  

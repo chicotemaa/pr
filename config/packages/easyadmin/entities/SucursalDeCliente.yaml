@@ -2,6 +2,10 @@ easy_admin:
   entities:
     SucursalDeCliente:
       class: App\Entity\SucursalDeCliente
+      # Controller: App\Controller\SucursalDeClienteController
+      templates:
+        new: 'SucursalDeCliente/find.html.twig'
+        edit: 'SucursalDeCliente/find.html.twig'
       list:
         item_permission: [ROLE_ADMIN, ROLE_CLIENTE]
         filters:
@@ -18,6 +22,9 @@ easy_admin:
           - { property: 'Sucursal', label: 'Sucursal de hogar' }
           - { property: 'Cliente', type: 'text' }
           - facility
+          # Debug, coordenadas geográficas
+          - Latitud
+          - Longitud
       edit:
         item_permission: [ROLE_CLIENTE]
         fields:
@@ -26,6 +33,8 @@ easy_admin:
           - { property: 'Cliente' }
           - facility
           - Sucursal
+          - {property: 'Latitud', type: 'text'}
+          - {property: 'Longitud', type: 'text'}
       new:
         item_permission: [ROLE_ADMIN]
         fields:
@@ -34,6 +43,8 @@ easy_admin:
           - { property: 'Cliente' }
           - facility
           - Sucursal
+          - Latitud
+          - Longitud
       show:
         item_permission: [ROLE_CLIENTE]
         fields:

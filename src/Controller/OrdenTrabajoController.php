@@ -1379,14 +1379,16 @@ class OrdenTrabajoController extends EasyAdminController
         return new JsonResponse(1);
     }
 
-    public function editarFormularioexpress(Request $request){
+    public function editarHora(Request $request){
 
         if ($request->request !=NULL) {
             $id = $request->request->get('id');
-            $valor = $request->request->get('valor');
-            $resultadoExpress = $this->getDoctrine()->getRepository(FormularioResultado::class)->find($id);
-            $resultadoExpress->setMinutosTrabajado($valor);
-            $this->getDoctrine()->getManager()->flush();
+            if ($request->request->get('valor') !== '') {
+                $valor = $request->request->get('valor');
+                $resultadoExpress = $this->getDoctrine()->getRepository(FormularioResultado::class)->find($id);
+                $resultadoExpress->setMinutosTrabajado($valor);
+                $this->getDoctrine()->getManager()->flush(); 
+            }
         }
         return new JsonResponse(1);
     }
