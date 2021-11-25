@@ -76,6 +76,9 @@
         .firmar, .btn-warning, .guardarHora, #Firmaformulario{
             display: none;
         }
+        .btn-warning{
+            display: none;
+        }
     </style>
     {% endif %}
     {% if entity.latitud is not empty %}
@@ -85,7 +88,7 @@
         <div id="mapCierre" class="map"></div>
     {% endif %}
     {# aca va boton de estado #}
-    <div class="col-4 m-2 alert alert-success " id="estadoEditado" style="display:none"></div>
+    <div class="col-4 m-2 alert alert-success " id="estadoEditado" style="display:none">Estado de Orden de trabajo editado</div>
     <div class="form-group-lg card-body d-flex center-content-between align-items-center">
     
     <h4>Estado de Orden de Trabajo </h4>
@@ -141,18 +144,8 @@
             "type": "POST" ,
             "url": "/firmar-formulario/",
             "data":datos,
-            success:function(r){
-                estadoeditado.style.display='block';
-                $( "#estadoEditado" ).addClass( "btn-success" ).removeClass("btn-danger");
-                estadoeditado.innerHTML = 'Estado de Orden de trabajo editado';
-            },
-            error:function(e){
-                estadoeditado.style.display='block';
-                $( "#estadoEditado" ).addClass( "btn-danger" ).removeClass("btn-success");
-                estadoeditado.innerHTML = 'Se ha producido un error al guardar los cambios';
-            }
         })
-        
+        estadoeditado.style.display='block';
 
         });
     </script>
@@ -165,10 +158,10 @@
     <h4 class="m-3"><strong> Fecha y Hora de Trabajo </strong></h4>
      <div class="col-md-4 m-2">
       <label for="inicio">Hora de Inicio:</label>
-      <label type="datetime-local" class="form-control" >{{ (entity.horaInicio.date)|date("d/m/Y H:i") }}</label>
-      <input type="datetime-local" class="form-control invisible" id="ordentrabajo_horaInicio" name="inicio"value="{{ (entity.horaInicio.date)|date("Y-m-d") }}T{{ (entity.horaInicio.date)|date("H:i") }}">
+      <label type="datetime-local" class="form-control" >{{ (entity.horaInicio)|date("d/m/Y H:i") }}</label>
+      <input type="datetime-local" class="form-control invisible" id="ordentrabajo_horaInicio" name="inicio"value="{{ (entity.horaInicio)|date("Y-m-d") }}T{{ (entity.horaInicio)|date("H:i") }}">
       <label for="fin">Hora de Fin:</label>
-      <input type="datetime-local" class="form-control"  id="ordentrabajo_horaFin" name="fin" value="{{ (entity.horaFin.date)|date("Y-m-d") }}T{{ (entity.horaFin.date)|date("H:i") }}" >   
+      <input type="datetime-local" class="form-control"  id="ordentrabajo_horaFin" name="fin" value="{{ (entity.horaFin)|date("Y-m-d") }}T{{ (entity.horaFin)|date("H:i") }}" >   
      </div>
      <div>
      {% if entity.formularioResultado is not null %}
@@ -184,8 +177,8 @@
     <h4 class="m-3"><strong> Fecha y Hora de Trabajo "Hora de fin vacio"</strong></h4>
      <div class="col-md-4 m-2">
       <label for="inicio">Hora de Inicio:</label>
-      <label type="datetime-local" class="form-control" >{{ (entity.horaInicio.date)|date("d/m/Y H:i") }}</label>
-      <input type="datetime-local" class="form-control invisible" id="ordentrabajo_horaInicio" name="inicio"value="{{ (entity.horaInicio.date)|date("Y-m-d") }}T{{ (entity.horaInicio.date)|date("H:i") }}">
+      <label type="datetime-local" class="form-control" >{{ (entity.horaInicio)|date("d/m/Y H:i") }}</label>
+      <input type="datetime-local" class="form-control invisible" id="ordentrabajo_horaInicio" name="inicio"value="{{ (entity.horaInicio)|date("Y-m-d") }}T{{ (entity.horaInicio)|date("H:i") }}">
       <label for="fin">Hora de Fin:</label>
       <input type="datetime-local" class="form-control"  id="ordentrabajo_horaFin" name="fin" >   
      </div>
@@ -200,7 +193,7 @@
       <label for="inicio">Hora de Inicio:</label>
       <input type="datetime-local" class="form-control" id="ordentrabajo_horaInicio" name="inicio">
       <label for="fin">Hora de Fin:</label>
-      <input type="datetime-local" class="form-control"  id="ordentrabajo_horaFin" name="fin" value="{{ (entity.horaFin.date)|date("Y-m-d") }}T{{ (entity.horaFin.date)|date("H:i") }}">   
+      <input type="datetime-local" class="form-control"  id="ordentrabajo_horaFin" name="fin" value="{{ (entity.horaFin)|date("Y-m-d") }}T{{ (entity.horaFin)|date("H:i") }}">   
      </div>
      <div>
          <label class="col-md-4 m-2">Minutos Trabajados:<span id="minutos"></span></label>
@@ -319,7 +312,7 @@
                                 </a>
                                 {% endif %}
                                 {% if propiedadItemsResultado[k].deleted==null  %}
-                                <div class="col-md-3 mt-3">
+                                <div class="col-md-2 mt-3">
                                 <button id="guardar-{{propiedadItemsResultado[k].id}}" class="btn btn-succes firmar" style="display:none; float:left;" onclick=recuperarFoto({{propiedadItemsResultado[k].id}})>foto n°{{propiedadItemsResultado[k].id}} Deshabilitada</button>
                                 <button id="editar-{{propiedadItemsResultado[k].id}}" class="btn btn-danger mb-2 firmar" style="position:absolute;"onclick=eliminarFoto({{propiedadItemsResultado[k].id}})>Deshabilitar foto</button>
                                 <a target="_blank" id="guardar-{{propiedadItemsResultado[k].id}}" class="example-image-link" href="{{vich_uploader_asset(r, 'imageFile')}}" data-lightbox="example-set">
@@ -328,6 +321,24 @@
                                 </a>
                                 </div>
                                 {% endif %}
+                                <div class="col-sm-2 d-flex align-items-center" id="add-{{propiedadItemsResultado[k].id}}"  >
+                                    <div class="justify-content-around p-3"  >
+                                        <button  class="btn btn-primary idphoto" id="{{propiedadItemsResultado[k].id}}" style=" text-align:center; float:left font-size:40px;" onclick=addFoto({{propiedadItemsResultado[k].id}}) >+ Reemplazar foto</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm d-none align-items-center " id="form-{{propiedadItemsResultado[k].id}}" >
+                                <form name="subida-imagenes" method="POST" enctype="multipart/form-data" class="formuploadajax" >
+	                                <input type="file" name="image" id="image{{propiedadItemsResultado[k].id}}" />
+                                    <input type="hidden" name="image" id="{{propiedadItemsResultado[k].id}}" />
+                                    <input type="submit" class="btn btn-success upload" value="Subir" onclick=saveFoto({{propiedadItemsResultado[k].id}})  >
+                                </form>
+                                </div>
+                                
+
+
+
+                                
                         {% if k < 0%}
                                 </div>
                         {% endif %}
@@ -408,6 +419,49 @@
             "data":datos,
         })
         });
+
+      
+    
+        
+    $(".formuploadajax").on('submit', function(id) {
+        id.preventDefault();
+        let idResultado= id.currentTarget[1].id
+        let imagen= "#"+id.currentTarget[0].id;
+        const tk="cTowlSvzOEm9hBknZeEs6rpEp2c7uC9L3Zvr8P_Um0Q";
+        let files = $(imagen).prop('files')[0];
+        let formData = new FormData();
+        formData.append("file", files);
+        $.ajax({
+                processData: false,
+                contentType: false,
+                type : "POST" ,
+                url : "/api/media_objects",
+                data : formData,
+                headers: {'Authorization': 'Bearer ' + tk },
+                success: function(response) {
+                    let idNombreFoto= response.filePath;
+                    reemplaceFoto(idResultado,idNombreFoto)
+                if (response != 0) {
+                    } else {
+                        alert('Formato de imagen incorrecto.');
+                    }
+                },
+                error: function(){
+                    alert('no se pudo realizar carga probar nuevamente mas tarde') 
+                }
+            })
+
+        return false;
+    });
+
+    
+
+    
+        
+    
+    
+
+
         function firmarFormulario(){
              let datos={
                 'idOrden':idOrden,
@@ -420,7 +474,6 @@
                 "data":datos,
                 success:function(r){
                 let FirmaFormularioa = document.getElementById('Firmaformularioa');
-                console.log(FirmaFormularioa)
                 FirmaFormularioa.style.display = "inline-block";
                  setTimeout(function(){ FirmaFormularioa.style.display = "none"; }, 4000);
                }})
@@ -444,6 +497,7 @@
         })
 
     }    
+    
 
 
     function exportar(){
@@ -496,6 +550,7 @@
                 title: 'Orden de trabajo'
             });
         }
+        
          
         $("#ordentrabajo_horaInicio").change(function() {
         calcularminutos();
