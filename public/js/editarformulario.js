@@ -21,7 +21,9 @@ function reemplaceFoto(idResultado, idNombreFoto) {
         "data": datos,
         success: function (r) {
             let newImage = document.getElementById('ViejoDato-' + idResultado);
-            newImage.setAttribute('src', "https://sistemas.hogarmantenimiento.com/uploads/imagenes/resultado/" + idNombreFoto)
+
+            newImage.setAttribute('src', "/uploads/imagenes/resultado/" + idNombreFoto)
+
         },
     })
 
