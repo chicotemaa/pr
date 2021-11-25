@@ -50,7 +50,8 @@ easy_admin:
                 actions:
                     - { name: 'show',  icon: 'search', label: '' }
                     - { name: 'edit', icon: 'pencil', label: '' }
-                    - { name: 'delete', icon: 'remove', label: '' }
+                    # Eliminado ya que existe la opcion desde batch_actions
+                    - { name: '-delete', icon: 'remove', label: '' }
             show:
                 item_permission: [ROLE_ENCARGADO, ROLE_SUCURSAL]
                 fields:

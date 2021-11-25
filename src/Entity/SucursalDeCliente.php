@@ -89,20 +89,22 @@ implements iSucursalFilter, iClienteFilter, iFacilityFilter
      */
     private $facility;
 
-    /**
-     * @ORM\Column(type="string", length=30, nullable=true)
-     */
-    private $latitud;
-
-    /**
-     * @ORM\Column(type="string", length=30, nullable=true)
-     */
-    private $longitud;
+    
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Sucursal", inversedBy="sucursalDeClientes")
      */
     private $Sucursal;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $Latitud;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $Longitud;
 
 
     public function __construct()
@@ -265,30 +267,6 @@ implements iSucursalFilter, iClienteFilter, iFacilityFilter
         return $this;
     }
 
-    public function getLatitud(): ?string
-    {
-        return $this->latitud;
-    }
-
-    public function setLatitud(?string $latitud): self
-    {
-        $this->latitud = $latitud;
-
-        return $this;
-    }
-
-    public function getLongitud(): ?string
-    {
-        return $this->longitud;
-    }
-
-    public function setLongitud(?string $longitud): self
-    {
-        $this->longitud = $longitud;
-
-        return $this;
-    }
-
     public function getSucursal(): ?Sucursal
     {
         return $this->Sucursal;
@@ -297,6 +275,30 @@ implements iSucursalFilter, iClienteFilter, iFacilityFilter
     public function setSucursal(?Sucursal $Sucursal): self
     {
         $this->Sucursal = $Sucursal;
+
+        return $this;
+    }
+
+    public function getLatitud(): ?float
+    {
+        return $this->Latitud;
+    }
+
+    public function setLatitud(float $Latitud): self
+    {
+        $this->Latitud = $Latitud;
+
+        return $this;
+    }
+
+    public function getLongitud(): ?float
+    {
+        return $this->Longitud;
+    }
+
+    public function setLongitud(float $Longitud): self
+    {
+        $this->Longitud = $Longitud;
 
         return $this;
     }
