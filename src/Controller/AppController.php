@@ -341,9 +341,9 @@ class AppController extends AbstractController
     //     ]);
     // }
     
-    // /**
-    // * @Route("/orden_trabajo/facility/{id}/{ultimo}")
-    // */
+    /**
+    * @Route("/orden_trabajo/facility/{id}/{ultimo}")
+    */
     // public function OTxFacility($id, $ultimo)
     // {
        
