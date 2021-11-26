@@ -80,8 +80,8 @@ easy_admin:
                 fields:
                     - '-estado'
                     - { property: 'SucursalDeCliente' }
-                    - { property: 'cliente', type_options:{required: false} ,columns: 12 , css_class: 'invisible' }
-                    - { property: 'Facility', type_options:{required: false} , columns: 12 , css_class: 'invisible' }
+                    - { property: 'cliente', type_options: {required: false} ,columns: 12 , css_class: 'invisible' }
+                    - { property: 'Facility', type_options: {required: false} , columns: 12 , css_class: 'invisible' }
                     - { property: 'user', label: 'Tecnico asignado' , type_options: { required: true }}
                     #- { property: 'cliente', type: 'easyadmin_autocomplete', type_options: { attr: { required: true, create: true } }, columns: 12 }
             edit:
@@ -98,8 +98,8 @@ easy_admin:
                 item_permission: [ROLE_ENCARGADO]
                 fields:
                     - { type: 'group', label: 'Information', css_class: 'col-md-8'}
-                    - { property: 'estadoGestion', type: 'choice', type_options: { choices: '%otEstadoGestionArray%' }, permission: [ROLE_ADMIN]}
-                    - { property: 'SucursalDeCliente', label: 'Sucursal de Cliente', { attr: { required: true, create: true } }
+                    - { property: 'estadoGestion', type: 'choice', type_options: { choices: '%otEstadoGestionArray%' }, permission: [ROLE_ADMIN] }
+                    - { property: 'SucursalDeCliente', label: 'Sucursal de Cliente', type_options: { required: true , create: true } }
                     - { property: 'formulario', css_class: 'col-md-8', type_options: { required: true } }
                     - { property: 'user', label: 'Tecnico asignado' }
                     - { property: 'orden', css_class: 'col-md-4' }
