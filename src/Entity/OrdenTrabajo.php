@@ -72,7 +72,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *  }
  * )
  */
-#[ApiResource(mercure: ["private" => false])]
 class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFacilityFilter, iSucursalClienteFilter
 {
     use TimestampableEntity;
