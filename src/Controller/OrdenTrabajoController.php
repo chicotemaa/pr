@@ -1447,4 +1447,22 @@ class OrdenTrabajoController extends EasyAdminController
         return new JsonResponse(1);
     }
 
+    /**
+     * @Route("/new-photo", name="añadirFoto")
+     */
+    public function agregarFoto(Request $request)
+    {
+        $id= $request->request->get('id');
+        $imageName= $request->request->get('imageName');
+
+        $resultado = $this->getDoctrine()->getRepository(Resultado::class)->find($id);
+        $clon = clone $resultado;
+        $clon->setImageName($imageName);
+        $em=$this->getDoctrine()->getManager();
+        $em->persist($clon);
+        $em->flush();
+
+        return new Response('Se ha creado el producto con id: '.$resultado->getId());
+    }
+
 }

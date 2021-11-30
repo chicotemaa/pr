@@ -124,15 +124,15 @@
                                 </a>
                                 <div class="col-sm-2 d-flex align-items-center" id="add-{{propiedadItemsResultado[k].id}}"  >
                                     <div class="justify-content-around p-3"  >
-                                        <button  class="btn btn-primary idphoto" id="{{propiedadItemsResultado[k].id}}" style=" text-align:center; float:left font-size:40px;" onclick=addFoto({{propiedadItemsResultado[k].id}}) >+ Reemplazar foto</button>
+                                        <button  class="btn btn-primary" id="{{propiedadItemsResultado[k].id}}" style=" text-align:center; float:left font-size:40px;" onclick=replaceFoto({{propiedadItemsResultado[k].id}}) >+ Reemplazar foto</button>
                                     </div>
                                 </div>
                                 
-                                <div class="col-sm d-none align-items-center " id="form-{{propiedadItemsResultado[k].id}}" >
-                                <form name="subida-imagenes" method="POST" enctype="multipart/form-data" class="formuploadajax" >
-	                                <input type="file" name="image" id="image{{propiedadItemsResultado[k].id}}" />
-                                    <input type="hidden" name="image" id="{{propiedadItemsResultado[k].id}}" />
-                                    <input type="submit" class="btn btn-success upload" value="Subir" onclick=saveFoto({{propiedadItemsResultado[k].id}})  >
+                                <div class="col-sm d-none align-items-center " id="form2-{{propiedadItemsResultado[k].id}}" >
+                                <form name="subida-imagenes" method="POST" enctype="multipart/form-data" class="reemplazar-foto" >
+	                                <input type="file" name="image" id="imagen{{propiedadItemsResultado[k].id}}" />
+                                    <input type="hidden" name="id" id="{{propiedadItemsResultado[k].id}}" />
+                                    <input type="submit" class="btn btn-success upload" value="Subir" onclick=saveFotoTwo({{propiedadItemsResultado[k].id}})  >
                                 </form>
                                 </div>
                                 
@@ -188,36 +188,7 @@
                 title: 'Orden de trabajo'
             });
         }
-        $(".formuploadajax").on('submit', function(id) {
-        id.preventDefault();
-        let idResultado= id.currentTarget[1].id
-        let imagen= "#"+id.currentTarget[0].id;
-        const tk="cTowlSvzOEm9hBknZeEs6rpEp2c7uC9L3Zvr8P_Um0Q";
-        let files = $(imagen).prop('files')[0];
-        let formData = new FormData();
-        formData.append("file", files);
-        $.ajax({
-                processData: false,
-                contentType: false,
-                type : "POST" ,
-                url : "/api/media_objects",
-                data : formData,
-                headers: {'Authorization': 'Bearer ' + tk },
-                success: function(response) {
-                    let idNombreFoto= response.filePath;
-                    reemplaceFoto(idResultado,idNombreFoto)
-                if (response != 0) {
-                    } else {
-                        alert('Formato de imagen incorrecto.');
-                    }
-                },
-                error: function(){
-                    alert('no se pudo realizar carga probar nuevamente mas tarde') 
-                }
-            })
-
-        return false;
-    });
+        
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{googleKeyApi}}&callback=initMap"
     async defer></script>
