@@ -18,7 +18,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *     "denormalization_context"={"groups"={"writeFormularioResultado", "writeFormularioResultadoExpress"}}
  *     },
  *  collectionOperations = {
- *     "get"={"method"="GET"}
+ *     "get"={"method"="GET"},
+ *     "post"={"method"="POST",
+ *              "denormalization_context"={"groups"={"writePost"}}
+ *              }
  *  },
  *  itemOperations={
  *          "get"={"method"="GET"}
@@ -64,6 +67,7 @@ class Resultado
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\FormularioResultado", inversedBy="resultados")
      * @ORM\JoinColumn(name="formulario_resultado", referencedColumnName="id", onDelete="CASCADE")
+     * @Groups({ "readPost"})
      */
     private $formularioResultado;
 
@@ -84,7 +88,7 @@ class Resultado
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"writeFormularioResultado", "writeFormularioResultadoExpress", "readFormularioResultado", "readFormularioResultadoExpress"})
+     * @Groups({"writeFormularioResultado", "writeFormularioResultadoExpress", "readFormularioResultado", "readFormularioResultadoExpress" , "writePost"})
      *
      * @var string
      */
@@ -92,7 +96,7 @@ class Resultado
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"writeFormularioResultado", "writeFormularioResultadoExpress", "readFormularioResultado", "readFormularioResultadoExpress"})
+     * @Groups({"writeFormularioResultado", "writeFormularioResultadoExpress", "readFormularioResultado", "readFormularioResultadoExpress", "writePost"})
      *
      * @var int
      */
@@ -160,7 +164,7 @@ class Resultado
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"writeFormularioResultado", "writeFormularioResultadoExpress", "readFormularioResultado", "readFormularioResultadoExpress"})
+     * @Groups({"writeFormularioResultado", "writeFormularioResultadoExpress", "readFormularioResultado", "readFormularioResultadoExpress", "writePost"})
      *
      * @var int
      */
@@ -168,7 +172,7 @@ class Resultado
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"writeFormularioResultado", "writeFormularioResultadoExpress", "readFormularioResultado", "readFormularioResultadoExpress"})
+     * @Groups({"writeFormularioResultado", "writeFormularioResultadoExpress", "readFormularioResultado", "readFormularioResultadoExpress", "writePost"})
      *
      * @var int
      */
@@ -176,7 +180,7 @@ class Resultado
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"writeFormularioResultado", "writeFormularioResultadoExpress", "readFormularioResultado", "readFormularioResultadoExpress"})
+     * @Groups({"writeFormularioResultado", "writeFormularioResultadoExpress", "readFormularioResultado", "readFormularioResultadoExpress", "writePost"})
      *
      * @var int
      */
@@ -186,13 +190,13 @@ class Resultado
      * @var bool
      *
      * @ORM\Column(type="boolean", nullable=false, options={"default": 0})
-     * @Groups({"writeFormularioResultado", "writeFormularioResultadoExpress", "readFormularioResultado", "readFormularioResultadoExpress"})
+     * @Groups({"writeFormularioResultado", "writeFormularioResultadoExpress", "readFormularioResultado", "readFormularioResultadoExpress", "writePost"})
      */
     private $isColeccionable = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"readFormularioResultado", "readFormularioResultadoExpress"})
+     * @Groups({"readFormularioResultado", "readFormularioResultadoExpress", "writePost"})
      *
      * @var int
      */
