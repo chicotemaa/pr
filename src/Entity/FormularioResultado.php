@@ -16,7 +16,7 @@ use App\Validator\Constraints as AppAssert;
  * @ApiResource(
  *    attributes={
  *     "normalization_context"={"groups"={"readFormularioResultado"}},
- *     "denormalization_context"={"groups"={"writeFormularioResultado"}}
+ *     "denormalization_context"={"groups"={"writeFormularioResultado","writePost"}}
  *     },
  *  itemOperations={
  *          "get"={"method"="GET"}
@@ -35,7 +35,7 @@ class FormularioResultado
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"readFormularioResultado"})
+     * @Groups({"readFormularioResultado", "writePost"})
      */
     private $id;
 
@@ -49,7 +49,7 @@ class FormularioResultado
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Resultado", mappedBy="formularioResultado",cascade={"all"}, orphanRemoval=true)
-     * @Groups({"writeFormularioResultado","readFormularioResultado"})
+     * @Groups({"writeFormularioResultado","readFormularioResultado","writePost"})
      * @ORM\OrderBy({"id" = "ASC", "indiceModulo" = "ASC", "indiceItem" = "ASC"})
      */
     private $resultados;
