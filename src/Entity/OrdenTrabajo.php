@@ -19,6 +19,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * })
  * @Vich\Uploadable
  * @ApiResource(
+ * mercure=true,
  * collectionOperations = {
  *        "post"={
  *              "method"="POST",
@@ -77,7 +78,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
     use TimestampableEntity;
     use SoftDeleteableEntity;
 
-    public static $estados = [
+    public $estados = [
         0 => 'Pendiente',
         1 => 'Estoy en camino',
         2 => 'Me recibio',
@@ -86,7 +87,7 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
         5 => 'Postergado'
     ];
 
-    public static $estadosGestion = [
+    public $estadosGestion = [
         0 => 'Abierta',
         1 => 'Pendiente',
         2 => 'Cerrada',
@@ -390,12 +391,12 @@ class OrdenTrabajo implements iSucursalFilter, iClienteFilter, iUserFilter , iFa
 
     public function estadoToString()
     {
-        return self::$estados[$this->estado];
+        return $this->estados[$this->estado];
     }
 
     public function estadoGestionToString()
     {
-        return self::$estadosGestion[$this->estadoGestion];
+        return $this->estadosGestion[$this->estadoGestion];
     }
 
     public function getLatitud(): ?string
