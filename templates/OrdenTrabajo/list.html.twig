@@ -2,6 +2,45 @@
 
 {% block body %}
     {{ parent() }}
+    <!-- Style para Estado -->
+    <style>
+div.estado{
+  font-weight: bold;
+  color: #fff;
+  width: 100%;
+  inline-size: max-content;
+  cursor: pointer;
+}
+div.estado[value]::after{
+  padding: 7px;
+  border-radius: 3px;
+  text-align: center;
+}
+div.estado[value = "0"]::after {
+  content: "Pendiente";
+  background-color: #dd4b39;
+}
+div.estado[value = "1"]::after {
+  background-color: #f39c12;
+  content: "Estoy en camino";
+}
+div.estado[value = "2"]::after {
+  background-color: #00a65a;
+  content: "Me recibió";
+}
+div.estado[value = "3"]::after {
+  background-color: #ffb100;
+  content: "No me atendió";
+}
+div.estado[value = "4"]::after {
+  background-color: #5cbe4a;
+  content: "Finalizado";
+}
+div.estado[value = "5"]::after {
+  content: "Postergado";
+  background-color: #2db7f0;
+}
+    </style>
     <!-- Exportar modal -->
     <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
       <div class="modal-dialog modal-sm" role="document">
@@ -166,6 +205,13 @@
   {{ parent() }}
   {{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}
   <script>
+    const eventSource = new EventSource("{{ mercure('http://127.0.0.1:8000/api/orden_trabajos/{id}') }}");
+    eventSource.onmessage = event => {
+      let respuesta = JSON.parse(event.data);
+      console.log(respuesta);
+    }
+  </script>
+  <script>
     $(".estadoGestionSelect").change(function () {
       var mofificarClase = function modificarClass(selector, valor) {
         var estado = ''
@@ -243,21 +289,21 @@
 
   </script>
 
-    {% if is_granted('ROLE_SUCURSAL') %}
-      {% if is_granted('ROLE_LIDER')==false %}
+  {% if is_granted('ROLE_SUCURSAL') %}
+    {% if is_granted('ROLE_LIDER')==false %}
     <script>
-    let estado =document.getElementsByClassName('estadoGestionSelect')
-     console.log(estado[1])
-    for (i=0; i< estado.length; i++){
-      if (estado[i].style.backgroundColor=='#f39c12'){
-        console.log('prueba')
+      let estado =document.getElementsByClassName('estadoGestionSelect')
+      console.log(estado[1])
+      for (i=0; i< estado.length; i++){
+        if (estado[i].style.backgroundColor=='#f39c12'){
+          console.log('prueba')
+        }
       }
-    }
 
-    $(document).ready(function(){
-    $( ".action-edit" ).addClass( "d-none" );
-    })
+      $(document).ready(function(){
+        $( ".action-edit" ).addClass( "d-none" );
+      })
     </script>
     {% endif %}
-    {% endif %}
+  {% endif %}
 {% endblock %}
