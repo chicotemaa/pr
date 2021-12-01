@@ -51,76 +51,76 @@ div.estado[value = "5"]::after {
 
           </div>
           <div class="modal-body">
-              <form id="formExportar" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: 'dsfdsf' }) }}" method="POST">
-                <input type="hidden" name="orden_trabajo" id="orden_trabajo" value="2" >
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="formato" id="formato" value="WORD" checked>
-                    WORD
-                  </label><br>
-                  <label>
-                    <input type="radio" name="formato" id="formato" value="PDF" >
-                    PDF
-                  </label><br>
-                  <label>
-                    <input type="radio" name="formato" id="formato" value="EXCEL" >
-                    EXCEL
-                  </label>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
-            </div>
+            <form id="formExportar" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: 'dsfdsf' }) }}" method="POST">
+              <input type="hidden" name="orden_trabajo" id="orden_trabajo" value="2" >
+              <div class="radio">
+                <label>
+                  <input type="radio" name="formato" id="formato" value="WORD" checked>
+                  WORD
+                </label><br>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="PDF" >
+                  PDF
+                </label><br>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="EXCEL" >
+                  EXCEL
+                </label>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
+          </div>
         </div>
       </div>
     </div>
 
-  <div class="modal fade bs-example2-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-header" style="background-color:#f05536;">
-          <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar - Seleccionar formato</h4>
-          <button type="button" class="close"  style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <div class="modal fade bs-example2-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color:#f05536;">
+            <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar - Seleccionar formato</h4>
+            <button type="button" class="close"  style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
-        </div>
-        {% if is_granted('ROLE_ENCARGADO') %}
-        <div class="modal-body">
-          <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
-            <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
-            <div class="radio">
-              <label>
-                <input type="radio" name="formato" id="formato" value="WORD" checked>
-                WORD
-              </label><br>
-              <label>
-                <input type="radio" name="formato" id="formato" value="PDF" >
-                PDF
-              </label><br>
-              <label>
-                <input type="radio" name="formato" id="formato" value="EXCEL" >
-                EXCEL
-              </label>
-              <label>
-                <input type="radio" name="formato" id="formato" value="ORDENESEXCEL">
-                LISTADO DE ÓRDENES EXCEL
-              </label>
-              <label>
-                <input type="radio" name="formato" id="formato" value="ALLORDENESEXCEL">
-                LISTADO DE ÓRDENES EXCEL (toda la lista filtrada)
-              </label>
-            </div>
-          </form>     
-        </div>
-        {% endif %}
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-          <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
+          </div>
+          {% if is_granted('ROLE_ENCARGADO') %}
+          <div class="modal-body">
+            <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
+              <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
+              <div class="radio">
+                <label>
+                  <input type="radio" name="formato" id="formato" value="WORD" checked>
+                  WORD
+                </label><br>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="PDF" >
+                  PDF
+                </label><br>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="EXCEL" >
+                  EXCEL
+                </label>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="ORDENESEXCEL">
+                  LISTADO DE ÓRDENES EXCEL
+                </label>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="ALLORDENESEXCEL">
+                  LISTADO DE ÓRDENES EXCEL (toda la lista filtrada)
+                </label>
+              </div>
+            </form>     
+          </div>
+          {% endif %}
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
     <div class="modal fade bs-example3-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
@@ -204,11 +204,93 @@ div.estado[value = "5"]::after {
 {% block body_javascript %}
   {{ parent() }}
   {{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}
+  {# Version no inline #}
+  {# <script src="{{ asset('js/sucursal_trabajos_mercure.js')}}">#}
   <script>
     const eventSource = new EventSource("{{ mercure('http://127.0.0.1:8000/api/orden_trabajos/{id}') }}");
     eventSource.onmessage = event => {
       let respuesta = JSON.parse(event.data);
       console.log(respuesta);
+      let renglon = document.querySelector('[data-id="'+respuesta.id+'"]');
+      if(renglon) {
+        renglon.children[5].innerHTML = respuesta.comentario;
+        renglon.children[7].children[0].setAttribute("value", respuesta.estado);
+      } else {
+        // Buscando el elemento tabla
+        const tabla = document.querySelector('tbody');
+        // Buscando la fila superior
+        const renglonSup = document.querySelector('[data-id]');
+        // Creando el renglón
+        const newRenglon = document.createElement("tr");
+        newRenglon.setAttribute("data-id", respuesta.id);
+        // Creando y agregando el checkbox
+        const tdCheckbox = document.createElement("td");
+        const checkbox = document.createElement("input");
+        checkbox.setAttribute("type", "checkbox")
+        checkbox.setAttribute("value", respuesta.id)
+        checkbox.className = "form-batch-checkbox";
+        tdCheckbox.appendChild(checkbox);
+        // Creando y agregando columna ID
+        const tdId = document.createElement("td");
+        tdId.className = "sorted integer";
+        const newId= document.createTextNode(respuesta.id);
+        tdId.appendChild(newId);
+        // Creando y agregando columna estado gestion
+        const tdGestion = document.createElement("td");
+        tdId.className = "integer";
+        const newGestion = document.createElement("div");
+        newGestion.setAttribute("value", respuesta.estadoGestion);
+        newGestion.className = "estadoGestion";
+        tdGestion.appendChild(newGestion);
+        // Creando y agregando Formulario
+        const tdFormulario = document.createElement("td");
+        tdFormulario.className = "text";
+        const newFormulario = document.createTextNode(respuesta.formulario);//TODO
+        tdFormulario.appendChild(newFormulario);
+        // Creando y agregando Usuario
+        const tdUsuario = document.createElement("td");
+        // Creando y agregando Comentario
+        const tdComentario = document.createElement("td");
+        tdComentario.className="text";
+        const newComentario= document.createTextNode(respuesta.comentario);
+        tdComentario.appendChild(newComentario);
+        // Creando y agregando Sucursal
+        const tdSucursal = document.createElement("td");
+        // Creando y agregando Estado
+        const tdEstado = document.createElement("td");
+        tdEstado.className = "integer";
+        const newEstado= document.createElement("div");
+        newEstado.setAttribute("value", respuesta.estado);
+        newEstado.className = "estado";
+        tdEstado.appendChild(newEstado);
+        // Creando y agregando Fecha
+        const tdFecha = document.createElement("td");
+        // Creando y agregando HoraI
+        const tdHoraI = document.createElement("td");
+        // Creando y agregando HoraF
+        const tdHoraF = document.createElement("td");
+        // Creando y agregando Cliente
+        const tdCliente = document.createElement("td");
+        // Creando y agregando SucursalCliente
+        const tdSucursalCliente= document.createElement("td");
+
+        // Agregando todo a newRenglon
+        newRenglon.appendChild(tdCheckbox);
+        newRenglon.appendChild(tdId);
+        newRenglon.appendChild(tdGestion);
+        newRenglon.appendChild(tdFormulario);
+        newRenglon.appendChild(tdUsuario);
+        newRenglon.appendChild(tdComentario);
+        newRenglon.appendChild(tdSucursal);
+        newRenglon.appendChild(tdEstado);
+        newRenglon.appendChild(tdFecha);
+        newRenglon.appendChild(tdHoraI);
+        newRenglon.appendChild(tdHoraF);
+        newRenglon.appendChild(tdCliente);
+        newRenglon.appendChild(tdSucursalCliente);
+
+        tabla.insertBefore(newRenglon, renglonSup);
+      }
     }
   </script>
   <script>
