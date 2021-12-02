@@ -6,6 +6,7 @@ use App\Entity\Solicitud;
 use App\Entity\OrdenTrabajo;
 use App\Entity\Sucursal;
 use App\Entity\Resultado;
+use App\Entity\Formulario;
 use App\Entity\FormularioResultado;
 use App\Entity\FormularioResultadoExpress;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -1447,4 +1448,16 @@ class OrdenTrabajoController extends EasyAdminController
         return new JsonResponse(1);
     }
 
+    /**
+     * @Route("/nombre-formulario/{id}", name="findById")
+     */
+    public function findFormulario($id) {
+        $formulario = $this->getDoctrine()->getRepository(Formulario::class)->findOneById($id);
+        $nombre = $formulario->getNombre();
+        $arrayRespuesta = array("nombre" => $nombre);
+        $jsonRespuesta = json_encode($arrayRespuesta);
+        return new Response($jsonRespuesta);
+
+    }
 }
+

@@ -233,16 +233,13 @@
         tdFormulario.id = "tdFormulario";
         //const newFormulario = document.createTextNode(respuesta.formulario);
         // la respuesta es la string del endpoint, no el título.
-        fetch(respuesta.formulario, {
-          method: "GET",
-          credentials: "same-origin",
-          headers: new Headers({
-            'Authorization': 'Bearer NWJlZDU5YTVhM2E0ZWU1NjcwNDEwNmIzNDBlMGQyNmQzYmY4MzRjMGEwMTc5ZDMyY2RhMDhmMDk5YzgwODIyNQ'
-          })})
-        .then(res => {
-          return res.json()})
+        let uri = respuesta.formulario.split("/").pop();
+        console.log(uri)
+        fetch("/nombre-formulario/"+uri, {
+          method: "GET",})
+        .then(res => res.json())
         .then(data => {
-          const newFormulario = document.createTextNode(data.titulo)
+          const newFormulario = document.createTextNode(data.nombre)
           const tdFormulario = document.getElementById("tdFormulario")
           tdFormulario.appendChild(newFormulario);
           tdFormulario.removeAttribute("id");
