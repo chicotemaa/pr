@@ -1,0 +1,36 @@
+div.estado{
+    font-weight: bold;
+    color: #fff;
+    width: 100%;
+    inline-size: max-content;
+    cursor: pointer;
+  }
+  div.estado[value]::after{
+    padding: 7px;
+    border-radius: 3px;
+    text-align: center;
+  }
+  div.estado[value = "0"]::after {
+    content: "Pendiente";
+    background-color: #dd4b39;
+  }
+  div.estado[value = "1"]::after {
+    background-color: #f39c12;
+    content: "Estoy en camino";
+  }
+  div.estado[value = "2"]::after {
+    background-color: #00a65a;
+    content: "Me recibió";
+  }
+  div.estado[value = "3"]::after {
+    background-color: #ffb100;
+    content: "No me atendió";
+  }
+  div.estado[value = "4"]::after {
+    background-color: #5cbe4a;
+    content: "Finalizado";
+  }
+  div.estado[value = "5"]::after {
+    content: "Postergado";
+    background-color: #2db7f0;
+  }

@@ -1,0 +1,24 @@
+div.estadoGestion{
+    font-weight: bold;
+    color: #fff;
+    width: 100%;
+    inline-size: max-content;
+    cursor: pointer;
+  }
+  div.estadoGestion[value]::after{
+    padding: 7px;
+    border-radius: 3px;
+    text-align: center;
+  }
+  div.estadoGestion[value = "0"]::after {
+    content: "Procesando";
+    background-color: #dd4b39;
+  }
+  div.estadoGestion[value = "1"]::after {
+    background-color: #f39c12;
+    content: "En revisión";
+  }
+  div.estadoGestion[value = "2"]::after {
+    background-color: #00a65a;
+    content: "Cerrada";
+  }
