@@ -213,8 +213,12 @@ div.estado[value = "5"]::after {
       console.log(respuesta);
       let renglon = document.querySelector('[data-id="'+respuesta.id+'"]');
       if(renglon) {
-        renglon.children[5].innerHTML = respuesta.comentario;
-        renglon.children[7].children[0].setAttribute("value", respuesta.estado);
+        if(respuesta.deleted) {
+          renglon.hidden = true;
+        } else {
+          renglon.children[5].innerHTML = respuesta.comentario;
+          renglon.children[7].children[0].setAttribute("value", respuesta.estado);
+        }
       } else {
         // Buscando el elemento tabla
         const tabla = document.querySelector('tbody');
@@ -289,7 +293,12 @@ div.estado[value = "5"]::after {
         newRenglon.appendChild(tdCliente);
         newRenglon.appendChild(tdSucursalCliente);
 
-        tabla.insertBefore(newRenglon, renglonSup);
+        if(renglonSup) {
+          tabla.insertBefore(newRenglon, renglonSup);
+        } else {
+          document.querySelector('[class=no-results]').hidden = true;
+          tabla.appendChild(newRenglon)
+        }
       }
     }
   </script>
