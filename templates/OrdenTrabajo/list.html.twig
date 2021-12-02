@@ -2,6 +2,19 @@
 
 {% block body %}
     {{ parent() }}
+    <style>
+@keyframes brillo {
+  from {
+    box-shadow: 0px 0px 5px 5px rgba(20, 255, 20, 0.2);
+  }
+  to {
+    box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, 0);
+  }
+}
+.nuevo {
+  animation: brillo 1s ease-in-out 1;
+}
+    </style>
     <!-- Exportar modal -->
     <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
       <div class="modal-dialog modal-sm" role="document">
@@ -182,13 +195,19 @@
           tabla.removeChild(renglon);
         } else {
           renglon.children[2].children[0].setAttribute("value", respuesta.estadoGestion);
-          renglon.children[5].innerHTML = respuesta.comentario;
+          if("null" === respuesta.comentario) {
+            renglon.children[5].children[0].innerHTML = "Nulo";
+            renglon.children[5].children[0].className = "badge badge-secondary";
+          } else {
+            renglon.children[5].children[0].innerHTML = respuesta.comentario;
+          }
           renglon.children[7].children[0].setAttribute("value", respuesta.estado);
         }
       } else {
         // Creando el renglón
         const newRenglon = document.createElement("tr");
         newRenglon.setAttribute("data-id", respuesta.id);
+        newRenglon.className= "nuevo";
         // Creando y agregando el checkbox
         const tdCheckbox = document.createElement("td");
         const checkbox = document.createElement("input");
@@ -211,8 +230,23 @@
         // Creando y agregando Formulario
         const tdFormulario = document.createElement("td");
         tdFormulario.className = "text";
-        const newFormulario = document.createTextNode(respuesta.formulario);//TODO
-        tdFormulario.appendChild(newFormulario);
+        tdFormulario.id = "tdFormulario";
+        //const newFormulario = document.createTextNode(respuesta.formulario);
+        // la respuesta es la string del endpoint, no el título.
+        fetch(respuesta.formulario, {
+          method: "GET",
+          credentials: "same-origin",
+          headers: new Headers({
+            'Authorization': 'Bearer NWJlZDU5YTVhM2E0ZWU1NjcwNDEwNmIzNDBlMGQyNmQzYmY4MzRjMGEwMTc5ZDMyY2RhMDhmMDk5YzgwODIyNQ'
+          })})
+        .then(res => {
+          return res.json()})
+        .then(data => {
+          const newFormulario = document.createTextNode(data.titulo)
+          const tdFormulario = document.getElementById("tdFormulario")
+          tdFormulario.appendChild(newFormulario);
+          tdFormulario.removeAttribute("id");
+        });
         // Creando y agregando Usuario
         const tdUsuario = document.createElement("td");
         // Creando y agregando Comentario
@@ -231,6 +265,14 @@
         tdEstado.appendChild(newEstado);
         // Creando y agregando Fecha
         const tdFecha = document.createElement("td");
+        tdFecha.className = " date ";
+        const newFecha = document.createElement("time");
+        const fecha = new Date(respuesta.fecha);
+        const l10nES = new Intl.DateTimeFormat("es-AR");
+        newFecha.dateTime = fecha.toISOString();
+        //newFecha.innerHTML= fecha.getDate()+"/"+(fecha.getMonth()+1)+"/"+fecha.getFullYear();
+        newFecha.innerHTML = l10nES.format(fecha);
+        tdFecha.appendChild(newFecha);
         // Creando y agregando HoraI
         const tdHoraI = document.createElement("td");
         // Creando y agregando HoraF
