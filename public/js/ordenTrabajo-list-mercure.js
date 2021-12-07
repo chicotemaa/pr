@@ -40,28 +40,27 @@
  */
 
 /**
+ * @function usarNombre
  * @param {String} uri - Uri del formulario. eg: "/nombre-formulario/[formulario_id]"
  * @param {HTMLTableCellElement} td - Celda que contiene el nombre. eg: "&lt;td&gt;nombre&lt;/td>"
  */
 function usarNombre(uri, td) {
   const newFormulario = document.createTextNode(sessionStorage.getItem(uri))
   td.appendChild(newFormulario);
-  td.removeAttribute("id");
 }
 
 /**
- * @param {String} endpoint - eg: "/nombre-formulario/"
- * @param {String} id - string del id del formulario. eg: "147"
+ * @function fetchNombre
+ * @param {String} uri - eg: "/nombre-formulario/[id]"
  * @param {HTMLTableCellElement} td - Celda que contiene el nombre. eg: "&lt;td>nombre&lt;/td>"
  */
-function fetchNombre(endpoint, id, td) {
-  fetch(endpoint+id, {
+function fetchNombre(uri, td) {
+  fetch(uri, {
     method: "GET",})
   .then(res => res.json())
   .then(data => {
-    console.log(data)
-    sessionStorage.setItem(endpoint+id, data.nombre)
-    usarNombre(endpoint+id, td)
+    sessionStorage.setItem(uri, data.nombre)
+    usarNombre(uri, td)
   });
 }
 
@@ -114,18 +113,28 @@ eventSource.onmessage = event => {
     newGestion.setAttribute("value", String(respuesta.estadoGestion));
     newGestion.className = "estadoGestion";
     tdGestion.appendChild(newGestion);
+
     // Creando y agregando Formulario
     const tdFormulario = document.createElement("td");
     tdFormulario.className = "text";
-    tdFormulario.id = "tdFormulario";
-    //const newFormulario = document.createTextNode(respuesta.formulario);
     // la respuesta es la string del endpoint, no el título.
-    let uri = respuesta.formulario.split("/").pop();
-    let nombreFormulario = sessionStorage.getItem(uri)
-    nombreFormulario ? usarNombre(uri, tdFormulario) : fetchNombre("/nombre-formulario/", uri, tdFormulario)
+    const formularioId = respuesta.formulario.split("/").pop();
+    const BASE_NOMBRE_FORM = "/nombre-formulario/";
+    const formularioURI = BASE_NOMBRE_FORM + formularioId
+    const nombreFormulario = sessionStorage.getItem(formularioURI)
+    nombreFormulario ? usarNombre(formularioURI, tdFormulario)
+                     : fetchNombre(formularioURI, tdFormulario)
     
-    // Creando y agregando Usuario //TODO
+    // Creando y agregando Usuario
     const tdUsuario = document.createElement("td");
+    tdUsuario.className = "text"
+    const usuarioId = respuesta.user.split("/").pop()
+    const BASE_NOMBRE_USER = "/nombre-usuario/"
+    const usuarioURI = BASE_NOMBRE_USER + usuarioId
+    const nombreUsuario = sessionStorage.getItem(usuarioURI)
+    nombreUsuario ? usarNombre(usuarioURI, tdUsuario)
+                  : fetchNombre(usuarioURI, tdUsuario)
+
     // Creando y agregando Comentario
     const tdComentario = document.createElement("td");
     tdComentario.className="text";
@@ -137,8 +146,17 @@ eventSource.onmessage = event => {
       newComentario.innerText = respuesta.comentario;
     }
     tdComentario.appendChild(newComentario);
+
     // Creando y agregando Sucursal
     const tdSucursal = document.createElement("td");
+    tdSucursal.className = "text"
+    const sucursalId = respuesta.sucursal.split("/").pop()
+    const BASE_NOMBRE_SUC = "/nombre-sucursal/"
+    const sucursalURI = BASE_NOMBRE_SUC + sucursalId
+    const nombreSucursal = sessionStorage.getItem(sucursalURI)
+    nombreSucursal ? usarNombre(sucursalURI, tdSucursal)
+                  : fetchNombre(sucursalURI, tdSucursal)
+
     // Creando y agregando Estado
     const tdEstado = document.createElement("td");
     tdEstado.className = "integer";
@@ -146,6 +164,7 @@ eventSource.onmessage = event => {
     newEstado.setAttribute("value", String(respuesta.estado));
     newEstado.className = "estado";
     tdEstado.appendChild(newEstado);
+
     // Creando y agregando Fecha
     const tdFecha = document.createElement("td");
     tdFecha.className = " date ";
@@ -156,6 +175,7 @@ eventSource.onmessage = event => {
     //newFecha.innerHTML= fecha.getDate()+"/"+(fecha.getMonth()+1)+"/"+fecha.getFullYear();
     newFecha.innerHTML = l10nES.format(fecha);
     tdFecha.appendChild(newFecha);
+
     // Creando y agregando HoraI
     const tdHoraI = document.createElement("td");
     tdHoraI.className = " datetime "
@@ -173,6 +193,7 @@ eventSource.onmessage = event => {
       newHoraI.innerText = formatoISO.format(resHoraI);
     }
     tdHoraI.appendChild(newHoraI);
+
     // Creando y agregando HoraF
     const tdHoraF = document.createElement("td");
     tdHoraF.className = " datetime "
@@ -191,8 +212,26 @@ eventSource.onmessage = event => {
     }
     // Creando y agregando Cliente
     const tdCliente = document.createElement("td");
+    tdCliente.className = "text";
+    // la respuesta es la string del endpoint, no el título.
+    const clienteId = respuesta.cliente.split("/").pop();
+    const BASE_NOMBRE_CLIENTE = "/nombre-cliente/";
+    const clienteURI = BASE_NOMBRE_CLIENTE + clienteId
+    const nombreCliente = sessionStorage.getItem(clienteURI)
+    nombreCliente ? usarNombre(clienteURI, tdCliente)
+                  : fetchNombre(clienteURI, tdCliente)
+
     // Creando y agregando SucursalCliente
     const tdSucursalCliente= document.createElement("td");
+    tdSucursalCliente.className = "text";
+    // la respuesta es la string del endpoint, no el título.
+    const sucursalClienteId = respuesta.SucursalDeCliente.split("/").pop();
+    const BASE_NOMBRE_SUC_CLIENTE = "/nombre-sucursal-cliente/"
+    const sucursalClienteURI = BASE_NOMBRE_SUC_CLIENTE + sucursalClienteId
+    const nombreSucursalCliente = sessionStorage.getItem(sucursalClienteURI)
+    nombreSucursalCliente ? usarNombre(sucursalClienteURI, tdSucursalCliente)
+                          : fetchNombre(sucursalClienteURI, tdSucursalCliente)
+
 
     // Agregando todo a newRenglon
     newRenglon.appendChild(tdCheckbox);
@@ -211,12 +250,12 @@ eventSource.onmessage = event => {
 
     // Buscando la fila superior
     const renglonSup = document.querySelector('[data-id]');
-    if(renglonSup) {
-      tabla.insertBefore(newRenglon, renglonSup);
+    setTimeout( () => {if(renglonSup) {
+      tabla.insertBefore(newRenglon, renglonSup)
     } else {
       // @ts-ignore
       document.querySelector('[class=no-results]').hidden = true;
       tabla.appendChild(newRenglon)
-    }
+    }}, 10000)
   }
 }

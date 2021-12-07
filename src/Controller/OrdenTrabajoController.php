@@ -9,6 +9,9 @@ use App\Entity\Resultado;
 use App\Entity\Formulario;
 use App\Entity\FormularioResultado;
 use App\Entity\FormularioResultadoExpress;
+use App\Entity\User;
+use App\Entity\Cliente;
+use App\Entity\SucursalDeCliente;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Process\Process;
@@ -1449,11 +1452,58 @@ class OrdenTrabajoController extends EasyAdminController
     }
 
     /**
-     * @Route("/nombre-formulario/{id}", name="findById")
+     * @Route("/nombre-formulario/{id}", name="findByFormularioId")
      */
     public function findFormulario($id) {
         $formulario = $this->getDoctrine()->getRepository(Formulario::class)->findOneById($id);
         $nombre = $formulario->getNombre();
+        $arrayRespuesta = array("nombre" => $nombre);
+        $jsonRespuesta = json_encode($arrayRespuesta);
+        return new Response($jsonRespuesta);
+
+    }
+
+    /**
+     * @Route("/nombre-usuario/{id}", name="findByUserId")
+     */
+    public function findUsuario($id) {
+        $usuario = $this->getDoctrine()->getRepository(User::class)->findOneById($id);
+        $nombre = $usuario->getUsername();
+        $arrayRespuesta = array("nombre" => $nombre);
+        $jsonRespuesta = json_encode($arrayRespuesta);
+        return new Response($jsonRespuesta);
+
+    }
+    /**
+     * @Route("/nombre-sucursal/{id}", name="findBySucursalId")
+     */
+    public function findSucursal($id) {
+        $sucursal = $this->getDoctrine()->getRepository(Sucursal::class)->findOneById($id);
+        $nombre = $sucursal->getNombre();
+        $arrayRespuesta = array("nombre" => $nombre);
+        $jsonRespuesta = json_encode($arrayRespuesta);
+        return new Response($jsonRespuesta);
+
+    }
+
+    /**
+     * @Route("/nombre-cliente/{id}", name="findByClienteId")
+     */
+    public function findCliente($id) {
+        $cliente = $this->getDoctrine()->getRepository(Cliente::class)->findOneById($id);
+        $nombre = $cliente->getRazonSocial();
+        $arrayRespuesta = array("nombre" => $nombre);
+        $jsonRespuesta = json_encode($arrayRespuesta);
+        return new Response($jsonRespuesta);
+
+    }
+
+    /**
+     * @Route("/nombre-sucursal-cliente/{id}", name="findBySucursalClienteId")
+     */
+    public function findSucursalC($id) {
+        $sucursalC = $this->getDoctrine()->getRepository(SucursalDeCliente::class)->findOneById($id);
+        $nombre = $sucursalC->getCodigo();
         $arrayRespuesta = array("nombre" => $nombre);
         $jsonRespuesta = json_encode($arrayRespuesta);
         return new Response($jsonRespuesta);
