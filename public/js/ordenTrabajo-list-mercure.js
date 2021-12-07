@@ -1,9 +1,76 @@
 // @ts-check
+
+/**
+ * @typedef {Object} MercureOrdenTrabajo
+ * @property {string} Facility - eg: "/api/facilities/[facility_id]"
+ * @property {string} SucursalDeCliente - "/api/sucursal_de_clientes/[sucursal_cliente_id]"
+ * @property {string} cliente - "/api/clientes/[cliente_id]"
+ * @property {String} comentario
+ * @property {string} createdAt - ISO datetime, eg: "YYYY-MM-DDTHH:mm:SS+[TZ]"
+ * @property {Boolean} deleted
+ * @property {string} deletedAt - ISO datetime
+ * @property {0 | 1 | 2 | 3 | 4 | 5} estado
+ * @property {0 | 1 | 2} estadoGestion
+ * @property {string[]} estados
+ * @property {string[]} estadosGestion
+ * @property {string} fecha - ISO datetime con horas en cero pero TZ correcto
+ * @property {? | null} firma
+ * @property {String} formulario
+ * @property {?String} formularioResultado
+ * @property {String} horaDesde - ISO time con fecha 1970-01-01, configurada al crear la OT
+ * @property {?String} horaFin - ISO time o null, seteada por la aplicación del técnico
+ * @property {String} horaHasta - ISO time con fecha 1970-01-01, configurada al crear la OT
+ * @property {?String} horaInicio - ISO time o null, seteada por la ap del técnico
+ * @property {Number} id - id de la órden de trabajo
+ * @property {?} imageFile
+ * @property {?} imageName
+ * @property {?} imageSize
+ * @property {?Number} latitud - ISO 6709
+ * @property {?Number} latitudCierre - ISO 6709
+ * @property {?Number} longitud - ISO 6709
+ * @property {?Number} longitudCierre - ISO 6709
+ * @property {?String} motivo
+ * @property {Number} orden
+ * @property {?} responsableFirma
+ * @property {String} servicio - eg: "/api/servicios/[servicio_id]"
+ * @property {?} solicitud
+ * @property {String} sucursal - Sucursal de hogar. eg: "/api/sucursals/[sucursal_id]"
+ * @property {String} updatedAt - ISO datetime de última modificación
+ * @property {String} user - Técnico a despachar. eg: "/api/users/[usuario_id]"
+ */
+
+/**
+ * @param {String} uri - Uri del formulario. eg: "/nombre-formulario/[formulario_id]"
+ * @param {HTMLTableCellElement} td - Celda que contiene el nombre. eg: "&lt;td&gt;nombre&lt;/td>"
+ */
+function usarNombre(uri, td) {
+  const newFormulario = document.createTextNode(sessionStorage.getItem(uri))
+  td.appendChild(newFormulario);
+  td.removeAttribute("id");
+}
+
+/**
+ * @param {String} endpoint - eg: "/nombre-formulario/"
+ * @param {String} id - string del id del formulario. eg: "147"
+ * @param {HTMLTableCellElement} td - Celda que contiene el nombre. eg: "&lt;td>nombre&lt;/td>"
+ */
+function fetchNombre(endpoint, id, td) {
+  fetch(endpoint+id, {
+    method: "GET",})
+  .then(res => res.json())
+  .then(data => {
+    console.log(data)
+    sessionStorage.setItem(endpoint+id, data.nombre)
+    usarNombre(endpoint+id, td)
+  });
+}
+
 //Para ver como twig parsea {{mercure()}}
 const eventSource = new EventSource("http://127.0.0.1:3000/.well-known/mercure?topic=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Forden_trabajos%2F%7Bid%7D");
 //$(MERCURE_URL)+/topic/encodeURIComponent('http://127.0.0.1:8000/api/orden_trabajos/{id}')
 eventSource.onmessage = event => {
-  let respuesta = JSON.parse(event.data);
+  /** @type {MercureOrdenTrabajo} */
+  const respuesta = JSON.parse(event.data);
   console.log(respuesta);
   // Buscando el elemento tabla
   const tabla = document.querySelector('tbody');
@@ -12,7 +79,7 @@ eventSource.onmessage = event => {
     if(respuesta.deleted) {
       tabla.removeChild(renglon);
     } else {
-      renglon.children[2].children[0].setAttribute("value", respuesta.estadoGestion);
+      renglon.children[2].children[0].setAttribute("value", String(respuesta.estadoGestion));
       if(!respuesta.comentario) {
         renglon.children[5].children[0].innerHTML = "Nulo";
         renglon.children[5].children[0].className = "badge badge-secondary";
@@ -21,30 +88,30 @@ eventSource.onmessage = event => {
         console.log(respuesta.comentario);
         renglon.children[5].children[0].innerHTML = respuesta.comentario;
       }
-      renglon.children[7].children[0].setAttribute("value", respuesta.estado);
+      renglon.children[7].children[0].setAttribute("value", String(respuesta.estado));
     }
   } else {
     // Creando el renglón
     const newRenglon = document.createElement("tr");
-    newRenglon.setAttribute("data-id", respuesta.id);
+    newRenglon.setAttribute("data-id", String(respuesta.id));
     newRenglon.className= "nuevo";
     // Creando y agregando el checkbox
     const tdCheckbox = document.createElement("td");
     const checkbox = document.createElement("input");
     checkbox.setAttribute("type", "checkbox")
-    checkbox.setAttribute("value", respuesta.id)
+    checkbox.setAttribute("value", String(respuesta.id))
     checkbox.className = "form-batch-checkbox";
     tdCheckbox.appendChild(checkbox);
     // Creando y agregando columna ID
     const tdId = document.createElement("td");
     tdId.className = "sorted integer";
-    const newId= document.createTextNode(respuesta.id);
+    const newId= document.createTextNode(String(respuesta.id));
     tdId.appendChild(newId);
     // Creando y agregando columna estado gestion
     const tdGestion = document.createElement("td");
     tdId.className = "integer";
     const newGestion = document.createElement("div");
-    newGestion.setAttribute("value", respuesta.estadoGestion);
+    newGestion.setAttribute("value", String(respuesta.estadoGestion));
     newGestion.className = "estadoGestion";
     tdGestion.appendChild(newGestion);
     // Creando y agregando Formulario
@@ -54,16 +121,10 @@ eventSource.onmessage = event => {
     //const newFormulario = document.createTextNode(respuesta.formulario);
     // la respuesta es la string del endpoint, no el título.
     let uri = respuesta.formulario.split("/").pop();
-    fetch("/nombre-formulario/"+uri, {
-      method: "GET",})
-    .then(res => res.json())
-    .then(data => {
-      const newFormulario = document.createTextNode(data.nombre)
-      const tdFormulario = document.getElementById("tdFormulario")
-      tdFormulario.appendChild(newFormulario);
-      tdFormulario.removeAttribute("id");
-    });
-    // Creando y agregando Usuario
+    let nombreFormulario = sessionStorage.getItem(uri)
+    nombreFormulario ? usarNombre(uri, tdFormulario) : fetchNombre("/nombre-formulario/", uri, tdFormulario)
+    
+    // Creando y agregando Usuario //TODO
     const tdUsuario = document.createElement("td");
     // Creando y agregando Comentario
     const tdComentario = document.createElement("td");
@@ -82,7 +143,7 @@ eventSource.onmessage = event => {
     const tdEstado = document.createElement("td");
     tdEstado.className = "integer";
     const newEstado= document.createElement("div");
-    newEstado.setAttribute("value", respuesta.estado);
+    newEstado.setAttribute("value", String(respuesta.estado));
     newEstado.className = "estado";
     tdEstado.appendChild(newEstado);
     // Creando y agregando Fecha
@@ -109,12 +170,25 @@ eventSource.onmessage = event => {
     } else {
       const resHoraI = new Date(respuesta.horaInicio)
       newHoraI.dateTime = resHoraI.toISOString();
-      newHoraI.innerText = respuesta.horaInicio;
+      newHoraI.innerText = formatoISO.format(resHoraI);
     }
-    tdComentario.appendChild(newComentario);
+    tdHoraI.appendChild(newHoraI);
     // Creando y agregando HoraF
     const tdHoraF = document.createElement("td");
     tdHoraF.className = " datetime "
+    const resHoraF = new Date(respuesta.horaFin);
+    if (!respuesta.horaFin) {
+      const newHoraF = document.createElement("span");
+      newHoraF.innerText ="Nulo";
+      newHoraF.className ="badge badge-secondary";
+      tdHoraF.appendChild(newHoraF);
+    } else {
+      const newHoraF = document.createElement("time");
+      const resHoraI = new Date(respuesta.horaFin);
+      newHoraF.dateTime = resHoraI.toISOString();
+      newHoraF.innerText = formatoISO.format(resHoraF);
+      tdHoraF.appendChild(newHoraF);
+    }
     // Creando y agregando Cliente
     const tdCliente = document.createElement("td");
     // Creando y agregando SucursalCliente
