@@ -51,17 +51,20 @@ function usarNombre(uri, td) {
 
 /**
  * @function fetchNombre
+ * @returns {Promise}
  * @param {String} uri - eg: "/nombre-formulario/[id]"
  * @param {HTMLTableCellElement} td - Celda que contiene el nombre. eg: "&lt;td>nombre&lt;/td>"
  */
 function fetchNombre(uri, td) {
-  fetch(uri, {
+  let promise = fetch(uri, {
     method: "GET",})
   .then(res => res.json())
   .then(data => {
     sessionStorage.setItem(uri, data.nombre)
     usarNombre(uri, td)
+    return Promise.resolve(0)
   });
+  return promise;
 }
 
 //Para ver como twig parsea {{mercure()}}
@@ -122,8 +125,6 @@ eventSource.onmessage = event => {
     const BASE_NOMBRE_FORM = "/nombre-formulario/";
     const formularioURI = BASE_NOMBRE_FORM + formularioId
     const nombreFormulario = sessionStorage.getItem(formularioURI)
-    nombreFormulario ? usarNombre(formularioURI, tdFormulario)
-                     : fetchNombre(formularioURI, tdFormulario)
     
     // Creando y agregando Usuario
     const tdUsuario = document.createElement("td");
@@ -132,8 +133,7 @@ eventSource.onmessage = event => {
     const BASE_NOMBRE_USER = "/nombre-usuario/"
     const usuarioURI = BASE_NOMBRE_USER + usuarioId
     const nombreUsuario = sessionStorage.getItem(usuarioURI)
-    nombreUsuario ? usarNombre(usuarioURI, tdUsuario)
-                  : fetchNombre(usuarioURI, tdUsuario)
+    
 
     // Creando y agregando Comentario
     const tdComentario = document.createElement("td");
@@ -154,9 +154,7 @@ eventSource.onmessage = event => {
     const BASE_NOMBRE_SUC = "/nombre-sucursal/"
     const sucursalURI = BASE_NOMBRE_SUC + sucursalId
     const nombreSucursal = sessionStorage.getItem(sucursalURI)
-    nombreSucursal ? usarNombre(sucursalURI, tdSucursal)
-                  : fetchNombre(sucursalURI, tdSucursal)
-
+    
     // Creando y agregando Estado
     const tdEstado = document.createElement("td");
     tdEstado.className = "integer";
@@ -218,8 +216,6 @@ eventSource.onmessage = event => {
     const BASE_NOMBRE_CLIENTE = "/nombre-cliente/";
     const clienteURI = BASE_NOMBRE_CLIENTE + clienteId
     const nombreCliente = sessionStorage.getItem(clienteURI)
-    nombreCliente ? usarNombre(clienteURI, tdCliente)
-                  : fetchNombre(clienteURI, tdCliente)
 
     // Creando y agregando SucursalCliente
     const tdSucursalCliente= document.createElement("td");
@@ -229,9 +225,6 @@ eventSource.onmessage = event => {
     const BASE_NOMBRE_SUC_CLIENTE = "/nombre-sucursal-cliente/"
     const sucursalClienteURI = BASE_NOMBRE_SUC_CLIENTE + sucursalClienteId
     const nombreSucursalCliente = sessionStorage.getItem(sucursalClienteURI)
-    nombreSucursalCliente ? usarNombre(sucursalClienteURI, tdSucursalCliente)
-                          : fetchNombre(sucursalClienteURI, tdSucursalCliente)
-
 
     // Agregando todo a newRenglon
     newRenglon.appendChild(tdCheckbox);
@@ -250,12 +243,25 @@ eventSource.onmessage = event => {
 
     // Buscando la fila superior
     const renglonSup = document.querySelector('[data-id]');
-    setTimeout( () => {if(renglonSup) {
+    Promise.all([
+      nombreSucursal ? usarNombre(sucursalURI, tdSucursal)
+                     : fetchNombre(sucursalURI, tdSucursal),
+      nombreFormulario ? usarNombre(formularioURI, tdFormulario)
+                     : fetchNombre(formularioURI, tdFormulario),
+      nombreUsuario ? usarNombre(usuarioURI, tdUsuario)
+                     : fetchNombre(usuarioURI, tdUsuario),
+      nombreCliente ? usarNombre(clienteURI, tdCliente)
+                     : fetchNombre(clienteURI, tdCliente),
+      nombreSucursalCliente ? usarNombre(sucursalClienteURI, tdSucursalCliente)
+                     : fetchNombre(sucursalClienteURI, tdSucursalCliente)
+      
+    ]).then(() => {if(renglonSup) {
       tabla.insertBefore(newRenglon, renglonSup)
     } else {
       // @ts-ignore
       document.querySelector('[class=no-results]').hidden = true;
       tabla.appendChild(newRenglon)
-    }}, 10000)
+    }})
+    
   }
 }
