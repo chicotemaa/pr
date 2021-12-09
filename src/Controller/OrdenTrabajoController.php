@@ -1452,62 +1452,38 @@ class OrdenTrabajoController extends EasyAdminController
     }
 
     /**
-     * @Route("/nombre-formulario/{id}", name="findByFormularioId")
+     * @Route("/nombres-OT", name="rellenar_ot")
      */
-    public function findFormulario($id) {
-        $formulario = $this->getDoctrine()->getRepository(Formulario::class)->findOneById($id);
-        $nombre = $formulario->getNombre();
-        $arrayRespuesta = array("nombre" => $nombre);
-        $jsonRespuesta = json_encode($arrayRespuesta);
-        return new Response($jsonRespuesta);
-
-    }
-
-    /**
-     * @Route("/nombre-usuario/{id}", name="findByUserId")
-     */
-    public function findUsuario($id) {
-        $usuario = $this->getDoctrine()->getRepository(User::class)->findOneById($id);
-        $nombre = $usuario->getUsername();
-        $arrayRespuesta = array("nombre" => $nombre);
-        $jsonRespuesta = json_encode($arrayRespuesta);
-        return new Response($jsonRespuesta);
-
-    }
-    /**
-     * @Route("/nombre-sucursal/{id}", name="findBySucursalId")
-     */
-    public function findSucursal($id) {
-        $sucursal = $this->getDoctrine()->getRepository(Sucursal::class)->findOneById($id);
-        $nombre = $sucursal->getNombre();
-        $arrayRespuesta = array("nombre" => $nombre);
-        $jsonRespuesta = json_encode($arrayRespuesta);
-        return new Response($jsonRespuesta);
-
-    }
-
-    /**
-     * @Route("/nombre-cliente/{id}", name="findByClienteId")
-     */
-    public function findCliente($id) {
-        $cliente = $this->getDoctrine()->getRepository(Cliente::class)->findOneById($id);
-        $nombre = $cliente->getRazonSocial();
-        $arrayRespuesta = array("nombre" => $nombre);
-        $jsonRespuesta = json_encode($arrayRespuesta);
-        return new Response($jsonRespuesta);
-
-    }
-
-    /**
-     * @Route("/nombre-sucursal-cliente/{id}", name="findBySucursalClienteId")
-     */
-    public function findSucursalC($id) {
-        $sucursalC = $this->getDoctrine()->getRepository(SucursalDeCliente::class)->findOneById($id);
-        $nombre = $sucursalC->getCodigo();
-        $arrayRespuesta = array("nombre" => $nombre);
-        $jsonRespuesta = json_encode($arrayRespuesta);
-        return new Response($jsonRespuesta);
-
+    public function fillOT(): Response {
+        // Consultas a las bases de datos
+        // Formulario
+        $formulario = $this->getDoctrine()->getRepository(Formulario::class)->findOneById($_GET["formulario"]);
+        $formularioNombre = $formulario->getNombre();
+        // Usuario
+        $usuario = $this->getDoctrine()->getRepository(User::class)->findOneById($_GET["usuario"]);
+        $usuarioNombre = $usuario->getUsername();
+        // Sucursal
+        $sucursal = $this->getDoctrine()->getRepository(Sucursal::class)->findOneById($_GET["sucursal"]);
+        $sucursalNombre = $sucursal->getNombre();
+        // Cliente
+        $cliente = $this->getDoctrine()->getRepository(Cliente::class)->findOneById($_GET["cliente"]);
+        $clienteNombre = $cliente->getRazonSocial();
+        // Sucursal de Cliente
+        $sucursalC = $this->getDoctrine()->getRepository(SucursalDeCliente::class)->findOneById($_GET["suc_cliente"]);
+        $scNombre = $sucursalC->__toString();
+        // Armado de respuesta
+        $arrayRespuesta = array(
+            "formulario" => $formularioNombre,
+            "usuario" => $usuarioNombre,
+            "sucursal" => $sucursalNombre,
+            "cliente" => $clienteNombre,
+            "sucCliente" => $scNombre);
+        $response = new Response(
+            json_encode($arrayRespuesta),
+            Response::HTTP_OK,
+            ['content-type' => 'application/json']
+        );
+        return $response;
     }
 }
 
