@@ -40,28 +40,72 @@
  */
 
 /**
- * @function usarNombre
- * @param {String} uri - Uri del formulario. eg: "/nombre-formulario/[formulario_id]"
- * @param {HTMLTableCellElement} td - Celda que contiene el nombre. eg: "&lt;td&gt;nombre&lt;/td>"
+ * @typedef  {Object} URIs
+ * @property {String} id
+ * @property {String} formulario
+ * @property {String} usuario
+ * @property {String} sucursal
+ * @property {String} cliente
+ * @property {String} sucCliente
  */
-function usarNombre(uri, td) {
-  const newFormulario = document.createTextNode(sessionStorage.getItem(uri))
-  td.appendChild(newFormulario);
-}
 
 /**
- * @function fetchNombre
- * @returns {Promise}
- * @param {String} uri - eg: "/nombre-formulario/[id]"
- * @param {HTMLTableCellElement} td - Celda que contiene el nombre. eg: "&lt;td>nombre&lt;/td>"
+ * @typedef {Object} TdsFetch
+ * @property {HTMLTableCellElement} tdId
+ * @property {HTMLTableCellElement} tdFormulario
+ * @property {HTMLTableCellElement} tdUsuario
+ * @property {HTMLTableCellElement} tdSucursal
+ * @property {HTMLTableCellElement} tdCliente
+ * @property {HTMLTableCellElement} tdSucursalCliente
+ * 
  */
-function fetchNombre(uri, td) {
-  let promise = fetch(uri, {
+
+/**
+ * @typedef {Object} Tds
+ * @property {HTMLTableCellElement} tdCheckbox
+ * @property {HTMLTableCellElement} tdGestion
+ * @property {HTMLTableCellElement} tdComentario
+ * @property {HTMLTableCellElement} tdEstado
+ * @property {HTMLTableCellElement} tdId
+ * @property {HTMLTableCellElement} tdFormulario
+ * @property {HTMLTableCellElement} tdUsuario
+ * @property {HTMLTableCellElement} tdSucursal
+ * @property {HTMLTableCellElement} tdCliente
+ * @property {HTMLTableCellElement} tdSucursalCliente
+ * @property {HTMLTableCellElement} tdFecha
+ * @property {HTMLTableCellElement} tdHoraI
+ * @property {HTMLTableCellElement} tdHoraF
+ */
+
+/**
+ * @function usarNombre
+ * @param {String} uri - Uri del formulario. eg: "/nombre-formulario/[formulario_id]"
+ * @param {TdsFetch} td - Celda que contiene el nombre. eg: "&lt;td&gt;nombre&lt;/td>"
+ */
+/*
+function usarNombre(uri, td) {
+  td.appendChild(newFormulario);
+}
+*/
+
+/**
+ * @function fetchNombres
+ * @returns {Promise}
+ * @param {String} otId - eg: "/nombre-formulario/[id]"
+ * @param {TdsFetch} tds - Objeto de objetos que contienen los nombres.
+ */
+function fetchNombres(otId, tds) {
+  let promise = fetch(otId, {
     method: "GET",})
-  .then(res => res.json())
-  .then(data => {
-    sessionStorage.setItem(uri, data.nombre)
-    usarNombre(uri, td)
+  .then((res) => res.json())
+  .then((data) => {
+    /** @type URIs */
+    const dataP = data
+    tds.tdCliente.appendChild(document.createTextNode(dataP.cliente))
+    tds.tdFormulario.appendChild(document.createTextNode(dataP.formulario))
+    tds.tdSucursal.appendChild(document.createTextNode(dataP.sucursal))
+    tds.tdSucursalCliente.appendChild(document.createTextNode(dataP.sucCliente))
+    tds.tdUsuario.appendChild(document.createTextNode(dataP.usuario))
     return Promise.resolve(0)
   });
   return promise;
@@ -97,47 +141,58 @@ eventSource.onmessage = event => {
     const newRenglon = document.createElement("tr");
     newRenglon.setAttribute("data-id", String(respuesta.id));
     newRenglon.className= "nuevo";
-    // Creando y agregando el checkbox
-    const tdCheckbox = document.createElement("td");
+    
+    // Creando tds
+    /**
+     * @type {Tds}
+     */
+    let tds = {
+      tdCheckbox:   document.createElement("td"),
+      tdId:         document.createElement("td"),
+      tdGestion:    document.createElement("td"),
+      tdFormulario: document.createElement("td"),
+      tdUsuario:    document.createElement("td"),
+      tdComentario: document.createElement("td"),
+      tdSucursal:   document.createElement("td"),
+      tdEstado:     document.createElement("td"),
+      tdFecha:      document.createElement("td"),
+      tdHoraI:      document.createElement("td"),
+      tdHoraF:      document.createElement("td"),
+      tdCliente:    document.createElement("td"),
+      tdSucursalCliente: document.createElement("td")
+    };
+
+    // Agregando el checkbox
     const checkbox = document.createElement("input");
     checkbox.setAttribute("type", "checkbox")
     checkbox.setAttribute("value", String(respuesta.id))
     checkbox.className = "form-batch-checkbox";
-    tdCheckbox.appendChild(checkbox);
-    // Creando y agregando columna ID
-    const tdId = document.createElement("td");
-    tdId.className = "sorted integer";
+
+   
+    tds.tdCheckbox.appendChild(checkbox);
+
+    // Agregando columna ID
+    tds.tdId.className = "sorted integer";
     const newId= document.createTextNode(String(respuesta.id));
-    tdId.appendChild(newId);
-    // Creando y agregando columna estado gestion
-    const tdGestion = document.createElement("td");
-    tdId.className = "integer";
+    tds.tdId.appendChild(newId);
+
+    // Agregando columna estado gestion
+    tds.tdGestion.className = "integer";
     const newGestion = document.createElement("div");
     newGestion.setAttribute("value", String(respuesta.estadoGestion));
     newGestion.className = "estadoGestion";
-    tdGestion.appendChild(newGestion);
+    tds.tdGestion.appendChild(newGestion);
 
-    // Creando y agregando Formulario
-    const tdFormulario = document.createElement("td");
-    tdFormulario.className = "text";
+    // Agregando Formulario
+    tds.tdFormulario.className = "text";
     // la respuesta es la string del endpoint, no el título.
-    const formularioId = respuesta.formulario.split("/").pop();
-    const BASE_NOMBRE_FORM = "/nombre-formulario/";
-    const formularioURI = BASE_NOMBRE_FORM + formularioId
-    const nombreFormulario = sessionStorage.getItem(formularioURI)
     
-    // Creando y agregando Usuario
-    const tdUsuario = document.createElement("td");
-    tdUsuario.className = "text"
-    const usuarioId = respuesta.user.split("/").pop()
-    const BASE_NOMBRE_USER = "/nombre-usuario/"
-    const usuarioURI = BASE_NOMBRE_USER + usuarioId
-    const nombreUsuario = sessionStorage.getItem(usuarioURI)
+    // Agregando Usuario
+    tds.tdUsuario.className = "text"
     
 
-    // Creando y agregando Comentario
-    const tdComentario = document.createElement("td");
-    tdComentario.className="text";
+    // Agregando Comentario
+    tds.tdComentario.className="text";
     const newComentario= document.createElement("span");
     if (!respuesta.comentario) {
       newComentario.innerText ="Nulo";
@@ -145,38 +200,30 @@ eventSource.onmessage = event => {
     } else {
       newComentario.innerText = respuesta.comentario;
     }
-    tdComentario.appendChild(newComentario);
+    tds.tdComentario.appendChild(newComentario);
 
-    // Creando y agregando Sucursal
-    const tdSucursal = document.createElement("td");
-    tdSucursal.className = "text"
-    const sucursalId = respuesta.sucursal.split("/").pop()
-    const BASE_NOMBRE_SUC = "/nombre-sucursal/"
-    const sucursalURI = BASE_NOMBRE_SUC + sucursalId
-    const nombreSucursal = sessionStorage.getItem(sucursalURI)
+    // Agregando Sucursal
+    tds.tdSucursal.className = "text"
     
-    // Creando y agregando Estado
-    const tdEstado = document.createElement("td");
-    tdEstado.className = "integer";
+    // Agregando Estado
+    tds.tdEstado.className = "integer";
     const newEstado= document.createElement("div");
     newEstado.setAttribute("value", String(respuesta.estado));
     newEstado.className = "estado";
-    tdEstado.appendChild(newEstado);
+    tds.tdEstado.appendChild(newEstado);
 
-    // Creando y agregando Fecha
-    const tdFecha = document.createElement("td");
-    tdFecha.className = " date ";
+    // Agregando Fecha
+    tds.tdFecha.className = " date ";
     const newFecha = document.createElement("time");
     const fecha = new Date(respuesta.fecha);
     const l10nES = new Intl.DateTimeFormat("es-AR");
     newFecha.dateTime = fecha.toISOString();
     //newFecha.innerHTML= fecha.getDate()+"/"+(fecha.getMonth()+1)+"/"+fecha.getFullYear();
     newFecha.innerHTML = l10nES.format(fecha);
-    tdFecha.appendChild(newFecha);
+    tds.tdFecha.appendChild(newFecha);
 
-    // Creando y agregando HoraI
-    const tdHoraI = document.createElement("td");
-    tdHoraI.className = " datetime "
+    // Agregando HoraIdocument.createElement("td")
+    tds.tdHoraI.className = " datetime "
     const newHoraI= document.createElement("time");
     // Formato de hora ISO
     const formatoISO = new Intl.DateTimeFormat("ISO", {
@@ -190,71 +237,54 @@ eventSource.onmessage = event => {
       newHoraI.dateTime = resHoraI.toISOString();
       newHoraI.innerText = formatoISO.format(resHoraI);
     }
-    tdHoraI.appendChild(newHoraI);
+    tds.tdHoraI.appendChild(newHoraI);
 
-    // Creando y agregando HoraF
-    const tdHoraF = document.createElement("td");
-    tdHoraF.className = " datetime "
+    // Agregando HoraF
+    tds.tdHoraF.className = " datetime "
     const resHoraF = new Date(respuesta.horaFin);
     if (!respuesta.horaFin) {
       const newHoraF = document.createElement("span");
       newHoraF.innerText ="Nulo";
       newHoraF.className ="badge badge-secondary";
-      tdHoraF.appendChild(newHoraF);
+      tds.tdHoraF.appendChild(newHoraF);
     } else {
       const newHoraF = document.createElement("time");
       const resHoraI = new Date(respuesta.horaFin);
       newHoraF.dateTime = resHoraI.toISOString();
       newHoraF.innerText = formatoISO.format(resHoraF);
-      tdHoraF.appendChild(newHoraF);
+      tds.tdHoraF.appendChild(newHoraF);
     }
-    // Creando y agregando Cliente
-    const tdCliente = document.createElement("td");
-    tdCliente.className = "text";
+    // Agregando Cliente
+    tds.tdCliente.className = "text";
     // la respuesta es la string del endpoint, no el título.
-    const clienteId = respuesta.cliente.split("/").pop();
-    const BASE_NOMBRE_CLIENTE = "/nombre-cliente/";
-    const clienteURI = BASE_NOMBRE_CLIENTE + clienteId
-    const nombreCliente = sessionStorage.getItem(clienteURI)
 
-    // Creando y agregando SucursalCliente
-    const tdSucursalCliente= document.createElement("td");
-    tdSucursalCliente.className = "text";
+    // Agregando SucursalCliente
+    tds.tdSucursalCliente.className = "text";
     // la respuesta es la string del endpoint, no el título.
-    const sucursalClienteId = respuesta.SucursalDeCliente.split("/").pop();
-    const BASE_NOMBRE_SUC_CLIENTE = "/nombre-sucursal-cliente/"
-    const sucursalClienteURI = BASE_NOMBRE_SUC_CLIENTE + sucursalClienteId
-    const nombreSucursalCliente = sessionStorage.getItem(sucursalClienteURI)
+
+    
 
     // Agregando todo a newRenglon
-    newRenglon.appendChild(tdCheckbox);
-    newRenglon.appendChild(tdId);
-    newRenglon.appendChild(tdGestion);
-    newRenglon.appendChild(tdFormulario);
-    newRenglon.appendChild(tdUsuario);
-    newRenglon.appendChild(tdComentario);
-    newRenglon.appendChild(tdSucursal);
-    newRenglon.appendChild(tdEstado);
-    newRenglon.appendChild(tdFecha);
-    newRenglon.appendChild(tdHoraI);
-    newRenglon.appendChild(tdHoraF);
-    newRenglon.appendChild(tdCliente);
-    newRenglon.appendChild(tdSucursalCliente);
+    for(const td in tds){
+      console.log(typeof(tds.tdCheckbox))
+      console.log(tds.tdCheckbox)
+      newRenglon.appendChild(tds[td]);
+    }
 
     // Buscando la fila superior
     const renglonSup = document.querySelector('[data-id]');
+    /** @type TdsFetch */
+    let tdsFetch = {
+      tdId: tds.tdId,
+      tdFormulario: tds.tdFormulario,
+      tdUsuario: tds.tdUsuario,
+      tdSucursal: tds.tdSucursal,
+      tdCliente: tds.tdCliente,
+      tdSucursalCliente: tds.tdSucursalCliente,
+    }
+    const RUTA = "/nombres-OT/"+respuesta.id
     Promise.all([
-      nombreSucursal ? usarNombre(sucursalURI, tdSucursal)
-                     : fetchNombre(sucursalURI, tdSucursal),
-      nombreFormulario ? usarNombre(formularioURI, tdFormulario)
-                     : fetchNombre(formularioURI, tdFormulario),
-      nombreUsuario ? usarNombre(usuarioURI, tdUsuario)
-                     : fetchNombre(usuarioURI, tdUsuario),
-      nombreCliente ? usarNombre(clienteURI, tdCliente)
-                     : fetchNombre(clienteURI, tdCliente),
-      nombreSucursalCliente ? usarNombre(sucursalClienteURI, tdSucursalCliente)
-                     : fetchNombre(sucursalClienteURI, tdSucursalCliente)
-      
+      fetchNombres(RUTA, tdsFetch)
     ]).then(() => {if(renglonSup) {
       tabla.insertBefore(newRenglon, renglonSup)
     } else {

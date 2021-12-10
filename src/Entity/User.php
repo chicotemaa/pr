@@ -241,9 +241,4 @@ class User extends BaseUser
 
         return $this;
     }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
 }
