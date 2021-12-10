@@ -186,15 +186,9 @@ eventSource.onmessage = event => {
     // Agregando Formulario
     tds.tdFormulario.className = "text";
     // la respuesta es la string del endpoint, no el título.
-    const formularioId = respuesta.formulario.split("/").pop();
-    const BASE_NOMBRE_FORM = "/nombre-formulario/";
-    const formularioURI = BASE_NOMBRE_FORM + formularioId
     
     // Agregando Usuario
     tds.tdUsuario.className = "text"
-    const usuarioId = respuesta.user.split("/").pop()
-    const BASE_NOMBRE_USER = "/nombre-usuario/"
-    const usuarioURI = BASE_NOMBRE_USER + usuarioId
     
 
     // Agregando Comentario
@@ -210,9 +204,6 @@ eventSource.onmessage = event => {
 
     // Agregando Sucursal
     tds.tdSucursal.className = "text"
-    const sucursalId = respuesta.sucursal.split("/").pop()
-    const BASE_NOMBRE_SUC = "/nombre-sucursal/"
-    const sucursalURI = BASE_NOMBRE_SUC + sucursalId
     
     // Agregando Estado
     tds.tdEstado.className = "integer";
@@ -266,14 +257,10 @@ eventSource.onmessage = event => {
     // Agregando Cliente
     tds.tdCliente.className = "text";
     // la respuesta es la string del endpoint, no el título.
-    const clienteId = respuesta.cliente.split("/").pop();
-    const BASE_NOMBRE_CLIENTE = "/nombre-cliente/";
 
     // Agregando SucursalCliente
     tds.tdSucursalCliente.className = "text";
     // la respuesta es la string del endpoint, no el título.
-    const sucursalClienteId = respuesta.SucursalDeCliente.split("/").pop();
-    const BASE_NOMBRE_SUC_CLIENTE = "/nombre-sucursal-cliente/"
 
     
 
