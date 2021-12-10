@@ -1452,32 +1452,28 @@ class OrdenTrabajoController extends EasyAdminController
     }
 
     /**
-     * @Route("/nombres-OT", name="rellenar_ot")
+     * @Route("/nombres-OT/{OTid}", name="rellenar_ot")
      */
-    public function fillOT(): Response {
+    public function fillOT($OTid): Response {
         // Consultas a las bases de datos
+        $ordenTrabajo = $this->getDoctrine()->getRepository(OrdenTrabajo::class)->find($OTid);
         // Formulario
-        $formulario = $this->getDoctrine()->getRepository(Formulario::class)->findOneById($_GET["formulario"]);
-        $formularioNombre = $formulario->getNombre();
+        $formulario = $ordenTrabajo->getFormulario()->getNombre();
         // Usuario
-        $usuario = $this->getDoctrine()->getRepository(User::class)->findOneById($_GET["usuario"]);
-        $usuarioNombre = $usuario->getUsername();
+        $usuario = $ordenTrabajo->getUser()->__toString();
         // Sucursal
-        $sucursal = $this->getDoctrine()->getRepository(Sucursal::class)->findOneById($_GET["sucursal"]);
-        $sucursalNombre = $sucursal->getNombre();
+        $sucursal = $ordenTrabajo->getSucursal()->__toString();
         // Cliente
-        $cliente = $this->getDoctrine()->getRepository(Cliente::class)->findOneById($_GET["cliente"]);
-        $clienteNombre = $cliente->getRazonSocial();
+        $cliente = $ordenTrabajo->getCliente()->__toString();
         // Sucursal de Cliente
-        $sucursalC = $this->getDoctrine()->getRepository(SucursalDeCliente::class)->findOneById($_GET["suc_cliente"]);
-        $scNombre = $sucursalC->__toString();
+        $sucursalC = $ordenTrabajo->getSucursalDeCliente()->__toString();
         // Armado de respuesta
         $arrayRespuesta = array(
-            "formulario" => $formularioNombre,
-            "usuario" => $usuarioNombre,
-            "sucursal" => $sucursalNombre,
-            "cliente" => $clienteNombre,
-            "sucCliente" => $scNombre);
+            "formulario" => $formulario,
+            "usuario" => $usuario,
+            "sucursal" => $sucursal,
+            "cliente" => $cliente,
+            "sucCliente" => $sucursalC);
         $response = new Response(
             json_encode($arrayRespuesta),
             Response::HTTP_OK,
