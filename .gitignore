@@ -19,6 +19,7 @@
 /.php_cs.cache
 ### uploads
 !/public/uploads
+!/public/uploads/templates
 /public/uploads/*
 !public/uploads/.gitkeep
 
