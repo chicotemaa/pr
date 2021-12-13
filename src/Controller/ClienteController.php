@@ -36,7 +36,7 @@ class ClienteController extends EasyAdminController
 
 
     /**
-    * @Route("/facility/by/sucursaldecliente")
+    * @Route("/admin/facility/by/sucursaldecliente")
     */
    public function userSinLoggedUserSucursal(Request $request)
    {

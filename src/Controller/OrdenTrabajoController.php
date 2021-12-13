@@ -1452,6 +1452,7 @@ class OrdenTrabajoController extends EasyAdminController
     }
 
     /**
+<<<<<<< HEAD
      * @Route("/nombres-OT/{OTid}", name="rellenar_ot")
      */
     public function fillOT($OTid): Response {
@@ -1481,5 +1482,55 @@ class OrdenTrabajoController extends EasyAdminController
         );
         return $response;
     }
+=======
+     * @Route("/new-photo", name="añadirFoto")
+     */
+    public function agregarFoto(Request $request)
+    {
+        $id= $request->request->get('id');
+        $imageName= $request->request->get('imageName');
+
+        $resultado = $this->getDoctrine()->getRepository(Resultado::class)->find($id);
+        $clon = clone $resultado;
+        $clon->setImageName($imageName);
+        $em=$this->getDoctrine()->getManager();
+        $em->persist($clon);
+        $em->flush();
+
+        return new Response('Se ha creado el producto con id: '.$resultado->getId());
+    }
+
+    /**
+     * @Route("/nombres-OT/{OTid}", name="rellenar_ot")
+     */
+    public function fillOT($OTid): Response {
+        // Consultas a las bases de datos
+        $ordenTrabajo = $this->getDoctrine()->getRepository(OrdenTrabajo::class)->find($OTid);
+        // Formulario
+        $formulario = $ordenTrabajo->getFormulario()->getNombre();
+        // Usuario
+        $usuario = $ordenTrabajo->getUser()->__toString();
+        // Sucursal
+        $sucursal = $ordenTrabajo->getSucursal()->__toString();
+        // Cliente
+        $cliente = $ordenTrabajo->getCliente()->__toString();
+        // Sucursal de Cliente
+        $sucursalC = $ordenTrabajo->getSucursalDeCliente()->__toString();
+        // Armado de respuesta
+        $arrayRespuesta = array(
+            "formulario" => $formulario,
+            "usuario" => $usuario,
+            "sucursal" => $sucursal,
+            "cliente" => $cliente,
+            "sucCliente" => $sucursalC);
+        $response = new Response(
+            json_encode($arrayRespuesta),
+            Response::HTTP_OK,
+            ['content-type' => 'application/json']
+        );
+        return $response;
+    }
+
+>>>>>>> 02e04aedd774521ab127f1815f6dd74ad987aa4f
 }
 
