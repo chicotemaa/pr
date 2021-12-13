@@ -20,6 +20,7 @@
 ### uploads
 !/public/uploads
 /public/uploads/*
+!/public/uploads/templates
 !public/uploads/.gitkeep
 
 ###> symfony/webpack-encore-bundle ###

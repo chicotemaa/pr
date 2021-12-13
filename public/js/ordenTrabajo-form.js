@@ -29,7 +29,7 @@ $(document).ready(function(){
         'id':parseInt(id)}
        $.ajax({
         "type": "POST" ,
-        "url": "/facility/by/sucursaldecliente",
+        "url": "/admin/facility/by/sucursaldecliente",
         "data":datos,
         success:function(r){
             
