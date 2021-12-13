@@ -33,7 +33,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
-class FormularioExpressController extends EasyAdminController
+class FormularioResultadoExpressController extends EasyAdminController
 {
     public static function getSubscribedServices(): array
     {
@@ -44,7 +44,7 @@ class FormularioExpressController extends EasyAdminController
         ]);
     }
 
-    private $formularioResultado;
+    private $formularioResultadoExpress;
     private $section;
     private $table_style;
     private $table_style_titulo;
@@ -152,7 +152,10 @@ class FormularioExpressController extends EasyAdminController
             'cellMargin' => 10,
         ];
     }
-
+    
+    /**
+     * @Route("/admin/?entity=FormularioResultadoExpress&action=exportar", name="exportarFRE")
+     */
     public function exportarAction()
     {
 
@@ -203,28 +206,6 @@ class FormularioExpressController extends EasyAdminController
                 ['width' => 220, 'align' => 'left']
             );
 
-            //obtengo la sucursal del primer registro finalizado
-            $sucursal =  $this->em->getRepository(OrdenTrabajo::class)->find($array[0])->getSucursal();
-
-            if($sucursal){
-                $textoCabecera = '';
-                if(!empty($sucursal->getTextoCabecera())){
-                    $textoCabecera = $sucursal->getTextoCabecera();
-                    if ('PDF' == $this->formato) {
-                        $textoCabecera = str_replace('<br />', ' &#10;', $textoCabecera);
-                    }
-                }
-
-                \PhpOffice\PhpWord\Shared\Html::addHtml($tablaTitulo->addCell(500), $textoCabecera);
-
-                if(!empty($sucursal->getImageCabecera())){
-                    $tablaTitulo->addCell(500)->addImage(
-                        $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($sucursal, 'imageCabeceraFile'),
-                        ['wrappingStyle' => 'behind', 'width' => 150, 'height' => 100, 'align' => 'rigth']
-                    );
-                }
-            }
-
             //arma el pie de pagina
             $footer = $this->section->createFooter();
             $footer->addPreserveText(
@@ -238,12 +219,11 @@ class FormularioExpressController extends EasyAdminController
             //recorro las ordenes de trabajo
             foreach ($array as $valor){
 
-                $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
-                $this->formularioResultado = $ordenTrabajo->getFormularioResultado();
-
+                $formularioExpress = $this->em->getRepository(FormularioResultadoExpress::class)->find($valor);
+                $this->formularioResultadoExpress = $formularioExpress;
 
                 //verifica si algun form orden esta vacio
-                if ((!$this->formularioResultado) && ($this->isGranted('ROLE_ENCARGADO'))) {
+                if ((!$this->formularioResultadoExpress) && ($this->isGranted('ROLE_ENCARGADO'))) {
                     $this->addFlash('warning', 'El formulario no ha sido completado');
 
                     if ('show' == $this->request->request->get('actionReturn')) {
@@ -262,7 +242,7 @@ class FormularioExpressController extends EasyAdminController
 
                 }
                 //verifica si algun form orden esta vacio
-                if ((!$this->formularioResultado) && ($this->isGranted('ROLE_STAFF'))) {
+                if ((!$this->formularioResultadoExpress) && ($this->isGranted('ROLE_STAFF'))) {
                     $this->addFlash('warning', 'El formulario no ha sido verificado');
 
                     if ('show' == $this->request->request->get('actionReturn')) {
@@ -316,39 +296,7 @@ class FormularioExpressController extends EasyAdminController
                 $textrun = $tablaCliente->addCell(1000)->addTextRun();
                 $textrun->addText(
                     htmlspecialchars(
-                        $ordenTrabajo->getCliente()->__toString()
-                    )
-                );
-
-                $textrun = $tablaCliente->addCell(1000)->addTextRun();
-                $textrun->addText(
-                    htmlspecialchars(
-                        sprintf("%s:", $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.direccion'))
-                    ),
-                    ['underline' => 'single']
-                );
-
-                $textrun->addText(
-                    htmlspecialchars(
-                        ' '.$ordenTrabajo->getSucursalDeCliente()->getDireccion().' \n '
-                    )
-                );
-                $tablaCliente->addRow();
-
-                $textrun = $tablaCliente->addCell(1000)->addTextRun();
-
-                $textrun = $tablaCliente->addCell(1000)->addTextRun();
-
-                $textrun->addText(
-                    htmlspecialchars(
-                        sprintf("%s:", $this->get(TranslatorInterface::class)->trans('ot.exportar.wordpdf.correo'))
-                    ),
-                    ['underline' => 'single']
-                );
-
-                $textrun->addText(
-                    htmlspecialchars(
-                        $ordenTrabajo->getCliente()->getCorreo()
+                        $formularioExpress->getCliente()
                     )
                 );
 
@@ -361,38 +309,19 @@ class FormularioExpressController extends EasyAdminController
                 );
                 $textrun->addText(
                     htmlspecialchars(
-                        ' '.$this->formularioResultado->getCreatedAt()->format('d/m/Y H:i')
+                        ' '.$this->formularioResultadoExpress->getCreatedAt()->format('d/m/Y H:i')
                     )
                 );
 
                 $textrun = $this->section->addTextRun();
+                /* No tiene estado
                 $textrun->addText(
                     htmlspecialchars(
                         'Estado:'
                     ),
                     ['underline' => 'single']
-                );
-                $textrun->addText(
-                    htmlspecialchars(
-                        ' '.$this->formularioResultado->getOrdenTrabajo()->estadoToString()
-                    )
-                );
+                );*/
 
-
-                if (5 == $this->formularioResultado->getOrdenTrabajo()->getEstado()) {
-                    $textrun = $this->section->addTextRun();
-                    $textrun->addText(
-                        htmlspecialchars(
-                            'Motivo:'
-                        ),
-                        ['underline' => 'single']
-                    );
-                    $textrun->addText(
-                        htmlspecialchars(
-                            ' '.$this->formularioResultado->getOrdenTrabajo()->getMotivo()
-                        )
-                    );
-                }
                 $textrun = $this->section->addTextRun();
                 $textrun->addText(
                     htmlspecialchars(
@@ -400,12 +329,11 @@ class FormularioExpressController extends EasyAdminController
                     ),
                     ['underline' => 'single']
                 );
+                $horaInicio = ($this->formularioResultadoExpress->getHoraInicio())
+                    ? $this->formularioResultadoExpress->getHoraInicio()->format('H:i') : '';
 
-                $horaInicio = ($this->formularioResultado->getOrdenTrabajo()->getHoraInicio())
-                    ? $this->formularioResultado->getOrdenTrabajo()->getHoraInicio()->format('H:i') : '';
-
-                $horaFin = ($this->formularioResultado->getOrdenTrabajo()->getHoraFin())
-                    ? $this->formularioResultado->getOrdenTrabajo()->getHoraFin()->format('H:i') : '';
+                $horaFin = ($this->formularioResultadoExpress->getUpdatedAt())
+                    ? $this->formularioResultadoExpress->getUpdatedAt()->format('H:i') : '';
                 $textrun->addText(
                     htmlspecialchars(
                         ' '.$horaInicio.' - '.$horaFin
@@ -420,7 +348,7 @@ class FormularioExpressController extends EasyAdminController
                 );
                 $textrun->addText(
                     htmlspecialchars(
-                        ' '.$this->formularioResultado->getMinutosTrabajado()
+                        ' '.$this->formularioResultadoExpress->getMinutosTrabajado()
                     )
                 );
                 $textrun = $this->section->addTextRun();
@@ -432,7 +360,7 @@ class FormularioExpressController extends EasyAdminController
                 );
                 $textrun->addText(
                     htmlspecialchars(
-                        ' '.$this->formularioResultado->getOrdenTrabajo()->getUser()->getUserName()
+                        ' '.$this->formularioResultadoExpress->getUser()->getUserName()
                     )
                 );
 
@@ -446,46 +374,11 @@ class FormularioExpressController extends EasyAdminController
                     )
                 );
 
-                // Buscar si hay incidencias
-                $analisisInciencia = $ordenTrabajo->obtenerIncidencias();
-                if (count($analisisInciencia['incidenciasEncontradas']) > 0) {
-                    $this->section->addText('');
-                    $tablaIncidencia = $this->section->addTable($this->table_style);
-                    $tablaIncidencia->addRow();
-                    $row = $tablaIncidencia->addCell(2000, $this->table_style_item);
-
-                    $incidenciaTitulo = sprintf(
-                        "%s %u/%u",
-                        $this->get(TranslatorInterface::class)->trans('formulario_resultado_incidencias_encontradas', [
-                            'encontradas' => count($analisisInciencia['incidenciasEncontradas'])
-                        ]),
-                        count($analisisInciencia['incidenciasEncontradas']),
-                        $analisisInciencia['incidenciasTotal']
-                    );
-                    $row->addText(
-                        htmlspecialchars($incidenciaTitulo),
-                        ['size' => '12']
-                    );
-                    foreach ($analisisInciencia['incidenciasEncontradas']  as $incidencia) {
-                        $tablaIncidencia->addRow();
-
-                        $row = $tablaIncidencia->addCell(2000, $this->table_style_item);
-                        $row->addText(htmlspecialchars($incidencia['item']), ['size' => '8']);
-
-                        $opciones = (isset($incidencia['opciones']))
-                            ? $incidencia['opciones']
-                            : $this->get(TranslatorInterface::class)->trans('ningun_valor');
-                        $row = $tablaIncidencia->addCell(2000, $this->table_style_item);
-                        $row->addText(htmlspecialchars($opciones), ['size' => '8']);
-                    }
-                    $this->section->addText('');
-                }
-
 
                 //creo array de Resultados, agregado como indice idModulo, este tiene un array con indiceModulo y
                 //cada array indice modulo tiene los resultado
                 $resultados = [];
-                foreach ($this->formularioResultado->getResultados() as $resultado) {
+                foreach ($this->formularioResultadoExpress->getResultados() as $resultado) {
                     $resultados[$resultado->getPropiedadItem()->getModulo()->getId()][$resultado->getIndiceModulo()][$resultado->getIndiceModulo()][$resultado->getPropiedadItem()->getId()][] = $resultado;
                 }
                 $this->resultados = $resultados;
@@ -499,7 +392,7 @@ class FormularioExpressController extends EasyAdminController
 
 
 
-                foreach ($this->formularioResultado->getOrdenTrabajo()->getFormulario()->getPropiedadModulos() as $propiedadModulo) {
+                foreach ($this->formularioResultadoExpress->getFormulario()->getPropiedadModulos() as $propiedadModulo) {
                     if (isset($this->resultados[$propiedadModulo->getModulo()->getId()])) {
                         if ($propiedadModulo->getPagina() != $paginaNumero) {
                             $paginaNumero = $propiedadModulo->getPagina();
@@ -549,34 +442,28 @@ class FormularioExpressController extends EasyAdminController
                     }
                 }
 
-                if (!empty($ordenTrabajo->getImageName())) {
+                if (/*!empty($ordenTrabajo->getImageName())*/ FALSE) {
                     $this->renderFirmar($ordenTrabajo);
                 }
 
                 // Saving the document as OOXML file...
                 $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
 
-                $cliente = ($this->formularioResultado->getOrdenTrabajo()->getCliente())
-                    ? $this->formularioResultado->getOrdenTrabajo()->getCliente()->getId() : '';
-                $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
-                $fileName = $this->formularioResultado->getOrdenTrabajo()->getId().'-'.$titulo.'-'.$cliente;
+                $cliente = $this->formularioResultadoExpress->getCliente();
+                $titulo = $this->slugify($this->formularioResultadoExpress->getFormulario()->getTitulo());
+                $fileName = $this->formularioResultadoExpress->getId().'-'.$titulo.'-'.$cliente;
 
                 $tmp = $this->createDirectory();
 
 
             }//fin foreeach
 
-            if ($sucursal && !empty($sucursal->getImagePie())) {
-                $footer->addImage(
-                     $this->getParameter('kernel.root_dir').'/../public'.$this->get('vich_uploader.templating.helper.uploader_helper')->asset($ordenTrabajo->getSucursal(), 'imagePieFile'),
-                     ['width' => 550, 'align' => 'center']
-                 );
-             } else {
+            
                  $footer->addImage(
                      $this->getParameter('kernel.root_dir').'/../public/images/hogar_pie.png',
                      ['width' => 550, 'align' => 'center']
                  );
-            }
+            
             if ('WORD' == $this->formato) {
                 $fileName .= '.doc';
                 $contentType = 'application/msword';
@@ -637,6 +524,7 @@ class FormularioExpressController extends EasyAdminController
 
 
         //$contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+        $tmp = $this->createDirectory();
         $response = new BinaryFileResponse($tmp.'/'.$fileName);
 
         $response->setContentDisposition(
