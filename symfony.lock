@@ -592,11 +592,7 @@
     "symfony/polyfill-intl-idn": {
         "version": "v1.12.0"
     },
-<<<<<<< HEAD
-    "symfony/polyfill-intl-normalizer": {
-=======
     "symfony/polyfill-intl-messageformatter": {
->>>>>>> 02e04aedd774521ab127f1815f6dd74ad987aa4f
         "version": "v1.23.0"
     },
     "symfony/polyfill-mbstring": {

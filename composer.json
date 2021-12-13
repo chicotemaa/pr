@@ -36,20 +36,11 @@
         "symfony/framework-bundle": "4.4.*",
         "symfony/mercure-bundle": "^0.3.3",
         "symfony/monolog-bundle": "^3.1",
-<<<<<<< HEAD
-        "symfony/process": "4.4.*",
-        "symfony/property-access": "4.4.*",
-        "symfony/property-info": "4.4.*",
-        "symfony/proxy-manager-bridge": "4.4.*",
-        "symfony/security-bundle": "4.4.*",
-        "symfony/serializer": "4.4.*",
-=======
         "symfony/orm-pack": "*",
         "symfony/polyfill-intl-messageformatter": "^1.23",
         "symfony/process": "4.3.*",
         "symfony/security-bundle": "4.3.*",
         "symfony/serializer-pack": "*",
->>>>>>> 02e04aedd774521ab127f1815f6dd74ad987aa4f
         "symfony/swiftmailer-bundle": "^3.1",
         "symfony/translation": "4.4.*",
         "symfony/twig-bundle": "4.4.*",
