@@ -2,6 +2,21 @@
 
 {% block body %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{asset('/css/estado.css')}}"/>
+    <link rel="stylesheet" href="{{asset('/css/estadoGestion.css')}}" />
+    <style>
+@keyframes brillo {
+  from {
+    box-shadow: 0px 0px 5px 5px rgba(20, 255, 20, 0.2);
+  }
+  to {
+    box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, 0);
+  }
+}
+.nuevo {
+  animation: brillo 1s ease-in-out 1;
+}
+    </style>
     <!-- Exportar modal -->
     <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
       <div class="modal-dialog modal-sm" role="document">
@@ -12,76 +27,76 @@
 
           </div>
           <div class="modal-body">
-              <form id="formExportar" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: 'dsfdsf' }) }}" method="POST">
-                <input type="hidden" name="orden_trabajo" id="orden_trabajo" value="2" >
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="formato" id="formato" value="WORD" checked>
-                    WORD
-                  </label><br>
-                  <label>
-                    <input type="radio" name="formato" id="formato" value="PDF" >
-                    PDF
-                  </label><br>
-                  <label>
-                    <input type="radio" name="formato" id="formato" value="EXCEL" >
-                    EXCEL
-                  </label>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
-            </div>
+            <form id="formExportar" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: 'dsfdsf' }) }}" method="POST">
+              <input type="hidden" name="orden_trabajo" id="orden_trabajo" value="2" >
+              <div class="radio">
+                <label>
+                  <input type="radio" name="formato" id="formato" value="WORD" checked>
+                  WORD
+                </label><br>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="PDF" >
+                  PDF
+                </label><br>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="EXCEL" >
+                  EXCEL
+                </label>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
+          </div>
         </div>
       </div>
     </div>
 
-  <div class="modal fade bs-example2-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-header" style="background-color:#f05536;">
-          <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar - Seleccionar formato</h4>
-          <button type="button" class="close"  style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <div class="modal fade bs-example2-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color:#f05536;">
+            <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar - Seleccionar formato</h4>
+            <button type="button" class="close"  style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
-        </div>
-        {% if is_granted('ROLE_ENCARGADO') %}
-        <div class="modal-body">
-          <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
-            <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
-            <div class="radio">
-              <label>
-                <input type="radio" name="formato" id="formato" value="WORD" checked>
-                WORD
-              </label><br>
-              <label>
-                <input type="radio" name="formato" id="formato" value="PDF" >
-                PDF
-              </label><br>
-              <label>
-                <input type="radio" name="formato" id="formato" value="EXCEL" >
-                EXCEL
-              </label>
-              <label>
-                <input type="radio" name="formato" id="formato" value="ORDENESEXCEL">
-                LISTADO DE ÓRDENES EXCEL
-              </label>
-              <label>
-                <input type="radio" name="formato" id="formato" value="ALLORDENESEXCEL">
-                LISTADO DE ÓRDENES EXCEL (toda la lista filtrada)
-              </label>
-            </div>
-          </form>     
-        </div>
-        {% endif %}
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-          <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
+          </div>
+          {% if is_granted('ROLE_ENCARGADO') %}
+          <div class="modal-body">
+            <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
+              <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
+              <div class="radio">
+                <label>
+                  <input type="radio" name="formato" id="formato" value="WORD" checked>
+                  WORD
+                </label><br>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="PDF" >
+                  PDF
+                </label><br>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="EXCEL" >
+                  EXCEL
+                </label>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="ORDENESEXCEL">
+                  LISTADO DE ÓRDENES EXCEL
+                </label>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="ALLORDENESEXCEL">
+                  LISTADO DE ÓRDENES EXCEL (toda la lista filtrada)
+                </label>
+              </div>
+            </form>     
+          </div>
+          {% endif %}
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
     <div class="modal fade bs-example3-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
@@ -165,6 +180,9 @@
 {% block body_javascript %}
   {{ parent() }}
   {{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}
+  {# Version no inline #}
+  {# <script src="{{ asset('js/sucursal_trabajos_mercure.js')}}">#}
+  <script src={{asset('js/ordenTrabajo-list-mercure.js')}}> </script>
   <script>
     $(".estadoGestionSelect").change(function () {
       var mofificarClase = function modificarClass(selector, valor) {
@@ -243,21 +261,21 @@
 
   </script>
 
-    {% if is_granted('ROLE_SUCURSAL') %}
-      {% if is_granted('ROLE_LIDER')==false %}
+  {% if is_granted('ROLE_SUCURSAL') %}
+    {% if is_granted('ROLE_LIDER')==false %}
     <script>
-    let estado =document.getElementsByClassName('estadoGestionSelect')
-     console.log(estado[1])
-    for (i=0; i< estado.length; i++){
-      if (estado[i].style.backgroundColor=='#f39c12'){
-        console.log('prueba')
+      let estado =document.getElementsByClassName('estadoGestionSelect')
+      console.log(estado[1])
+      for (i=0; i< estado.length; i++){
+        if (estado[i].style.backgroundColor=='#f39c12'){
+          console.log('prueba')
+        }
       }
-    }
 
-    $(document).ready(function(){
-    $( ".action-edit" ).addClass( "d-none" );
-    })
+      $(document).ready(function(){
+        $( ".action-edit" ).addClass( "d-none" );
+      })
     </script>
     {% endif %}
-    {% endif %}
+  {% endif %}
 {% endblock %}

@@ -69,4 +69,13 @@ class FormularioRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    public function FindById($id)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

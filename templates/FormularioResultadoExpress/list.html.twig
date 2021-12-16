@@ -2,6 +2,7 @@
 
 {% block body %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{asset('/css/estado.css')}}"/>
     <!-- Exportar modal -->
     <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
       <div class="modal-dialog modal-sm" role="document">
@@ -12,48 +13,91 @@
 
           </div>
           <div class="modal-body">
-              <form id="formExportar" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: 'dsfdsf' }) }}" method="POST">
-                <input type="hidden" name="orden_trabajo" id="orden_trabajo" value="2" >
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="formato" id="formato" value="WORD" checked>
-                    WORD
-                  </label><br>
-                  <label>
-                    <input type="radio" name="formato" id="formato" value="PDF" >
-                    PDF
-                  </label><br>
-                  <label>
-                    <input type="radio" name="formato" id="formato" value="EXCEL" >
-                    EXCEL
-                  </label>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-              <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
-            </div>
+            <form id="formExportar" action="{{ path('easyadmin', {entity: 'FormularioResultadoExpress', action: 'exportar', filters: 'dsfdsf' }) }}" method="POST">
+              <input type="hidden" name="orden_trabajo" id="orden_trabajo" value="2" >
+              <div class="radio">
+                <label>
+                  <input type="radio" name="formato" id="formato" value="WORD" checked>
+                  WORD
+                </label><br>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="PDF" >
+                  PDF
+                </label><br>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="EXCEL" >
+                  EXCEL
+                </label>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
+          </div>
         </div>
       </div>
     </div>
 
-  <div class="modal fade bs-example2-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal fade bs-example2-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color:#f05536;">
+            <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar - Seleccionar formato</h4>
+            <button type="button" class="close"  style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+          </div>
+          {% if is_granted('ROLE_ENCARGADO') %}
+          <div class="modal-body">
+            <form id="formExportar1" action="{{ path('easyadmin', {entity: 'FormularioResultadoExpress', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
+              <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
+              <div class="radio">
+                <label>
+                  <input type="radio" name="formato" id="formato" value="WORD" checked>
+                  WORD
+                </label><br>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="PDF" >
+                  PDF
+                </label><br>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="EXCEL" >
+                  EXCEL
+                </label>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="ORDENESEXCEL">
+                  LISTADO DE ÓRDENES EXCEL
+                </label>
+                <label>
+                  <input type="radio" name="formato" id="formato" value="ALLORDENESEXCEL">
+                  LISTADO DE ÓRDENES EXCEL (toda la lista filtrada)
+                </label>
+              </div>
+            </form>     
+          </div>
+          {% endif %}
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade bs-example3-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-header" style="background-color:#f05536;">
-          <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar - Seleccionar formato</h4>
+          <h4 class="modal-title" id="myModalLabel" style="color:white;">Eliminar Ordenes de Trabajo</h4>
           <button type="button" class="close"  style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
         </div>
         {% if is_granted('ROLE_ENCARGADO') %}
         <div class="modal-body">
-          <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
-            <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
+          <form id="formBorrar" action="{{ path('easyadmin', {entity: 'FormularioResultadoExpress', action: 'Borrar', filters: app.request.get('filters') }) }}" method="POST">
+            <input type="hidden" name="ordenes_trabajo" id="ordenes" value="2" >
             <div class="radio">
-               <label>
-                <input type="radio" name="formato" id="formato" value="ALLORDENESEXCELFORMULARIO">
-                TODOS LOS FORMULARIOS SELECCIONADOS
+              <label class="font-weight-bold">
+                ¿Esta seguro que desea Borrar las ordenes?
               </label>
             </div>
           </form>     
@@ -61,33 +105,12 @@
         {% endif %}
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-          <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
+          <button id="btnExportar" type="button" class="btn btn-danger" onclick="eliminar()">Eliminar</button>
         </div>
       </div>
     </div>
   </div>
-{% endblock %}
-
-{% block new_action %}
-    {% if is_granted('ROLE_ADMIN') %}
-        <div class="button-action">
-            <a class="{{ _action.css_class|default('') }}" href="{{ path('easyadmin', _request_parameters|merge({ action: _action.name })) }}&from_list=1" target="{{ _action.target }}">
-                {% if _action.icon %}<i class="fa fa-{{ _action.icon }}"></i>{% endif %}
-                {{ _action.label is defined and not _action.label is empty ? _action.label|trans(_trans_parameters) }}
-            </a>
-        </div>
-    {% endif %}
-{% endblock new_action %}
-
-{% set _has_batch_actions = batch_form is defined and batch_form.vars.batch_actions|length > 0 %}
-
-{#{% block item_actions %}#}
-
-  {#<a class="exportOt" href="javascript:;" data-toggle="modal" data-target=".bs-example-modal-sm" target="_self" data-id="{{_item_id}}"><i class="fa fa-download"></i> </a>#}
-
-  {#{{ parent() }}#}
-{#{% endblock %}#}
-
+  {% endblock %}
 
 
 

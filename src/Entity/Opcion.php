@@ -79,7 +79,7 @@ class Opcion
     private $propiedadItems;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="integer")
      */
     private $incidencia;
 
@@ -221,12 +221,12 @@ class Opcion
         return $this;
     }
 
-    public function getIncidencia(): ?bool
+    public function getIncidencia(): ?int
     {
         return $this->incidencia;
     }
 
-    public function setIncidencia(bool $incidencia): self
+    public function setIncidencia(int $incidencia): self
     {
         $this->incidencia = $incidencia;
 

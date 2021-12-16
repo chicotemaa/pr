@@ -1,17 +1,11 @@
-<button class="btn btn-sucess" 
-    {% if value == 0 %} style="color: #fff; background-color: #dd4b39; font-weight: bold;" 
-        {% elseif value == 1 %} style="color: #fff; background-color: #f39c12; font-weight: bold;"
-        {% elseif value == 2 %} style="color: #fff; background-color: #00a65a; font-weight: bold;" 
-        {% elseif value == 3 %} style="color: #fff; background-color: #ffb100; font-weight: bold;" 
-        {% elseif value == 4 %} style="color: #fff; background-color: #5cbe4a; font-weight: bold;" 
-        {% elseif value == 5 %} style="color: #fff; background-color: #2db7f0; font-weight: bold;"
+<div class="estado" 
+    {% if value == 0 %} value=0
+        {% elseif value == 1 %} value=1
+        {% elseif value == 2 %} value=2
+        {% elseif value == 3 %} value=3
+        {% elseif value == 4 %} value=4
+        {% elseif value == 5 %} value=5
     {% endif %}
->   
-    {% if value == 0 %} Pendiente
-    {% elseif value == 1 %} Estoy en camino
-    {% elseif value == 2 %} Me recibió
-    {% elseif value == 3 %} No me atendió
-    {% elseif value == 4 %} Finalizado
-    {% elseif value == 5 %} Postergado
-    {% endif %}
-</button>
+>
+</div>
+

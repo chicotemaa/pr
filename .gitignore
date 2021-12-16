@@ -20,6 +20,7 @@
 ### uploads
 !/public/uploads
 /public/uploads/*
+!/public/uploads/templates
 !public/uploads/.gitkeep
 
 ###> symfony/webpack-encore-bundle ###
@@ -30,3 +31,8 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 config/services.yaml
 assets/js/app.js
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
