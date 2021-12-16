@@ -56,65 +56,6 @@ class FormularioResultadoExpressController extends EasyAdminController
     private $modulosRepetido;
     private $ordenExcel ;
     private $entitiesToExport;
-    protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
-    {
-        $queryBuilder = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
-
-        // para los filtros si hace click en uno de los item del dashboard
-        $estado = $this->request->query->get('estado');
-        $estadoGestion = $this->request->query->get('estadoGestion');
-
-        if ($estado) {
-            $queryBuilder
-                ->where('entity.estado = :estado')
-                ->setParameter('estado', $estado);
-        } elseif (is_numeric($estado)) {
-            $queryBuilder
-                ->where('entity.estado = :estado')
-                ->setParameter('estado', $estado);
-        }
-
-        if ($estadoGestion) {
-            $queryBuilder
-                ->where('entity.estadoGestion = :estadoGestion')
-                ->setParameter('estadoGestion', $estadoGestion);
-        } elseif (is_numeric($estadoGestion)) {
-            $queryBuilder
-                ->where('entity.estadoGestion = :estadoGestion')
-                ->setParameter('estadoGestion', $estadoGestion);
-        }
-
-
-        $idCliente = $this->request->query->get('idCliente');
-        
-        if ($idCliente!='null' && !empty($idCliente)) {
-            $queryBuilder
-            ->join('entity.cliente', 'c')
-            ->andWhere('c.id = :idCliente')
-            ->setParameter('idCliente', $idCliente);
-        }
-
-        $fechaDesde = $this->request->query->get('fechaDesde');
-        if ($fechaDesde!='null' && !empty($fechaDesde)) {
-            
-            $fechaDesde= \DateTime::createFromFormat('d-m-Y H:i', $fechaDesde.' 00:00' );
-            $queryBuilder
-                ->andWhere('entity.fecha >= :fechaDesde')
-                ->setParameter('fechaDesde', $fechaDesde);
-        }
-
-        
-
-        $fechaHasta = $this->request->query->get('fechaHasta');
-        if ($fechaHasta!='null' && !empty($fechaHasta)) {
-            $fechaHasta= \DateTime::createFromFormat('d-m-Y H:i', $fechaHasta.' 24:00' );
-            $queryBuilder
-                ->andWhere('entity.fecha <= :fechaHasta')
-                ->setParameter('fechaHasta', $fechaHasta);
-        }
-
-        return $queryBuilder;
-    }
 
     private function setTableStyle()
     {
@@ -493,6 +434,7 @@ class FormularioResultadoExpressController extends EasyAdminController
                 $archivo_pdf = $tmp.'/'.$fileName.'.pdf';
 
                 $command = $convertidor.' '.$archivo_docx.' '.$archivo_pdf;
+                dump($command);die;
 
                 $process = new Process('/usr/bin/python3 '.$command);
 
@@ -544,13 +486,13 @@ class FormularioResultadoExpressController extends EasyAdminController
 
         foreach ($this->ordenExcel as $valor){
 
-            $ordenTrabajo = $this->em->getRepository(OrdenTrabajo::class)->find($valor);
-            $this->formularioResultado = $ordenTrabajo->getFormularioResultado();
+            $formularioExpress = $this->em->getRepository(FormularioResultadoExpress::class)->find($valor);
+            $this->formularioResultadoExpress = $formularioExpress;
 
 
 
-            $cliente = ($this->formularioResultado->getOrdenTrabajo()->getCliente())
-                ? $this->formularioResultado->getOrdenTrabajo()->getCliente()->getId() : '';
+            $cliente = ($formularioExpress->getCliente())
+                ? $formularioResultado->getCliente()->getId() : '';
             $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
             $fileName = $this->formularioResultado->getOrdenTrabajo()->getId().'-'.$titulo.'-'.$cliente.'.xls';
 
@@ -1074,7 +1016,7 @@ class FormularioResultadoExpressController extends EasyAdminController
             $razon = ($ordenTrabajo->getCliente())
                 ? $ordenTrabajo->getCliente()->getRazonSocial() : '';
 
-            $titulo = $this->slugify($ordenTrabajo->getFormulario()->getTitulo());
+            $titulo = $this->slugify($formularioExpress->getFormulario()->getTitulo());
             $fileName = 'lista.xls';
 
             //$spreadsheet = new Spreadsheet();
