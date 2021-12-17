@@ -40,6 +40,9 @@
     "doctrine/dbal": {
         "version": "v2.9.2"
     },
+    "doctrine/deprecations": {
+        "version": "v0.5.3"
+    },
     "doctrine/doctrine-bundle": {
         "version": "1.6",
         "recipe": {
@@ -89,8 +92,8 @@
     "doctrine/persistence": {
         "version": "1.1.1"
     },
-    "doctrine/reflection": {
-        "version": "v1.0.0"
+    "doctrine/sql-formatter": {
+        "version": "1.1.2"
     },
     "dompdf/dompdf": {
         "version": "v0.7.0"
@@ -110,6 +113,9 @@
     },
     "egulias/email-validator": {
         "version": "2.1.11"
+    },
+    "ezyang/htmlpurifier": {
+        "version": "v4.13.0"
     },
     "fig/link-util": {
         "version": "1.0.0"
@@ -150,9 +156,6 @@
     "guzzlehttp/psr7": {
         "version": "1.6.1"
     },
-    "jdorn/sql-formatter": {
-        "version": "v1.2.17"
-    },
     "jms/metadata": {
         "version": "2.1.0"
     },
@@ -171,11 +174,8 @@
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
-    "laminas/laminas-eventmanager": {
-        "version": "3.4.0"
-    },
-    "laminas/laminas-zendframework-bridge": {
-        "version": "1.4.0"
+    "lcobucci/clock": {
+        "version": "2.0.0"
     },
     "lcobucci/jwt": {
         "version": "3.4.6"
@@ -282,9 +282,6 @@
     "phpunit/php-timer": {
         "version": "5.0.3"
     },
-    "phpunit/php-token-stream": {
-        "version": "4.0.4"
-    },
     "phpunit/phpunit": {
         "version": "4.7",
         "recipe": {
@@ -326,6 +323,9 @@
     "ralouphie/getallheaders": {
         "version": "3.0.3"
     },
+    "sebastian/cli-parser": {
+        "version": "1.0.1"
+    },
     "sebastian/code-unit": {
         "version": "1.0.8"
     },
@@ -334,6 +334,9 @@
     },
     "sebastian/comparator": {
         "version": "4.0.6"
+    },
+    "sebastian/complexity": {
+        "version": "2.0.2"
     },
     "sebastian/diff": {
         "version": "4.0.4"
@@ -346,6 +349,9 @@
     },
     "sebastian/global-state": {
         "version": "4.0.0"
+    },
+    "sebastian/lines-of-code": {
+        "version": "1.0.3"
     },
     "sebastian/object-enumerator": {
         "version": "4.0.4"
@@ -586,6 +592,9 @@
             "tests/.gitignore"
         ]
     },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.23.1"
+    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.12.0"
     },
@@ -669,6 +678,9 @@
     },
     "symfony/stopwatch": {
         "version": "v4.3.4"
+    },
+    "symfony/string": {
+        "version": "v5.4.0"
     },
     "symfony/swiftmailer-bundle": {
         "version": "2.5",
