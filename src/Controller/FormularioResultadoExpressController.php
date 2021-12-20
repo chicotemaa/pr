@@ -434,7 +434,6 @@ class FormularioResultadoExpressController extends EasyAdminController
                 $archivo_pdf = $tmp.'/'.$fileName.'.pdf';
 
                 $command = $convertidor.' '.$archivo_docx.' '.$archivo_pdf;
-                dump($command);die;
 
                 $process = new Process('/usr/bin/python3 '.$command);
 
