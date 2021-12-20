@@ -1,0 +1,488 @@
+{% extends '@EasyAdmin/default/show.html.twig' %}
+
+{% block content_title %}
+    {{parent()}}
+    <a class="btn btn-success exportOt" id="exportar" style="float:right;" href="javascript:;" data-toggle="modal" data-target=".bs-example-modal-sm" target="_self" data-id="{{entity.id}}" value="{{entity.id}}" usuario="{{ app.user.username }}"><i class="fa fa-download"></i>&nbsp;Exportar</a>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+    <!-- Exportar modal -->
+    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+        
+          <div class="modal-header" style="background-color:#f05536;">
+            <h4 class="modal-title" id="myModalLabel" style="color:white;">Exportar  - Seleccionar formato</h4>
+            <button type="submit" class="close" style="float:right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+       <div class="modal-body">
+          <form id="formExportar1" action="{{ path('easyadmin', {entity: 'OrdenTrabajo', action: 'exportar', filters: app.request.get('filters') }) }}" method="POST">
+            <input type="hidden" name="ordenes_trabajo" id="ordenes_trabajo" value="2" >
+            <div class="radio">
+              <label>
+                <input type="radio" name="formato" id="formato" value="WORD" checked>
+                WORD
+              </label><br>
+              <label>
+                <input type="radio" name="formato" id="formato" value="PDF" >
+                PDF
+              </label><br>
+              <label>
+                <input type="radio" name="formato" id="formato" value="EXCEL" >
+                EXCEL
+              </label>
+              <label>
+                <input type="radio" name="formato" id="formato" value="ORDENESEXCEL">
+                LISTADO DE ÓRDENES EXCEL
+              </label>
+              <label>
+                <input type="radio" name="formato" id="formato" value="ALLORDENESEXCEL">
+                LISTADO DE ÓRDENES EXCEL (toda la lista filtrada)
+              </label>
+            </div>
+          </form>
+          </div>  
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+               <button id="btnExportar" type="button" class="btn btn-primary" onclick="exportar()">Exportar</button>
+            </div>
+        </div>
+      </div>
+    </div>
+    {% if is_granted('ROLE_CLIENTE') %}
+    <script>
+    $(document).ready(function(){
+    $( ".action-edit" ).addClass( "d-none" );
+    })
+    
+    </script>
+
+    {% endif %}
+    {% import _self as render %}
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */        
+        .map{
+            height: 250px;
+        }
+        .firmar, .btn-warning, .guardarHora, #Firmaformulario{
+            display: none;
+        }
+        .btn, .btn-warning{
+            display: none;
+        }
+    </style>
+            
+
+    {# Aca se muestran los mapas de recibido y cierre #}
+    {% if entity.estadoGestion !=2  %}
+      <h3 class="text-center mb-5">Procesando Formulario   </h3>
+    {% else %}
+        <h3 class="text-center">Formulario firmado  </h3>
+
+
+
+    {% if entity.latitud is not empty %}
+        <p><strong> Ubicación Recibido </strong></p>
+        <div id="mapRecibido" class="map"></div>
+        <p><strong> Ubicación Cierre </strong></p>
+        <div id="mapCierre" class="map"></div>
+    {% endif %}
+    {# aca va boton de estado #}
+    
+    
+    
+
+    {# Aca se muestran la edicion de los campos hora de inicio hora de fin y minutos trabajados#}
+    {% if (entity.horaInicio or entity.horaFin) is not empty %}
+    <div class="col-md-4 m-2 alert alert-success row" id="HoraEditada" style="display:none">Horas trabajadas editada</div>
+    {% if (entity.horaInicio and entity.horaFin) is not empty %}
+    <br/>
+    <h4 class="m-3"><strong> Fecha y Hora de Trabajo </strong></h4>
+     <div class="col-md-4 m-2">
+      <label for="inicio">Hora de Inicio:</label>
+      <label type="datetime-local" class="form-control" >{{ (entity.horaInicio)|date("d/m/Y H:i") }}</label>
+      <input type="datetime-local" class="form-control invisible" id="ordentrabajo_horaInicio" name="inicio"value="{{ (entity.horaInicio)|date("Y-m-d") }}T{{ (entity.horaInicio)|date("H:i") }}">
+      <label for="fin">Hora de Fin:</label>
+      <label type="datetime-local" class="form-control" >{{ (entity.horaFin)|date("d/m/Y H:i") }}</label>  
+     </div>
+     <div>
+     {% if entity.formularioResultado is not null %}
+     <label class="col-md-4 m-2">Minutos Trabajados:<span id="minutos">{{entity.formularioResultado.minutosTrabajado}}</span></label>
+     {% else %}
+     <div>
+         <label class="col-md-4 m-2">Minutos Trabajados:<span id="minutos">0</span></label>
+     </div>
+     {% endif %}
+    {% endif %}
+    {% if (entity.horaInicio is not empty) and (entity.horaFin is empty)  %}
+    <br/>
+    <h4 class="m-3"><strong> Fecha y Hora de Trabajo "Hora de fin vacio"</strong></h4>
+     <div class="col-md-4 m-2">
+      <label for="inicio">Hora de Inicio:</label>
+      <label type="datetime-local" class="form-control" >{{ (entity.horaInicio)|date("d/m/Y H:i") }}</label>
+      <input type="datetime-local" class="form-control invisible" id="ordentrabajo_horaInicio" name="inicio"value="{{ (entity.horaInicio)|date("Y-m-d") }}T{{ (entity.horaInicio)|date("H:i") }}">
+      <label for="fin">Hora de Fin: En Proceso</label>
+     </div>
+     <div >
+         <label class="col-md-4 m-2">Minutos Trabajados: Trabajo no finalizado<span id="minutos"></span></label>
+     </div>
+    {% endif %}
+    {% if (entity.horaInicio is empty) and (entity.horaFin is not empty)  %}
+    <br/>
+    <h4 class="m-3"><strong> Fecha y Hora de Trabajo "Hora de inicio vacio"</strong></h4>
+     <div class="col-md-4 m-2">
+      <label for="inicio">Hora de Inicio:</label>
+      <input type="datetime-local" class="form-control" id="ordentrabajo_horaInicio" name="inicio">
+      <label for="fin">Hora de Fin:</label>
+      <label type="datetime-local" class="form-control" >{{ (entity.horaFin)|date("d/m/Y H:i") }}</label>   
+     </div>
+     <div>
+         <label class="col-md-4 m-2">Minutos Trabajados:<span id="minutos"></span></label>
+     </div>
+    {% endif %}
+    {% if entity.formularioResultado is not null %}
+     <div class="col-md-4 m-2">
+        <button class="btn btn-outline-warning guardarHora" id="{{entity.formularioResultado.id}}" onclick="GuardarMinutos(id)">Guardar cambios </button>
+     </div>
+    {% else %}
+     <div class="col-md-4 m-2">
+        <button class="btn btn-outline-warning guardarHora ">Guardar cambios </button>
+     </div>
+    {% endif %}
+    {% endif %}
+    {% if entity.formularioResultado is not null %}
+    <hr>
+    {% set analisisInciencia = entity.obtenerIncidencias() %}
+    {% if analisisInciencia['incidenciasTotal'] > 0 %}
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">
+                {{ 'formulario_resultado_incidencias_encontradas'|trans({'encontradas': analisisInciencia['incidenciasEncontradas']|length}) }} 
+                {{ analisisInciencia['incidenciasEncontradas']|length ~ '/' ~ analisisInciencia['incidenciasTotal']}}
+            </h5>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    {% for incidencia in analisisInciencia['incidenciasEncontradas'] %}
+                    <tr>
+                        <th>{{ incidencia.item }}</th>
+                        <td>{{ (incidencia.opciones is defined) ? incidencia.opciones : 'ningun_valor'|trans }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+    {% endif %}
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Formulario</h5>
+            <div>
+                {% if entity.formularioResultado is null %}
+                    <p> No tiene {{ 'modulos'|trans }} </p>
+                {% else %}
+                    {# Recorro modulos #}
+                    {% set resultados = entity.mergeResultadoFormulario() %}
+                    {% set modulosRepetido = [] %}
+                    {% set paginaNombre = null %}
+                    {% set paginaNumero = null %}
+                    {% set mostrarPaginaNombre = false %}
+
+                    {% for key, pm in entity.formulario.propiedadModulos %}
+                        {% if pm.pagina != paginaNumero %}
+                            {% set paginaNumero = pm.pagina %}
+                            {% set paginaNombre = pm.paginaNombre %}
+                            {% set mostrarPaginaNombre = true %}
+
+                        {% endif %}
+
+                        {% set modulosRepetido = entity.arrayIndiceModulo(modulosRepetido, pm.modulo.id)%}
+
+                        {% if resultados[pm.modulo.id][modulosRepetido[pm.modulo.id]] is defined and
+                            resultados[pm.modulo.id][modulosRepetido[pm.modulo.id]]|length > 0 %}
+                            {% if mostrarPaginaNombre == true %}
+                                <h6 class="card-subtitle">{{ paginaNombre }}</h6>
+                                {% set mostrarPaginaNombre = false %}
+                            {% endif %}
+                            {% if pm.equipo %}
+                                <h6 class="card-subtitle" style="margin-top: 5px; color: chocolate;"><strong>Equipo: {{ pm.equipo }}</strong></h6>
+                            {% endif %}
+                            <h6>{{ pm.modulo.titulo }}</h6>
+
+                            {{ render.renderModulo(pm, resultados[pm.modulo.id][modulosRepetido[pm.modulo.id]]) }}
+                            
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% macro renderModulo(propiedadModulo, propiedadItems) %}
+        {% import _self as render %}
+        <table class="table table-bordered">
+            <tbody>
+                {# Recorro los item del modulo #}
+                {% for pi in propiedadModulo.modulo.propiedadItems %}
+                    {% if propiedadItems[pi.id] is defined %}
+                        {{render.renderItem(pi.item, propiedadItems[pi.id])}}
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+    {% endmacro %}
+    
+    {% macro renderItem(item, propiedadItemsResultado) %}
+
+            {% if item.tipo == 'foto' %}
+                {% for k, r in propiedadItemsResultado %}
+                    {% if r.imageName is not empty %}
+                        {% if k == 0%}
+                            <tr>
+                                <td colspan="2">
+                                    {{  item.titulo }}<br>
+                                <div class="row">
+                        {% endif %}
+
+                                {% if propiedadItemsResultado[k].deleted==1  %}
+                                <button id="guardar-{{propiedadItemsResultado[k].id}}" style=" float:left;" class="btn btn-succes firmar" onclick=recuperarFoto({{propiedadItemsResultado[k].id}})>foto n°{{propiedadItemsResultado[k].id}} Deshabilitada</button>
+    
+                                <button id="editar-{{propiedadItemsResultado[k].id}}" style="position:absolute; display:none"class="btn btn-danger mb-2 firmar" onclick=eliminarFoto({{propiedadItemsResultado[k].id}})>Deshabilitar foto</button>
+                                <a target="_blank" style="display:none" id="ViejoDato-{{propiedadItemsResultado[k].id}}" class="example-image-link" href="{{vich_uploader_asset(r, 'imageFile')}}" data-lightbox="example-set">
+                                    <img id="ViejoDato-{{propiedadItemsResultado[k].id}}"  class="example-image" src="{{vich_uploader_asset(r, 'imageFile')}}" alt=""  width="150" height="200"/>
+                                </a>
+                                {% endif %}
+                                {% if propiedadItemsResultado[k].deleted==null  %}
+                                <div class="col-md-2 mt-3">
+                                <button id="guardar-{{propiedadItemsResultado[k].id}}" class="btn btn-succes firmar" style="display:none; float:left;" onclick=recuperarFoto({{propiedadItemsResultado[k].id}})>foto n°{{propiedadItemsResultado[k].id}} Deshabilitada</button>
+                                <button id="editar-{{propiedadItemsResultado[k].id}}" class="btn btn-danger mb-2 firmar" style="position:absolute;"onclick=eliminarFoto({{propiedadItemsResultado[k].id}})>Deshabilitar foto</button>
+                                <a target="_blank" id="guardar-{{propiedadItemsResultado[k].id}}" class="example-image-link" href="{{vich_uploader_asset(r, 'imageFile')}}" data-lightbox="example-set">
+                                    <img id="ViejoDato-{{propiedadItemsResultado[k].id}}" class="example-image" src="{{vich_uploader_asset(r, 'imageFile')}}" alt=""  width="150" height="200"/>
+                                    <button class="btn btn-succes" style="display:none" onclick=recuperarFoto({{propiedadItemsResultado[k].id}})>foto n°{{propiedadItemsResultado[k].id}} Deshabilitada</button>
+                                </a>
+                                </div>
+                                {% endif %}
+                                <div class="col-sm-2 d-flex align-items-center" id="add-{{propiedadItemsResultado[k].id}}"  >
+                                    <div class="justify-content-around p-3"  >
+                                        <button  class="btn btn-secondary align-self-end mb-2" id="{{propiedadItemsResultado[k].id}}" style=" text-align:center; float:left font-size:40px;" onclick=addFoto({{propiedadItemsResultado[k].id}}) >+ Agregar foto</button>
+                                        <button  class="btn btn-primary" id="{{propiedadItemsResultado[k].id}}" style=" text-align:center; float:left font-size:40px;" onclick=replaceFoto({{propiedadItemsResultado[k].id}}) >+ Reemplazar foto</button>
+                                    </div>
+                                </div>
+                                <div class="col-sm d-none align-items-center " id="form-{{propiedadItemsResultado[k].id}}" >
+                                <form name="subida-imagenes" method="POST" enctype="multipart/form-data" class="nueva-foto" >
+	                                <input type="file" name="image" id="image{{propiedadItemsResultado[k].id}}" />
+                                    <input type="hidden" name="id" id="{{propiedadItemsResultado[k].id}}" />
+                                    <input type="hidden" name="imageName" id="{{propiedadItemsResultado[k].imageName}}" />
+                                    <input type="submit" class="btn btn-success upload" value="Subir" onclick=saveFoto({{propiedadItemsResultado[k].id}})  >
+                                </form>
+                                </div>
+
+                                <div class="col-sm d-none align-items-center " id="form2-{{propiedadItemsResultado[k].id}}" >
+                                <form name="subida-imagenes" method="POST" enctype="multipart/form-data" class="reemplazar-foto" >
+	                                <input type="file" name="image" id="imagen{{propiedadItemsResultado[k].id}}" />
+                                    <input type="hidden" name="id" id="{{propiedadItemsResultado[k].id}}" />
+                                    <input type="submit" class="btn btn-success upload" value="Subir" onclick=saveFotoTwo({{propiedadItemsResultado[k].id}})  >
+                                </form>
+                                </div>
+                                
+
+
+
+                                
+                        {% if k < 0%}
+                                </div>
+                        {% endif %}
+                        {% if k == propiedadItemsResultado|length - 1%}
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% elseif item.tipo == 'titulo' %}
+                <td colspan="2">{{ item.titulo }}</td>
+            {% else %}
+                {% set resArray = [] %}
+
+                {% for r in propiedadItemsResultado %}
+                    {% set resArray = resArray|merge([r.obtenerValorToString()]) %}
+                {% endfor %}
+                {% set texto = resArray|join('|') %}
+                {% if texto is not empty %}
+                    {% if item.tipo == 'texto' %}
+                   {% endif  %}
+                    
+                    <tr>
+                        <td>{{ item.titulo ~ ':' }}</td>
+                        {% if item.tipo == 'texto' %}
+                        <div class="alert alert-success row" id="completo-{{propiedadItemsResultado[0].id}}" style="display:none">El Campo Fue Editado</div>
+                        <div class="alert alert-warning row" id="incompleto-{{propiedadItemsResultado[0].id}}" style="display:none">Los datos no fueron cargados</div>
+                        <td align="center" class="form-group-lg card-body d-flex justify-content-between align-items-center">
+                        <label id="ViejoDato-{{propiedadItemsResultado[0].id}}" class="col-sm col-form-label">{{ texto|trim }} </label>
+                        <input id="guardar-{{propiedadItemsResultado[0].id}}" class="form-control col-sm firmar" name="valor" style="display:none" id="input-{{propiedadItemsResultado[0].id}}" value="{{ texto|trim }}"></input>
+                        <button id="editar-{{propiedadItemsResultado[0].id}}"class="btn btn-warning mb-8" onclick=editarDatos({{propiedadItemsResultado[0].id}})>Editar</button>
+                        <button id="btnguardar-{{propiedadItemsResultado[0].id}}" type="submit" style="display:none" class="btn btn-success mb-2 firmar" onclick=guardarDatos({{propiedadItemsResultado[0].id}})>guardar</button>
+                        </td>
+                        {% else %}
+                        <td align="center">{{ texto|trim  }}</td>
+                        {% endif %}
+                    </tr>
+                {% endif %}
+            {% endif %}
+        {% endmacro %}
+        {% if entity.formularioResultado is not null %}
+        <div class="card container">
+        <div class="alert alert-success row" id="Firmaformularioa" style="display:none">El Formulario fue revisado y queda habilitado para clientes</div>
+        <button id="Firmaformulario" style="float:right;" type="submit" class="btn btn-success mb-2 " onclick=firmarFormulario() >Finalizar edicion de formulario</button>
+        <div/>
+        {% endif %}
+        {% endif %}
+{% endblock %}
+
+{% block body_javascript %}
+    {{ parent() }}
+
+    <script>
+
+        $(".exportOt").click(function(){
+            $("#orden_trabajo").val($(this).data('id'));
+            $("#ordenes_trabajo").val($(this).data('id'));
+        });
+
+            var ordenN=document.getElementById('exportar');
+            var idOrden=ordenN.getAttribute('value');
+            var UserName=ordenN.getAttribute('usuario');
+            var date = new Date();
+            var fecha = " fecha: " + date.getDate() + "/"
+                + (date.getMonth()+1)  + "/" 
+                + date.getFullYear() + " "  
+                + date.getHours() + ":"  
+                + date.getMinutes()  
+
+        $(".firmar").click(function(){
+            let datos={
+            'idOrden':idOrden,
+            'firma':UserName+fecha,
+            'estadoGestion':1
+            }
+            $.ajax({
+            "type": "POST" ,
+            "url": "/firmar-formulario/",
+            "data":datos,
+        })
+        });
+    
+
+        function firmarFormulario(){
+             let datos={
+                'idOrden':idOrden,
+                'firma':UserName+fecha,
+                'estadoGestion':2
+                }
+             $.ajax({
+                "type": "POST" ,
+                "url": "/firmar-formulario/",
+                "data":datos,
+                success:function(r){
+                let FirmaFormularioa = document.getElementById('Firmaformularioa');
+                FirmaFormularioa.style.display = "inline-block";
+                 setTimeout(function(){ FirmaFormularioa.style.display = "none"; }, 4000);
+               }})
+            setTimeout(function(){ location.reload(); }, 4000)
+            
+        }
+    function GuardarMinutos(id){
+        let minutos = parseInt(document.getElementById('minutos').textContent);
+        let datos={
+            'id':id,
+            'valor':minutos
+        }
+        $.ajax({
+            "type": "POST" ,
+            "url": "/editar-horaOT/",
+            "data":datos,
+                success:function(r){
+                let HoraEditada = document.getElementById('HoraEditada');
+                HoraEditada.style.display = "inline-block";
+               }
+        })
+
+    }    
+    
+
+
+    function exportar(){
+      $("#formExportar1").submit();
+    };
+        $(".guardarHora").click(function(){
+            let iniciomin=document.getElementById('ordentrabajo_horaInicio').value;
+            let finmin=document.getElementById('ordentrabajo_horaFin').value;
+            let options = { hour12: false, };
+            let datos={
+            'idOrden':idOrden,
+            'iniciomin':iniciomin,
+            'Finmin':finmin.toLocaleString('en-US', options),
+            'firma':UserName+fecha,
+            'estadoGestion':1
+            }
+            $.ajax({
+            "type": "POST" ,
+            "url": "/firmar-formulario/",
+            "data":datos,
+        })
+        });
+        //Mapa Recibido
+        var map;
+        var myLatLng = {lat: {{entity.latitud|default(0)}}, lng: {{entity.longitud|default(0)}}};
+        //Mapa Cierre
+        var mapCierre; // creo que no cumple funcion, esta de adorno
+        var myLatLngCierre = {lat: {{entity.latitudCierre|default(0)}}, lng: {{entity.longitudCierre|default(0)}}};
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('mapRecibido'), {
+                zoom: 17,
+                center: myLatLng
+            });
+
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Orden de trabajo'
+            });
+
+            map2 = new google.maps.Map(document.getElementById('mapCierre'), {
+                zoom: 17,
+                center: myLatLngCierre
+            });
+
+            var marker = new google.maps.Marker({
+                position: myLatLngCierre,
+                map: map2,
+                title: 'Orden de trabajo'
+            });
+        }
+        
+         
+        $("#ordentrabajo_horaInicio").change(function() {
+        calcularminutos();
+        });
+        $("#ordentrabajo_horaFin").change(function() {
+        calcularminutos();
+        });
+        function calcularminutos(){
+            let iniciomin=new Date(document.getElementById('ordentrabajo_horaInicio').value);
+            let finmin=new Date(document.getElementById('ordentrabajo_horaFin').value);
+            let resultadominutos=(finmin.getTime()-iniciomin.getTime())/60000;
+            let minutos = document.getElementById('minutos');
+            minutos.innerHTML=resultadominutos;
+        }
+
+    </script>
+    <script src="{{asset('js/editarformulario.js')}}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{googleKeyApi}}&callback=initMap"
+    async defer></script>
+    
+        
+
+{% endblock %}
