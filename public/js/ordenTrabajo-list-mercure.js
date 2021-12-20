@@ -112,12 +112,12 @@ function fetchNombres(otId, tds) {
 }
 
 //Para ver como twig parsea {{mercure()}}
-const eventSource = new EventSource("http://127.0.0.1:3000/.well-known/mercure?topic=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Forden_trabajos%2F%7Bid%7D");
+const ubicacion = new URL(window.location.href)
+const eventSource = new EventSource(ubicacion.protocol+"//"+ubicacion.hostname+":3000/.well-known/mercure?topic=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Forden_trabajos%2F%7Bid%7D");
 //$(MERCURE_URL)+/topic/encodeURIComponent('http://127.0.0.1:8000/api/orden_trabajos/{id}')
 eventSource.onmessage = event => {
   /** @type {MercureOrdenTrabajo} */
   const respuesta = JSON.parse(event.data);
-  console.log(respuesta);
   // Buscando el elemento tabla
   const tabla = document.querySelector('tbody');
   const renglon = document.querySelector('[data-id="'+respuesta.id+'"]');
@@ -130,8 +130,6 @@ eventSource.onmessage = event => {
         renglon.children[5].children[0].innerHTML = "Nulo";
         renglon.children[5].children[0].className = "badge badge-secondary";
       } else {
-        console.log(typeof(respuesta.comentario));
-        console.log(respuesta.comentario);
         renglon.children[5].children[0].innerHTML = respuesta.comentario;
       }
       renglon.children[7].children[0].setAttribute("value", String(respuesta.estado));
@@ -266,8 +264,6 @@ eventSource.onmessage = event => {
 
     // Agregando todo a newRenglon
     for(const td in tds){
-      console.log(typeof(tds.tdCheckbox))
-      console.log(tds.tdCheckbox)
       newRenglon.appendChild(tds[td]);
     }
 
