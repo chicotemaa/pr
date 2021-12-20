@@ -5,17 +5,16 @@ easy_admin:
             controller: App\Controller\OrdenTrabajoController
             templates:
                 # Twig namespace template syntax
-                new:  'OrdenTrabajo/new.html.twig'
-                edit: 'OrdenTrabajo/edit.html.twig'
-                show: 'OrdenTrabajo/show.html.twig'
+                show: 'OrdenTrabajoCliente/show.html.twig'
                 list: 'OrdenTrabajoCliente/list.html.twig'
-            disabled_actions: ['edit', 'new', 'delete','show']
+            disabled_actions: ['edit', 'new', 'delete']
             list:
                 item_permission: [ROLE_CLIENTE]
                 batch_actions: ['exportar']
 
                 filters:
                     - property: 'user'
+                    - { property: 'SucursalDeCliente',  label: 'Sucursal'}
                     - property: 'fecha'
                     - property: 'motivo'
                     - property: 'estado'
@@ -36,8 +35,6 @@ easy_admin:
                     #- { property: 'motivo', label: 'Postergado por' }
                 actions:
                     - { name: 'show',  icon: 'search', label: '' }
-                    - { name: 'edit', icon: 'pencil', label: '' }
-                    - { name: 'delete', icon: 'remove', label: '' }
             show:
                 item_permission: [ROLE_CLIENTE, ROLE_EMPLEADO]
                 fields:
