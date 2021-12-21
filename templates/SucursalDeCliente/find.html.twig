@@ -1,6 +1,9 @@
-{% extends '@EasyAdmin/default/new.html.twig' %}
+{% extends is_granted('ROLE_ADMIN')
+    ? '@!EasyAdmin/default/new.html.twig'
+    : '@!EasyAdmin/default/show.html.twig' %}
 
-{% block entity_form %}
+{% block main %}
+{{ parent() }}
 {#Esto va en head#}
 <!-- Esto va en head-->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -9,19 +12,40 @@
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
    crossorigin=""></script>
+
+<div id="mapaSucursal" style="height:360px;"></div>
+{% endblock %}
+{% block entity_form %}
 <!-- Esto va en head -->
     {{ form(form) }}
     <p><b>Ubicación de Sucursal</b></p>
+    {% if is_granted('ROLE_ADMIN') %}
     <div id="buscador">
         <label for="direccion">Dirección: <label/>
         <input type="text" id="direccion" placeholder="123 Calle, Ciudad, Provincia"/>
         <button type="button" id="buscar-btn" class="btn btn-primary">Buscar</button>
     </div>
-    <div id="mapaSucursal" style="height:360px;"></div>
+    {% endif %}
+    
+{% endblock %}
+{% block show_fields %}
+{{ parent() }}
 {% endblock %}
 {% block body_javascript %}
     {{ parent() }}
 
-    <script src="{{asset('js/sucursalDeCliente-form.js')}}"></script>
-
+    {% if not is_granted('ROLE_ADMIN') %}
+    <script>
+       const entidadLat = {{entity.latitud | default(-27.411)}}
+       const entidadLon = {{entity.longitud | default(-59.00012)}}
+       {% if entity.latitud %}
+       let entidadCoord = true
+       {% else %}
+       let entidadCoord = false
+       {% endif %}
+    </script>
+    <script src="{{asset('js/sucursalDeCliente-cliente.js')}}"></script>
+    {% else %}
+    <script src="{{asset('js/sucursalDeCliente-admin.js')}}"></script>
+    {% endif %}
 {% endblock %}

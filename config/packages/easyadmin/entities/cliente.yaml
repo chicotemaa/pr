@@ -57,3 +57,4 @@ easy_admin:
                     - { property: 'city', columns: 6 }
                     - { property: 'country', columns: 6 }
                     - { property: 'province', columns: 6 }
+                    - { property: 'imageFile', type: 'vich_image', css_class: 'my_image_form' }
