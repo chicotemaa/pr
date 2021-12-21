@@ -2,28 +2,28 @@ easy_admin:
     entities:
         sucursaldecliente:
             class: App\Entity\SucursalDeCliente
-            disabled_actions: ['new', 'delete']
+            templates:
+                show: 'SucursalDeCliente/find.html.twig'
+            disabled_actions: ['new', 'delete', 'edit']
             list:
                 item_permission: [ROLE_ADMIN, ROLE_CLIENTE]
                 fields:
                     - id
-                    - codigo
-                    - { property: 'Cliente', type: 'text'}
-                    - users
+                    - { property: 'codigo', label: 'Código' }
+                    - { property: 'Cliente', type: 'text' }
             edit:
                 item_permission: [ROLE_CLIENTE]
                 fields:
-                    - codigo
-                    - direccion
+                    - { property: codigo, label: 'Código' }
+                    - { property: direccion, label: 'Dirección' }
             new:
                 item_permission: [ROLE_ADMIN]
             show:
                 item_permission: [ROLE_CLIENTE]
                 fields:
-                    - id
-                    - codigo
-                    - Cliente
-                    - users
+                    - { property: codigo, label: 'Código'}
+                    - { property: direccion, label: 'Dirección'}
+                    - { property: Cliente, type: 'string'}
             delete:
                 item_permission: [ROLE_ADMIN]
             search:

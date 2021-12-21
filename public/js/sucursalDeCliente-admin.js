@@ -10,7 +10,6 @@ Ejemplo
 sucursalMapa.lat(); // -27.45117597008212
 sucursalMapa.lng(); // -58.98649737984137
 */
-
   // inicializar Leaflet
   var map = L.map('mapaSucursal');
   const mapFoundZoom   = 16; //[5 mín - 18 máx]
