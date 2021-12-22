@@ -7,11 +7,14 @@ services:
     restart: unless-stopped
     environment:
       SERVER_NAME: ':80'
-      MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
-      MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
+      # ↓ Debe coincidir con .env\MERCURE_JWT_SECRET para publicar cambios
+      MERCURE_PUBLISHER_JWT_KEY: 'gerundio81klepto,EB5niCudemus32c'
+      # ↓ No genera cambios ni errores cualquiera sea su valor.
+      # MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
+      # MERCURE_JWT_SECRET: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.LS2LlxPquOoZpMOFobUH9HU75u5AgegUW-hl72UnKzA'
       # Set the URL of your Symfony project (without trailing slash!) as value of the cors_origins directive
       MERCURE_EXTRA_DIRECTIVES: |
-        cors_origins http://127.0.0.1:80 http://127.0.0.1:8000 http://localhost:8000 http://gitea.local:8000
+              cors_origins http://127.0.0.1:80 http://127.0.0.1:8000 http://localhost:8000 http://localhost:80 http://gitea.local:8000 http://gitea.local:80
     # Comment the following line to disable the development mode
     command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
     ports:

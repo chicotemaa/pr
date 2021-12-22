@@ -113,8 +113,10 @@ function fetchNombres(otId, tds) {
 
 //Para ver como twig parsea {{mercure()}}
 const ubicacion = new URL(window.location.href)
-const eventSource = new EventSource(ubicacion.protocol+"//"+ubicacion.hostname+":3000/.well-known/mercure?topic=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Forden_trabajos%2F%7Bid%7D");
-//$(MERCURE_URL)+/topic/encodeURIComponent('http://127.0.0.1:8000/api/orden_trabajos/{id}')
+const topic = encodeURIComponent(ubicacion.protocol+'//'+ubicacion.host+'/api/orden_trabajos/{id}')
+console.log(topic)
+const eventSource = new EventSource(ubicacion.protocol+"//"+ubicacion.hostname+":3000/.well-known/mercure?topic="+topic);
+//$(MERCURE_URL)+/topic/encodeURIComponent(window.location.protocol+'//'+window.location.host+'/api/orden_trabajos/{id}')
 eventSource.onmessage = event => {
   /** @type {MercureOrdenTrabajo} */
   const respuesta = JSON.parse(event.data);
@@ -127,10 +129,10 @@ eventSource.onmessage = event => {
     } else {
       renglon.children[2].children[0].setAttribute("value", String(respuesta.estadoGestion));
       if(!respuesta.comentario) {
-        renglon.children[5].children[0].innerHTML = "Nulo";
-        renglon.children[5].children[0].className = "badge badge-secondary";
+        renglon.children[5].innerHTML = "Nulo";
+        renglon.children[5].className = "badge badge-secondary";
       } else {
-        renglon.children[5].children[0].innerHTML = respuesta.comentario;
+        renglon.children[5].innerHTML = respuesta.comentario;
       }
       renglon.children[7].children[0].setAttribute("value", String(respuesta.estado));
     }
