@@ -183,7 +183,7 @@
   {# Version no inline #}
   {# <script src="{{ asset('js/sucursal_trabajos_mercure.js')}}">#}
   <script type="application/json" id="mercure-url">
-  {{ mercure('http://matidev.local:8000/api/orden_trabajos/{id}', { subscribe: 'http://matidev.local:8000/api/orden_trabajos/{id}'})|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+  {{ mercure('https://hogardev.tk/api/orden_trabajos/{id}', { subscribe: 'https://hogardev.tk/api/orden_trabajos/{id}'})|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
   </script>
   <script src={{asset('js/ordenTrabajo-list-mercure.js')}}> </script>
   <script>
