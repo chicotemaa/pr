@@ -112,10 +112,13 @@ function fetchNombres(otId, tds) {
 }
 
 //Para ver como twig parsea {{mercure()}}
+/*
 const ubicacion = new URL(window.location.href)
 const topic = encodeURIComponent(ubicacion.protocol+'//'+ubicacion.host+'/api/orden_trabajos/{id}')
-console.log(topic)
 const eventSource = new EventSource(ubicacion.protocol+"//"+ubicacion.hostname+":3000/.well-known/mercure?topic="+topic);
+*/
+const url = JSON.parse(document.getElementById("mercure-url").textContent);
+const eventSource = new EventSource(url, {withCredentials: true})
 //$(MERCURE_URL)+/topic/encodeURIComponent(window.location.protocol+'//'+window.location.host+'/api/orden_trabajos/{id}')
 eventSource.onmessage = event => {
   /** @type {MercureOrdenTrabajo} */

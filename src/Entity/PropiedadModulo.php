@@ -74,6 +74,12 @@ class PropiedadModulo
      */
     private $equipo;
 
+
+    public function __toString()
+    {
+        return $this->id.".";
+    }
+
     public function getId(): ?int
     {
         return $this->id;
