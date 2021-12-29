@@ -132,8 +132,7 @@ eventSource.onmessage = event => {
     } else {
       renglon.children[2].children[0].setAttribute("value", String(respuesta.estadoGestion));
       if(!respuesta.comentario) {
-        renglon.children[5].innerHTML = "Nulo";
-        renglon.children[5].className = "badge badge-secondary";
+        renglon.children[5].innerHTML = "<span class='badge badge-secondary'>Nulo</span>";
       } else {
         renglon.children[5].innerHTML = respuesta.comentario;
       }
