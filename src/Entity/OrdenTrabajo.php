@@ -19,7 +19,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * })
  * @Vich\Uploadable
  * @ApiResource(
- * mercure=true,
+ * mercure=false,
  * collectionOperations = {
  *        "post"={
  *              "method"="POST",
