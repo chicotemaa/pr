@@ -42,13 +42,13 @@ easy_admin:
             - { entity: 'Pais', label: 'Países', icon: 'globe-americas', permission: [ROLE_ADMIN] }
             - { entity: 'facilityCliente', label: ' Facility', icon: 'user', permission: [ROLE_MANAGER] }
             - { entity: 'UserCliente', label: 'Datos de Usuario', icon: 'user', permission: [ROLE_STAFF, ROLE_FACILITY, ROLE_MANAGER] }
-            - { entity: 'sucursaldecliente', label: 'Datos de Sucursal', icon: 'building', permission: [ROLE_MANAGER, ROLE_FACILITY] }
+            #- { entity: 'sucursaldecliente', label: 'Datos de Sucursal', icon: 'building', permission: [ROLE_MANAGER, ROLE_FACILITY] }
             -  label: 'Opciones de Clientes'
                icon: 'folder'
                permission: ROLE_ADMIN   
                children:
                 - { entity: 'Facility', label: 'Crear Facility', icon: 'user', permission: [ROLE_ADMIN] }
-                - { entity: 'SucursalDeCliente', label: 'Datos de Sucursal', icon: 'building', permission: [ROLE_ADMIN] }
+                #- { entity: 'SucursalDeCliente', label: 'Datos de Sucursal', icon: 'building', permission: [ROLE_ADMIN] }
 
             - { label: 'Formularios', permission: [ROLE_ADMIN, ROLE_ADMIN, ROLE_ADMIN ]   }
             - { entity: 'Formulario', label: 'Formularios', icon: 'align-justify', permission: [ ROLE_ADMIN ] }

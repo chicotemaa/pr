@@ -15,7 +15,7 @@ class SucursalFilter extends SQLFilter
             return '';
         }
 
-        return $targetTableAlias.'.sucursal_id = '.$this->getParameter('sucursal_id');
+        return $targetTableAlias.'.sucursal_id in ('.$this->getParameter('sucursal_id').')';
 
     }
 }

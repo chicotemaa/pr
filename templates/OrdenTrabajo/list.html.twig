@@ -181,7 +181,7 @@
   {{ parent() }}
   {{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}
   <script type="application/json" id="mercure-url">
-  {{ mercure('https://hogardev.tk/api/orden_trabajos/{id}', { subscribe: 'https://hogardev.tk/api/orden_trabajos/{id}'})|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+  {{ mercure('http://127.0.0.1:8001/api/orden_trabajos/{id}', { subscribe: 'http://127.0.0.1:8001/api/orden_trabajos/{id}'})|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
   </script>
   <script src={{asset('js/ordenTrabajo-list-mercure.js')}}> </script>
   <script>

@@ -27,6 +27,7 @@ ROLE_STAFF: Rol de encargado de sucursal
 ROLE_FACILITY: Rol de facility
 ROLE_MANAGER: Cliente empresa
 ROLE_ZONA: SEPARACION POR ZONA
+ROLE_LIDER_NORTE: Lider Norte
 Nombre: Nombre
 Pagina: Página
 Modulo: Módulo
